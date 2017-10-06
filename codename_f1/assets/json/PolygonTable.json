@@ -1,0 +1,24 @@
+﻿[
+	{
+		"ID":"Spot",
+		"Type":"Spot",
+		"Color_R":255
+	},
+	{
+		"ID":"Wall",
+		"Type":"Wall",
+		"Color_R":255,
+		"Color_G":232,
+		"Color_B":233
+	},
+	{
+		"ID":"Mud",
+		"Type":"Mud",
+		"Color_R":255
+	},
+	{
+		"ID":"Water",
+		"Type":"Water",
+		"Color_R":255
+	}
+]

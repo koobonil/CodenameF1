@@ -1,0 +1,58 @@
+﻿[
+	{
+		"ID":"MeteoMinScale",
+		"Value":100
+	},
+	{
+		"ID":"MeteoMaxScale",
+		"Value":350
+	},
+	{
+		"ID":"MeteoMinDamage",
+		"Value":100
+	},
+	{
+		"ID":"MeteoMaxDamage",
+		"Value":300
+	},
+	{
+		"ID":"TreeHPbarDeleteTime",
+		"Value":3000
+	},
+	{
+		"ID":"TreeHPRegenValue",
+		"Value":10
+	},
+	{
+		"ID":"TreeHP",
+		"Value":1000
+	},
+	{
+		"ID":"3StarHpRate",
+		"Value":900
+	},
+	{
+		"ID":"2StarHpRate",
+		"Value":500
+	},
+	{
+		"ID":"1StarHpRate",
+		"Value":300
+	},
+	{
+		"ID":"UILeft",
+		"Value":"ScreenWidth * 0.1"
+	},
+	{
+		"ID":"UIRight",
+		"Value":"ScreenWidth * 0.1"
+	},
+	{
+		"ID":"UITop",
+		"Value":"ScreenHeight * 0.1"
+	},
+	{
+		"ID":"UIBottom",
+		"Value":"ScreenHeight * 0.1"
+	}
+]

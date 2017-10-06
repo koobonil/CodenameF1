@@ -1,0 +1,32 @@
+﻿[
+	{
+		"ID":"Forest_1",
+		"Number":1,
+		"NextStage":2,
+		"Asset":"forest_stage_1"
+	},
+	{
+		"ID":"Forest_2",
+		"Number":2,
+		"NextStage":3,
+		"Asset":"forest_stage_1"
+	},
+	{
+		"ID":"Forest_3",
+		"Number":3,
+		"NextStage":4,
+		"Asset":"forest_stage_1"
+	},
+	{
+		"ID":"Forest_4",
+		"Number":4,
+		"NextStage":5,
+		"Asset":"forest_stage_1"
+	},
+	{
+		"ID":"Forest_5",
+		"Number":5,
+		"NextStage":6,
+		"Asset":"forest_stage_1"
+	}
+]
