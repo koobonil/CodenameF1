@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <service/boss_zay.hpp>
 #include <element/boss_tween.hpp>
-#include "ingame.hpp"
+#include "classes.hpp"
 
 class maptoolData : public ZayObject
 {
@@ -23,5 +23,7 @@ public: // 맵툴상태
     sint32 mCurLayer;
     Points mCurDrawingPoints;
     bool mCursorInWindow;
+    bool mLockedUI;
+    bool mUseGrid;
     Tween1D mUITween;
 };

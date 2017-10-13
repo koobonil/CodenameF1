@@ -251,13 +251,15 @@ namespace ZAY
             }
         }
 
-        void SetMotionOffAll()
+        void SetMotionOffAll(bool with_reserve)
         {
             for(auto it : StateSet->getAnimationStates())
             {
                 it.second->setEnabled(false);
                 it.second->setLoop(0);
             }
+            if(with_reserve)
+                ReservedMotionMap.Reset();
         }
 
         Strings GetActiveMotions()
@@ -371,40 +373,65 @@ namespace ZAY
             }
         }
 
-        void RenderBound(ZayPanel& panel, float cx, float cy, bool guideline, ZayPanel::SubGestureCB cb)
+        void RenderBound(ZayPanel& panel, float ox, float oy, float scale, bool flip, bool guideline, chars uiname = nullptr, ZayPanel::SubGestureCB cb = nullptr)
         {
-            const bool fixed_by_w = ((panel.w() / panel.h()) < (1920.0f / 1080.0f));
-            const float vw = ((fixed_by_w)? panel.w() : panel.h() * 1920 / 1080);
-            const float vh = ((fixed_by_w)? panel.w() * 1080 / 1920 : panel.h());
-
-            const float rate = vw / 1920.0f;
-            ZAY_XYWH(panel, vw * cx, vh * cy, 0, 0)
-            ZAY_ZOOM(panel, rate)
+            const float fv = (flip)? -1 : 1;
             for(sint32 i = 0, iend = Boxes.Count(); i < iend; ++i)
             {
                 const BoundBox& CurBox = Boxes[i];
                 ZAY_COLOR_IF(panel, CurBox.Clr, guideline)
                 {
                     // UI영역
-                    ZAY_RECT_UI(panel, CurBox.Box, CurBox.Name, cb)
+                    BOSS::Rect NewRect;
+                    NewRect.l = panel.w() / 2 + (CurBox.Box.l * fv - ox) * scale;
+                    NewRect.t = panel.h() / 2 + (CurBox.Box.t - oy) * scale;
+                    NewRect.r = panel.w() / 2 + (CurBox.Box.r * fv - ox) * scale;
+                    NewRect.b = panel.h() / 2 + (CurBox.Box.b - oy) * scale;
+                    if(uiname)
                     {
-                        if(guideline)
+                        ZAY_RECT_UI(panel, NewRect, uiname + CurBox.Name, cb)
                         {
+                            if(guideline)
                             ZAY_RGBA(panel, 128, 128, 128, 64)
                                 panel.fill();
-                            // Bound이름
-                            ZAY_INNER_SCISSOR(panel, 5 / rate)
-                            ZAY_FONT(panel, 0.8f / rate, "Arial")
+                            // UI이름
+                            ZAY_FONT(panel, 0.8f, "Arial")
                             ZAY_RGBA(panel, 0, 255, 255, 255)
                                 panel.text(CurBox.Name, UIFA_LeftTop, UIFE_Right);
                         }
                     }
+                    else ZAY_RECT(panel, NewRect)
+                    {
+                        if(guideline)
+                        ZAY_RGBA(panel, 128, 128, 128, 64)
+                            panel.fill();
+                    }
 
                     // 외곽폴리곤
                     if(guideline)
-                        panel.polyline(CurBox.Pos, 5);
+                    {
+                        Points NewPos;
+                        Point* PtrPos = NewPos.AtDumpingAdded(CurBox.Pos.Count());
+                        for(sint32 i = 0, iend = CurBox.Pos.Count(); i < iend; ++i)
+                        {
+                            PtrPos[i].x = panel.w() / 2 + (CurBox.Pos[i].x * fv - ox) * scale;
+                            PtrPos[i].y = panel.h() / 2 + (CurBox.Pos[i].y - oy) * scale;
+                        }
+                        panel.polyline(NewPos, 1);
+                    }
                 }
             }
+        }
+
+        BOSS::Rect GetBoundRect(chars name)
+        {
+            for(sint32 i = 0, iend = Boxes.Count(); i < iend; ++i)
+            {
+                const BoundBox& CurBox = Boxes[i];
+                if(!CurBox.Name.Compare(name))
+                    return CurBox.Box;
+            }
+            return BOSS::Rect(0, 0, 0, 0);;
         }
 
     private:
@@ -512,10 +539,16 @@ namespace ZAY
         CurInstance->SetMotionOn(motion, 0.0f, -1);
     }
 
-    void SpineBuilder::SetMotionOnAttached(id_spine_instance spine_instance, chars target_motion, chars motion, bool once)
+    void SpineBuilder::SetMotionOnAttached(id_spine_instance spine_instance, chars target_motion, chars motion, bool repeat)
     {
         SpineInstance* CurInstance = (SpineInstance*) spine_instance;
-        CurInstance->ReserveMotionOn(target_motion, motion, 0.0f, once? -1 : 0);
+        CurInstance->ReserveMotionOn(target_motion, motion, 0.0f, repeat? 1 : 0);
+    }
+
+    void SpineBuilder::SetMotionOnOnceAttached(id_spine_instance spine_instance, chars target_motion, chars motion)
+    {
+        SpineInstance* CurInstance = (SpineInstance*) spine_instance;
+        CurInstance->ReserveMotionOn(target_motion, motion, 0.0f, -1);
     }
 
     void SpineBuilder::SetMotionOff(id_spine_instance spine_instance, chars motion)
@@ -524,10 +557,10 @@ namespace ZAY
         CurInstance->SetMotionOff(motion);
     }
 
-    void SpineBuilder::SetMotionOffAll(id_spine_instance spine_instance)
+    void SpineBuilder::SetMotionOffAll(id_spine_instance spine_instance, bool with_reserve)
     {
         SpineInstance* CurInstance = (SpineInstance*) spine_instance;
-        CurInstance->SetMotionOffAll();
+        CurInstance->SetMotionOffAll(with_reserve);
     }
 
     Strings SpineBuilder::GetActiveMotions(id_spine_instance spine_instance)
@@ -536,7 +569,7 @@ namespace ZAY
         return CurInstance->GetActiveMotions();
     }
 
-    void SpineBuilder::Render(ZayPanel& panel, id_spine_instance spine_instance, float cx, float cy, bool flip, float scale,
+    void SpineBuilder::Render(ZayPanel& panel, id_spine_instance spine_instance, bool flip, float cx, float cy, float scale,
         sint32 sx, sint32 sy, sint32 sw, sint32 sh)
     {
         GLint OldArrayBuffer = 0;
@@ -576,10 +609,16 @@ namespace ZAY
         BOSS_GL(UseProgram, OldProgram);
     }
 
-    void SpineBuilder::RenderBound(ZayPanel& panel, id_spine_instance spine_instance, float cx, float cy, bool guideline, ZayPanel::SubGestureCB cb)
+    void SpineBuilder::RenderBound(ZayPanel& panel, id_spine_instance spine_instance, float ox, float oy, float scale, bool flip, bool guideline, chars uiname, ZayPanel::SubGestureCB cb)
     {
         SpineInstance* CurInstance = (SpineInstance*) spine_instance;
-        CurInstance->RenderBound(panel, cx, cy, guideline, cb);
+        CurInstance->RenderBound(panel, ox, oy, scale, flip, guideline, uiname, cb);
+    }
+
+    BOSS::Rect SpineBuilder::GetBoundRect(id_spine_instance spine_instance, chars name)
+    {
+        SpineInstance* CurInstance = (SpineInstance*) spine_instance;
+        return CurInstance->GetBoundRect(name);
     }
 
     template<typename TYPE>

@@ -7,6 +7,8 @@ TEMPLATE = app
 
 INCLUDEPATH += ../source
 HEADERS += ../source/boss_config.h
+SOURCES += ../source/classes.cpp
+HEADERS += ../source/classes.hpp
 SOURCES += ../source/codename_f1.cpp
 HEADERS += ../source/codename_f1.hpp
 SOURCES += ../source/main.cpp

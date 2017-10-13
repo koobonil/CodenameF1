@@ -1,0 +1,88 @@
+{
+"skeleton": { "hash": "ZfQAllUPobMZTEC/ZXG0Wx8FFGw", "spine": "3.6.43", "width": 227, "height": 284, "images": "./attack_efect/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "attack_efect_b", "parent": "root", "length": 34.22, "rotation": 91.22, "x": 0.3, "y": -14.35 },
+	{ "name": "attack_efect_a", "parent": "attack_efect_b", "length": 33.2, "rotation": -39.09, "x": 16.55, "y": -9.09 }
+],
+"slots": [
+	{ "name": "attack_efect_a", "bone": "attack_efect_a", "attachment": "attack_efect_a" },
+	{ "name": "attack_efect_b", "bone": "attack_efect_b", "attachment": "attack_efect_b" }
+],
+"skins": {
+	"default": {
+		"attack_efect_a": {
+			"attack_efect_a": { "x": 100.99, "y": 12.2, "rotation": -52.13, "width": 150, "height": 182 }
+		},
+		"attack_efect_b": {
+			"attack_efect_b": { "x": 10.92, "y": -1.34, "rotation": -91.22, "width": 184, "height": 200 }
+		}
+	}
+},
+"animations": {
+	"attack": {
+		"slots": {
+			"attack_efect_a": {
+				"color": [
+					{ "time": 0, "color": "ff000000" },
+					{ "time": 0.0667, "color": "ff00006f" },
+					{ "time": 0.5, "color": "ff7b7b00" }
+				]
+			},
+			"attack_efect_b": {
+				"color": [
+					{ "time": 0, "color": "ff000000" },
+					{ "time": 0.0667, "color": "ff0000ff" },
+					{ "time": 0.5, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"attack_efect_b": {
+				"rotate": [
+					{ "time": 0, "angle": -1.22, "curve": "stepped" },
+					{ "time": 0.0667, "angle": -1.22 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.0333, "x": 1.64, "y": 2.46 },
+					{ "time": 0.0667, "x": 1.64, "y": 3.28 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 0.0333, "x": 0.8, "y": 0.8 },
+					{ "time": 0.1, "x": 0.7, "y": 0.7, "curve": "stepped" },
+					{ "time": 0.4667, "x": 0.7, "y": 0.7 },
+					{ "time": 0.5, "x": 0, "y": 0 }
+				]
+			},
+			"attack_efect_a": {
+				"rotate": [
+					{ "time": 0, "angle": -17.52, "curve": "stepped" },
+					{ "time": 0.0667, "angle": -17.52 }
+				],
+				"translate": [
+					{ "time": 0, "x": 2.46, "y": -6.57 },
+					{ "time": 0.0667, "x": 9.85, "y": -13.96 }
+				],
+				"scale": [
+					{ "time": 0, "x": 0.1, "y": 0.1 },
+					{ "time": 0.0667, "x": 0.7, "y": 0.7, "curve": "stepped" },
+					{ "time": 0.2667, "x": 0.7, "y": 0.7 }
+				]
+			}
+		}
+	}
+}
+}

@@ -213,6 +213,9 @@
     <ClInclude Include="..\source\spine_for_zay\zay_vector4.h">
       <Filter>source\spine_for_zay</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\classes.hpp">
+      <Filter>source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\codename_f1.cpp">
@@ -406,6 +409,9 @@
     </ClCompile>
     <ClCompile Include="..\source\spine_for_zay\zay_vector4.cpp">
       <Filter>source\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\classes.cpp">
+      <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

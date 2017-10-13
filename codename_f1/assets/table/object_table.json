@@ -1,0 +1,20 @@
+﻿[
+	{
+		"ID":"Wall_F_W",
+		"Asset":"wall_forest_a_w"
+	},
+	{
+		"ID":"Wall_F_H",
+		"Asset":"wall_forest_a_h"
+	},
+	{
+		"ID":"Mud"
+	},
+	{
+		"ID":"Water"
+	},
+	{
+		"ID":"Spot",
+		"Asset":"spot_forest"
+	}
+]

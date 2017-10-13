@@ -1,0 +1,75 @@
+{
+"skeleton": { "hash": "hzyfVRFDZ7X7MuVh9bvgQS2SC68", "spine": "3.6.43", "width": 147, "height": 159, "images": "./hit_effect/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "hit_effect_set", "parent": "root", "length": 85.2, "rotation": 90, "x": 0.82, "y": 11.31 }
+],
+"slots": [
+	{ "name": "hit_effect_set", "bone": "hit_effect_set", "attachment": "hit_effect_a" }
+],
+"skins": {
+	"default": {
+		"hit_effect_set": {
+			"hit_effect_a": { "x": -11.31, "y": 0.82, "rotation": -90, "width": 147, "height": 159 },
+			"hit_effect_b": { "x": -11.31, "y": 0.82, "rotation": -90, "width": 258, "height": 289 },
+			"hit_effect_c": { "x": -11.31, "y": 0.82, "rotation": -90, "width": 321, "height": 313 },
+			"hit_effect_d": { "x": -11.31, "y": 0.82, "rotation": -90, "width": 384, "height": 342 },
+			"hit_effect_f": { "x": -11.31, "y": 0.82, "rotation": -90, "width": 399, "height": 376 },
+			"hit_effect_g": { "x": -11.31, "y": 0.82, "rotation": -90, "width": 413, "height": 397 },
+			"hit_effect_h": { "x": -11.31, "y": 0.82, "rotation": -90, "width": 400, "height": 443 },
+			"hit_effect_i": { "x": -11.31, "y": 0.82, "rotation": -90, "width": 418, "height": 467 },
+			"hit_effect_j": { "x": -11.31, "y": 0.82, "rotation": -90, "width": 445, "height": 460 },
+			"hit_effect_k": { "x": -11.31, "y": 0.82, "rotation": -90, "width": 431, "height": 453 },
+			"hit_effect_l": { "x": -11.31, "y": 0.82, "rotation": -90, "width": 439, "height": 453 },
+			"hit_effect_m": { "x": -11.31, "y": 0.82, "rotation": -90, "width": 441, "height": 433 },
+			"hit_effect_n": { "x": -11.31, "y": 0.82, "rotation": -90, "width": 376, "height": 412 },
+			"hit_effect_o": { "x": -11.31, "y": 0.82, "rotation": -90, "width": 367, "height": 384 },
+			"hit_effect_p": { "x": -11.31, "y": 0.82, "rotation": -90, "width": 327, "height": 316 }
+		}
+	}
+},
+"animations": {
+	"hit": {
+		"slots": {
+			"hit_effect_set": {
+				"color": [
+					{ "time": 0.5333, "color": "ffffffff" },
+					{ "time": 1, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "hit_effect_a" },
+					{ "time": 0.0333, "name": "hit_effect_b" },
+					{ "time": 0.0667, "name": "hit_effect_c" },
+					{ "time": 0.1, "name": "hit_effect_d" },
+					{ "time": 0.1333, "name": "hit_effect_f" },
+					{ "time": 0.1667, "name": "hit_effect_g" },
+					{ "time": 0.2, "name": "hit_effect_h" },
+					{ "time": 0.2667, "name": "hit_effect_i" },
+					{ "time": 0.3333, "name": "hit_effect_j" },
+					{ "time": 0.4, "name": "hit_effect_k" },
+					{ "time": 0.4667, "name": "hit_effect_l" },
+					{ "time": 0.5333, "name": "hit_effect_m" },
+					{ "time": 0.6, "name": "hit_effect_n" },
+					{ "time": 0.6667, "name": "hit_effect_o" },
+					{ "time": 0.7333, "name": "hit_effect_p" }
+				]
+			}
+		},
+		"bones": {
+			"hit_effect_set": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.7333, "x": 0, "y": 17.25 }
+				],
+				"scale": [
+					{ "time": 0, "x": 0.7, "y": 0.7 },
+					{ "time": 0.9, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

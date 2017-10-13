@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <service/boss_zay.hpp>
 #include <element/boss_tween.hpp>
-#include "ingame.hpp"
+#include "classes.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 class TimelineMonster
@@ -47,6 +47,8 @@ public: // 맵툴상태
     sint32 mCurEvent;
     sint32 mCurMonster;
     bool mCursorInWindow;
+    bool mLockedUI;
+    bool mUseGrid;
     Tween1D mUITween;
     String mMapName;
     TimelineWaves mWaves;

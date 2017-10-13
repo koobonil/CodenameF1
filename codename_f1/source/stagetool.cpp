@@ -9,13 +9,17 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
 {
     if(type == CT_Tick)
     {
-        point64 CursorPos;
-        Platform::Utility::GetCursorPos(CursorPos);
-        rect128 WindowRect;
-        Platform::GetWindowRect(WindowRect);
-        const bool XInRect = (WindowRect.l <= CursorPos.x && CursorPos.x < WindowRect.r);
-        const bool YInRect = (WindowRect.t <= CursorPos.y && CursorPos.y < WindowRect.b);
-        const bool PosInRect = (XInRect & YInRect);
+        bool PosInRect = m->mLockedUI;
+        if(!PosInRect)
+        {
+            point64 CursorPos;
+            Platform::Utility::GetCursorPos(CursorPos);
+            rect128 WindowRect;
+            Platform::GetWindowRect(WindowRect);
+            const bool XInRect = (WindowRect.l <= CursorPos.x && CursorPos.x < WindowRect.r);
+            const bool YInRect = (WindowRect.t <= CursorPos.y && CursorPos.y < WindowRect.b);
+            PosInRect = (XInRect & YInRect);
+        }
         if(m->mCursorInWindow != PosInRect)
         {
             m->mCursorInWindow = PosInRect;
@@ -37,20 +41,34 @@ ZAY_VIEW_API OnNotify(chars sender, chars topic, id_share in, id_cloned_share* o
 
 ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
 {
+    float fx = ((x - m->mMapPos.x) - m->mState.mInGameX) / m->mState.mInGameW - 0.5f;
+    float fy = ((y - m->mMapPos.y) - m->mState.mInGameY) / m->mState.mInGameH - 0.5f;
+    if(m->mUseGrid)
+    {
+        const float fxmax = 1000;
+        const float fymax = 1000 * m->mState.mInGameH / m->mState.mInGameW;
+        sint32 nx = 0, ny = 0;
+        if(0 <= fx) nx = (((sint32) (fx * fxmax)) + m->mState.mToolGrid / 2) / m->mState.mToolGrid * m->mState.mToolGrid;
+        else nx = -((((sint32) (-fx * fxmax)) + m->mState.mToolGrid / 2) / m->mState.mToolGrid * m->mState.mToolGrid);
+        if(0 <= fy) ny = (((sint32) (fy * fymax)) + m->mState.mToolGrid / 2) / m->mState.mToolGrid * m->mState.mToolGrid;
+        else ny = -((((sint32) (-fy * fymax)) + m->mState.mToolGrid / 2) / m->mState.mToolGrid * m->mState.mToolGrid);
+        fx = nx / fxmax;
+        fy = ny / fymax;
+    }
+
+    static bool IsDraggingEnabled = true;
     if(type == GT_Pressed)
     {
-        const float XInMap = x - m->mMapPos.x;
-        const float YInMap = y - m->mMapPos.y;
         auto& CurMonsters = m->mWaves.At(m->mCurWave).mEvents.At(m->mCurEvent);
-
         // 삭제인지 판단
         for(sint32 i = 0, iend = CurMonsters.Count(); i < iend; ++i)
         {
             const float MonsterX = m->mState.mInGameX + m->mState.mInGameW * (CurMonsters[i].mPos.x + 0.5f);
             const float MonsterY = m->mState.mInGameY + m->mState.mInGameH * (CurMonsters[i].mPos.y + 0.5f);
-            if(Math::Distance(XInMap, YInMap, MonsterX, MonsterY) < m->mState.mMonsterSizeR)
+            if(Math::Distance(x - m->mMapPos.x, y - m->mMapPos.y, MonsterX, MonsterY) < m->mState.mMonsterSizeR)
             {
                 CurMonsters.SubtractionSection(i);
+                IsDraggingEnabled = false;
                 return;
             }
         }
@@ -58,8 +76,21 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
         // 새로 생성
         auto& NewMonster = CurMonsters.AtAdding();
         NewMonster.mType = &m->mState.mMonsterTypes[m->mCurMonster];
-        NewMonster.mPos.x = (XInMap - m->mState.mInGameX) / m->mState.mInGameW - 0.5f;
-        NewMonster.mPos.y = (YInMap - m->mState.mInGameY) / m->mState.mInGameH - 0.5f;
+        NewMonster.mPos.x = fx;
+        NewMonster.mPos.y = fy;
+        IsDraggingEnabled = true;
+    }
+    else if((type == GT_InDragging || type == GT_OutDragging) && IsDraggingEnabled)
+    {
+        auto& CurMonsters = m->mWaves.At(m->mCurWave).mEvents.At(m->mCurEvent);
+        // 마지막 점을 이동
+        if(0 < CurMonsters.Count())
+        {
+            auto& LastMonster = CurMonsters.At(-1);
+            LastMonster.mPos.x = fx;
+            LastMonster.mPos.y = fy;
+            m->invalidate();
+        }
     }
 }
 
@@ -77,6 +108,8 @@ stagetoolData::stagetoolData() : mUITween(updater())
     mCurEvent = 0;
     mCurMonster = 0;
     mCursorInWindow = false;
+    mLockedUI = false;
+    mUseGrid = false;
     mUITween.Reset(100);
     mMapName = "";
     mWaves.AtAdding().mEvents.AtDumpingAdded(mState.mTimelineLength);
@@ -138,7 +171,7 @@ void stagetoolData::Load(chars filename)
     if(mWaves.Count() == 0)
         mWaves.AtAdding().mEvents.AtDumpingAdded(mState.mTimelineLength);
 
-    id_asset_read TextAsset = Asset::OpenForRead("json/" + mMapName + ".json");
+    id_asset_read TextAsset = Asset::OpenForRead("table/" + mMapName + ".json");
     if(TextAsset)
     {
         const sint32 TextSize = Asset::Size(TextAsset);
@@ -218,14 +251,101 @@ void stagetoolData::Render(ZayPanel& panel)
                     panel.text(panel.w() / 2, panel.h() / 2, CurMonsters[i].mType->mID, UIFA_CenterMiddle);
             }
         }
+
+        // 그리드
+        if(mUseGrid)
+        {
+            // 중간 -> 좌측
+            for(sint32 x = 500 - mState.mToolGrid, ix = 0; 0 < (ix = x * panel.w() / 1000); x -= mState.mToolGrid)
+            {
+                ZAY_RGBA(panel, 255, 255, 255, 64)
+                ZAY_XYWH(panel, ix - 1, 0, 1, panel.h())
+                    panel.fill();
+                ZAY_RGBA(panel, 0, 0, 0, 64)
+                ZAY_XYWH(panel, ix, 0, 1, panel.h())
+                    panel.fill();
+            }
+            // 중간 -> 우측
+            for(sint32 x = 500, ix = 0; (ix = x * panel.w() / 1000) < panel.w(); x += mState.mToolGrid)
+            {
+                ZAY_RGBA(panel, 255, 255, 255, 64)
+                ZAY_XYWH(panel, ix - 1, 0, 1, panel.h())
+                    panel.fill();
+                ZAY_RGBA(panel, 0, 0, 0, 64)
+                ZAY_XYWH(panel, ix, 0, 1, panel.h())
+                    panel.fill();
+            }
+            // 중간 -> 상측
+            for(sint32 y = 500 - mState.mToolGrid, iy = 0; 0 < (iy = y * panel.w() / 1000); y -= mState.mToolGrid)
+            {
+                ZAY_RGBA(panel, 255, 255, 255, 64)
+                ZAY_XYWH(panel, 0, iy - 1, panel.w(), 1)
+                    panel.fill();
+                ZAY_RGBA(panel, 0, 0, 0, 64)
+                ZAY_XYWH(panel, 0, iy, panel.w(), 1)
+                    panel.fill();
+            }
+            // 중간 -> 하측
+            for(sint32 y = 500, iy = 0; (iy = y * panel.w() / 1000) < panel.h(); y += mState.mToolGrid)
+            {
+                ZAY_RGBA(panel, 255, 255, 255, 64)
+                ZAY_XYWH(panel, 0, iy - 1, panel.w(), 1)
+                    panel.fill();
+                ZAY_RGBA(panel, 0, 0, 0, 64)
+                ZAY_XYWH(panel, 0, iy, panel.w(), 1)
+                    panel.fill();
+            }
+        }
     }
 
     // 툴UI
     const sint32 InnerGap = 10, ButtonSize = 80, IconSize = 50;
     const float OuterSize = ButtonSize * 1.5 * mUITween.value() / 100;
-    ZAY_LTRB(panel, -OuterSize, 0, panel.w() + OuterSize, panel.h() + OuterSize)
+    ZAY_LTRB(panel, -OuterSize, -OuterSize, panel.w() + OuterSize, panel.h() + OuterSize)
     ZAY_FONT(panel, 1.2, "Arial Black")
     {
+        // 고정버튼
+        ZAY_XYWH(panel, ButtonSize * 1, 0, ButtonSize, ButtonSize)
+        ZAY_INNER_UI(panel, InnerGap, "lock",
+            ZAY_GESTURE_T(t, this)
+            {
+                if(t == GT_InReleased)
+                {
+                    mLockedUI = !mLockedUI;
+                }
+            })
+        {
+            ZAY_RGBA_IF(panel, 255, 128, 255, 192, mLockedUI)
+            ZAY_RGBA_IF(panel, 128, 255, 255, 192, !mLockedUI)
+                panel.fill();
+            ZAY_RGB(panel, 0, 0, 0)
+            {
+                panel.rect(2);
+                panel.text("Lock", UIFA_CenterMiddle);
+            }
+        }
+
+        // 그리드버튼
+        ZAY_XYWH(panel, ButtonSize * 2, 0, ButtonSize, ButtonSize)
+        ZAY_INNER_UI(panel, InnerGap, "grid",
+            ZAY_GESTURE_T(t, this)
+            {
+                if(t == GT_InReleased)
+                {
+                    mUseGrid = !mUseGrid;
+                }
+            })
+        {
+            ZAY_RGBA_IF(panel, 255, 128, 255, 192, mUseGrid)
+            ZAY_RGBA_IF(panel, 128, 255, 255, 192, !mUseGrid)
+                panel.fill();
+            ZAY_RGB(panel, 0, 0, 0)
+            {
+                panel.rect(2);
+                panel.text("Grid", UIFA_CenterMiddle);
+            }
+        }
+
         // 이동버튼
         ZAY_XYWH(panel, panel.w() - ButtonSize, 0, ButtonSize, ButtonSize)
         ZAY_INNER_UI(panel, InnerGap, "drag",

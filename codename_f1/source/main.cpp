@@ -28,7 +28,7 @@ void PlatformInit()
     if(R::IsAtlasUpdated())
         R::RebuildAll();
 
-	Platform::AddWindowProcedure(WE_Tick,
+    Platform::AddWindowProcedure(WE_Tick,
         [](payload data)->void
         {
             static uint64 LastUpdateCheckTime = Platform::Utility::CurrentTimeMsec();

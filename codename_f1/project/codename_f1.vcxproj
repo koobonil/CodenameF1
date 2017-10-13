@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\boss_config.h" />
+    <ClInclude Include="..\source\classes.hpp" />
     <ClInclude Include="..\source\codename_f1.hpp" />
     <ClInclude Include="..\source\ingame.hpp" />
     <ClInclude Include="..\source\maptool.hpp" />
@@ -91,6 +92,7 @@
     <ClInclude Include="..\source\stagetool.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\source\classes.cpp" />
     <ClCompile Include="..\source\codename_f1.cpp" />
     <ClCompile Include="..\source\ingame.cpp" />
     <ClCompile Include="..\source\main.cpp" />
