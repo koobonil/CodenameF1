@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include <service/boss_zay.hpp>
-#include <element/boss_tween.hpp>
 #include "classes.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +27,7 @@ public:
 typedef Array<TimelineWave> TimelineWaves;
 
 ////////////////////////////////////////////////////////////////////////////////
-class stagetoolData : public ZayObject
+class stagetoolData : public F1Tool
 {
     BOSS_DECLARE_NONCOPYABLE_CLASS(stagetoolData)
 public:
@@ -40,16 +39,10 @@ public:
     void Save(chars filename);
     void Render(ZayPanel& panel);
 
-public: // 맵툴상태
-    F1State mState;
-    Point mMapPos;
+public:
     sint32 mCurWave;
     sint32 mCurEvent;
     sint32 mCurMonster;
-    bool mCursorInWindow;
-    bool mLockedUI;
-    bool mUseGrid;
-    Tween1D mUITween;
     String mMapName;
     TimelineWaves mWaves;
 };

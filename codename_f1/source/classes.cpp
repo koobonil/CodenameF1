@@ -606,3 +606,225 @@ void F1State::Render(bool editmode, ZayPanel& panel, const MapMonsters* monsters
     ZAY_RGB(panel, 255, 255, 128)
         panel.rect(1);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+F1Tool::F1Tool() : mUITween(updater())
+{
+    mCursorInWindow = false;
+    mLockedUI = false;
+    mGridMode = false;
+    mSelectMode = false;
+    mUITween.Reset(100);
+}
+
+F1Tool::~F1Tool()
+{
+}
+
+void F1Tool::Command(CommandType type, id_share in)
+{
+    if(type == CT_Tick)
+    {
+        bool PosInRect = mLockedUI;
+        if(!PosInRect)
+        {
+            point64 CursorPos;
+            Platform::Utility::GetCursorPos(CursorPos);
+            rect128 WindowRect;
+            Platform::GetWindowRect(WindowRect);
+            const bool XInRect = (WindowRect.l <= CursorPos.x && CursorPos.x < WindowRect.r);
+            const bool YInRect = (WindowRect.t <= CursorPos.y && CursorPos.y < WindowRect.b);
+            PosInRect = (XInRect & YInRect);
+        }
+        if(mCursorInWindow != PosInRect)
+        {
+            mCursorInWindow = PosInRect;
+            mUITween.MoveTo((PosInRect)? 0 : 100, 0.5);
+        }
+    }
+    else if(type == CT_Size)
+    {
+        sint32s WH = in;
+        const sint32 Width = WH[0];
+        const sint32 Height = WH[1];
+        mState.SetSize(Width, Height);
+    }
+}
+
+Point F1Tool::GestureToPos(sint32 x, sint32 y)
+{
+    float fx = ((x - mMapPos.x) - mState.mInGameX) / mState.mInGameW - 0.5f;
+    float fy = ((y - mMapPos.y) - mState.mInGameY) / mState.mInGameH - 0.5f;
+    if(mGridMode)
+    {
+        const float fxmax = 1000;
+        const float fymax = 1000 * mState.mInGameH / mState.mInGameW;
+        sint32 nx = 0, ny = 0;
+        if(0 <= fx) nx = (((sint32) (fx * fxmax)) + mState.mToolGrid / 2) / mState.mToolGrid * mState.mToolGrid;
+        else nx = -((((sint32) (-fx * fxmax)) + mState.mToolGrid / 2) / mState.mToolGrid * mState.mToolGrid);
+        if(0 <= fy) ny = (((sint32) (fy * fymax)) + mState.mToolGrid / 2) / mState.mToolGrid * mState.mToolGrid;
+        else ny = -((((sint32) (-fy * fymax)) + mState.mToolGrid / 2) / mState.mToolGrid * mState.mToolGrid);
+        fx = nx / fxmax;
+        fy = ny / fymax;
+    }
+    return Point(fx, fy);
+}
+
+void F1Tool::RenderGrid(ZayPanel& panel)
+{
+    // 중간 -> 좌측
+    for(sint32 x = 500 - mState.mToolGrid, ix = 0; 0 < (ix = x * panel.w() / 1000); x -= mState.mToolGrid)
+    {
+        ZAY_RGBA(panel, 255, 255, 255, 64)
+        ZAY_XYWH(panel, ix - 1, 0, 1, panel.h())
+            panel.fill();
+        ZAY_RGBA(panel, 0, 0, 0, 64)
+        ZAY_XYWH(panel, ix, 0, 1, panel.h())
+            panel.fill();
+    }
+    // 중간 -> 우측
+    for(sint32 x = 500, ix = 0; (ix = x * panel.w() / 1000) < panel.w(); x += mState.mToolGrid)
+    {
+        ZAY_RGBA(panel, 255, 255, 255, 64)
+        ZAY_XYWH(panel, ix - 1, 0, 1, panel.h())
+            panel.fill();
+        ZAY_RGBA(panel, 0, 0, 0, 64)
+        ZAY_XYWH(panel, ix, 0, 1, panel.h())
+            panel.fill();
+    }
+    // 중간 -> 상측
+    for(sint32 y = 500 - mState.mToolGrid, iy = 0; 0 < (iy = y * panel.w() / 1000); y -= mState.mToolGrid)
+    {
+        ZAY_RGBA(panel, 255, 255, 255, 64)
+        ZAY_XYWH(panel, 0, iy - 1, panel.w(), 1)
+            panel.fill();
+        ZAY_RGBA(panel, 0, 0, 0, 64)
+        ZAY_XYWH(panel, 0, iy, panel.w(), 1)
+            panel.fill();
+    }
+    // 중간 -> 하측
+    for(sint32 y = 500, iy = 0; (iy = y * panel.w() / 1000) < panel.h(); y += mState.mToolGrid)
+    {
+        ZAY_RGBA(panel, 255, 255, 255, 64)
+        ZAY_XYWH(panel, 0, iy - 1, panel.w(), 1)
+            panel.fill();
+        ZAY_RGBA(panel, 0, 0, 0, 64)
+        ZAY_XYWH(panel, 0, iy, panel.w(), 1)
+            panel.fill();
+    }
+}
+
+void F1Tool::RenderLockToggle(ZayPanel& panel)
+{
+    ZAY_INNER_UI(panel, InnerGap, "lock",
+        ZAY_GESTURE_T(t, this)
+        {
+            if(t == GT_InReleased)
+            {
+                mLockedUI = !mLockedUI;
+            }
+        })
+    {
+        ZAY_RGBA_IF(panel, 255, 128, 255, 192, mLockedUI)
+        ZAY_RGBA_IF(panel, 128, 255, 255, 192, !mLockedUI)
+            panel.fill();
+        ZAY_RGB(panel, 0, 0, 0)
+        {
+            panel.rect(2);
+            panel.text((mLockedUI)? "Lock" : "Unlock", UIFA_CenterMiddle);
+        }
+    }
+}
+
+void F1Tool::RenderGridToggle(ZayPanel& panel)
+{
+    ZAY_INNER_UI(panel, InnerGap, "grid",
+        ZAY_GESTURE_T(t, this)
+        {
+            if(t == GT_InReleased)
+            {
+                mGridMode = !mGridMode;
+            }
+        })
+    {
+        ZAY_RGBA_IF(panel, 255, 128, 255, 192, mGridMode)
+        ZAY_RGBA_IF(panel, 128, 255, 255, 192, !mGridMode)
+            panel.fill();
+        ZAY_RGB(panel, 0, 0, 0)
+        {
+            panel.rect(2);
+            panel.text((mGridMode)? "Grid" : "NoGrid", UIFA_CenterMiddle);
+        }
+    }
+}
+
+void F1Tool::RenderSelectToggle(ZayPanel& panel)
+{
+    ZAY_INNER_UI(panel, InnerGap, "select",
+        ZAY_GESTURE_T(t, this)
+        {
+            if(t == GT_InReleased)
+            {
+                mSelectMode = !mSelectMode;
+            }
+        })
+    {
+        ZAY_RGBA_IF(panel, 255, 128, 255, 192, mSelectMode)
+        ZAY_RGBA_IF(panel, 128, 255, 255, 192, !mSelectMode)
+            panel.fill();
+        ZAY_RGB(panel, 0, 0, 0)
+        {
+            panel.rect(2);
+            panel.text((mSelectMode)? "Select" : "Edit", UIFA_CenterMiddle);
+        }
+    }
+}
+
+void F1Tool::RenderDragButton(ZayPanel& panel)
+{
+    ZAY_INNER_UI(panel, InnerGap, "drag",
+        ZAY_GESTURE_NTXY(n, t, x, y, this)
+        {
+            static bool HasDrag = false;
+            if(t == GT_Pressed) HasDrag = false;
+            else if(t == GT_InDragging || t == GT_OutDragging)
+            {
+                HasDrag = true;
+                const point64& CurOldXY = oldxy(n);
+                mMapPos += Point(x - CurOldXY.x, y - CurOldXY.y);
+                invalidate();
+            }
+            else if(t == GT_InReleased && !HasDrag)
+                mMapPos = Point(0, 0);
+        })
+    {
+        ZAY_INNER(panel, -3)
+        ZAY_RGB(panel, 0, 0, 0)
+            panel.circle();
+        ZAY_RGB(panel, 255, 64, 192)
+            panel.circle();
+        ZAY_RGB(panel, 0, 0, 0)
+            panel.text("Drag", UIFA_CenterMiddle);
+    }
+}
+
+void F1Tool::RenderHomeButton(ZayPanel& panel)
+{
+    ZAY_INNER_UI(panel, InnerGap, "home",
+        ZAY_GESTURE_T(t, this)
+        {
+            if(t == GT_InReleased)
+            {
+                next("codename_f1View");
+            }
+        })
+    {
+        ZAY_RGBA(panel, 255, 255, 128, 192)
+            panel.fill();
+        ZAY_RGB(panel, 0, 0, 0)
+        {
+            panel.rect(2);
+            panel.text("Home", UIFA_CenterMiddle);
+        }
+    }
+}

@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "vSVyUvRcY3x5eDcnOZ/s2isNjBc", "spine": "3.6.43", "width": 220.3, "height": 379.43, "images": "./helmet_orc/" },
+"skeleton": { "hash": "bvykUH0rGDgZ1OkGoiTBoCpcxXg", "spine": "3.6.43", "width": 220.3, "height": 379.43, "images": "./helmet_orc/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 34.41, "rotation": 90, "x": 0.27, "y": 1.59 },
@@ -41,7 +41,7 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 34.41, 51.61, 33.85, -53.83, -1.66, -53.83, -0.55, 51.61 ]
+				"vertices": [ 34.41, 64.77, 33.85, -66.92, -1.66, -66.92, -0.55, 64.77 ]
 			}
 		},
 		"face": {

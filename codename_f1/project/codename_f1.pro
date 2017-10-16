@@ -137,8 +137,8 @@ SOURCES += ../source/spine_for_zay/zay_vector4.cpp
 
 ASSETS_IMAGE.files += ../assets/image
 ASSETS_IMAGE.path = /assets
-ASSETS_JSON.files += ../assets/json
-ASSETS_JSON.path = /assets
+ASSETS_TABLE.files += ../assets/table
+ASSETS_TABLE.path = /assets
 ASSETS_SPINE.files += ../assets/spine
 ASSETS_SPINE.path = /assets
 
@@ -148,14 +148,14 @@ win32{
 
 android{
     INSTALLS += ASSETS_IMAGE
-    INSTALLS += ASSETS_JSON
+    INSTALLS += ASSETS_TABLE
     INSTALLS += ASSETS_SPINE
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../common/android
 }
 
 ios|macx{
     QMAKE_BUNDLE_DATA += ASSETS_IMAGE
-    QMAKE_BUNDLE_DATA += ASSETS_JSON
+    QMAKE_BUNDLE_DATA += ASSETS_TABLE
     QMAKE_BUNDLE_DATA += ASSETS_SPINE
     QMAKE_BUNDLE_DATA += MAIN_ICON
     QMAKE_INFO_PLIST = $$PWD/../common/ios/Info.plist

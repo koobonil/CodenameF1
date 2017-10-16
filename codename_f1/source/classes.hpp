@@ -2,6 +2,7 @@
 #include <service/boss_zay.hpp>
 #include <service/boss_tryworld.hpp>
 #include <element/boss_solver.hpp>
+#include <element/boss_tween.hpp>
 
 #include "spine_for_zay/zay_spine_builder.hpp"
 
@@ -333,4 +334,37 @@ public: // 맵요소
     MapLayers mLayers;
     TryWorld::Hurdle* mHurdle;
     TryWorld::Map* mMap;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+class F1Tool : public ZayObject
+{
+    BOSS_DECLARE_NONCOPYABLE_CLASS(F1Tool)
+public:
+    F1Tool();
+    ~F1Tool();
+
+public:
+    void Command(CommandType type, id_share in);
+    Point GestureToPos(sint32 x, sint32 y);
+    void RenderGrid(ZayPanel& panel);
+    void RenderLockToggle(ZayPanel& panel);
+    void RenderGridToggle(ZayPanel& panel);
+    void RenderSelectToggle(ZayPanel& panel);
+    void RenderDragButton(ZayPanel& panel);
+    void RenderHomeButton(ZayPanel& panel);
+
+public:
+    const sint32 InnerGap = 10;
+    const sint32 ButtonSize = 80;
+    const sint32 IconSize = 50;
+
+public:
+    F1State mState;
+    Point mMapPos;
+    bool mCursorInWindow;
+    bool mLockedUI;
+    bool mGridMode;
+    bool mSelectMode;
+    Tween1D mUITween;
 };

@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "vh+v/6S6g8kSYmqgxU5/FUsKq5Y", "spine": "3.6.43", "width": 399.42, "height": 332.27, "images": "./wolf/" },
+"skeleton": { "hash": "J75m6EVdOyrku28lvWSMP3niJIE", "spine": "3.6.43", "width": 399.42, "height": 332.27, "images": "./wolf/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 62.57, "rotation": 90, "x": -0.63, "y": -0.33 },
@@ -52,7 +52,7 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 1.47, 223.28, 63.71, 222.34, 63.71, -170.89, -0.41, -169.95 ]
+				"vertices": [ 1.47, 87.7, 63.71, 87.29, 63.71, -85.15, -0.41, -84.73 ]
 			}
 		},
 		"b_l_dari_a": {

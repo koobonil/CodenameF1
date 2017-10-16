@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "FBFvoqxwbvYI4zJk7wf0KtkpgfY", "spine": "3.6.43", "width": 406.95, "height": 182.81, "images": "./red_slime/" },
+"skeleton": { "hash": "d52h1VNgdaEYqWarbDddWE4Zmaw", "spine": "3.6.43", "width": 287.77, "height": 181, "images": "./red_slime/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 33.7, "rotation": 90, "x": -0.82, "y": 0.12 },
@@ -25,7 +25,7 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ -0.2, 131.54, -0.2, -153.04, 64.06, -153.95, 61.31, 132.46 ]
+				"vertices": [ -0.2, 88.56, -0.2, -110.67, 64.06, -111.32, 61.31, 89.2 ]
 			}
 		},
 		"base_1": {
@@ -451,33 +451,65 @@
 					{ "time": 0.1667, "x": 0, "y": 0 }
 				]
 			},
-			"mom_1": {
+			"mom_2": {
 				"rotate": [
-					{ "time": 0, "angle": 0, "curve": "stepped" },
-					{ "time": 0.0333, "angle": 0 },
-					{ "time": 0.0667, "angle": -2.33 },
-					{ "time": 0.1, "angle": 0.7 },
 					{ "time": 0.1667, "angle": 0 }
 				],
 				"translate": [
-					{ "time": 0, "x": 256.33, "y": 0.12 },
-					{ "time": 0.0333, "x": 240.21, "y": 4.15 },
-					{ "time": 0.0667, "x": 235.19, "y": 6.36 },
-					{ "time": 0.1, "x": 22.97, "y": 7.87 },
+					{ "time": 0.1667, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0.1667, "x": 1, "y": 1 }
+				],
+				"shear": [
+					{ "time": 0.1667, "x": 0, "y": 0 }
+				]
+			},
+			"area": {
+				"rotate": [
+					{ "time": 0.1667, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0.1667, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0.1667, "x": 1, "y": 1 }
+				],
+				"shear": [
+					{ "time": 0.1667, "x": 0, "y": 0 }
+				]
+			},
+			"mom_1": {
+				"rotate": [
+					{ "time": 0, "angle": -1.87, "curve": "stepped" },
+					{ "time": 0.0333, "angle": -1.87, "curve": "stepped" },
+					{ "time": 0.0667, "angle": -1.87 },
+					{ "time": 0.1, "angle": 0.13 },
+					{ "time": 0.1333, "angle": 0.06 },
+					{ "time": 0.1667, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 256.59, "y": 0 },
+					{ "time": 0.0333, "x": 221.07, "y": 0 },
+					{ "time": 0.0667, "x": 185.56, "y": 0 },
+					{ "time": 0.1, "x": 54.82, "y": 0 },
+					{ "time": 0.1333, "x": 27.41, "y": 0 },
 					{ "time": 0.1667, "x": 0, "y": 0 }
 				],
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1 },
-					{ "time": 0.0333, "x": 0.889, "y": 1.208 },
-					{ "time": 0.0667, "x": 0.84, "y": 1.396, "curve": "stepped" },
-					{ "time": 0.1, "x": 0.84, "y": 1.396 },
+					{ "time": 0.0333, "x": 0.807, "y": 1 },
+					{ "time": 0.0667, "x": 0.614, "y": 1 },
+					{ "time": 0.1, "x": 0.531, "y": 1 },
+					{ "time": 0.1333, "x": 0.766, "y": 1 },
 					{ "time": 0.1667, "x": 1, "y": 1 }
 				],
 				"shear": [
-					{ "time": 0, "x": 177.99, "y": -1.9 },
-					{ "time": 0.0333, "x": 177.99, "y": -1 },
-					{ "time": 0.0667, "x": -180, "y": 1 },
-					{ "time": 0.1, "x": 0, "y": -1 },
+					{ "time": 0, "x": -180, "y": 0, "curve": "stepped" },
+					{ "time": 0.0333, "x": -180, "y": 0, "curve": "stepped" },
+					{ "time": 0.0667, "x": -180, "y": 0 },
+					{ "time": 0.1, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.1333, "x": 0, "y": 0, "curve": "stepped" },
 					{ "time": 0.1667, "x": 0, "y": 0 }
 				]
 			},
@@ -509,20 +541,6 @@
 					{ "time": 0.1667, "x": 0, "y": 0 }
 				]
 			},
-			"mom_2": {
-				"rotate": [
-					{ "time": 0.1667, "angle": 0 }
-				],
-				"translate": [
-					{ "time": 0.1667, "x": 0, "y": 0 }
-				],
-				"scale": [
-					{ "time": 0.1667, "x": 1, "y": 1 }
-				],
-				"shear": [
-					{ "time": 0.1667, "x": 0, "y": 0 }
-				]
-			},
 			"mouse": {
 				"rotate": [
 					{ "time": 0.1667, "angle": 0 }
@@ -538,20 +556,6 @@
 				]
 			},
 			"right_eye": {
-				"rotate": [
-					{ "time": 0.1667, "angle": 0 }
-				],
-				"translate": [
-					{ "time": 0.1667, "x": 0, "y": 0 }
-				],
-				"scale": [
-					{ "time": 0.1667, "x": 1, "y": 1 }
-				],
-				"shear": [
-					{ "time": 0.1667, "x": 0, "y": 0 }
-				]
-			},
-			"area": {
 				"rotate": [
 					{ "time": 0.1667, "angle": 0 }
 				],

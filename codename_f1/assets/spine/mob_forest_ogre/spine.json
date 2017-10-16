@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "HBPzf/Wia2k1Wud9UZuUDc88qw4", "spine": "3.6.43", "width": 405, "height": 508, "images": "./ougu/" },
+"skeleton": { "hash": "Ftrcpl4ZQpe9KnI7JYauWXpk5lY", "spine": "3.6.43", "width": 405, "height": 508, "images": "./ougu/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 49.49, "rotation": 90, "x": -1.53, "y": -1.07 },
@@ -41,7 +41,7 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 0.42, -105.06, 49.07, -105.06, 50.08, 110.13, 1.81, 109.42 ]
+				"vertices": [ 0.42, -65.64, 49.07, -65.64, 50.08, 70.48, 1.81, 70.02 ]
 			}
 		},
 		"face": {
