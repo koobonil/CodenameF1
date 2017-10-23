@@ -1,20 +1,41 @@
 ﻿[
 	{
-		"ID":"Wall_F_W",
-		"Asset":"wall_forest_a_w"
+		"ID":"Wall",
+		"Type":"Static",
+		"HP":1000,
+		"SKillIndex":1500,
+		"Asset":"wall_forest_a"
 	},
 	{
-		"ID":"Wall_F_H",
-		"Asset":"wall_forest_a_h"
+		"ID":"Egg",
+		"Type":"Target",
+		"HP":1000,
+		"SKillIndex":1500,
+		"Asset":"egg"
 	},
 	{
-		"ID":"Mud"
+		"ID":"Mud",
+		"Type":"Ground",
+		"HP":1000,
+		"SKillIndex":1500
 	},
 	{
-		"ID":"Water"
+		"ID":"Water",
+		"Type":"Ground",
+		"HP":1000,
+		"SKillIndex":1500
 	},
 	{
 		"ID":"Spot",
+		"Type":"Ground",
+		"HP":1000,
+		"SKillIndex":1500,
 		"Asset":"spot_forest"
+	},
+	{
+		"ID":"MonsterHitWall",
+		"Type":"Dynamic",
+		"HP":1000,
+		"SKillIndex":1500
 	}
 ]

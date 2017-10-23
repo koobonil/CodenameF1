@@ -1,16 +1,25 @@
 {
-"skeleton": { "hash": "ZfQAllUPobMZTEC/ZXG0Wx8FFGw", "spine": "3.6.43", "width": 227, "height": 284, "images": "./attack_efect/" },
+"skeleton": { "hash": "HqQSADRjn2d4qs8F0hkWoq5++9I", "spine": "3.6.45", "width": 227, "height": 284, "images": "./attack_efect/" },
 "bones": [
 	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 19.04, "rotation": 94.9, "x": -9.18, "y": 4.39 },
 	{ "name": "attack_efect_b", "parent": "root", "length": 34.22, "rotation": 91.22, "x": 0.3, "y": -14.35 },
 	{ "name": "attack_efect_a", "parent": "attack_efect_b", "length": 33.2, "rotation": -39.09, "x": 16.55, "y": -9.09 }
 ],
 "slots": [
 	{ "name": "attack_efect_a", "bone": "attack_efect_a", "attachment": "attack_efect_a" },
-	{ "name": "attack_efect_b", "bone": "attack_efect_b", "attachment": "attack_efect_b" }
+	{ "name": "attack_efect_b", "bone": "attack_efect_b", "attachment": "attack_efect_b" },
+	{ "name": "area", "bone": "area", "attachment": "area" }
 ],
 "skins": {
 	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 75.31, -111.44, 93.18, 77.96, -96.23, 95.83, -112.71, -96.42 ]
+			}
+		},
 		"attack_efect_a": {
 			"attack_efect_a": { "x": 100.99, "y": 12.2, "rotation": -52.13, "width": 150, "height": 182 }
 		},

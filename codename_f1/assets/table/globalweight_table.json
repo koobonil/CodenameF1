@@ -1,42 +1,42 @@
 ﻿[
 	{
-		"ID":"MeteoMinScale",
+		"ID":"BreathMinScale",
 		"Value":50
 	},
 	{
-		"ID":"MeteoMaxScale",
+		"ID":"BreathMaxScale",
 		"Value":300
 	},
 	{
-		"ID":"MeteoMinDamage",
+		"ID":"BreathMinDamage",
 		"Value":5
 	},
 	{
-		"ID":"MeteoMaxDamage",
+		"ID":"BreathMaxDamage",
 		"Value":300
 	},
 	{
-		"ID":"MeteoScalePerSecond",
+		"ID":"BreathScalePerSecond",
 		"Value":400
 	},
 	{
-		"ID":"MeteoScaleAcceleration",
+		"ID":"BreathScaleAcceleration",
 		"Value":20
 	},
 	{
-		"ID":"MaxMeteoUseValue",
+		"ID":"MaxBreathUseValue",
 		"Value":300
 	},
 	{
-		"ID":"MeteoMaxGaugeValue",
+		"ID":"BreathMaxGaugeValue",
 		"Value":1000
 	},
 	{
-		"ID":"MeteoGaugeRegenValue",
+		"ID":"BreathGaugeRegenValue",
 		"Value":100
 	},
 	{
-		"ID":"MeteoGaugeRegenTime",
+		"ID":"BreathGaugeRegenTime",
 		"Value":1000
 	},
 	{
@@ -50,6 +50,10 @@
 	{
 		"ID":"EggHP",
 		"Value":1000
+	},
+	{
+		"ID":"MonsterScale",
+		"Value":50
 	},
 	{
 		"ID":"3StarHpRate",
@@ -82,5 +86,13 @@
 	{
 		"ID":"ToolGrid",
 		"Value":20
+	},
+	{
+		"ID":"KnockBackMinDistance",
+		"Value":5
+	},
+	{
+		"ID":"KnockBackMaxDistance",
+		"Value":50
 	}
 ]

@@ -1,0 +1,86 @@
+{
+"skeleton": { "hash": "CFhYqV656BbTG+q2NxUP8gez+VQ", "spine": "3.6.45", "width": 122, "height": 115, "images": "./ingame_ui/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 16.43, "rotation": 90, "x": -0.29, "y": 6.91, "scaleX": 1.077, "scaleY": 1.06 },
+	{ "name": "stop", "parent": "root", "length": 60.58, "rotation": 180, "x": 17.82 }
+],
+"slots": [
+	{ "name": "stop", "bone": "stop", "attachment": "stop" },
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "stop_area", "bone": "stop", "attachment": "stop_area" }
+],
+"skins": {
+	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 47.08, 62.42, 47.61, -61.36, -69.83, -61.36, -69.83, 61.89 ]
+			}
+		},
+		"stop": {
+			"stop": { "x": 17.41, "y": 5.1, "rotation": 180, "width": 122, "height": 115 }
+		},
+		"stop_area": {
+			"stop_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 80.29, -53.12, 80, 63.3, -43.56, 63, -43.56, -54.31 ]
+			}
+		}
+	}
+},
+"animations": {
+	"click": {
+		"bones": {
+			"stop": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.2, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.1333, "x": 7.62, "y": 0 },
+					{ "time": 0.2, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 0.1333, "x": 1.4, "y": 1.4 },
+					{ "time": 0.2, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"loding": {
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0.7333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0.7333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0.7333, "x": 1, "y": 1 }
+				]
+			},
+			"stop": {
+				"rotate": [
+					{ "time": 0.3667, "angle": 0, "curve": "stepped" },
+					{ "time": 0.7333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 697.16 },
+					{ "time": 0.3667, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.7333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0.3667, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.7333, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

@@ -1,14 +1,23 @@
 {
-"skeleton": { "hash": "hzyfVRFDZ7X7MuVh9bvgQS2SC68", "spine": "3.6.43", "width": 147, "height": 159, "images": "./hit_effect/" },
+"skeleton": { "hash": "6TJBND8C8kCscc+VET9ckHZajJE", "spine": "3.6.45", "width": 147, "height": 159, "images": "./hit_effect/" },
 "bones": [
 	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 36.03, "rotation": 87.75, "x": 13.45, "y": 9.93 },
 	{ "name": "hit_effect_set", "parent": "root", "length": 85.2, "rotation": 90, "x": 0.82, "y": 11.31 }
 ],
 "slots": [
-	{ "name": "hit_effect_set", "bone": "hit_effect_set", "attachment": "hit_effect_a" }
+	{ "name": "hit_effect_set", "bone": "hit_effect_set", "attachment": "hit_effect_a" },
+	{ "name": "area", "bone": "area", "attachment": "area" }
 ],
 "skins": {
 	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 80.59, 107.02, -107.8, 100.34, -101.28, -83.81, 86.85, -70.78 ]
+			}
+		},
 		"hit_effect_set": {
 			"hit_effect_a": { "x": -11.31, "y": 0.82, "rotation": -90, "width": 147, "height": 159 },
 			"hit_effect_b": { "x": -11.31, "y": 0.82, "rotation": -90, "width": 258, "height": 289 },

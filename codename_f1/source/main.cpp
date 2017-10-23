@@ -10,7 +10,11 @@ void PlatformInit()
     Platform::SetViewCreator(ZayView::Creator);
 
     Platform::SetWindowName("Codename F1");
-    Platform::SetWindowView("codename_f1View");
+    #if BOSS_WINDOWS | BOSS_MAC_OSX
+        Platform::SetWindowView("codename_f1View");
+    #else
+        Platform::SetWindowView("ingameView");
+    #endif
 
     String InfoString = String::FromFile("windowinfo.json");
     if(0 < InfoString.Length())

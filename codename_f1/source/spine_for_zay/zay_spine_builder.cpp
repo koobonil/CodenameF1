@@ -176,6 +176,9 @@ namespace ZAY
 
         static SpineInstance*& Current() {static SpineInstance* _ = nullptr; return _;}
 
+        static SpineInstance* Clone(const SpineInstance* old)
+        {return new SpineInstance(old->Instance->getSkeletonData(), old->FinishedCB, old->EventCB);}
+
         void SetBoundBox(chars name, int r, int g, int b, int a)
         {
             BoundBox& NewBoundBox = Boxes.AtAdding();
@@ -213,8 +216,12 @@ namespace ZAY
     public:
         void SetSkin(chars skin)
         {
+            LastSkin = skin;
             Instance->setSlotSkin(skin);
         }
+
+        chars GetSkin() const
+        {return LastSkin;}
 
         bool SetAttachment(chars slot, chars attachment)
         {
@@ -335,7 +342,7 @@ namespace ZAY
             // Viewport
             GLint OldViewport[4] = {0, 0, 0, 0};
             glGetIntegerv(GL_VIEWPORT, OldViewport);
-            const sint32 basesize = 1000;
+            const sint32 basesize = 4000;
             const float scaledsize = basesize * scale;
             Renderer->setViewport(sx + sw * cx - scaledsize, sy + sh * cy - scaledsize,
                 scaledsize * 2, scaledsize * 2);
@@ -392,17 +399,18 @@ namespace ZAY
                         ZAY_RECT_UI(panel, NewRect, uiname + CurBox.Name, cb)
                         {
                             if(guideline)
-                            ZAY_RGBA(panel, 128, 128, 128, 64)
-                                panel.fill();
-                            // UI이름
-                            ZAY_FONT(panel, 0.8f, "Arial")
-                            ZAY_RGBA(panel, 0, 255, 255, 255)
-                                panel.text(CurBox.Name, UIFA_LeftTop, UIFE_Right);
+                            {
+                                ZAY_RGBA(panel, 128, 128, 128, 64)
+                                    panel.fill();
+                                ZAY_FONT(panel, 0.8f, "Arial")
+                                ZAY_RGBA(panel, 0, 255, 255, 255)
+                                    panel.text(CurBox.Name, UIFA_LeftTop, UIFE_Right);
+                            }
                         }
                     }
-                    else ZAY_RECT(panel, NewRect)
+                    else if(guideline)
                     {
-                        if(guideline)
+                        ZAY_RECT(panel, NewRect)
                         ZAY_RGBA(panel, 128, 128, 128, 64)
                             panel.fill();
                     }
@@ -439,6 +447,7 @@ namespace ZAY
         ZAY::ForwardMultiplyRender::ForwardMultiplyRenderer* Renderer;
         ZAY::SkeletonInstance* Instance;
         ZAY::AnimationStateSet* StateSet;
+        String LastSkin;
         SpineBuilder::MotionFinishedCB FinishedCB;
         SpineBuilder::UserEventCB EventCB;
 
@@ -501,6 +510,14 @@ namespace ZAY
     {
         SpineInstance* NewInstance = new SpineInstance((ZAY::SkeletonData*) spine, fcb, ecb);
         NewInstance->SetSkin(skin);
+        return (id_spine_instance) NewInstance;
+    }
+
+    id_spine_instance SpineBuilder::Clone(id_spine_instance spine_instance)
+    {
+        SpineInstance* OldInstance = (SpineInstance*) spine_instance;
+        SpineInstance* NewInstance = SpineInstance::Clone(OldInstance);
+        NewInstance->SetSkin(OldInstance->GetSkin());
         return (id_spine_instance) NewInstance;
     }
 
@@ -609,7 +626,8 @@ namespace ZAY
         BOSS_GL(UseProgram, OldProgram);
     }
 
-    void SpineBuilder::RenderBound(ZayPanel& panel, id_spine_instance spine_instance, float ox, float oy, float scale, bool flip, bool guideline, chars uiname, ZayPanel::SubGestureCB cb)
+    void SpineBuilder::RenderBound(ZayPanel& panel, id_spine_instance spine_instance, float ox, float oy, float scale, bool flip, bool guideline,
+        chars uiname, ZayPanel::SubGestureCB cb)
     {
         SpineInstance* CurInstance = (SpineInstance*) spine_instance;
         CurInstance->RenderBound(panel, ox, oy, scale, flip, guideline, uiname, cb);

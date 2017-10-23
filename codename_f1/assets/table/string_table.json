@@ -1,0 +1,22 @@
+﻿[
+	{
+		"Index":1,
+		"kor":"Wave",
+		"eng":"Wave"
+	},
+	{
+		"Index":2,
+		"kor":"Pause",
+		"eng":"Pause"
+	},
+	{
+		"Index":3,
+		"kor":"Win",
+		"eng":"Win"
+	},
+	{
+		"Index":4,
+		"kor":"Lose",
+		"eng":"Lose"
+	}
+]

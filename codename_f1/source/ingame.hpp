@@ -26,4 +26,9 @@ public: // 게임상태
     Point mTouchPos;
     float mTouchSizeR;
     sint32 mTouchDamage;
+    SpineRenderer mMainTitleRenderer[4];
+    MapSpine mMainTitleSpine;
+    uint64 mMainTitleStaffTime;
+    Point mMainTitleStaffBegin[3];
+    Point mMainTitleStaffTarget[3];
 };

@@ -7,7 +7,12 @@ ZAY_DECLARE_VIEW_CLASS("maptoolView", maptoolData)
 
 ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_share* out)
 {
-    m->Command(type, in);
+    if(type == CT_Create)
+    {
+        // 윈도우 타이틀
+        Platform::SetWindowName("Codename F1 [MapTool]");
+    }
+    else m->Command(type, in);
 }
 
 ZAY_VIEW_API OnNotify(chars sender, chars topic, id_share in, id_cloned_share* out)
@@ -38,16 +43,48 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
     }
     else if(type == GT_InReleased || type == GT_OutReleased)
     {
-        if(m->mCurObject != -1 && 2 <= m->mCurDrawingPoints.Count())
+        if(m->mCurDrawingPoints.Count() == 2)
         {
-            auto& CurObjects = m->mState.mLayers.At(m->mCurLayer).mObjects;
-            auto& NewObject = CurObjects.AtAdding();
-            NewObject.mType = &m->mState.mObjectTypes[m->mCurObject];
-            NewObject.mRect.l = Math::MinF(m->mCurDrawingPoints[0].x, m->mCurDrawingPoints[1].x);
-            NewObject.mRect.t = Math::MinF(m->mCurDrawingPoints[0].y, m->mCurDrawingPoints[1].y);
-            NewObject.mRect.r = Math::MaxF(m->mCurDrawingPoints[0].x, m->mCurDrawingPoints[1].x);
-            NewObject.mRect.b = Math::MaxF(m->mCurDrawingPoints[0].y, m->mCurDrawingPoints[1].y);
-            m->mCurDrawingPoints.SubtractionAll();
+            if(m->mSelectMode)
+            {
+                // 선택박스 완성
+                auto& NewBox = m->mSelectBoxes.AtAdding();
+                NewBox.mX = Math::MinF(m->mCurDrawingPoints[0].x, m->mCurDrawingPoints[1].x);
+                NewBox.mY = Math::MinF(m->mCurDrawingPoints[0].y, m->mCurDrawingPoints[1].y);
+                NewBox.mWidth = Math::MaxF(m->mCurDrawingPoints[0].x, m->mCurDrawingPoints[1].x) - NewBox.mX;
+                NewBox.mHeight = Math::MaxF(m->mCurDrawingPoints[0].y, m->mCurDrawingPoints[1].y) - NewBox.mY;
+                m->InitSelectBox(m->mSelectBoxes.Count() - 1);
+                m->mCurDrawingPoints.SubtractionAll();
+
+                // 빈 선택박스 일괄삭제
+                for(sint32 i = m->mSelectBoxes.Count() - 1; 0 <= i; --i)
+                {
+                    bool HasChild = false;
+                    for(sint32 j = 0; j < m->mSelectBoxes[i].mLayers.Count(); ++j)
+                    {
+                        HasChild |= (0 < m->mSelectBoxes[i].mLayers[j].mObjects.Count());
+                        HasChild |= (0 < m->mSelectBoxes[i].mLayers[j].mPolygons.Count());
+                    }
+                    if(!HasChild)
+                    {
+                        m->mSelectBoxes.SubtractionSection(i);
+                        if(i == m->mCurSelectBox)
+                            m->mCurSelectBox = -1;
+                    }
+                }
+            }
+            else if(m->mCurObject != -1)
+            {
+                // 오브젝트 완성
+                auto& CurObjects = m->mState.mLayers.At(m->mCurLayer).mObjects;
+                auto& NewObject = CurObjects.AtAdding();
+                NewObject.mType = &m->mState.mObjectTypes[m->mCurObject];
+                NewObject.mRect.l = Math::MinF(m->mCurDrawingPoints[0].x, m->mCurDrawingPoints[1].x);
+                NewObject.mRect.t = Math::MinF(m->mCurDrawingPoints[0].y, m->mCurDrawingPoints[1].y);
+                NewObject.mRect.r = Math::MaxF(m->mCurDrawingPoints[0].x, m->mCurDrawingPoints[1].x);
+                NewObject.mRect.b = Math::MaxF(m->mCurDrawingPoints[0].y, m->mCurDrawingPoints[1].y);
+                m->mCurDrawingPoints.SubtractionAll();
+            }
         }
     }
 }
@@ -60,11 +97,57 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
     m->Render(panel);
 }
 
+MapSelectBox::MapSelectBox()
+{
+    mVisibled = true;
+    mX = 0;
+    mY = 0;
+    mWidth = 0;
+    mHeight = 0;
+    mLayerX = 0;
+    mLayerY = 0;
+}
+
+MapSelectBox::~MapSelectBox()
+{
+}
+
+MapSelectBox::MapSelectBox(MapSelectBox&& rhs)
+{
+    operator=(ToReference(rhs));
+}
+
+MapSelectBox& MapSelectBox::operator=(MapSelectBox&& rhs)
+{
+    mVisibled = rhs.mVisibled;
+    mX = rhs.mX;
+    mY = rhs.mY;
+    mWidth = rhs.mWidth;
+    mHeight = rhs.mHeight;
+    mLayerX = rhs.mLayerX;
+    mLayerY = rhs.mLayerY;
+    mLayers = ToReference(rhs.mLayers);
+    return *this;
+}
+
+void MapSelectBox::CopyFrom(const MapSelectBox& rhs)
+{
+    mVisibled = rhs.mVisibled;
+    mX = rhs.mX;
+    mY = rhs.mY;
+    mWidth = rhs.mWidth;
+    mHeight = rhs.mHeight;
+    mLayerX = rhs.mLayerX;
+    mLayerY = rhs.mLayerY;
+    mLayers = rhs.mLayers;
+}
+
 maptoolData::maptoolData()
 {
     mCurObject = 0;
     mCurPolygon = -1;
     mCurLayer = 2;
+    mCurSelectBox = -1;
 }
 
 maptoolData::~maptoolData()
@@ -76,6 +159,7 @@ void maptoolData::Load(chars filename)
     mCurObject = 0;
     mCurPolygon = -1;
     mCurLayer = 2;
+    mCurSelectBox = -1;
 
     id_file_read TextFile = Platform::File::OpenForRead(filename);
     if(TextFile)
@@ -106,12 +190,12 @@ void maptoolData::Render(ZayPanel& panel)
     // 인게임
     ZAY_XYWH(panel, mMapPos.x + mState.mInGameX, mMapPos.y + mState.mInGameY, mState.mInGameW, mState.mInGameH)
     {
-        mState.Render(true, panel);
+        mState.Render(true, false, panel);
 
-        // 작업중인 폴리곤
-        if(mCurObject != -1)
+        // 작업중인 오브젝트
+        if(mSelectMode || mCurObject != -1)
         {
-            if(2 <= mCurDrawingPoints.Count())
+            if(mCurDrawingPoints.Count() == 2)
             {
                 Rect CurRect;
                 CurRect.l = Math::MinF(mCurDrawingPoints[0].x, mCurDrawingPoints[1].x);
@@ -135,6 +219,7 @@ void maptoolData::Render(ZayPanel& panel)
                     panel.circle();
             }
         }
+        // 작업중인 폴리곤
         else
         {
             const sint32 ColorR = mState.mPolygonTypes[mCurPolygon].mColorR;
@@ -163,6 +248,7 @@ void maptoolData::Render(ZayPanel& panel)
                         {
                             if(t == GT_Pressed)
                             {
+                                // 폴리곤 완성
                                 auto& CurPolygons = mState.mLayers.At(mCurLayer).mPolygons;
                                 auto& NewPolygon = CurPolygons.AtAdding();
                                 NewPolygon.mType = &mState.mPolygonTypes[mCurPolygon];
@@ -182,6 +268,39 @@ void maptoolData::Render(ZayPanel& panel)
         // 그리드
         if(mGridMode)
             RenderGrid(panel);
+
+        // 선택박스
+        for(sint32 i = 0, iend = mSelectBoxes.Count(); i < iend; ++i)
+        {
+            auto& CurBox = mSelectBoxes[i];
+            const float AddX = mState.mInGameW * (CurBox.mX - CurBox.mLayerX);
+            const float AddY = mState.mInGameH * (CurBox.mY - CurBox.mLayerY);
+            ZAY_RGBA_IF(panel, 0, 128, 192, 128, i == mCurSelectBox)
+            ZAY_RGBA_IF(panel, 192, 0, 128, 128, i != mCurSelectBox)
+            {
+                String Info;
+                ZAY_XYWH(panel, AddX, AddY, panel.w(), panel.h())
+                for(sint32 j = 0, jend = CurBox.mLayers.Count(); j < jend; ++j)
+                {
+                    const sint32 CurObjectCount = CurBox.mLayers[j].mObjects.Count();
+                    const sint32 CurPolygonCount = CurBox.mLayers[j].mPolygons.Count();
+                    if(0 < CurObjectCount || 0 < CurPolygonCount)
+                    {
+                        mState.RenderLayer(true, false, panel, CurBox.mLayers[j]);
+                        if(0 < Info.Length()) Info += "/";
+                        if(j < 2) Info += String::Format("B%d", 2 - j);
+                        else Info += String::Format("%dF", j - 1);
+                    }
+                }
+                if(Info.Length() == 0) Info = "(No Item)";
+                const float x = mState.mInGameW * (CurBox.mX + 0.5f);
+                const float y = mState.mInGameH * (CurBox.mY + 0.5f);
+                const float w = mState.mInGameW * CurBox.mWidth;
+                const float h = mState.mInGameH * CurBox.mHeight;
+                ZAY_XYWH(panel, x, y, w, h)
+                    RenderSelectBox(panel, i, Info);
+            }
+        }
     }
 
     // 툴UI
@@ -200,6 +319,25 @@ void maptoolData::Render(ZayPanel& panel)
         // 선택모드
         ZAY_XYWH(panel, ButtonSize * 3, 0, ButtonSize, ButtonSize)
             RenderSelectToggle(panel);
+
+        // 선택모드 부가버튼
+        if(mCurSelectBox != -1)
+        {
+            // 선택해제
+            ZAY_XYWH(panel, ButtonSize * 4 + ButtonSize * 0, 0, ButtonSize, ButtonSizeSmall)
+            ZAY_RGBA(panel, 128, 192, 255, 192)
+                RenderSelect_SubButton(panel, "Release");
+
+            // Visible 상태변경
+            ZAY_XYWH(panel, ButtonSize * 4 + ButtonSize * 1, 0, ButtonSize, ButtonSizeSmall)
+            ZAY_RGBA(panel, 128, 255, 192, 192)
+                RenderSelect_SubButton(panel, (mSelectBoxes[mCurSelectBox].mVisibled)? "Show" : "Hide");
+
+            // 삭제
+            ZAY_XYWH(panel, ButtonSize * 4 + ButtonSize * 2, 0, ButtonSizeSmall, ButtonSizeSmall)
+            ZAY_RGBA(panel, 255, 64, 64, 192)
+                RenderSelect_SubButton(panel, "×");
+        }
 
         // 이동버튼
         ZAY_XYWH(panel, panel.w() - ButtonSize, 0, ButtonSize, ButtonSize)
@@ -407,4 +545,227 @@ void maptoolData::Render(ZayPanel& panel)
             }
         }
     }
+}
+
+void maptoolData::OnModeChanged()
+{
+    for(sint32 i = 0; i < mSelectBoxes.Count(); ++i)
+        QuitSelectBox(i);
+    mSelectBoxes.Clear();
+    mCurSelectBox = -1;
+    mCurDrawingPoints.SubtractionAll();
+}
+
+void maptoolData::OnSelectSub(chars name)
+{
+    if(!String::Compare(name, "Release"))
+    {
+        if(mCurSelectBox != -1)
+        {
+            QuitSelectBox(mCurSelectBox);
+            mSelectBoxes.SubtractionSection(mCurSelectBox, 1);
+            mCurSelectBox = -1;
+        }
+    }
+    else if(!String::Compare(name, "Show") || !String::Compare(name, "Hide"))
+    {
+        if(mCurSelectBox != -1)
+        {
+            mSelectBoxes.At(mCurSelectBox).mVisibled ^= true;
+            ChangeSelectBox(mCurSelectBox);
+        }
+    }
+    else if(!String::Compare(name, "×"))
+    {
+        if(mCurSelectBox != -1)
+        {
+            mSelectBoxes.SubtractionSection(mCurSelectBox, 1);
+            mCurSelectBox = -1;
+        }
+    }
+}
+
+void maptoolData::InitSelectBox(sint32 index)
+{
+    mCurSelectBox = index;
+    auto& CurBox = mSelectBoxes.At(index);
+    CurBox.mLayerX = CurBox.mX;
+    CurBox.mLayerY = CurBox.mY;
+    // 맵의 요소들
+    for(sint32 i = 0; i < mState.mLayerLength; ++i)
+    {
+        if(!mState.mLayers[i].mShowFlag)
+            continue;
+        auto& CurLayer = CurBox.mLayers.AtWherever(i);
+        // 오브젝트
+        auto& CurObjects = mState.mLayers.At(i).mObjects;
+        for(sint32 j = 0; j < CurObjects.Count(); ++j)
+        {
+            if(CurObjects[j].mRect.r < CurBox.mX) continue;
+            if(CurObjects[j].mRect.b < CurBox.mY) continue;
+            if(CurBox.mX + CurBox.mWidth <= CurObjects[j].mRect.l) continue;
+            if(CurBox.mY + CurBox.mHeight <= CurObjects[j].mRect.t) continue;
+            CurLayer.mObjects.AtAdding() = ToReference(CurObjects.At(j));
+            CurObjects.SubtractionSection(j, 1);
+            j--;
+        }
+        // 폴리곤
+        auto& CurPolygons = mState.mLayers.At(i).mPolygons;
+        for(sint32 j = 0; j < CurPolygons.Count(); ++j)
+        {
+            auto& CurPoints = CurPolygons[j].mPolygon;
+            for(sint32 k = 0, kend = CurPoints.Count(); k < kend; ++k)
+            {
+                if(CurPoints[k].x < CurBox.mX) continue;
+                if(CurPoints[k].y < CurBox.mY) continue;
+                if(CurBox.mX + CurBox.mWidth <= CurPoints[k].x) continue;
+                if(CurBox.mY + CurBox.mHeight <= CurPoints[k].y) continue;
+                CurLayer.mPolygons.AtAdding() = ToReference(CurPolygons.At(j));
+                CurPolygons.SubtractionSection(j, 1);
+                j--;
+                break;
+            }
+        }
+    }
+    // 타 선택박스
+    for(sint32 i = 0; i < mSelectBoxes.Count(); ++i)
+    {
+        if(i == mCurSelectBox) continue;
+        auto& OtherBox = mSelectBoxes.At(i);
+        const float AddX = OtherBox.mX - OtherBox.mLayerX;
+        const float AddY = OtherBox.mY - OtherBox.mLayerY;
+        for(sint32 j = 0; j < OtherBox.mLayers.Count(); ++j)
+        {
+            auto& CurLayer = CurBox.mLayers.AtWherever(j);
+            // 오브젝트
+            auto& CurObjects = OtherBox.mLayers.At(j).mObjects;
+            for(sint32 k = 0; k < CurObjects.Count(); ++k)
+            {
+                if(CurObjects[k].mRect.r + AddX < CurBox.mX) continue;
+                if(CurObjects[k].mRect.b + AddY < CurBox.mY) continue;
+                if(CurBox.mX + CurBox.mWidth <= CurObjects[k].mRect.l + AddX) continue;
+                if(CurBox.mY + CurBox.mHeight <= CurObjects[k].mRect.t + AddY) continue;
+                auto& NewObject = CurLayer.mObjects.AtAdding();
+                NewObject = ToReference(CurObjects.At(k));
+                NewObject.mRect += Point(AddX, AddY);
+                CurObjects.SubtractionSection(k, 1);
+                k--;
+            }
+            // 폴리곤
+            auto& CurPolygons = OtherBox.mLayers.At(j).mPolygons;
+            for(sint32 k = 0; k < CurPolygons.Count(); ++k)
+            {
+                auto& CurPoints = CurPolygons[k].mPolygon;
+                for(sint32 l = 0, lend = CurPoints.Count(); l < lend; ++l)
+                {
+                    if(CurPoints[l].x + AddX < CurBox.mX) continue;
+                    if(CurPoints[l].y + AddY < CurBox.mY) continue;
+                    if(CurBox.mX + CurBox.mWidth <= CurPoints[l].x + AddX) continue;
+                    if(CurBox.mY + CurBox.mHeight <= CurPoints[l].y + AddY) continue;
+                    auto& NewPolygon = CurLayer.mPolygons.AtAdding();
+                    NewPolygon = ToReference(CurPolygons.At(k));
+                    for(sint32 m = 0, mend = NewPolygon.mPolygon.Count(); m < mend; ++m)
+                        NewPolygon.mPolygon.At(m) += Point(AddX, AddY);
+                    CurPolygons.SubtractionSection(k, 1);
+                    k--;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void maptoolData::QuitSelectBox(sint32 index)
+{
+    auto& CurBox = mSelectBoxes.At(index);
+    const float AddX = CurBox.mX - CurBox.mLayerX;
+    const float AddY = CurBox.mY - CurBox.mLayerY;
+    for(sint32 i = 0; i < mState.mLayerLength; ++i)
+    {
+        auto& CurLayer = CurBox.mLayers.AtWherever(i);
+        // 오브젝트
+        for(sint32 j = 0; j < CurLayer.mObjects.Count(); ++j)
+        {
+            auto& NewObject = mState.mLayers.At(i).mObjects.AtAdding();
+            NewObject = ToReference(CurLayer.mObjects.At(j));
+            NewObject.mRect.l += AddX;
+            NewObject.mRect.t += AddY;
+            NewObject.mRect.r += AddX;
+            NewObject.mRect.b += AddY;
+        }
+        // 폴리곤
+        for(sint32 j = 0; j < CurLayer.mPolygons.Count(); ++j)
+        {
+            auto& NewPolygon = mState.mLayers.At(i).mPolygons.AtAdding();
+            NewPolygon = ToReference(CurLayer.mPolygons.At(j));
+            for(sint32 k = 0; k < NewPolygon.mPolygon.Count(); ++k)
+            {
+                NewPolygon.mPolygon.At(k).x += AddX;
+                NewPolygon.mPolygon.At(k).y += AddY;
+            }
+        }
+    }
+}
+
+void maptoolData::ChangeSelectBox(sint32 index)
+{
+    auto& CurBox = mSelectBoxes.At(index);
+    for(sint32 i = 0; i < mState.mLayerLength; ++i)
+    {
+        auto& CurLayer = CurBox.mLayers.AtWherever(i);
+        // 오브젝트
+        for(sint32 j = 0; j < CurLayer.mObjects.Count(); ++j)
+            CurLayer.mObjects.At(j).mVisible = CurBox.mVisibled;
+        // 폴리곤
+        for(sint32 j = 0; j < CurLayer.mPolygons.Count(); ++j)
+            CurLayer.mPolygons.At(j).mVisible = CurBox.mVisibled;
+    }
+}
+
+void maptoolData::OnSelectBoxMoving(sint32 index, float addx, float addy)
+{
+    mCurSelectBox = index;
+    auto& CurBox = mSelectBoxes.At(index);
+    CurBox.mX += addx / mState.mInGameW;
+    CurBox.mY += addy / mState.mInGameH;
+}
+
+void maptoolData::OnSelectBoxMoved(sint32 index)
+{
+    mCurSelectBox = index;
+    if(mGridMode)
+    {
+        auto& CurBox = mSelectBoxes.At(index);
+        const Point NewPos = AttachGrid(CurBox.mX, CurBox.mY);
+        CurBox.mX = NewPos.x;
+        CurBox.mY = NewPos.y;
+    }
+}
+
+void maptoolData::OnSelectBoxSizing(sint32 index, float addx, float addy)
+{
+    mCurSelectBox = index;
+    auto& CurBox = mSelectBoxes.At(index);
+    CurBox.mWidth = Math::MaxF(0, CurBox.mWidth + addx / mState.mInGameW);
+    CurBox.mHeight = Math::MaxF(0, CurBox.mHeight + addy / mState.mInGameH);
+}
+
+void maptoolData::OnSelectBoxSized(sint32 index)
+{
+    mCurSelectBox = index;
+    if(mGridMode)
+    {
+        auto& CurBox = mSelectBoxes.At(index);
+        const Point NewPos = AttachGrid(CurBox.mX + CurBox.mWidth, CurBox.mY + CurBox.mHeight);
+        CurBox.mWidth = Math::MaxF(0, NewPos.x - CurBox.mX);
+        CurBox.mHeight = Math::MaxF(0, NewPos.y - CurBox.mY);
+    }
+}
+
+void maptoolData::OnSelectBoxClone(sint32 index)
+{
+    mCurSelectBox = index;
+    auto& NewBox = mSelectBoxes.AtAdding();
+    auto& CurBox = mSelectBoxes.At(index);
+    NewBox.CopyFrom(CurBox);
 }

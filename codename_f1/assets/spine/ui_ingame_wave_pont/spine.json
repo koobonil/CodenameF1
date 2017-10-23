@@ -1,0 +1,86 @@
+{
+"skeleton": { "hash": "+mGoKHQbHEgqBmQmpb1rgRly9xY", "spine": "3.6.45", "width": 0, "height": 0, "images": "./ingame_ui/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 59.35, "rotation": 90, "x": -0.6, "y": 24.11 },
+	{ "name": "pont_wave", "parent": "root", "length": 98.15, "rotation": 180, "x": -170.38, "y": 58.72 },
+	{ "name": "pont_wave_b", "parent": "root", "length": 39.22, "rotation": 180, "x": 249.04, "y": 51.55 }
+],
+"slots": [
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "pont_wave_b_area", "bone": "pont_wave_b", "attachment": "pont_area" },
+	{ "name": "pont_wave_area", "bone": "pont_wave", "attachment": "pont_wave_area" }
+],
+"skins": {
+	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 104.86, 428.86, 104.86, -491.09, -31.22, -489.47, -33.65, 428.05 ]
+			}
+		},
+		"pont_wave_area": {
+			"pont_wave_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 243.87, -64.47, 244.66, 65.55, -243.9, 64.76, -243.9, -65.26 ]
+			}
+		},
+		"pont_wave_b_area": {
+			"pont_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 161.1, -51.51, 161.91, 58.65, -225.48, 59.88, -226.32, -51.93 ]
+			}
+		}
+	}
+},
+"animations": {
+	"loding": {
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0.7333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0.7333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0.7333, "x": 1, "y": 1 }
+				]
+			},
+			"pont_wave": {
+				"rotate": [
+					{ "time": 0.1667, "angle": 0, "curve": "stepped" },
+					{ "time": 0.7333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 697.16 },
+					{ "time": 0.1667, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.7333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0.1667, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.7333, "x": 1, "y": 1 }
+				]
+			},
+			"pont_wave_b": {
+				"rotate": [
+					{ "time": 0.2333, "angle": 0, "curve": "stepped" },
+					{ "time": 0.7333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 697.16 },
+					{ "time": 0.2333, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.7333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0.2333, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.7333, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

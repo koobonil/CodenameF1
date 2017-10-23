@@ -7,6 +7,11 @@ ZAY_DECLARE_VIEW_CLASS("codename_f1View", codename_f1Data)
 
 ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_share* out)
 {
+    if(type == CT_Create)
+    {
+        // 윈도우 타이틀
+        Platform::SetWindowName("Codename F1");
+    }
 }
 
 ZAY_VIEW_API OnNotify(chars sender, chars topic, id_share in, id_cloned_share* out)

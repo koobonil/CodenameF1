@@ -1,0 +1,46 @@
+{
+"skeleton": { "hash": "XPZ5lxFYkpF+Df3KRszKNFXQDLU", "spine": "3.6.45", "width": 0, "height": 0, "images": "./stage_select_ui/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 72.54, "rotation": 90 },
+	{ "name": "card_area", "parent": "root", "length": 48.72, "rotation": 90 }
+],
+"slots": [
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "unlock_card", "bone": "card_area", "attachment": "unlock_card" },
+	{ "name": "stage_level_pont", "bone": "card_area", "attachment": "stage_level_pont" },
+	{ "name": "star_slot", "bone": "card_area", "attachment": "star_slot" }
+],
+"skins": {
+	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 211.85, 135.13, -166.56, 138.45, -166.56, -135.38, 212.03, -135.38 ]
+			}
+		},
+		"stage_level_pont": {
+			"stage_level_pont": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 179.03, 118.9, 76.75, 118.35, 75.67, -116.66, 179.03, -116.66 ]
+			}
+		},
+		"star_slot": {
+			"star_slot": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -139.76, 117.81, -139.21, -115.02, -65.77, -115.57, -64.14, 117.81 ]
+			}
+		},
+		"unlock_card": {
+			"unlock_card": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 209.8, 135.06, -166.47, 135.77, -165.76, -132.99, 209.8, -133.7 ]
+			}
+		}
+	}
+}
+}

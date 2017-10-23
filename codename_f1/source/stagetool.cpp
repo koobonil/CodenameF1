@@ -7,7 +7,12 @@ ZAY_DECLARE_VIEW_CLASS("stagetoolView", stagetoolData)
 
 ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_share* out)
 {
-    m->Command(type, in);
+    if(type == CT_Create)
+    {
+        // 윈도우 타이틀
+        Platform::SetWindowName("Codename F1 [StageTool]");
+    }
+    else m->Command(type, in);
 }
 
 ZAY_VIEW_API OnNotify(chars sender, chars topic, id_share in, id_cloned_share* out)
@@ -187,7 +192,7 @@ void stagetoolData::Render(ZayPanel& panel)
     // 인게임
     ZAY_XYWH(panel, mMapPos.x + mState.mInGameX, mMapPos.y + mState.mInGameY, mState.mInGameW, mState.mInGameH)
     {
-        mState.Render(true, panel);
+        mState.Render(true, false, panel);
 
         // 현재 타임라인의 몬스터들
         auto& CurMonsters = mWaves[mCurWave].mEvents[mCurEvent];
@@ -229,8 +234,8 @@ void stagetoolData::Render(ZayPanel& panel)
             RenderGridToggle(panel);
 
         // 선택모드
-        ZAY_XYWH(panel, ButtonSize * 3, 0, ButtonSize, ButtonSize)
-            RenderSelectToggle(panel);
+        //ZAY_XYWH(panel, ButtonSize * 3, 0, ButtonSize, ButtonSize)
+        //    RenderSelectToggle(panel);
 
         // 이동버튼
         ZAY_XYWH(panel, panel.w() - ButtonSize, 0, ButtonSize, ButtonSize)
@@ -295,7 +300,7 @@ void stagetoolData::Render(ZayPanel& panel)
                     if(Platform::Popup::TextDialog(MapName, "Load Map", "Typing the asset name"))
                     {
                         mMapName = MapName;
-                        id_asset_read TextAsset = Asset::OpenForRead("json/" + mMapName + ".json");
+                        id_asset_read TextAsset = Asset::OpenForRead("table/" + mMapName + ".json");
                         if(TextAsset)
                         {
                             const sint32 TextSize = Asset::Size(TextAsset);
@@ -316,7 +321,7 @@ void stagetoolData::Render(ZayPanel& panel)
             ZAY_RGB(panel, 0, 0, 0)
             {
                 panel.rect(2);
-                panel.text("Load\nBG", UIFA_CenterMiddle);
+                panel.text("Load\nMap", UIFA_CenterMiddle);
             }
         }
 
@@ -461,4 +466,44 @@ void stagetoolData::Render(ZayPanel& panel)
                     String::Format("[Wave%d.%s]", mCurWave + 1, (chars) mWaves[mCurWave].mTitle), UIFA_CenterBottom);
         }
     }
+}
+
+void stagetoolData::OnModeChanged()
+{
+}
+
+void stagetoolData::OnSelectSub(chars name)
+{
+}
+
+void stagetoolData::InitSelectBox(sint32 index)
+{
+}
+
+void stagetoolData::QuitSelectBox(sint32 index)
+{
+}
+
+void stagetoolData::ChangeSelectBox(sint32 index)
+{
+}
+
+void stagetoolData::OnSelectBoxMoving(sint32 index, float addx, float addy)
+{
+}
+
+void stagetoolData::OnSelectBoxMoved(sint32 index)
+{
+}
+
+void stagetoolData::OnSelectBoxSizing(sint32 index, float addx, float addy)
+{
+}
+
+void stagetoolData::OnSelectBoxSized(sint32 index)
+{
+}
+
+void stagetoolData::OnSelectBoxClone(sint32 index)
+{
 }

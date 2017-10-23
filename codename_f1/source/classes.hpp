@@ -20,13 +20,52 @@ public:
     ObjectType(ObjectType&& rhs) {operator=(ToReference(rhs));}
     ObjectType& operator=(ObjectType&& rhs)
     {
-        mID = rhs.mID;
-        mAsset = rhs.mAsset;
+        mID = ToReference(rhs.mID);
+        mType = rhs.mType;
+        mAsset = ToReference(rhs.mAsset);
         return *this;
     }
 
 public:
+    class TypeClass
+    {
+    public:
+        enum Type {Target, Static, Dynamic, Ground, Max, Null = -1};
+    public:
+        TypeClass() {mValue = Null;}
+        TypeClass(const TypeClass& rhs) {operator=(rhs);}
+        TypeClass& operator=(const TypeClass& rhs) {mValue = rhs.mValue; return *this;}
+        TypeClass& operator=(Type rhs) {mValue = rhs; return *this;}
+        TypeClass& operator=(chars rhs)
+        {
+            if(!String::Compare(rhs, "Target"))
+                mValue = Target;
+            else if(!String::Compare(rhs, "Static"))
+                mValue = Static;
+            else if(!String::Compare(rhs, "Dynamic"))
+                mValue = Dynamic;
+            else if(!String::Compare(rhs, "Ground"))
+                mValue = Ground;
+            else
+            {
+                mValue = Null;
+                if(!String::Compare(rhs, "Null"))
+                    BOSS_ASSERT("키워드가 없습니다", false);
+                else BOSS_ASSERT("알 수 없는 키워드입니다", false);
+            }
+            return *this;
+        }
+        bool operator==(Type rhs) const
+        {return (mValue == rhs);}
+        bool operator!=(Type rhs) const
+        {return (mValue != rhs);}
+    private:
+        Type mValue;
+    };
+
+public:
     String mID;
+    TypeClass mType;
     String mAsset;
 };
 typedef Array<ObjectType> ObjectTypes;
@@ -45,7 +84,7 @@ public:
     PolygonType(PolygonType&& rhs) {operator=(ToReference(rhs));}
     PolygonType& operator=(PolygonType&& rhs)
     {
-        mID = rhs.mID;
+        mID = ToReference(rhs.mID);
         mType = rhs.mType;
         mColorR = rhs.mColorR;
         mColorG = rhs.mColorG;
@@ -54,16 +93,16 @@ public:
     }
 
 public:
-    class ZoneType
+    class TypeClass
     {
     public:
         enum Type {Spot, Wall, Mud, Water, Max, Null = -1};
     public:
-        ZoneType() {mValue = Null;}
-        ZoneType(const ZoneType& rhs) {operator=(rhs);}
-        ZoneType& operator=(const ZoneType& rhs) {mValue = rhs.mValue; return *this;}
-        ZoneType& operator=(Type rhs) {mValue = rhs; return *this;}
-        ZoneType& operator=(chars rhs)
+        TypeClass() {mValue = Null;}
+        TypeClass(const TypeClass& rhs) {operator=(rhs);}
+        TypeClass& operator=(const TypeClass& rhs) {mValue = rhs.mValue; return *this;}
+        TypeClass& operator=(Type rhs) {mValue = rhs; return *this;}
+        TypeClass& operator=(chars rhs)
         {
             if(!String::Compare(rhs, "Spot"))
                 mValue = Spot;
@@ -92,7 +131,7 @@ public:
 
 public:
     String mID;
-    ZoneType mType;
+    TypeClass mType;
     sint32 mColorR;
     sint32 mColorG;
     sint32 mColorB;
@@ -115,7 +154,6 @@ public:
         mAttackSpeed = 0;
         mAttackRange = 0;
         mAsset = "noname";
-        mScale = 0;
     }
     ~MonsterType() {}
     MonsterType(MonsterType&& rhs) {operator=(ToReference(rhs));}
@@ -131,7 +169,6 @@ public:
         mAttackSpeed = rhs.mAttackSpeed;
         mAttackRange = rhs.mAttackRange;
         mAsset = ToReference(rhs.mAsset);
-        mScale = rhs.mScale;
         return *this;
     }
 
@@ -173,18 +210,78 @@ public:
     sint32 mAttackSpeed;
     sint32 mAttackRange;
     String mAsset;
-    sint32 mScale;
 };
 typedef Array<MonsterType> MonsterTypes;
 
 ////////////////////////////////////////////////////////////////////////////////
-class MapObject
+class SpineRenderer
 {
 public:
-    MapObject() {mType = nullptr;}
-    ~MapObject() {}
+    SpineRenderer();
+    ~SpineRenderer();
+
+public:
+    void Create(chars spinepath, chars imagepath);
+    void Release();
+    Rect Update(ZAY::id_spine_instance instance, float delta_sec) const;
+    void Render(ZAY::id_spine_instance instance, ZayPanel& panel, sint32 sx, sint32 sy, sint32 sw, sint32 sh, sint32 h, float scale, bool flip) const;
+    void RenderBound(ZAY::id_spine_instance instance, ZayPanel& panel, bool guideline, float ox, float oy, float scale, bool flip,
+        chars uiname, ZayPanel::SubGestureCB cb) const;
+
+public:
+    inline ZAY::id_spine spine() const {return mSpine;}
+
+private:
+    ZAY::id_spine mSpine;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+class MapSpine
+{
+public:
+    MapSpine();
+    ~MapSpine();
+    MapSpine(const MapSpine& rhs);
+    MapSpine& operator=(const MapSpine& rhs);
+    MapSpine(MapSpine&& rhs);
+    MapSpine& operator=(MapSpine&& rhs);
+
+public:
+    void InitSpine(const SpineRenderer* renderer, chars first_motion, chars second_motion = nullptr,
+        ZAY::SpineBuilder::MotionFinishedCB fcb = nullptr, ZAY::SpineBuilder::UserEventCB ecb = nullptr);
+    float CalcDeltaSec() const;
+    void Staff_TryIdle();
+    void Staff_Start();
+
+public:
+    inline const SpineRenderer* renderer() const {return mSpineRenderer;}
+
+public:
+    const SpineRenderer* mSpineRenderer;
+    ZAY::id_spine_instance mSpineInstance;
+    mutable uint64 mSpineMsecOld;
+    bool mStaffIdleMode;
+    bool mStaffStartMode;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+class MapObject : public MapSpine
+{
+public:
+    MapObject();
+    ~MapObject();
+    MapObject(const MapObject& rhs);
+    MapObject& operator=(const MapObject& rhs);
+    MapObject(MapObject&& rhs);
+    MapObject& operator=(MapObject&& rhs);
+
+public:
+    void Hit() const;
+    void Dead() const;
+
 public:
     const ObjectType* mType;
+    bool mVisible;
     Rect mRect;
 };
 typedef Array<MapObject> MapObjects;
@@ -193,10 +290,11 @@ typedef Array<MapObject> MapObjects;
 class MapPolygon
 {
 public:
-    MapPolygon() {mType = nullptr;}
+    MapPolygon() {mType = nullptr; mVisible = true;}
     ~MapPolygon() {}
 public:
     const PolygonType* mType;
+    bool mVisible;
     Points mPolygon;
 };
 typedef Array<MapPolygon> MapPolygons;
@@ -215,8 +313,7 @@ public:
 typedef Array<MapLayer> MapLayers;
 
 ////////////////////////////////////////////////////////////////////////////////
-class SpineRenderer;
-class MapMonster
+class MapMonster : public MapSpine
 {
     BOSS_DECLARE_NONCOPYABLE_CLASS(MapMonster)
 public:
@@ -226,54 +323,52 @@ public:
     MapMonster& operator=(MapMonster&& rhs);
 
 public:
-    void Init(chars uiname, sint32 timesec, const MonsterType* type, float x, float y, const SpineRenderer* renderer);
-    void Kill();
-    void Turn();
-    void Hit();
-    void Attacking();
-    float CalcDeltaSec() const;
+    void Init(const MonsterType* type, sint32 timesec, float x, float y);
+    void Kill() const;
+    void Turn() const;
+    void Hit() const;
+    sint32 TryAttack();
+    void CancelAttack();
 
 public:
-    inline const SpineRenderer* renderer() const {return mSpineRenderer;}
-
-public:
-    String mUIName;
-    sint32 mEntranceSec;
     const MonsterType* mType;
+    sint32 mEntranceSec;
     sint32 mHP;
     bool mAttackMode;
+    sint32 mAttackCount;
+    uint64 mAttackTimeMsec;
     bool mFlipMode;
     bool mLastFlip;
     Point mLastFlipPos;
     sint32 mDeathCount;
     Point mPos;
-    TryWorld::Path* mPath;
-    const SpineRenderer* mSpineRenderer;
-    ZAY::id_spine_instance mSpineInstance;
-    mutable uint64 mSpineMsecOld;
+    sint32 mTargetId;
+    TryWorld::Path* mTargetPath;
+    sint32 mTargetPathScore;
 };
 typedef Array<MapMonster> MapMonsters;
 
 ////////////////////////////////////////////////////////////////////////////////
-class SpineRenderer
+class TargetZone
 {
+    BOSS_DECLARE_NONCOPYABLE_CLASS(TargetZone)
 public:
-    SpineRenderer();
-    ~SpineRenderer();
+    TargetZone();
+    ~TargetZone();
+    TargetZone(TargetZone&& rhs);
+    TargetZone& operator=(TargetZone&& rhs);
 
 public:
-    void Create(chars spinepath, chars imagepath);
-    void Release();
-    Rect Update(const MapMonster& monster) const;
-    void Render(const MapMonster& monster, ZayPanel& panel, sint32 sx, sint32 sy, sint32 sw, sint32 sh, sint32 h, float scale, bool flip) const;
-    void RenderBound(const MapMonster& monster, ZayPanel& panel, bool guideline, float ox, float oy, float scale, bool flip) const;
+    void Init(sint32 layerid, sint32 objectid, sint32 hp, float x, float y, float size_r);
 
 public:
-    inline ZAY::id_spine spine() const {return mSpine;}
-
-private:
-    ZAY::id_spine mSpine;
+    sint32 mLayerId;
+    sint32 mObjectId;
+    sint32 mHP;
+    Point mPos;
+    float mSizeR;
 };
+typedef Array<TargetZone> TargetZones;
 
 ////////////////////////////////////////////////////////////////////////////////
 class F1State
@@ -289,8 +384,11 @@ public:
     void RebuildTryWorld();
     void SetSize(sint32 width, sint32 height);
     void RenderImage(bool editmode, ZayPanel& panel, const Image& image);
-    void RenderObject(bool editmode, ZayPanel& panel, const SpineRenderer* renderer, const MapMonster& monster, sint32 sx, sint32 sy, sint32 sw, sint32 sh, bool flip);
-    void Render(bool editmode, ZayPanel& panel, const MapMonsters* monsters = nullptr, sint32 wavesec = 0);
+    void RenderObject(bool editmode, ZayPanel& panel, const MapSpine& spine, sint32 sx, sint32 sy, sint32 sw, sint32 sh, bool flip,
+        chars uiname = nullptr, ZayPanel::SubGestureCB cb = nullptr);
+    void RenderLayer(bool editmode, bool titlemode, ZayPanel& panel, const MapLayer& layer,
+        const MapMonsters* monsters = nullptr, const sint32 wavesec = 0, const sint32 SX = 0, const sint32 SY = 0, const sint32 SW = 0, const sint32 SH = 0);
+    void Render(bool editmode, bool titlemode, ZayPanel& panel, const MapMonsters* monsters = nullptr, sint32 wavesec = 0);
 
 public: // 기획요소
     Solver mUILeft;
@@ -298,17 +396,17 @@ public: // 기획요소
     Solver mUIRight;
     Solver mUIBottom;
     float mViewRate; // 뷰비율 = 가로길이 / 세로길이
-    float mMeteoMinScale;
-    float mMeteoMaxScale;
-    sint32 mMeteoMinDamage;
-    sint32 mMeteoMaxDamage;
+    float mBreathMinScale;
+    float mBreathMaxScale;
+    sint32 mBreathMinDamage;
+    sint32 mBreathMaxDamage;
     sint32 mEggHPbarDeleteTime; // 투명해지는데 걸리는 시간
     sint32 mEggHPRegenValue; // 초당 재생량
-    sint32 mEggHPValue; // 초기값
     sint32 mEggHP;
     sint32 m1StarHpRate;
     sint32 m2StarHpRate;
     sint32 m3StarHpRate;
+    float mMonsterScale;
     sint32 mToolGrid;
     ObjectTypes mObjectTypes;
     PolygonTypes mPolygonTypes;
@@ -322,15 +420,15 @@ public: // UI요소
     sint32 mInGameH;
     sint32 mInGameX;
     sint32 mInGameY;
-    sint32 mTreeSizeR;
     sint32 mMonsterSizeR;
-    sint32 mMeteoSizeMinR;
-    sint32 mMeteoSizeMaxR;
+    sint32 mBreathSizeMinR;
+    sint32 mBreathSizeMaxR;
     const sint32 mTimelineLength = 60;
     const sint32 mLayerLength = 6;
 
 public: // 맵요소
     String mBGName;
+    TargetZones mTargets;
     MapLayers mLayers;
     TryWorld::Hurdle* mHurdle;
     TryWorld::Map* mMap;
@@ -347,16 +445,32 @@ public:
 public:
     void Command(CommandType type, id_share in);
     Point GestureToPos(sint32 x, sint32 y);
+    Point AttachGrid(float fx, float fy);
     void RenderGrid(ZayPanel& panel);
     void RenderLockToggle(ZayPanel& panel);
     void RenderGridToggle(ZayPanel& panel);
     void RenderSelectToggle(ZayPanel& panel);
+    void RenderSelect_SubButton(ZayPanel& panel, chars name);
     void RenderDragButton(ZayPanel& panel);
     void RenderHomeButton(ZayPanel& panel);
+    void RenderSelectBox(ZayPanel& panel, sint32 i, chars name);
+
+public:
+    virtual void OnModeChanged() = 0;
+    virtual void OnSelectSub(chars name) = 0;
+    virtual void InitSelectBox(sint32 index) = 0;
+    virtual void QuitSelectBox(sint32 index) = 0;
+    virtual void ChangeSelectBox(sint32 index) = 0;
+    virtual void OnSelectBoxMoving(sint32 index, float addx, float addy) = 0;
+    virtual void OnSelectBoxMoved(sint32 index) = 0;
+    virtual void OnSelectBoxSizing(sint32 index, float addx, float addy) = 0;
+    virtual void OnSelectBoxSized(sint32 index) = 0;
+    virtual void OnSelectBoxClone(sint32 index) = 0;
 
 public:
     const sint32 InnerGap = 10;
     const sint32 ButtonSize = 80;
+    const sint32 ButtonSizeSmall = 50;
     const sint32 IconSize = 50;
 
 public:

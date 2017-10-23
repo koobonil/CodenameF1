@@ -27,6 +27,7 @@ namespace ZAY
 
     public:
         static id_spine_instance Create(id_spine spine, chars skin, MotionFinishedCB fcb = nullptr, UserEventCB ecb = nullptr);
+        static id_spine_instance Clone(id_spine_instance spine_instance);
         static void Release(id_spine_instance spine_instance);
         static void Update(id_spine_instance spine_instance, float delta_sec);
         static void SetSkin(id_spine_instance spine_instance, chars skin);
