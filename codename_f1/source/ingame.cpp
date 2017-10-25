@@ -10,9 +10,9 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
     if(type == CT_Tick)
     {
         // 시간진행
-        const uint64 CurTimeMSec = Platform::Utility::CurrentTimeMsec();
-        static uint64 OldTimeSec = CurTimeMSec / 1000;
-        const uint64 CurTimeSec = CurTimeMSec / 1000;
+        const uint64 CurTimeMsec = Platform::Utility::CurrentTimeMsec();
+        static uint64 OldTimeSec = CurTimeMsec / 1000;
+        const uint64 CurTimeSec = CurTimeMsec / 1000;
         sint32 CurTimeSecSpan = (sint32) (CurTimeSec - OldTimeSec);
         if(0 < CurTimeSecSpan)
         {
@@ -22,7 +22,7 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
         // 애니메이션 진행
         if(m->mWave == -1)
         {
-            float StaffProgress = (CurTimeMSec - m->mMainTitleStaffTime) / 1200.0f;
+            float StaffProgress = (CurTimeMsec - m->mMainTitleStaffTime) / 1200.0f;
             // 스태프 애니
             if(1 < StaffProgress)
                 for(sint32 i = 0; i < 3; ++i)
@@ -59,22 +59,32 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
 {
     if(m->mWave != -1)
     {
+        const sint32 ClampX = Math::Clamp(x, m->mInGameX, m->mInGameX + m->mInGameW);
+        const sint32 ClampY = Math::Clamp(y, m->mInGameY, m->mInGameY + m->mInGameH);
         if(type == GT_Pressed)
         {
-            if(m->mInGameX <= x && x < m->mInGameX + m->mInGameW &&
-                m->mInGameY <= y && y < m->mInGameY + m->mInGameH)
-            {
-                m->mTouchPos = Point(x, y);
-                m->SetTouchSizeR(m->mBreathSizeMinR);
-            }
+            m->mBreathing = true;
+            m->mBreathPos = Point(ClampX, ClampY);
+            m->mBreathMsec = Platform::Utility::CurrentTimeMsec();
+            m->mBreathPowerPermil = 0;
+            m->mBreathSizeRCurrently = m->mBreathSizeR;
+        }
+        else if(type == GT_InDragging || type == GT_OutDragging)
+        {
+            if(m->mBreathing)
+                m->mBreathPos = Point(ClampX, ClampY);
         }
         else if(type == GT_InReleased)
         {
-            if(0 < m->mTouchSizeR)
+            if(m->mBreathing)
             {
-                m->TouchAttack();
-                m->mTouchPos = Point(0, 0);
-                m->SetTouchSizeR(0);
+                m->mBreathing = false;
+                auto& NewBreath = m->mBreathes.AtAdding();
+                NewBreath.mAniTimeMsec = Platform::Utility::CurrentTimeMsec() + m->mDragonEntryTime;
+                NewBreath.mEndTimeMsec = NewBreath.mAniTimeMsec + m->mDragonBreathTime;
+                NewBreath.mPos = m->mBreathPos;
+                NewBreath.mSizeR = m->mBreathSizeRCurrently;
+                NewBreath.mDamage = m->GetCalcedBreathDamage();
             }
         }
     }
@@ -95,9 +105,13 @@ ingameData::ingameData()
     mWave = -1;
     mWaveTitle = "";
     mWaveSec = 0;
-    mTouchPos = Point(0, 0);
-    mTouchSizeR = 0;
-    mTouchDamage = 0;
+    mBreathReadySpine.InitSpineForSeek(&mSpines("meteo_ready"), "meteo_ready", false);
+    mBreathAttackSpine.InitSpineForSeek(&mSpines("meteo_attack"), "attack", false);
+    mBreathing = false;
+    mBreathPos = Point(0, 0);
+    mBreathMsec = 0;
+    mBreathPowerPermil = 0;
+    mBreathSizeRCurrently = 0;
 
     const String MapName = mWaveData("MapName").GetString();
     id_asset_read TextAsset = Asset::OpenForRead("table/" + MapName + ".json");
@@ -113,11 +127,7 @@ ingameData::ingameData()
     }
 
     // 타이틀화면
-    mMainTitleRenderer[0].Create("spine/ui_main_title/spine.json", "spine/ui_main_title/path.json");
-    mMainTitleRenderer[1].Create("spine/ui_main_title_jjs/spine.json", "spine/ui_main_title_jjs/path.json");
-    mMainTitleRenderer[2].Create("spine/ui_main_title_kbh/spine.json", "spine/ui_main_title_kbh/path.json");
-    mMainTitleRenderer[3].Create("spine/ui_main_title_kbi/spine.json", "spine/ui_main_title_kbi/path.json");
-    mMainTitleSpine.InitSpine(&mMainTitleRenderer[0], "loding", "idle",
+    mMainTitleSpine.InitSpine(&mSpines("ui_main_title"), "loding", "idle",
         [this](chars motionname)
         {
             if(!String::Compare("start", motionname))
@@ -132,11 +142,11 @@ ingameData::ingameData()
     mMainTitleStaffTarget[2] = Point(0.2f, 0.0f);
     // 스태프 캐릭터
     auto PtrStaff = mMonsters.AtDumpingAdded(3);
-    PtrStaff[0].InitSpine(&mMainTitleRenderer[1], "run");
+    PtrStaff[0].InitSpine(&mSpines("ui_main_title_jjs"), "run");
     PtrStaff[0].Init(&mMonsterTypes[0], 0, mMainTitleStaffBegin[0].x, mMainTitleStaffBegin[0].y);
-    PtrStaff[1].InitSpine(&mMainTitleRenderer[2], "run");
+    PtrStaff[1].InitSpine(&mSpines("ui_main_title_kbh"), "run");
     PtrStaff[1].Init(&mMonsterTypes[0], 0, mMainTitleStaffBegin[1].x, mMainTitleStaffBegin[1].y);
-    PtrStaff[2].InitSpine(&mMainTitleRenderer[3], "run");
+    PtrStaff[2].InitSpine(&mSpines("ui_main_title_kbi"), "run");
     PtrStaff[2].Init(&mMonsterTypes[0], 0, mMainTitleStaffBegin[2].x, mMainTitleStaffBegin[2].y);
 }
 
@@ -266,9 +276,17 @@ void ingameData::AnimationOnce(sint32 timespan)
     if(0 < mMonsters.Count() && mMonsters.Count() == DeadMonsterCount)
         ReadyForNextWave();
 
-    // 터치영역확장
-    if(mTouchSizeR != 0)
-        SetTouchSizeR(mTouchSizeR + (mTouchSizeR - mBreathSizeMinR + 1) * 0.1f);
+    // 브레스시전
+    const uint64 CurTimeMsec = Platform::Utility::CurrentTimeMsec();
+    for(sint32 i = mBreathes.Count() - 1; 0 <= i; --i)
+    {
+        auto& CurBreath = mBreathes[i];
+        if(CurBreath.mEndTimeMsec < CurTimeMsec)
+        {
+            BreathAttack(&CurBreath);
+            mBreathes.SubtractionSection(i);
+        }
+    }
 }
 
 void ingameData::ClearPath()
@@ -284,6 +302,8 @@ void ingameData::ClearPath()
 
 void ingameData::Render(ZayPanel& panel)
 {
+    const uint64 CurTimeMsec = Platform::Utility::CurrentTimeMsec();
+
     // 인게임
     ZAY_XYWH(panel, mInGameX, mInGameY, mInGameW, mInGameH)
         F1State::Render(mShowDebug, mWave == -1, panel, &mMonsters, mWaveSec);
@@ -295,22 +315,47 @@ void ingameData::Render(ZayPanel& panel)
         panel.text(String::Format("Wave%d(%dsec) : %s ", mWave + 1, mWaveSec, (chars) mWaveTitle),
             UIFA_RightTop, UIFE_Right);
 
-    // 터치영역
-    if(mTouchSizeR != 0)
+    // 브레스시전
+    for(sint32 i = mBreathes.Count() - 1; 0 <= i; --i)
     {
-        ZAY_RGBA(panel, 255, 255, 0, 64)
-        ZAY_XYRR(panel, mTouchPos.x, mTouchPos.y, mTouchSizeR, mTouchSizeR)
+        auto& CurBreath = mBreathes[i];
+        ZAY_XYRR(panel, CurBreath.mPos.x, CurBreath.mPos.y, CurBreath.mSizeR, CurBreath.mSizeR)
         {
-            panel.circle();
-            // 데미지스코어
-            ZAY_FONT(panel, 1.5, "Arial Black")
+            ZAY_RGBA(panel, 255, 0, 0, 64)
+                panel.circle();
+            if(CurBreath.mAniTimeMsec < CurTimeMsec)
             {
-                const String Text = String::Format("%d", mTouchDamage);
-                ZAY_RGBA(panel, 0, 0, 0, -128)
-                    panel.text(panel.w() / 2 + 1, panel.h() / 2 + 1, Text, UIFA_CenterMiddle);
-                ZAY_RGB(panel, 255, 64, 0)
-                    panel.text(panel.w() / 2, panel.h() / 2, Text, UIFA_CenterMiddle);
+                mBreathAttackSpine.SetSeekSec((CurTimeMsec - CurBreath.mAniTimeMsec) * 0.001f);
+                RenderObject(mShowDebug, panel, mBreathAttackSpine, mInGameX, mInGameY, mInGameW, mInGameH, false);
             }
+        }
+    }
+
+    // 브레스영역
+    if(mBreathing)
+    ZAY_XYRR(panel, mBreathPos.x, mBreathPos.y, mBreathSizeR, mBreathSizeR)
+    {
+        mBreathReadySpine.SetSeekSec((CurTimeMsec - mBreathMsec) * 0.001f);
+        RenderObject(mShowDebug, panel, mBreathReadySpine, mInGameX, mInGameY, mInGameW, mInGameH, false);
+
+        // 데미지영역 계산
+        const float AreaWidth = mBreathReadySpine.GetBoundRect("area").Width();
+        const float RedWidth = mBreathReadySpine.GetBoundRect("background_red_area").Width();
+        mBreathSizeRCurrently = Math::Max(mBreathSizeR, mBreathSizeR * RedWidth / AreaWidth);
+
+        // 데미지파워 계산
+        const float MinWidth = mBreathReadySpine.GetBoundRect("background_min_area").Width();
+        const float MaxWidth = mBreathReadySpine.GetBoundRect("background_max_area").Width();
+        mBreathPowerPermil = Math::Clamp(1000 * (RedWidth - MinWidth) / (MaxWidth - MinWidth), 0, 1000);
+
+        // 데미지스코어
+        ZAY_FONT(panel, 1.5, "Arial Black")
+        {
+            const String Text = String::Format("%d(%d‰)", GetCalcedBreathDamage(), mBreathPowerPermil);
+            ZAY_RGBA(panel, 0, 0, 0, -128)
+                panel.text(panel.w() / 2 + 1, panel.h() / 2 + 1, Text, UIFA_CenterMiddle);
+            ZAY_RGB(panel, 255, 64, 0)
+                panel.text(panel.w() / 2, panel.h() / 2, Text, UIFA_CenterMiddle);
         }
     }
 
@@ -422,22 +467,12 @@ void ingameData::ReadyForNextWave()
     else mWaveTitle = "Stage Over";
 }
 
-void ingameData::SetTouchSizeR(float size)
+sint32 ingameData::GetCalcedBreathDamage()
 {
-    if(size != 0)
-    {
-        mTouchSizeR = Math::ClampF(size, mBreathSizeMinR, mBreathSizeMaxR);
-        mTouchDamage = mBreathMinDamage + (mBreathMaxDamage - mBreathMinDamage)
-            * (mTouchSizeR - mBreathSizeMinR) / (mBreathSizeMaxR - mBreathSizeMinR);
-    }
-    else
-    {
-        mTouchSizeR = 0;
-        mTouchDamage = 0;
-    }
+    return mBreathMinDamage + (mBreathMaxDamage - mBreathMinDamage) * mBreathPowerPermil / 1000;
 }
 
-void ingameData::TouchAttack()
+void ingameData::BreathAttack(const MapBreath* breath)
 {
     // 몬스터피해
     for(sint32 i = 0, iend = mMonsters.Count(); i < iend; ++i)
@@ -446,9 +481,9 @@ void ingameData::TouchAttack()
             continue;
         const float x = mInGameX + mInGameW * (mMonsters[i].mPos.x + 0.5f);
         const float y = mInGameY + mInGameH * (mMonsters[i].mPos.y + 0.5f);
-        if(Math::Distance(x, y, mTouchPos.x, mTouchPos.y) < mMonsterSizeR + mTouchSizeR)
+        if(Math::Distance(x, y, breath->mPos.x, breath->mPos.y) < mMonsterSizeR + breath->mSizeR)
         {
-            mMonsters.At(i).mHP = Math::Max(0, mMonsters[i].mHP - mTouchDamage);
+            mMonsters.At(i).mHP = Math::Max(0, mMonsters[i].mHP - breath->mDamage);
             if(mMonsters[i].mHP == 0) // 방금 죽어서 데스애니 시작
             {
                 mMonsters.At(i).Kill();
@@ -458,15 +493,15 @@ void ingameData::TouchAttack()
         }
     }
 
-    // 트리피해
+    // 트리피해(유저의 조작실수)
     for(sint32 i = 0, iend = mTargets.Count(); i < iend; ++i)
     {
         if(mTargets.At(i).mHP == 0) continue;
         const float x = mInGameX + mInGameW * (mTargets[i].mPos.x + 0.5f);
         const float y = mInGameY + mInGameH * (mTargets[i].mPos.y + 0.5f);
-        if(Math::Distance(x, y, mTouchPos.x, mTouchPos.y) < mTargets[i].mSizeR * mInGameW + mTouchSizeR)
+        if(Math::Distance(x, y, breath->mPos.x, breath->mPos.y) < mTargets[i].mSizeR * mInGameW + breath->mSizeR)
         {
-            mTargets.At(i).mHP = Math::Max(0, mTargets[i].mHP - mTouchDamage);
+            mTargets.At(i).mHP = Math::Max(0, mTargets[i].mHP - breath->mDamage);
             auto& CurObject = mLayers[mTargets[i].mLayerId].mObjects[mTargets[i].mObjectId];
             if(0 < mTargets[i].mHP)
                 CurObject.Hit();

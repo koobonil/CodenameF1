@@ -85,13 +85,24 @@ namespace ZAY
         animationState->setLastTime(0.0f);
     }
 
-    void AnimationStateSet::updateAnimation(float deltaTime, MotionFinishedCB cb, void* payload) //bx
+    void AnimationStateSet::seekAnimation(float sec) //bx
     {
         for (auto it : _animationStates)
         {
             if (it.second->getEnabled())
             {
-                it.second->update(deltaTime, cb, payload, it.first);
+                it.second->seek(sec, it.first);
+            }
+        }
+    }
+
+    void AnimationStateSet::updateAnimation(float deltaSec, MotionFinishedCB cb, void* payload) //bx
+    {
+        for (auto it : _animationStates)
+        {
+            if (it.second->getEnabled())
+            {
+                it.second->update(deltaSec, cb, payload, it.first);
             }
         }
     }

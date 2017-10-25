@@ -22,7 +22,8 @@ namespace ZAY
         void _createAnimationStatesFromAnimation(Animation* animation, const std::string& animationName);
         
     public:
-        void updateAnimation(float deltaTime, MotionFinishedCB cb, void* payload); //bx
+        void seekAnimation(float sec); //bx
+        void updateAnimation(float deltaSec, MotionFinishedCB cb, void* payload); //bx
 
     public:
         void clearNeedToSetInitState();

@@ -1,98 +1,160 @@
 ﻿[
 	{
-		"ID":"BreathMinScale",
-		"Value":50
-	},
-	{
-		"ID":"BreathMaxScale",
-		"Value":300
+		"ID":"BreathScale",
+		"Value":50,
+		"IsDev":"TRUE",
+		"Description":"범위 스케일 ",
+		"Unit":"배율, 천분율"
 	},
 	{
 		"ID":"BreathMinDamage",
-		"Value":5
+		"Value":5,
+		"IsDev":"TRUE",
+		"Description":"최소 대미지"
 	},
 	{
 		"ID":"BreathMaxDamage",
-		"Value":300
-	},
-	{
-		"ID":"BreathScalePerSecond",
-		"Value":400
-	},
-	{
-		"ID":"BreathScaleAcceleration",
-		"Value":20
+		"Value":500,
+		"IsDev":"TRUE",
+		"Description":"최대 대미지"
 	},
 	{
 		"ID":"MaxBreathUseValue",
-		"Value":300
-	},
-	{
-		"ID":"BreathMaxGaugeValue",
-		"Value":1000
-	},
-	{
-		"ID":"BreathGaugeRegenValue",
-		"Value":100
-	},
-	{
-		"ID":"BreathGaugeRegenTime",
-		"Value":1000
-	},
-	{
-		"ID":"EggHPbarDeleteTime",
-		"Value":3000
-	},
-	{
-		"ID":"EggHPRegenValue",
-		"Value":10
-	},
-	{
-		"ID":"EggHP",
-		"Value":1000
-	},
-	{
-		"ID":"MonsterScale",
-		"Value":50
-	},
-	{
-		"ID":"3StarHpRate",
-		"Value":900
-	},
-	{
-		"ID":"2StarHpRate",
-		"Value":500
-	},
-	{
-		"ID":"1StarHpRate",
-		"Value":300
-	},
-	{
-		"ID":"UILeft",
-		"Value":"ScreenWidth * 0.1"
-	},
-	{
-		"ID":"UIRight",
-		"Value":"ScreenWidth * 0.1"
-	},
-	{
-		"ID":"UITop",
-		"Value":"ScreenHeight * 0.1"
-	},
-	{
-		"ID":"UIBottom",
-		"Value":"ScreenHeight * 0.1"
-	},
-	{
-		"ID":"ToolGrid",
-		"Value":20
+		"Value":300,
+		"IsDev":"FALSE",
+		"Description":"최대 브레스일 경우 게이지 사용량"
 	},
 	{
 		"ID":"KnockBackMinDistance",
-		"Value":5
+		"Value":5,
+		"IsDev":"FALSE",
+		"Description":"최소 넉백 거리"
 	},
 	{
 		"ID":"KnockBackMaxDistance",
-		"Value":50
+		"Value":50,
+		"IsDev":"FALSE",
+		"Description":"최대 넉백 거리"
+	},
+	{
+		"ID":"BreathMaxGaugeValue",
+		"Value":1000,
+		"IsDev":"FALSE",
+		"Description":"최대 게이지량"
+	},
+	{
+		"ID":"BreathStartGaugeValue",
+		"Value":500,
+		"IsDev":"FALSE",
+		"Description":"스테이지 시작 시점의 기본 게이지량"
+	},
+	{
+		"ID":"BreathGaugeRegenValue",
+		"Value":100,
+		"IsDev":"FALSE",
+		"Description":"기본 재생량"
+	},
+	{
+		"ID":"BreathGaugeRegenTime",
+		"Value":1000,
+		"IsDev":"FALSE",
+		"Description":"게이지 재생시간 ",
+		"Unit":"1000=1초"
+	},
+	{
+		"ID":"EggHPbarDeleteTime",
+		"Value":3000,
+		"IsDev":"TRUE",
+		"Description":"HP바 삭제시간",
+		"Unit":"1000=1초"
+	},
+	{
+		"ID":"EggHPRegenValue",
+		"Value":10,
+		"IsDev":"TRUE",
+		"Description":"HP 초당 재생량"
+	},
+	{
+		"ID":"EggHP",
+		"Value":1000,
+		"IsDev":"TRUE",
+		"Description":"HP량"
+	},
+	{
+		"ID":"MonsterScale",
+		"Value":50,
+		"IsDev":"TRUE",
+		"Description":"몬스터 스케일 ",
+		"Unit":"가로 최대 1000 기준"
+	},
+	{
+		"ID":"3StarHpRate",
+		"Value":900,
+		"IsDev":"FALSE",
+		"Description":"별 3개 조건"
+	},
+	{
+		"ID":"2StarHpRate",
+		"Value":500,
+		"IsDev":"FALSE",
+		"Description":"별 2개 조건"
+	},
+	{
+		"ID":"1StarHpRate",
+		"Value":300,
+		"IsDev":"FALSE",
+		"Description":"별 1개 조건"
+	},
+	{
+		"ID":"UILeft",
+		"Value":"ScreenWidth * 0.1",
+		"IsDev":"TRUE",
+		"Description":"왼쪽 UI여백"
+	},
+	{
+		"ID":"UIRight",
+		"Value":"ScreenWidth * 0.1",
+		"IsDev":"TRUE",
+		"Description":"오른쪽 UI여백"
+	},
+	{
+		"ID":"UITop",
+		"Value":"ScreenHeight * 0.1",
+		"IsDev":"TRUE",
+		"Description":"위 UI여백"
+	},
+	{
+		"ID":"UIBottom",
+		"Value":"ScreenHeight * 0.1",
+		"IsDev":"TRUE",
+		"Description":"아래 UI여백"
+	},
+	{
+		"ID":"ToolGrid",
+		"Value":20,
+		"IsDev":"TRUE",
+		"Description":"맵툴에 그리드 크기",
+		"Unit":"가로 최대 1000 기준"
+	},
+	{
+		"ID":"DragonEntryTime",
+		"Value":1500,
+		"IsDev":"FALSE",
+		"Description":"등장 시간 (출발 지점에서 브레스 발동 지점까지 도착하는 시간) ",
+		"Unit":"1000=1초"
+	},
+	{
+		"ID":"DragonBreathTime",
+		"Value":1000,
+		"IsDev":"FALSE",
+		"Description":"드래곤이 브레스를 발사하고 지면에서 폭발시키는데 걸리는 연출 시간",
+		"Unit":"1000=1초"
+	},
+	{
+		"ID":"DragonExitTime",
+		"Value":2000,
+		"IsDev":"FALSE",
+		"Description":"퇴장 시간 (브레스 발동 지점에서 퇴장 지점까지 도착하는 시간) ",
+		"Unit":"1000=1초"
 	}
 ]

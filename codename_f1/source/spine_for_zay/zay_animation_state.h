@@ -53,6 +53,7 @@ namespace ZAY
         float _animationLength;
 
     public:
-        void update(float deltaTime, MotionFinishedCB cb, void* payload, std::string name); //bx
+        void seek(float sec, std::string name); //bx
+        void update(float deltaSec, MotionFinishedCB cb, void* payload, std::string name); //bx
     };
 }

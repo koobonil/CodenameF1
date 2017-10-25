@@ -38,13 +38,6 @@ void SpineRenderer::Release()
     mSpine = nullptr;
 }
 
-Rect SpineRenderer::Update(ZAY::id_spine_instance instance, float delta_sec) const
-{
-    if(!instance) return Rect(0, 0, 0, 0);
-    ZAY::SpineBuilder::Update(instance, delta_sec);
-    return ZAY::SpineBuilder::GetBoundRect(instance, "area");
-}
-
 void SpineRenderer::Render(ZAY::id_spine_instance instance, ZayPanel& panel, sint32 sx, sint32 sy, sint32 sw, sint32 sh, sint32 h, float scale, bool flip) const
 {
     if(!instance) return;
@@ -71,6 +64,9 @@ MapSpine::MapSpine()
     mSpineRenderer = nullptr;
     mSpineInstance = nullptr;
     mSpineMsecOld = 0;
+    mSeekMode = false;
+    mSeekSec = 0;
+    mSeekSecOld = -1;
     mStaffIdleMode = false;
     mStaffStartMode = false;
 }
@@ -94,6 +90,9 @@ MapSpine& MapSpine::operator=(const MapSpine& rhs)
     if(rhs.mSpineInstance)
         mSpineInstance = ZAY::SpineBuilder::Clone(rhs.mSpineInstance);
     mSpineMsecOld = rhs.mSpineMsecOld;
+    mSeekMode = rhs.mSeekMode;
+    mSeekSec = rhs.mSeekSec;
+    mSeekSecOld = rhs.mSeekSecOld;
     mStaffIdleMode = rhs.mStaffIdleMode;
     mStaffStartMode = rhs.mStaffStartMode;
     return *this;
@@ -110,6 +109,9 @@ MapSpine& MapSpine::operator=(MapSpine&& rhs)
     mSpineInstance = rhs.mSpineInstance;
     rhs.mSpineInstance = nullptr;
     mSpineMsecOld = rhs.mSpineMsecOld;
+    mSeekMode = rhs.mSeekMode;
+    mSeekSec = rhs.mSeekSec;
+    mSeekSecOld = rhs.mSeekSecOld;
     mStaffIdleMode = rhs.mStaffIdleMode;
     mStaffStartMode = rhs.mStaffStartMode;
     return *this;
@@ -127,13 +129,52 @@ void MapSpine::InitSpine(const SpineRenderer* renderer, chars first_motion, char
     }
 }
 
-float MapSpine::CalcDeltaSec() const
+void MapSpine::InitSpineForSeek(const SpineRenderer* renderer, chars motion, bool repeat)
 {
-    const uint64 SpineMsecOld = mSpineMsecOld;
-    const uint64 SpineMsecNew = Platform::Utility::CurrentTimeMsec();
-    mSpineMsecOld = SpineMsecNew;
-    if(SpineMsecOld == 0) return 0;
-    return (SpineMsecNew - SpineMsecOld) * 0.001f;
+    if(mSpineRenderer = renderer)
+    {
+        mSpineInstance = ZAY::SpineBuilder::Create(mSpineRenderer->spine(), "default", nullptr, nullptr);
+        ZAY::SpineBuilder::SetMotionOn(mSpineInstance, motion, repeat);
+        mSeekMode = true;
+    }
+}
+
+void MapSpine::Seek() const
+{
+    if(mSpineInstance)
+    {
+        mSeekSecOld = mSeekSec;
+        ZAY::SpineBuilder::Seek(mSpineInstance, mSeekSec);
+    }
+}
+
+void MapSpine::Update() const
+{
+    if(mSpineInstance)
+    {
+        const uint64 SpineMsecOld = mSpineMsecOld;
+        const uint64 SpineMsecNew = Platform::Utility::CurrentTimeMsec();
+        mSpineMsecOld = SpineMsecNew;
+        const float DeltaSec = (SpineMsecOld == 0)?
+            0 : (SpineMsecNew - SpineMsecOld) * 0.001f;
+        ZAY::SpineBuilder::Update(mSpineInstance, DeltaSec);
+    }
+}
+
+Rect MapSpine::GetBoundRect(chars name) const
+{
+    if(!mSpineInstance) return Rect(0, 0, 0, 0);
+    return ZAY::SpineBuilder::GetBoundRect(mSpineInstance, name);
+}
+
+void MapSpine::SetSeekSec(float sec)
+{
+    mSeekSec = sec;
+}
+
+bool MapSpine::IsSeekUpdated() const
+{
+    return (mSeekSec != mSeekSecOld);
 }
 
 void MapSpine::Staff_TryIdle()
@@ -405,8 +446,8 @@ F1State::F1State()
     mUIBottom.Execute();
 
     mViewRate = 5000.0f / 6000.0f;
-    mBreathMinScale = Parser::GetInt(GlobalWeightMap("BreathMinScale")) / 1000.0f;
-    mBreathMaxScale = Parser::GetInt(GlobalWeightMap("BreathMaxScale")) / 1000.0f;
+
+    mBreathScale = Parser::GetInt(GlobalWeightMap("BreathScale")) / 1000.0f;
     mBreathMinDamage = Parser::GetInt(GlobalWeightMap("BreathMinDamage"));
     mBreathMaxDamage = Parser::GetInt(GlobalWeightMap("BreathMaxDamage"));
     mEggHPbarDeleteTime = Parser::GetInt(GlobalWeightMap("EggHPbarDeleteTime")); // HP가 다시 투명이되는데 걸리는 시간
@@ -416,8 +457,10 @@ F1State::F1State()
     m2StarHpRate = Parser::GetInt(GlobalWeightMap("2StarHpRate"));
     m3StarHpRate = Parser::GetInt(GlobalWeightMap("3StarHpRate"));
     mMonsterScale = Parser::GetInt(GlobalWeightMap("MonsterScale")) / 1000.0f;
-    if((mToolGrid = Parser::GetInt(GlobalWeightMap("ToolGrid"))) == 0)
-        mToolGrid = 50;
+    mToolGrid = Parser::GetInt(GlobalWeightMap("ToolGrid"));
+    mDragonEntryTime = Parser::GetInt(GlobalWeightMap("DragonEntryTime"));
+    mDragonBreathTime = Parser::GetInt(GlobalWeightMap("DragonBreathTime"));
+    mDragonExitTime = Parser::GetInt(GlobalWeightMap("DragonExitTime"));
 
     auto ObjectTable = Context(ST_Json, SO_NeedCopy, String::FromFile("table/object_table.json"));
     if(ObjectTable.IsValid())
@@ -480,9 +523,8 @@ F1State::F1State()
     mInGameH = 0;
     mInGameX = 0;
     mInGameY = 0;
+    mBreathSizeR = 0;
     mMonsterSizeR = 0;
-    mBreathSizeMinR = 0;
-    mBreathSizeMaxR = 0;
 
     mBGName = "";
     mLayers.AtDumpingAdded(mLayerLength);
@@ -537,7 +579,9 @@ void F1State::LoadMap(chars json)
             if(NewObject.mType->mType == ObjectType::TypeClass::Target)
             {
                 auto& NewTarget = mTargets.AtAdding();
-                NewTarget.Init(LayerID, NewObjectId, mEggHP, NewObject.mRect.CenterX(), NewObject.mRect.CenterY(), NewObject.mRect.Width());
+                NewTarget.Init(LayerID, NewObjectId, mEggHP,
+                    NewObject.mRect.CenterX(), NewObject.mRect.CenterY(),
+                    Math::Sqrt(Math::Pow(NewObject.mRect.Width()) * 2) / 2);
             }
         }
         for(sint32 plg = 0, plg_end = CurJsonLayer("Polygons").LengthOfIndexable(); plg < plg_end; ++plg)
@@ -658,9 +702,8 @@ void F1State::SetSize(sint32 width, sint32 height)
     mInGameH = (sint32) (ViewHeight * ((CurRate < mViewRate)? CurRate / mViewRate : 1));
     mInGameX = ViewL + (ViewWidth - mInGameW) / 2;
     mInGameY = ViewT + (ViewHeight - mInGameH) / 2;
+    mBreathSizeR = mInGameW * mBreathScale / 2;
     mMonsterSizeR = mInGameW * mMonsterScale / 2;
-    mBreathSizeMinR = mInGameW * mBreathMinScale / 2;
-    mBreathSizeMaxR = mInGameW * mBreathMaxScale / 2;
 }
 
 void F1State::RenderImage(bool editmode, ZayPanel& panel, const Image& image)
@@ -684,7 +727,14 @@ void F1State::RenderImage(bool editmode, ZayPanel& panel, const Image& image)
 void F1State::RenderObject(bool editmode, ZayPanel& panel, const MapSpine& spine, sint32 sx, sint32 sy, sint32 sw, sint32 sh, bool flip,
     chars uiname, ZayPanel::SubGestureCB cb)
 {
-    const Rect AreaRect = spine.renderer()->Update(spine.mSpineInstance, spine.CalcDeltaSec());
+    if(spine.mSeekMode)
+    {
+        if(spine.IsSeekUpdated())
+            spine.Seek();
+    }
+    else spine.Update();
+
+    const Rect AreaRect = spine.GetBoundRect("area");
     const float Width = Math::MaxF(0.001, AreaRect.Width());
     const float Height = Math::MaxF(0.001, AreaRect.Height());
     const float Rate = Math::MinF(panel.w() / Width, panel.h() / Height);
@@ -904,6 +954,14 @@ void F1State::Render(bool editmode, bool titlemode, ZayPanel& panel, const MapMo
     const sint32 DstHeight = (sint32) (BGImage.GetImageHeight() * YRate);
     panel.stretch(BGImage, true);
 
+    // 배경의 아웃라인(전)
+    const Rect OutlineRect(Math::Max(0, DstX) - SX, Math::Max(0, DstY) - SY,
+        Math::Min(DstX + DstWidth, mScreenW) - SX, Math::Min(DstY + DstHeight, mScreenH) - SY);
+    const sint32 OutlineHeightHalf = OutlineRect.Height() / 2;
+    ZAY_LTRB_SCISSOR(panel, OutlineRect.l, OutlineRect.t, OutlineRect.r, OutlineRect.t + OutlineHeightHalf)
+    ZAY_LTRB(panel, 0, 0, OutlineRect.Width(), OutlineRect.Height())
+        panel.stretch(R("black_aera"), true);
+
     // 레이어
     ZAY_FONT(panel, 1.1, "Arial Black")
     for(sint32 i = 0; i < mLayerLength; ++i)
@@ -930,11 +988,10 @@ void F1State::Render(bool editmode, bool titlemode, ZayPanel& panel, const MapMo
         }
     }
 
-    // 배경의 아웃라인
-    if(0 < DstX || 0 < DstY || DstX + DstWidth < mScreenW || DstY + DstHeight < mScreenH)
-        ZAY_LTRB(panel, Math::Max(0, DstX) - SX, Math::Max(0, DstY) - SY,
-            Math::Min(DstX + DstWidth, mScreenW) - SX, Math::Min(DstY + DstHeight, mScreenH) - SY)
-            panel.stretch(R("black_aera"), true);
+    // 배경의 아웃라인(후)
+    ZAY_LTRB_SCISSOR(panel, OutlineRect.l, OutlineRect.t + OutlineHeightHalf, OutlineRect.r, OutlineRect.b)
+    ZAY_LTRB(panel, 0, -OutlineHeightHalf, OutlineRect.Width(), OutlineRect.Height() - OutlineHeightHalf)
+        panel.stretch(R("black_aera"), true);
 
     // 길찾기 정보
     if(editmode)

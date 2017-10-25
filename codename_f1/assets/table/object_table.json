@@ -1,6 +1,6 @@
 ﻿[
 	{
-		"ID":"Wall",
+		"ID":"NonHitWall",
 		"Type":"Static",
 		"HP":1000,
 		"SKillIndex":1500,
@@ -14,6 +14,34 @@
 		"Asset":"egg"
 	},
 	{
+		"ID":"Spot",
+		"Type":"Ground",
+		"HP":1000,
+		"SKillIndex":1500,
+		"Asset":"spot_forest"
+	},
+	{
+		"ID":"MobHitWall",
+		"Type":"Dynamic",
+		"HP":1000,
+		"SKillIndex":1500
+	},
+	{
+		"ID":"Tree",
+		"Type":"Static",
+		"Asset":"tree_forest"
+	},
+	{
+		"ID":"Bush",
+		"Type":"Static",
+		"Asset":"bush_forest"
+	},
+	{
+		"ID":"Flower",
+		"Type":"Static",
+		"Asset":"flower_forest"
+	},
+	{
 		"ID":"Mud",
 		"Type":"Ground",
 		"HP":1000,
@@ -22,19 +50,6 @@
 	{
 		"ID":"Water",
 		"Type":"Ground",
-		"HP":1000,
-		"SKillIndex":1500
-	},
-	{
-		"ID":"Spot",
-		"Type":"Ground",
-		"HP":1000,
-		"SKillIndex":1500,
-		"Asset":"spot_forest"
-	},
-	{
-		"ID":"MonsterHitWall",
-		"Type":"Dynamic",
 		"HP":1000,
 		"SKillIndex":1500
 	}

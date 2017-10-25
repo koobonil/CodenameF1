@@ -280,6 +280,19 @@ namespace ZAY
             return Result;
         }
 
+        void SeekMotion(float sec)
+        {
+            SpineInstance::Current() = this;
+            Boxes.Clear();
+
+            StateSet->seekAnimation(sec);
+            Instance->applyInitialAnimationPose(true, false);
+            Instance->applyAnimationStateSet(StateSet, true, false);
+            StateSet->clearNeedToSetInitState();
+
+            SpineInstance::Current() = nullptr;
+        }
+
         void UpdateMotion(float deltaSec)
         {
             SpineInstance::Current() = this;
@@ -524,6 +537,12 @@ namespace ZAY
     void SpineBuilder::Release(id_spine_instance spine_instance)
     {
         delete (SpineInstance*) spine_instance;
+    }
+
+    void SpineBuilder::Seek(id_spine_instance spine_instance, float sec)
+    {
+        SpineInstance* CurInstance = (SpineInstance*) spine_instance;
+        CurInstance->SeekMotion(sec);
     }
 
     void SpineBuilder::Update(id_spine_instance spine_instance, float delta_sec)

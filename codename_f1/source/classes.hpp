@@ -223,7 +223,6 @@ public:
 public:
     void Create(chars spinepath, chars imagepath);
     void Release();
-    Rect Update(ZAY::id_spine_instance instance, float delta_sec) const;
     void Render(ZAY::id_spine_instance instance, ZayPanel& panel, sint32 sx, sint32 sy, sint32 sw, sint32 sh, sint32 h, float scale, bool flip) const;
     void RenderBound(ZAY::id_spine_instance instance, ZayPanel& panel, bool guideline, float ox, float oy, float scale, bool flip,
         chars uiname, ZayPanel::SubGestureCB cb) const;
@@ -249,7 +248,14 @@ public:
 public:
     void InitSpine(const SpineRenderer* renderer, chars first_motion, chars second_motion = nullptr,
         ZAY::SpineBuilder::MotionFinishedCB fcb = nullptr, ZAY::SpineBuilder::UserEventCB ecb = nullptr);
-    float CalcDeltaSec() const;
+    void InitSpineForSeek(const SpineRenderer* renderer, chars motion, bool repeat);
+    void Seek() const;
+    void Update() const;
+    Rect GetBoundRect(chars name) const;
+
+public:
+    void SetSeekSec(float sec);
+    bool IsSeekUpdated() const;
     void Staff_TryIdle();
     void Staff_Start();
 
@@ -260,6 +266,9 @@ public:
     const SpineRenderer* mSpineRenderer;
     ZAY::id_spine_instance mSpineInstance;
     mutable uint64 mSpineMsecOld;
+    bool mSeekMode;
+    float mSeekSec;
+    mutable float mSeekSecOld;
     bool mStaffIdleMode;
     bool mStaffStartMode;
 };
@@ -396,8 +405,7 @@ public: // 기획요소
     Solver mUIRight;
     Solver mUIBottom;
     float mViewRate; // 뷰비율 = 가로길이 / 세로길이
-    float mBreathMinScale;
-    float mBreathMaxScale;
+    float mBreathScale;
     sint32 mBreathMinDamage;
     sint32 mBreathMaxDamage;
     sint32 mEggHPbarDeleteTime; // 투명해지는데 걸리는 시간
@@ -408,6 +416,9 @@ public: // 기획요소
     sint32 m3StarHpRate;
     float mMonsterScale;
     sint32 mToolGrid;
+    sint32 mDragonEntryTime;
+    sint32 mDragonBreathTime;
+    sint32 mDragonExitTime;
     ObjectTypes mObjectTypes;
     PolygonTypes mPolygonTypes;
     MonsterTypes mMonsterTypes;
@@ -420,9 +431,8 @@ public: // UI요소
     sint32 mInGameH;
     sint32 mInGameX;
     sint32 mInGameY;
+    sint32 mBreathSizeR;
     sint32 mMonsterSizeR;
-    sint32 mBreathSizeMinR;
-    sint32 mBreathSizeMaxR;
     const sint32 mTimelineLength = 60;
     const sint32 mLayerLength = 6;
 

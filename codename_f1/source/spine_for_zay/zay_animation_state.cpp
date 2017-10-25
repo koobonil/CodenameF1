@@ -97,11 +97,38 @@ namespace ZAY
         return _animationLength;
     }
 
-    void AnimationState::update(float deltaTime, MotionFinishedCB cb, void* payload, std::string name) //bx
+    void AnimationState::seek(float sec, std::string name) //bx
     {
         if (0 < _animationLength)
         {
-            const float DeltaTimeBySpeed = deltaTime * _animationSpeed;
+            _lastTime = _currentTime;
+
+            if (_animationLoop == 1)
+            {
+                _currentTime = sec;
+                bool HasTimeClip = false;
+                while (_animationLength < _currentTime)
+                {
+                    _currentTime -= _animationLength;
+                    HasTimeClip = true;
+                }
+                if(HasTimeClip)
+                    _needToSetInitState = true;
+            }
+            else _currentTime = (sec < _animationLength)? sec : _animationLength;
+        }
+        else
+        {
+            _currentTime = 0.0f;
+            _lastTime = 0;
+        }
+    }
+
+    void AnimationState::update(float deltaSec, MotionFinishedCB cb, void* payload, std::string name) //bx
+    {
+        if (0 < _animationLength)
+        {
+            const float DeltaTimeBySpeed = deltaSec * _animationSpeed;
             _lastTime = _currentTime;
 
             if (_animationLoop == 1)
@@ -135,7 +162,7 @@ namespace ZAY
         else
         {
             _currentTime = 0.0f;
-            _lastTime = -deltaTime;
+            _lastTime = -deltaSec;
         }
     }
 }

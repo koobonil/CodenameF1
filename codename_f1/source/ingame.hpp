@@ -2,6 +2,26 @@
 #include <service/boss_zay.hpp>
 #include "classes.hpp"
 
+class MapBreath
+{
+public:
+    MapBreath()
+    {
+        mAniTimeMsec = 0;
+        mEndTimeMsec = 0;
+        mSizeR = 0;
+        mDamage = 0;
+    }
+    ~MapBreath() {}
+public:
+    uint64 mAniTimeMsec;
+    uint64 mEndTimeMsec;
+    Point mPos;
+    sint32 mSizeR;
+    sint32 mDamage;
+};
+typedef Array<MapBreath, datatype_pod_canmemcpy> MapBreathes;
+
 class ingameData : public ZayObject, public F1State
 {
 public:
@@ -13,8 +33,8 @@ public:
     void ClearPath();
     void Render(ZayPanel& panel);
     void ReadyForNextWave();
-    void SetTouchSizeR(float size);
-    void TouchAttack();
+    sint32 GetCalcedBreathDamage();
+    void BreathAttack(const MapBreath* breath);
 
 public: // 게임상태
     bool mShowDebug;
@@ -23,10 +43,18 @@ public: // 게임상태
     String mWaveTitle;
     sint32 mWaveSec;
     MapMonsters mMonsters;
-    Point mTouchPos;
-    float mTouchSizeR;
-    sint32 mTouchDamage;
-    SpineRenderer mMainTitleRenderer[4];
+
+    // Breath
+    MapBreathes mBreathes;
+    MapSpine mBreathReadySpine;
+    MapSpine mBreathAttackSpine;
+    bool mBreathing;
+    Point mBreathPos;
+    uint64 mBreathMsec;
+    sint32 mBreathPowerPermil;
+    sint32 mBreathSizeRCurrently;
+
+    // MainTitle
     MapSpine mMainTitleSpine;
     uint64 mMainTitleStaffTime;
     Point mMainTitleStaffBegin[3];
