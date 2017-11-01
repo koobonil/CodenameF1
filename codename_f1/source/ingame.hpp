@@ -51,12 +51,19 @@ public: // 게임상태
     bool mBreathing;
     Point mBreathPos;
     uint64 mBreathMsec;
-    sint32 mBreathPowerPermil;
+    sint32 mBreathGaugeTimeUsingCurrently;
     sint32 mBreathSizeRCurrently;
+    sint32 mBreathPowerPermil;
 
     // MainTitle
     MapSpine mMainTitleSpine;
     uint64 mMainTitleStaffTime;
     Point mMainTitleStaffBegin[3];
     Point mMainTitleStaffTarget[3];
+
+    // UI
+    MapSpine mGaugeHUD;
+    MapSpine mSlotHUD;
+    sint32 mBreathGaugeTime;
+    float mBreathGaugeTimeLog;
 };

@@ -78,7 +78,7 @@ namespace ZAY
     {
         createAnimationState(animationName);
         auto animationState = getAnimationState(animationName);
-        animationState->setLoop(1);
+        animationState->setLoopAndSeek(1, false);
         animationState->setAnimationLength(std::max(animationState->getAnimationLength(), animation->getAnimationLength()));
         animationState->setAnimationSpeed(1.0f);
         animationState->setCurrentTime(0.0f);
@@ -89,7 +89,7 @@ namespace ZAY
     {
         for (auto it : _animationStates)
         {
-            if (it.second->getEnabled())
+            if (it.second->getEnabled() && it.second->getSeek())
             {
                 it.second->seek(sec, it.first);
             }
@@ -100,7 +100,7 @@ namespace ZAY
     {
         for (auto it : _animationStates)
         {
-            if (it.second->getEnabled())
+            if (it.second->getEnabled() && !it.second->getSeek())
             {
                 it.second->update(deltaSec, cb, payload, it.first);
             }

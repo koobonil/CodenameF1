@@ -2,55 +2,162 @@
 	{
 		"ID":"NonHitWall",
 		"Type":"Static",
-		"HP":1000,
-		"SKillIndex":1500,
-		"Asset":"wall_forest_a"
-	},
-	{
-		"ID":"Egg",
-		"Type":"Target",
-		"HP":1000,
-		"SKillIndex":1500,
-		"Asset":"egg"
-	},
-	{
-		"ID":"Spot",
-		"Type":"Ground",
-		"HP":1000,
-		"SKillIndex":1500,
-		"Asset":"spot_forest"
+		"HP":"None",
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":"None",
+		"Asset":"wall_forest_a",
+		"IsTool":"True"
 	},
 	{
 		"ID":"MobHitWall",
 		"Type":"Dynamic",
 		"HP":1000,
-		"SKillIndex":1500
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":"None",
+		"Asset":"wall_forest_b",
+		"IsTool":"True"
+	},
+	{
+		"ID":"Egg",
+		"Type":"Target",
+		"HP":1000,
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":"None",
+		"Asset":"egg",
+		"IsTool":"True"
+	},
+	{
+		"ID":"Spot",
+		"Type":"Ground",
+		"HP":"None",
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":"None",
+		"Asset":"spot_forest",
+		"IsTool":"True"
+	},
+	{
+		"ID":"Hole",
+		"Type":"Hole",
+		"HP":"None",
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":"None",
+		"Asset":"hole_forest",
+		"IsTool":"True"
 	},
 	{
 		"ID":"Tree",
 		"Type":"Static",
-		"Asset":"tree_forest"
+		"HP":"None",
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":"None",
+		"Asset":"tree_forest_a",
+		"IsTool":"True"
 	},
 	{
-		"ID":"Bush",
-		"Type":"Static",
-		"Asset":"bush_forest"
+		"ID":"Stone",
+		"Type":"Ground",
+		"HP":"None",
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":"None",
+		"Asset":"stone_forest_a",
+		"IsTool":"True"
 	},
 	{
 		"ID":"Flower",
-		"Type":"Static",
-		"Asset":"flower_forest"
-	},
-	{
-		"ID":"Mud",
 		"Type":"Ground",
-		"HP":1000,
-		"SKillIndex":1500
+		"HP":"None",
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":"None",
+		"Asset":"flower_forest_a",
+		"IsTool":"True"
 	},
 	{
 		"ID":"Water",
 		"Type":"Ground",
+		"HP":"None",
+		"Duration":"None",
+		"SKillID":"Slow",
+		"DropID":"None",
+		"IsTool":"True"
+	},
+	{
+		"ID":"Mud",
+		"Type":"Ground",
+		"HP":"None",
+		"Duration":"None",
+		"SKillID":"Stop",
+		"DropID":"None",
+		"IsTool":"True"
+	},
+	{
+		"ID":"Fire",
+		"Type":"Ground",
+		"HP":"None",
+		"Duration":"None",
+		"SKillID":"DotDamage",
+		"DropID":"None",
+		"IsTool":"True"
+	},
+	{
+		"ID":"Box_Water",
+		"Type":"Dynamic",
 		"HP":1000,
-		"SKillIndex":1500
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":1,
+		"IsTool":"False"
+	},
+	{
+		"ID":"Box_Mud",
+		"Type":"Dynamic",
+		"HP":1000,
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":2,
+		"IsTool":"False"
+	},
+	{
+		"ID":"Box_Fire",
+		"Type":"Dynamic",
+		"HP":1000,
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":3,
+		"IsTool":"False"
+	},
+	{
+		"ID":"Spawn_Water",
+		"Type":"Ground",
+		"HP":"None",
+		"Duration":10000,
+		"SKillID":"Slow",
+		"DropID":"None",
+		"IsTool":"False"
+	},
+	{
+		"ID":"Spawn_Mud",
+		"Type":"Ground",
+		"HP":"None",
+		"Duration":10000,
+		"SKillID":"Stop",
+		"DropID":"None",
+		"IsTool":"False"
+	},
+	{
+		"ID":"Spawn_Fire",
+		"Type":"Ground",
+		"HP":"None",
+		"Duration":10000,
+		"SKillID":"DotDamage",
+		"DropID":"None",
+		"IsTool":"False"
 	}
 ]

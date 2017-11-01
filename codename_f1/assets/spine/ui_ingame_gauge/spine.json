@@ -1,0 +1,136 @@
+{
+"skeleton": { "hash": "YsfraozBeu2xeFNbiFJWJX4VXNE", "spine": "3.6.46", "width": 2567.18, "height": 907.9, "images": "./ingame_ui/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 58.97, "rotation": 90, "x": -0.35, "y": -93.59 },
+	{ "name": "bone3", "parent": "root", "length": 93.8, "rotation": 90, "x": 2.05, "y": 166.68 },
+	{ "name": "background_b", "parent": "bone3", "length": 101.83, "rotation": 90, "x": -22.93, "y": -34.04 },
+	{ "name": "gauge_back", "parent": "bone3", "length": 79.22, "rotation": 90, "x": -179.22, "y": 962.81 },
+	{ "name": "gauge", "parent": "gauge_back", "length": 45.9, "rotation": 360, "x": 4.17, "y": -29.18, "scaleX": 1.257 },
+	{ "name": "gauge_back2", "parent": "gauge_back", "length": 20.03, "x": -770.26, "y": -10.45, "scaleX": 0.01 },
+	{ "name": "gauge_dragon", "parent": "gauge_back", "length": 58.7, "x": 5.31, "y": -56.25, "color": "ff0000ff" }
+],
+"slots": [
+	{ "name": "background_b", "bone": "background_b", "attachment": "background_b" },
+	{ "name": "gauge_back", "bone": "gauge_back", "attachment": "gauge_back" },
+	{ "name": "gauge", "bone": "gauge", "attachment": "gauge" },
+	{ "name": "gauge_front", "bone": "gauge_back2", "attachment": "gauge_front" },
+	{ "name": "gauge_dragon", "bone": "gauge_dragon", "attachment": "gauge_dragon" },
+	{ "name": "area", "bone": "area", "attachment": "area" }
+],
+"skins": {
+	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 222.77, 1047.05, 220.74, 178.85, -25.41, 180.88, -23.37, 1049.08 ]
+			}
+		},
+		"background_b": {
+			"background_b": { "x": 43.63, "y": 313.3, "scaleX": 3.209, "scaleY": 4.274, "rotation": 180, "width": 800, "height": 177 }
+		},
+		"gauge": {
+			"gauge": { "x": -306.84, "y": 16.05, "scaleX": 0.796, "rotation": 180, "width": 768, "height": 214 }
+		},
+		"gauge_back": {
+			"gauge_back": { "x": -381.71, "y": -13.12, "rotation": 180, "width": 803, "height": 250 }
+		},
+		"gauge_dragon": {
+			"gauge_dragon": { "x": -113.67, "y": -3.86, "rotation": 180, "width": 597, "height": 625 }
+		},
+		"gauge_front": {
+			"gauge_front": { "x": 389.5, "rotation": 180, "width": 803, "height": 250 }
+		}
+	}
+},
+"animations": {
+	"charge": {
+		"bones": {
+			"gauge_back2": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 5, "x": 103.926, "y": 1 }
+				]
+			}
+		}
+	},
+	"loading": {
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0.7333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0.7333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0.7333, "x": 1, "y": 1 }
+				]
+			},
+			"bone3": {
+				"rotate": [
+					{ "time": 0.7333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0.7333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0.7333, "x": 1, "y": 1 }
+				]
+			},
+			"gauge_back": {
+				"rotate": [
+					{ "time": 0.7333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": -966.49, "y": 0 },
+					{ "time": 0.7333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0.7333, "x": 1, "y": 1 }
+				]
+			},
+			"gauge": {
+				"rotate": [
+					{ "time": 0.7333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0.7333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0.7333, "x": 1, "y": 1 }
+				]
+			},
+			"gauge_dragon": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.3333, "x": 0, "y": -527.46 },
+					{ "time": 0.7333, "x": 0, "y": -0.28 }
+				]
+			},
+			"background_b": {
+				"rotate": [
+					{ "time": 0.3, "angle": 0, "curve": "stepped" },
+					{ "time": 0.7333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": -966.49, "y": 0 },
+					{ "time": 0.3, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.7333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0.3, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.7333, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

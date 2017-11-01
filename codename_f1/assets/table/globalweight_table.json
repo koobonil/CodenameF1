@@ -19,12 +19,6 @@
 		"Description":"최대 대미지"
 	},
 	{
-		"ID":"MaxBreathUseValue",
-		"Value":300,
-		"IsDev":"FALSE",
-		"Description":"최대 브레스일 경우 게이지 사용량"
-	},
-	{
 		"ID":"KnockBackMinDistance",
 		"Value":5,
 		"IsDev":"FALSE",
@@ -37,10 +31,18 @@
 		"Description":"최대 넉백 거리"
 	},
 	{
-		"ID":"BreathMaxGaugeValue",
-		"Value":1000,
+		"ID":"BreathMaxGauge",
+		"Value":9000,
 		"IsDev":"FALSE",
-		"Description":"최대 게이지량"
+		"Description":"최대 게이지량 (브레스 총 사용 시간을 기준으로 입력)",
+		"Unit":"1000=1초"
+	},
+	{
+		"ID":"BreathGaugeChargingPerSec",
+		"Value":200,
+		"IsDev":"FALSE",
+		"Description":"초 당 게이지 회복량 (천분율)",
+		"Unit":"1000=1초"
 	},
 	{
 		"ID":"BreathStartGaugeValue",
@@ -49,20 +51,7 @@
 		"Description":"스테이지 시작 시점의 기본 게이지량"
 	},
 	{
-		"ID":"BreathGaugeRegenValue",
-		"Value":100,
-		"IsDev":"FALSE",
-		"Description":"기본 재생량"
-	},
-	{
-		"ID":"BreathGaugeRegenTime",
-		"Value":1000,
-		"IsDev":"FALSE",
-		"Description":"게이지 재생시간 ",
-		"Unit":"1000=1초"
-	},
-	{
-		"ID":"EggHPbarDeleteTime",
+		"ID":"HPbarDeleteTime",
 		"Value":3000,
 		"IsDev":"TRUE",
 		"Description":"HP바 삭제시간",
@@ -73,12 +62,6 @@
 		"Value":10,
 		"IsDev":"TRUE",
 		"Description":"HP 초당 재생량"
-	},
-	{
-		"ID":"EggHP",
-		"Value":1000,
-		"IsDev":"TRUE",
-		"Description":"HP량"
 	},
 	{
 		"ID":"MonsterScale",
@@ -156,5 +139,11 @@
 		"IsDev":"FALSE",
 		"Description":"퇴장 시간 (브레스 발동 지점에서 퇴장 지점까지 도착하는 시간) ",
 		"Unit":"1000=1초"
+	},
+	{
+		"ID":"ItemSlotStack",
+		"Value":9,
+		"IsDev":"FALSE",
+		"Description":"한 슬롯에 등록될 수 있는 아이템의 최대 개수"
 	}
 ]

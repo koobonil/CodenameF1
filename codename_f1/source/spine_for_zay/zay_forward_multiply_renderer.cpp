@@ -69,12 +69,12 @@ namespace ZAY
             return _blendType;
         }
 
-        ArrayBuffer<ZAY_V3F_C4B_T2F>& TrianglesMeshRenderCommand::getVerticesBuffer()
+        ArrayBuffer<ZAY_Vertice>& TrianglesMeshRenderCommand::getVerticesBuffer()
         {
             return _verticesBuffer;
         }
 
-        const ArrayBuffer<ZAY_V3F_C4B_T2F>& TrianglesMeshRenderCommand::getVerticesBuffer() const
+        const ArrayBuffer<ZAY_Vertice>& TrianglesMeshRenderCommand::getVerticesBuffer() const
         {
             return _verticesBuffer;
         }
@@ -143,7 +143,7 @@ namespace ZAY
             return _texture;
         }
 
-        ArrayBuffer<ZAY_V3F_C4B_T2F>& MultiplyMapRenderCommand::getVerticesBuffer()
+        ArrayBuffer<ZAY_Vertice>& MultiplyMapRenderCommand::getVerticesBuffer()
         {
             return _verticesBuffer;
         }
@@ -194,17 +194,20 @@ namespace ZAY
             _finalPassLocationColorTexture = 0;
             _finalPassLocationMVPMatrix = 0;
             _finalPassVAO = 0;
-            
-            
-            
-            
-            
+
+            //bx
+            _finalPassRenderModeLocation = 0;
+            _finalPassRenderMode = 1.0;
+
             _currentTexture = nullptr;
             _currentBlendType = BlendType::COUNT;
             //_currentMultiplyMapMultiplier = 0.0f;
 
+            //bx
+            _forcedBlendType = BlendType::COUNT;
+
             _verticesCapacity =  16 * 1024;
-            _vertices = new ZAY_V3F_C4B_T2F[_verticesCapacity];
+            _vertices = new ZAY_Vertice[_verticesCapacity];
             _verticesCount = 0;
 
             _indicesCapacity = 16 * 1024;
@@ -466,6 +469,10 @@ namespace ZAY
             //_finalPassLocationMultiplyMapMultiplier = 0;
             _finalPassLocationColorTexture = 0;
             _finalPassLocationMVPMatrix = 0;
+
+            //bx
+            _finalPassRenderModeLocation = 0;
+            _finalPassRenderMode = 1.0;
         }
         
         Texture2D* ForwardMultiplyRenderer::getWhiteTexture() const
@@ -504,6 +511,23 @@ namespace ZAY
             return _originalFBO;
         }
 
+        //bx
+        void ForwardMultiplyRenderer::_setRenderMode(const float mode)
+        {
+            if (_finalPassRenderMode != mode)
+            {
+                _finalPassRenderMode = mode;
+                if (_finalPassProgram != 0)
+                {
+                    BOSS_GL(UseProgram, _finalPassProgram);
+                    testGL();
+                
+                    BOSS_GL(Uniform1f, _finalPassRenderModeLocation, _finalPassRenderMode);
+                    testGL();
+                }
+            }
+        }
+
         void ForwardMultiplyRenderer::checkAndRemakeShaders()
         {
 #ifdef  USE_BUFFER_OBJECT
@@ -512,7 +536,7 @@ namespace ZAY
             {
                 glGenBuffers(1, &_vbo);
                 glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-                glBufferData(GL_ARRAY_BUFFER, _verticesCapacity * sizeof(ZAY_V3F_C4B_T2F), NULL, GL_DYNAMIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, _verticesCapacity * sizeof(ZAY_Vertice), NULL, GL_DYNAMIC_DRAW);
             }
             else
             {
@@ -538,20 +562,40 @@ namespace ZAY
                 _finalPassVertexShader = BOSS_GL(CreateShader, GL_VERTEX_SHADER);
                 testGL();
                 
-                static const char* s_vshFinalPassVertexShaderSourceCode =
+                const char* s_vshFinalPassVertexShaderSourceCode =
+                    "#ifdef GL_ES\n"
+                    "    precision mediump float;\n"
+                    "    precision mediump int;\n"
+                    "#endif\n"
+                    "uniform float u_renderMode;\n"
                     "uniform mat4 u_mvpMat;\n"
-                    "attribute vec2 a_position;\n"
+                    "attribute vec4 a_position;\n"
                     "attribute vec2 a_texCoord;\n"
                     "attribute vec4 a_color;\n"
-                    "\n"
                     "varying vec2 v_texCoord;\n"
                     "varying vec4 v_fragmentColor;\n"
                     "\n"
                     "void main()\n"
                     "{\n"
-                    "    gl_Position = u_mvpMat * vec4(a_position.x, a_position.y, 0.0, 1.0);\n"
                     "    v_texCoord = a_texCoord;\n"
-                    "    v_fragmentColor = a_color;\n"
+                    "    if(u_renderMode == 0.0)\n" // 일반모드
+                    "    {\n"
+                    "        v_fragmentColor = a_color;\n"
+                    "        gl_Position = u_mvpMat * vec4(a_position.x, a_position.y, 0.0, 1.0);\n"
+                    "    }\n"
+                    "    else if(u_renderMode < 1.0)\n" // 그림자모드
+                    "    {\n"
+                    "        v_fragmentColor = vec4(0.0, 0.0, 0.0, 1.0);\n"
+                    "        gl_Position = u_mvpMat * vec4(a_position.x + a_position.y * (u_renderMode - 0.5), a_position.y * -0.5, 0.0, 1.0);\n"
+                    "    }\n"
+                    "    else\n" // 외곽선모드
+                    "    {\n"
+                    "        v_fragmentColor = vec4(0.0, 0.0, 0.0, 1.0);\n"
+                    "        vec2 n = normalize(a_position.zw);\n"
+                    "        vec4 n_pos = u_mvpMat * vec4(n.x, n.y, 0.0, 1.0);\n"
+                    "        vec4 a_pos = u_mvpMat * vec4(a_position.x, a_position.y, 0.0, 1.0);\n"
+                    "        gl_Position = vec4(a_pos.x + n_pos.x * 20.0, a_pos.y + n_pos.y * 20.0, a_pos.z, a_pos.w);\n"
+                    "    }\n"
                     "}\n";
 
                 BOSS_GL(ShaderSource, _finalPassVertexShader,
@@ -572,20 +616,18 @@ namespace ZAY
                 _finalPassFragmentShader = BOSS_GL(CreateShader, GL_FRAGMENT_SHADER);
                 testGL();
                 
-                static const char* s_vshFinalPassFragmentShaderSourceCode =
+                const char* s_vshFinalPassFragmentShaderSourceCode =
                     "#ifdef GL_ES\n"
                     "    precision mediump float;\n"
                     "    precision mediump int;\n"
                     "#endif\n"
-                    "\n"
                     "uniform sampler2D u_colorTexture;\n"
-                    "\n"
                     "varying vec2 v_texCoord;\n"
                     "varying vec4 v_fragmentColor;\n"
                     "\n"
                     "void main()\n"
                     "{\n"
-                    "    gl_FragColor = texture2D(u_colorTexture, v_texCoord) * v_fragmentColor;\n"
+                    "    gl_FragColor = v_fragmentColor * texture2D(u_colorTexture, v_texCoord);\n"
                     "}\n";
 
                 BOSS_GL(ShaderSource, _finalPassFragmentShader,
@@ -629,6 +671,11 @@ namespace ZAY
                 
                 BOSS_GL(EnableVertexAttribArray, VertexAttrib::TexCoord);
                 testGL();
+
+                #if ZAY_USE_NORMAL_FOR_VERTICE
+                BOSS_GL(EnableVertexAttribArray, VertexAttrib::Normal); //bx
+                testGL();
+                #endif
                 
                 BOSS_GL(BindAttribLocation, _finalPassProgram, VertexAttrib::Position, "a_position");
                 testGL();
@@ -638,15 +685,25 @@ namespace ZAY
                 
                 BOSS_GL(BindAttribLocation, _finalPassProgram, VertexAttrib::TexCoord, "a_texCoord");
                 testGL();
+
+                #if ZAY_USE_NORMAL_FOR_VERTICE
+                BOSS_GL(BindAttribLocation, _finalPassProgram, VertexAttrib::Normal, "a_normal"); //bx
+                testGL();
+                #endif
                 
-                BOSS_GL(VertexAttribPointer, VertexAttrib::Position, 2, GL_FLOAT, GL_FALSE, sizeof(ZAY_V3F_C4B_T2F), &_vertices[0].vertices[0]);
+                BOSS_GL(VertexAttribPointer, VertexAttrib::Position, 4, GL_FLOAT, GL_FALSE, sizeof(ZAY_Vertice), &_vertices[0].vertices[0]); //bx
                 testGL();
                 
-                BOSS_GL(VertexAttribPointer, VertexAttrib::Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ZAY_V3F_C4B_T2F), &_vertices[0].colors);
+                BOSS_GL(VertexAttribPointer, VertexAttrib::Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ZAY_Vertice), &_vertices[0].colors); //bx
                 testGL();
                 
-                BOSS_GL(VertexAttribPointer, VertexAttrib::TexCoord, 2, GL_FLOAT, GL_FALSE, sizeof(ZAY_V3F_C4B_T2F), &_vertices[0].texCoords[0]);
+                BOSS_GL(VertexAttribPointer, VertexAttrib::TexCoord, 2, GL_FLOAT, GL_FALSE, sizeof(ZAY_Vertice), &_vertices[0].texCoords[0]); //bx
                 testGL();
+
+                #if ZAY_USE_NORMAL_FOR_VERTICE
+                BOSS_GL(VertexAttribPointer, VertexAttrib::Normal, 2, GL_FLOAT, GL_FALSE, sizeof(ZAY_Vertice), &_vertices[0].normals[0]); //bx
+                testGL();
+                #endif
                 
                 
                 
@@ -687,10 +744,18 @@ namespace ZAY
                 
                 BOSS_GL(UniformMatrix4fv, _finalPassLocationMVPMatrix, 1, GL_FALSE, (const GLfloat*)getMVPMatrix()._getRaws());
                 testGL();
+
+                //bx
+                _finalPassRenderModeLocation = BOSS_GL(GetUniformLocation, _finalPassProgram, "u_renderMode");
+                testGL();
+
+                //bx
+                BOSS_GL(Uniform1f, _finalPassRenderModeLocation, _finalPassRenderMode);
+                testGL();
             }
         }
 
-        void ForwardMultiplyRenderer::render()
+        void ForwardMultiplyRenderer::render(bool shadow)
         {
             if (_renderPriorities[static_cast<int>(RenderType::TrianglesMesh)].left.size() > 0)
             {
@@ -767,13 +832,10 @@ namespace ZAY
                 //testGL();
                 //glClear(GL_COLOR_BUFFER_BIT);
                 //testGL();
-                
 
                 BOSS_GL(UseProgram, _finalPassProgram);
                 testGL();
-                
-                
-                
+
 #ifdef  USE_BUFFER_OBJECT
                 glBindVertexArray(_finalPassVAO);
                 testGL();
@@ -798,29 +860,42 @@ namespace ZAY
                 BOSS_GL(EnableVertexAttribArray, VertexAttrib::TexCoord);
                 testGL();
 
+                #if ZAY_USE_NORMAL_FOR_VERTICE
+                BOSS_GL(EnableVertexAttribArray, VertexAttrib::Normal); //bx
+                testGL();
+                #endif
+
                 
                 
 #ifdef  USE_BUFFER_OBJECT
-                BOSS_GL(VertexAttribPointer, VertexAttrib::Position, 2, GL_FLOAT, GL_FALSE, sizeof(ZAY_V3F_C4B_T2F), (const GLvoid*)(((char*)&_vertices[0].vertices[0]) - ((char*)_vertices)));
+                BOSS_GL(VertexAttribPointer, VertexAttrib::Position, 4, GL_FLOAT, GL_FALSE, sizeof(ZAY_Vertice), (const GLvoid*)(((char*)&_vertices[0].vertices[0]) - ((char*)_vertices)));
                 testGL();
                 
-                BOSS_GL(VertexAttribPointer, VertexAttrib::Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ZAY_V3F_C4B_T2F), (const GLvoid*)(((char*)&_vertices[0].colors) - ((char*)_vertices)));
+                BOSS_GL(VertexAttribPointer, VertexAttrib::Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ZAY_Vertice), (const GLvoid*)(((char*)&_vertices[0].colors) - ((char*)_vertices)));
                 testGL();
                 
-                BOSS_GL(VertexAttribPointer, VertexAttrib::TexCoord, 2, GL_FLOAT, GL_FALSE, sizeof(ZAY_V3F_C4B_T2F), (const GLvoid*)(((char*)&_vertices[0].texCoords[0]) - ((char*)_vertices)));
+                BOSS_GL(VertexAttribPointer, VertexAttrib::TexCoord, 2, GL_FLOAT, GL_FALSE, sizeof(ZAY_Vertice), (const GLvoid*)(((char*)&_vertices[0].texCoords[0]) - ((char*)_vertices)));
                 testGL();
-#else //USE_BUFFER_OBJECT
-                BOSS_GL(VertexAttribPointer, VertexAttrib::Position, 2, GL_FLOAT, GL_FALSE, sizeof(ZAY_V3F_C4B_T2F), &_vertices[0].vertices[0]);
-                testGL();
-                
-                BOSS_GL(VertexAttribPointer, VertexAttrib::Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ZAY_V3F_C4B_T2F), &_vertices[0].colors);
-                testGL();
-                
-                BOSS_GL(VertexAttribPointer, VertexAttrib::TexCoord, 2, GL_FLOAT, GL_FALSE, sizeof(ZAY_V3F_C4B_T2F), &_vertices[0].texCoords[0]);
-                testGL();
-#endif//USE_BUFFER_OBJECT
 
+                #if ZAY_USE_NORMAL_FOR_VERTICE
+                BOSS_GL(VertexAttribPointer, VertexAttrib::Normal, 2, GL_FLOAT, GL_FALSE, sizeof(ZAY_Vertice), (const GLvoid*)(((char*)&_vertices[0].normals[0]) - ((char*)_vertices)));
+                testGL();
+                #endif
+#else //USE_BUFFER_OBJECT
+                BOSS_GL(VertexAttribPointer, VertexAttrib::Position, 4, GL_FLOAT, GL_FALSE, sizeof(ZAY_Vertice), &_vertices[0].vertices[0]); //bx
+                testGL();
                 
+                BOSS_GL(VertexAttribPointer, VertexAttrib::Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ZAY_Vertice), &_vertices[0].colors); //bx
+                testGL();
+                
+                BOSS_GL(VertexAttribPointer, VertexAttrib::TexCoord, 2, GL_FLOAT, GL_FALSE, sizeof(ZAY_Vertice), &_vertices[0].texCoords[0]); //bx
+                testGL();
+
+                #if ZAY_USE_NORMAL_FOR_VERTICE
+                BOSS_GL(VertexAttribPointer, VertexAttrib::Normal, 2, GL_FLOAT, GL_FALSE, sizeof(ZAY_Vertice), &_vertices[0].normals[0]); //bx
+                testGL();
+                #endif
+#endif//USE_BUFFER_OBJECT
                 
                 glEnable(GL_BLEND);
                 testGL();
@@ -835,7 +910,12 @@ namespace ZAY
                 
                 glBindTexture(GL_TEXTURE_2D, _multiplyMapRenderTexture);
                 testGL();
-*/
+                */
+
+                //bx
+                if(shadow) _forcedBlendType = BlendType::Multiply;
+                else _forcedBlendType = BlendType::COUNT;
+
                 _trianglesMeshRenderStart();
                 
                 for (auto it : _renderPriorities[static_cast<int>(RenderType::TrianglesMesh)].left)
@@ -932,7 +1012,7 @@ namespace ZAY
             }
         }
 
-        void ForwardMultiplyRenderer::_addMultiplyMapVerticesAndIndices(ZAY_V3F_C4B_T2F* vertices,
+        void ForwardMultiplyRenderer::_addMultiplyMapVerticesAndIndices(ZAY_Vertice* vertices,
                                                                         int32_t verticesCount,
                                                                         GLushort* indices,
                                                                         int32_t indicesCount)
@@ -946,7 +1026,7 @@ namespace ZAY
             if ((_verticesCount + verticesCount) <= _verticesCapacity &&
                 (_indicesCount + indicesCount) <= _indicesCapacity)
             {
-                memcpy(_vertices+_verticesCount, vertices, sizeof(ZAY_V3F_C4B_T2F) * verticesCount);
+                memcpy(_vertices+_verticesCount, vertices, sizeof(ZAY_Vertice) * verticesCount);
                 
                 auto dstIndices = _indices + _indicesCount;
                 auto srcIndices = indices;
@@ -979,7 +1059,7 @@ namespace ZAY
                 Texture2D* texture = renderCommand->getTexture();
 
                 _setTrianglesMeshTexture(texture);
-                _setTrianglesMeshBlendType(renderCommand->getBlendType());
+                _setTrianglesMeshBlendType((_forcedBlendType != BlendType::COUNT)? _forcedBlendType : renderCommand->getBlendType()); //bx
                 _setTrianglesMeshMultiplyMapMultiplier(renderCommand->getMultiplyMapMultiplier());
                 _addTrianglesMeshVerticesAndIndices(renderCommand->getVerticesBuffer().getBufferPointer(),
                                                     renderCommand->getVerticesBuffer().getBufferSize(),
@@ -1002,7 +1082,7 @@ namespace ZAY
                 glBindTexture(GL_TEXTURE_2D, _currentTexture->getTextureID());
                 testGL();
 
-                glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(ZAY_V3F_C4B_T2F) * _verticesCount, _vertices);
+                glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(ZAY_Vertice) * _verticesCount, _vertices);
                 testGL();
                 
                 glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(GLushort) * _indicesCount, _indices);
@@ -1096,7 +1176,7 @@ namespace ZAY
         {
         }
 
-        void ForwardMultiplyRenderer::_addTrianglesMeshVerticesAndIndices(ZAY_V3F_C4B_T2F* vertices,
+        void ForwardMultiplyRenderer::_addTrianglesMeshVerticesAndIndices(ZAY_Vertice* vertices,
                                                                           int32_t verticesCount,
                                                                           GLushort* indices,
                                                                           int32_t indicesCount)
@@ -1110,8 +1190,24 @@ namespace ZAY
             if ((_verticesCount + verticesCount) <= _verticesCapacity &&
                 (_indicesCount + indicesCount) <= _indicesCapacity)
             {
-                memcpy(_vertices+_verticesCount, vertices, sizeof(ZAY_V3F_C4B_T2F) * verticesCount);
-                
+                memcpy(_vertices+_verticesCount, vertices, sizeof(ZAY_Vertice) * verticesCount);
+
+                //bx
+                for(int i = 0; i < verticesCount; ++i)
+                {
+                    ZAY_Vertice& CurVertice = _vertices[_verticesCount + i];
+                    const ZAY_Vertice& PrevVertice = _vertices[_verticesCount + (i + verticesCount - 1) % verticesCount];
+                    const float prev_ox = PrevVertice.vertices[0] - CurVertice.vertices[0];
+                    const float prev_oy = PrevVertice.vertices[1] - CurVertice.vertices[1];
+                    const float prev_dist = BOSS::Math::Sqrt(prev_ox * prev_ox + prev_oy * prev_oy);
+                    const ZAY_Vertice& NextVertice = _vertices[_verticesCount + (i + 1) % verticesCount];
+                    const float next_ox = NextVertice.vertices[0] - CurVertice.vertices[0];
+                    const float next_oy = NextVertice.vertices[1] - CurVertice.vertices[1];
+                    const float next_dist = BOSS::Math::Sqrt(next_ox * next_ox + next_oy * next_oy);
+                    CurVertice.vertices[2] = (prev_ox / prev_dist + next_ox / next_dist) / -3;
+                    CurVertice.normal = (prev_oy / prev_dist + next_oy / next_dist) / -3;
+                }
+
                 auto dstIndices = _indices + _indicesCount;
                 auto srcIndices = indices;
                 for (auto i=0 ; i<indicesCount ; i++)

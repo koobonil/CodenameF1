@@ -154,16 +154,13 @@ namespace ZAY
             for(auto it : StateSet->getAnimationStates())
             {
                 it.second->setEnabled(false);
-                it.second->setLoop(0);
+                it.second->setLoopAndSeek(0, false);
             }
-
-            StateSet->updateAnimation(0, nullptr, nullptr);
-            Instance->applyInitialAnimationPose(true, false);
-            Instance->applyAnimationStateSet(StateSet, true, false);
-            StateSet->clearNeedToSetInitState();
 
             FinishedCB = fcb;
             EventCB = ecb;
+
+            BoxFocus = nullptr;
         }
 
         ~SpineInstance()
@@ -181,14 +178,16 @@ namespace ZAY
 
         void SetBoundBox(chars name, int r, int g, int b, int a)
         {
-            BoundBox& NewBoundBox = Boxes.AtAdding();
+            BoundBox& NewBoundBox = BoxMap(name);
             NewBoundBox.Name = name;
             NewBoundBox.Clr = Color(r, g, b, a);
+            BoxFocus = &NewBoundBox;
         }
 
-        void AddBoundBox(float x, float y)
+        void MergeBoundBox(float x, float y)
         {
-            BoundBox& CurBoundBox = Boxes.At(-1);
+            BOSS_ASSERT("BoxFocus정보가 없습니다", BoxFocus);
+            BoundBox& CurBoundBox = *BoxFocus;
             const Point& NewPos = Point(x, -y);
             CurBoundBox.Pos.AtAdding() = NewPos;
 
@@ -214,6 +213,20 @@ namespace ZAY
         }
 
     public:
+        void InitBoundBox()
+        {
+            SpineInstance::Current() = this;
+            Node->_updateWorldTransformDescending();
+            Node->_updateWorldColorDescending();
+            Node->_preRender();
+
+            StateSet->updateAnimation(0, nullptr, nullptr);
+            Instance->applyInitialAnimationPose(true, false);
+            Instance->applyAnimationStateSet(StateSet, true, false);
+            StateSet->clearNeedToSetInitState();
+            SpineInstance::Current() = nullptr;
+        }
+
         void SetSkin(chars skin)
         {
             LastSkin = skin;
@@ -239,7 +252,17 @@ namespace ZAY
             if(auto motion = StateSet->getAnimationState(name))
             {
                 motion->setEnabled(true);
-                motion->setLoop(loop);
+                motion->setLoopAndSeek(loop, false);
+                motion->setCurrentTime(beginpos);
+            }
+        }
+
+        void SetMotionOnSeek(chars name, float beginpos, int loop)
+        {
+            if(auto motion = StateSet->getAnimationState(name))
+            {
+                motion->setEnabled(true);
+                motion->setLoopAndSeek(loop, true);
                 motion->setCurrentTime(beginpos);
             }
         }
@@ -254,7 +277,7 @@ namespace ZAY
             if(auto motion = StateSet->getAnimationState(name))
             {
                 motion->setEnabled(false);
-                motion->setLoop(0);
+                motion->setLoopAndSeek(0, false);
             }
         }
 
@@ -263,10 +286,20 @@ namespace ZAY
             for(auto it : StateSet->getAnimationStates())
             {
                 it.second->setEnabled(false);
-                it.second->setLoop(0);
+                it.second->setLoopAndSeek(0, false);
             }
             if(with_reserve)
                 ReservedMotionMap.Reset();
+        }
+
+        bool IsMotionEnabled()
+        {
+            for(auto it : StateSet->getAnimationStates())
+            {
+                if(it.second->getEnabled())
+                    return true;
+            }
+            return false;
         }
 
         Strings GetActiveMotions()
@@ -280,23 +313,15 @@ namespace ZAY
             return Result;
         }
 
-        void SeekMotion(float sec)
+        void Seek(float sec)
         {
-            SpineInstance::Current() = this;
-            Boxes.Clear();
-
             StateSet->seekAnimation(sec);
-            Instance->applyInitialAnimationPose(true, false);
-            Instance->applyAnimationStateSet(StateSet, true, false);
-            StateSet->clearNeedToSetInitState();
-
-            SpineInstance::Current() = nullptr;
         }
 
         void UpdateMotion(float deltaSec)
         {
             SpineInstance::Current() = this;
-            Boxes.Clear();
+            BoxMap.Reset();
 
             StateSet->updateAnimation(deltaSec,
                 [](void* payload, const char* motion, int loop) -> void
@@ -340,7 +365,7 @@ namespace ZAY
             SpineInstance::Current() = nullptr;
         }
 
-        void Render(sint32 sx, sint32 sy, sint32 sw, sint32 sh, float cx, float cy, bool flip, float scale)
+        void Render(uint32 fbo, sint32 sx, sint32 sy, sint32 sw, sint32 sh, float cx, float cy, bool flip, float scale, float rendermode)
         {
             // Scissor
             const bool enable_scissor = false;
@@ -374,14 +399,19 @@ namespace ZAY
                 (l + r) / (l - r), (t + b) / (b - t), (zNear + zFar) / (zNear - zFar), 1.0f);
             Renderer->setMVPMatrix(projectionMatrix);
 
+            // RenderMode
+            Renderer->setRenderMode(rendermode);
+
             // Render Pipeline
             Node->_updateWorldTransformDescending();
             Node->_updateWorldColorDescending();
             Node->_preRender();
-            Renderer->setOriginalFBO(_OriginalFBO);
+            Renderer->setOriginalFBO(fbo);
             Renderer->checkAndRemakeShaders();
             Renderer->update();
-            Renderer->render();
+            if(rendermode == 0.0) // 일반모드
+                Renderer->render(false);
+            else Renderer->render(true); // 그림자모드, 외곽선모드
             Node->_postRender();
 
             // Viewport And Scissor
@@ -396,17 +426,27 @@ namespace ZAY
         void RenderBound(ZayPanel& panel, float ox, float oy, float scale, bool flip, bool guideline, chars uiname = nullptr, ZayPanel::SubGestureCB cb = nullptr)
         {
             const float fv = (flip)? -1 : 1;
-            for(sint32 i = 0, iend = Boxes.Count(); i < iend; ++i)
+            for(sint32 i = 0, iend = BoxMap.Count(); i < iend; ++i)
             {
-                const BoundBox& CurBox = Boxes[i];
+                const BoundBox& CurBox = *BoxMap.AccessByOrder(i);
                 ZAY_COLOR_IF(panel, CurBox.Clr, guideline)
                 {
                     // UI영역
                     BOSS::Rect NewRect;
-                    NewRect.l = panel.w() / 2 + (CurBox.Box.l * fv - ox) * scale;
-                    NewRect.t = panel.h() / 2 + (CurBox.Box.t - oy) * scale;
-                    NewRect.r = panel.w() / 2 + (CurBox.Box.r * fv - ox) * scale;
-                    NewRect.b = panel.h() / 2 + (CurBox.Box.b - oy) * scale;
+                    if(flip)
+                    {
+                        NewRect.l = panel.w() / 2 + (-CurBox.Box.r - ox) * scale;
+                        NewRect.t = panel.h() / 2 + (CurBox.Box.t - oy) * scale;
+                        NewRect.r = panel.w() / 2 + (-CurBox.Box.l - ox) * scale;
+                        NewRect.b = panel.h() / 2 + (CurBox.Box.b - oy) * scale;
+                    }
+                    else
+                    {
+                        NewRect.l = panel.w() / 2 + (CurBox.Box.l - ox) * scale;
+                        NewRect.t = panel.h() / 2 + (CurBox.Box.t - oy) * scale;
+                        NewRect.r = panel.w() / 2 + (CurBox.Box.r - ox) * scale;
+                        NewRect.b = panel.h() / 2 + (CurBox.Box.b - oy) * scale;
+                    }
                     if(uiname)
                     {
                         ZAY_RECT_UI(panel, NewRect, uiname + CurBox.Name, cb)
@@ -435,7 +475,7 @@ namespace ZAY
                         Point* PtrPos = NewPos.AtDumpingAdded(CurBox.Pos.Count());
                         for(sint32 i = 0, iend = CurBox.Pos.Count(); i < iend; ++i)
                         {
-                            PtrPos[i].x = panel.w() / 2 + (CurBox.Pos[i].x * fv - ox) * scale;
+                            PtrPos[i].x = panel.w() / 2 + (((flip)? -CurBox.Pos[i].x : CurBox.Pos[i].x) - ox) * scale;
                             PtrPos[i].y = panel.h() / 2 + (CurBox.Pos[i].y - oy) * scale;
                         }
                         panel.polyline(NewPos, 1);
@@ -444,15 +484,15 @@ namespace ZAY
             }
         }
 
-        BOSS::Rect GetBoundRect(chars name)
+        const BOSS::Rect* GetBoundRect(chars name)
         {
-            for(sint32 i = 0, iend = Boxes.Count(); i < iend; ++i)
+            for(sint32 i = 0, iend = BoxMap.Count(); i < iend; ++i)
             {
-                const BoundBox& CurBox = Boxes[i];
+                const BoundBox& CurBox = *BoxMap.AccessByOrder(i);
                 if(!CurBox.Name.Compare(name))
-                    return CurBox.Box;
+                    return &CurBox.Box;
             }
-            return BOSS::Rect(0, 0, 0, 0);;
+            return nullptr;
         }
 
     private:
@@ -498,22 +538,23 @@ namespace ZAY
             Points Pos;
             Rect Box;
         };
-        Array<BoundBox> Boxes;
+        Map<BoundBox> BoxMap;
+        BoundBox* BoxFocus;
     };
 
-    void SetCurrentBoundBox(const char* name, int r, int g, int b, int a)
+    void SpineBuilder_SetBoundBox(const char* name, int r, int g, int b, int a)
     {
         SpineInstance* This = SpineInstance::Current();
         if(This) This->SetBoundBox(name, r, g, b, a);
     }
 
-    void AddCurrentBoundBox(float x, float y)
+    void SpineBuilder_MergeBoundBox(float x, float y)
     {
         SpineInstance* This = SpineInstance::Current();
-        if(This) This->AddBoundBox(x, y);
+        if(This) This->MergeBoundBox(x, y);
     }
 
-    void CallEvent(const char* name)
+    void SpineBuilder_CallEvent(const char* name)
     {
         SpineInstance* This = SpineInstance::Current();
         if(This) This->CallEvent(name);
@@ -522,6 +563,7 @@ namespace ZAY
     id_spine_instance SpineBuilder::Create(id_spine spine, chars skin, MotionFinishedCB fcb, UserEventCB ecb)
     {
         SpineInstance* NewInstance = new SpineInstance((ZAY::SkeletonData*) spine, fcb, ecb);
+        NewInstance->InitBoundBox();
         NewInstance->SetSkin(skin);
         return (id_spine_instance) NewInstance;
     }
@@ -530,6 +572,7 @@ namespace ZAY
     {
         SpineInstance* OldInstance = (SpineInstance*) spine_instance;
         SpineInstance* NewInstance = SpineInstance::Clone(OldInstance);
+        NewInstance->InitBoundBox();
         NewInstance->SetSkin(OldInstance->GetSkin());
         return (id_spine_instance) NewInstance;
     }
@@ -542,7 +585,7 @@ namespace ZAY
     void SpineBuilder::Seek(id_spine_instance spine_instance, float sec)
     {
         SpineInstance* CurInstance = (SpineInstance*) spine_instance;
-        CurInstance->SeekMotion(sec);
+        CurInstance->Seek(sec);
     }
 
     void SpineBuilder::Update(id_spine_instance spine_instance, float delta_sec)
@@ -587,6 +630,12 @@ namespace ZAY
         CurInstance->ReserveMotionOn(target_motion, motion, 0.0f, -1);
     }
 
+    void SpineBuilder::SetMotionOnSeek(id_spine_instance spine_instance, chars motion, bool repeat)
+    {
+        SpineInstance* CurInstance = (SpineInstance*) spine_instance;
+        CurInstance->SetMotionOnSeek(motion, 0.0f, repeat? 1 : 0);
+    }
+
     void SpineBuilder::SetMotionOff(id_spine_instance spine_instance, chars motion)
     {
         SpineInstance* CurInstance = (SpineInstance*) spine_instance;
@@ -599,14 +648,20 @@ namespace ZAY
         CurInstance->SetMotionOffAll(with_reserve);
     }
 
+    bool SpineBuilder::IsMotionEnabled(id_spine_instance spine_instance)
+    {
+        SpineInstance* CurInstance = (SpineInstance*) spine_instance;
+        return CurInstance->IsMotionEnabled();
+    }
+
     Strings SpineBuilder::GetActiveMotions(id_spine_instance spine_instance)
     {
         SpineInstance* CurInstance = (SpineInstance*) spine_instance;
         return CurInstance->GetActiveMotions();
     }
 
-    void SpineBuilder::Render(ZayPanel& panel, id_spine_instance spine_instance, bool flip, float cx, float cy, float scale,
-        sint32 sx, sint32 sy, sint32 sw, sint32 sh)
+    void SpineBuilder::Render(ZayPanel& panel, id_spine_instance spine_instance,
+        bool flip, float cx, float cy, float scale, float rendermode, sint32 sx, sint32 sy, sint32 sw, sint32 sh)
     {
         GLint OldArrayBuffer = 0;
         GLint OldElementArrayBuffer = 0;
@@ -631,7 +686,7 @@ namespace ZAY
         #endif
 
         SpineInstance* CurInstance = (SpineInstance*) spine_instance;
-        CurInstance->Render(sx * GLSCALE, sy * GLSCALE, sw * GLSCALE, sh * GLSCALE, cx, cy, flip, scale * GLSCALE);
+        CurInstance->Render(panel.fboid(), sx * GLSCALE, sy * GLSCALE, sw * GLSCALE, sh * GLSCALE, cx, cy, flip, scale * GLSCALE, rendermode);
 
         //bx:glPopMatrix();
         BOSS_GL(BindBuffer, GL_ARRAY_BUFFER, OldArrayBuffer);
@@ -652,7 +707,7 @@ namespace ZAY
         CurInstance->RenderBound(panel, ox, oy, scale, flip, guideline, uiname, cb);
     }
 
-    BOSS::Rect SpineBuilder::GetBoundRect(id_spine_instance spine_instance, chars name)
+    const BOSS::Rect* SpineBuilder::GetBoundRect(id_spine_instance spine_instance, chars name)
     {
         SpineInstance* CurInstance = (SpineInstance*) spine_instance;
         return CurInstance->GetBoundRect(name);

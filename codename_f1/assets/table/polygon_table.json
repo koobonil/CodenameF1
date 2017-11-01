@@ -5,26 +5,5 @@
 		"Color_R":255,
 		"Color_G":1,
 		"Color_B":1
-	},
-	{
-		"ID":"BreathHitWall",
-		"Type":"Wall",
-		"Color_R":154,
-		"Color_G":91,
-		"Color_B":8
-	},
-	{
-		"ID":"MonsterHitWall",
-		"Type":"Wall",
-		"Color_R":250,
-		"Color_G":191,
-		"Color_B":148
-	},
-	{
-		"ID":"Water",
-		"Type":"Water",
-		"Color_R":8,
-		"Color_G":22,
-		"Color_B":154
 	}
 ]

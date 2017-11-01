@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "d52h1VNgdaEYqWarbDddWE4Zmaw", "spine": "3.6.43", "width": 287.77, "height": 181, "images": "./red_slime/" },
+"skeleton": { "hash": "s9xdph04j5Vn5iV41tfuu1Z67Gg", "spine": "3.6.46", "width": 287.77, "height": 181, "images": "./red_slime/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 33.7, "rotation": 90, "x": -0.82, "y": 0.12 },
@@ -17,7 +17,8 @@
 	{ "name": "right_eye", "bone": "right_eye", "attachment": "right_eye" },
 	{ "name": "left_eye", "bone": "left_eye", "attachment": "left_eye" },
 	{ "name": "mouse", "bone": "mouse", "attachment": "mouse" },
-	{ "name": "area", "bone": "area", "attachment": "area" }
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "toast", "bone": "area", "attachment": "toast" }
 ],
 "skins": {
 	"default": {
@@ -45,6 +46,13 @@
 		},
 		"right_eye": {
 			"right_eye": { "x": 19.35, "y": -46.57, "rotation": 96.17, "width": 113, "height": 44 }
+		},
+		"toast": {
+			"toast": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 34.88, 86.33, 35.65, -99.77, 120.24, -102.08, 121.01, 87.1 ]
+			}
 		}
 	}
 },

@@ -23,10 +23,12 @@ namespace ZAY
         bool _enabled;
 
     public:
-        void setLoop(int value);
+        void setLoopAndSeek(int loop, bool seek); //bx
         int getLoop() const;
+        bool getSeek() const; //bx
     private:
         int _animationLoop; // -1-한번후 소멸, 0-한번, 1-반복
+        bool _animationSeek; //bx
 
     public:
         void setLastTime(float lastTime);

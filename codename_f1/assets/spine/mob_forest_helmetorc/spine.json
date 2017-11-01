@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "bvykUH0rGDgZ1OkGoiTBoCpcxXg", "spine": "3.6.43", "width": 220.3, "height": 379.43, "images": "./helmet_orc/" },
+"skeleton": { "hash": "2zW6sBtVFAe5JijtDoHBU7TtM8A", "spine": "3.6.46", "width": 220.3, "height": 379.43, "images": "./helmet_orc/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 34.41, "rotation": 90, "x": 0.27, "y": 1.59 },
@@ -33,7 +33,8 @@
 	{ "name": "helmet_b", "bone": "helmet_b", "attachment": "helmet_b" },
 	{ "name": "helmet", "bone": "helmet", "attachment": "helmet" },
 	{ "name": "helmet_a", "bone": "helmet_a", "attachment": "helmet_a" },
-	{ "name": "area", "bone": "area", "attachment": "area" }
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "toast", "bone": "area", "attachment": "toast" }
 ],
 "skins": {
 	"default": {
@@ -79,6 +80,13 @@
 		},
 		"r_par": {
 			"r_par": { "x": 66.99, "y": -3.13, "rotation": 90, "width": 54, "height": 155 }
+		},
+		"toast": {
+			"toast": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 124.23, 67.63, 43.67, 68.28, 44.98, -65.99, 125.54, -65.34 ]
+			}
 		},
 		"tuc": {
 			"tuc": { "x": 49.02, "y": -28.8, "rotation": 174.08, "width": 125, "height": 84 }

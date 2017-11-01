@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "J75m6EVdOyrku28lvWSMP3niJIE", "spine": "3.6.43", "width": 399.42, "height": 332.27, "images": "./wolf/" },
+"skeleton": { "hash": "SW6abk+Jeso6BTEy8LtVC8LhRoE", "spine": "3.6.46", "width": 399.42, "height": 332.27, "images": "./wolf/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 62.57, "rotation": 90, "x": -0.63, "y": -0.33 },
@@ -44,7 +44,8 @@
 	{ "name": "tuc", "bone": "tuc", "attachment": "tuc" },
 	{ "name": "r_gui", "bone": "r_gui", "attachment": "r_gui" },
 	{ "name": "r_eye", "bone": "r_eye", "attachment": "r_eye" },
-	{ "name": "area", "bone": "area", "attachment": "area" }
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "toast", "bone": "area", "attachment": "toast" }
 ],
 "skins": {
 	"default": {
@@ -111,6 +112,13 @@
 		},
 		"r_gui": {
 			"r_gui": { "x": 24.65, "y": 2.05, "rotation": -60.77, "width": 65, "height": 106 }
+		},
+		"toast": {
+			"toast": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 156.62, 82.69, 64.66, 82.69, 63.87, -83.94, 156.62, -82.37 ]
+			}
 		},
 		"tuc": {
 			"tuc": { "x": 42.47, "y": -2.46, "rotation": 170.39, "width": 99, "height": 34 }

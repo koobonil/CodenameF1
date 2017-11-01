@@ -12,7 +12,7 @@
 
 namespace ZAY
 {
-    extern void CallEvent(const char* name);
+    extern void SpineBuilder_CallEvent(const char* name);
 
     void SpineConstraintFunctor::setName(const std::string& name)
     {
@@ -1151,7 +1151,7 @@ namespace ZAY
         {
             _eventName = name;
             if(0 < name.length())
-                CallEvent(name.c_str());
+                SpineBuilder_CallEvent(name.c_str());
         }
     }
 

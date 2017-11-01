@@ -471,7 +471,7 @@ namespace ZAY
             {
                 if (_skinning)
                 {
-                    ZAY_V3F_C4B_T2F* dstVertices = renderCommand->getVerticesBuffer().getBufferPointer();
+                    ZAY_Vertice* dstVertices = renderCommand->getVerticesBuffer().getBufferPointer();
                     int32_t dstVerticesCount = renderCommand->getVerticesBuffer().getBufferSize();
 
                     assert(_parentSkeletonInstance);
@@ -546,7 +546,7 @@ namespace ZAY
                     Vector3* animatedVertexPositions = _getAnimatedPositions().getBufferPointer();
                     int32_t animatedVertexPositionsCount = _getAnimatedPositions().getBufferSize();
 
-                    ZAY_V3F_C4B_T2F* dstVertices = renderCommand->getVerticesBuffer().getBufferPointer();
+                    ZAY_Vertice* dstVertices = renderCommand->getVerticesBuffer().getBufferPointer();
                     int32_t dstVerticesCount = renderCommand->getVerticesBuffer().getBufferSize();
 
                     assert(dstVerticesCount == srcVertexPositionsCount);
@@ -562,7 +562,7 @@ namespace ZAY
                     Vector3* srcVertexPositions = _meshData->getVertexPositions().getBufferPointer();
                     int32_t srcVertexPositionsCount = _meshData->getVertexPositions().getBufferSize();
 
-                    ZAY_V3F_C4B_T2F* dstVertices = renderCommand->getVerticesBuffer().getBufferPointer();
+                    ZAY_Vertice* dstVertices = renderCommand->getVerticesBuffer().getBufferPointer();
                     int32_t dstVerticesCount = renderCommand->getVerticesBuffer().getBufferSize();
 
                     assert(srcVertexPositionsCount == dstVerticesCount);
@@ -578,7 +578,7 @@ namespace ZAY
 
             if (_needToUpdateRenderCommandVertexUVs)
             {
-                ZAY_V3F_C4B_T2F* dstVertices = renderCommand->getVerticesBuffer().getBufferPointer();
+                ZAY_Vertice* dstVertices = renderCommand->getVerticesBuffer().getBufferPointer();
                 int32_t dstVerticesCount = renderCommand->getVerticesBuffer().getBufferSize();
 
                 Vector2* srcVertexUVs = nullptr;
@@ -647,7 +647,7 @@ namespace ZAY
 
             if (_needToUpdateRenderCommandVertexColors)
             {
-                ZAY_V3F_C4B_T2F* dstVertices = renderCommand->getVerticesBuffer().getBufferPointer();
+                ZAY_Vertice* dstVertices = renderCommand->getVerticesBuffer().getBufferPointer();
                 int32_t dstVerticesCount = renderCommand->getVerticesBuffer().getBufferSize();
 
                 ColourValue* srcVertexColors = nullptr;

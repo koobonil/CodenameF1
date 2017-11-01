@@ -42,10 +42,10 @@ namespace ZAY
             BlendType _blendType;
 
         public:
-            ArrayBuffer<ZAY_V3F_C4B_T2F>& getVerticesBuffer();
-            const ArrayBuffer<ZAY_V3F_C4B_T2F>& getVerticesBuffer() const;
+            ArrayBuffer<ZAY_Vertice>& getVerticesBuffer(); //bx
+            const ArrayBuffer<ZAY_Vertice>& getVerticesBuffer() const; //bx
         private:
-            ArrayBuffer<ZAY_V3F_C4B_T2F> _verticesBuffer;
+            ArrayBuffer<ZAY_Vertice> _verticesBuffer; //bx
 
         public:
             ArrayBuffer<GLushort>& getIndicesBuffer();
@@ -84,9 +84,9 @@ namespace ZAY
             Texture2D* _texture;
             
         public:
-            ArrayBuffer<ZAY_V3F_C4B_T2F>& getVerticesBuffer();
+            ArrayBuffer<ZAY_Vertice>& getVerticesBuffer(); //bx
         private:
-            ArrayBuffer<ZAY_V3F_C4B_T2F> _verticesBuffer;
+            ArrayBuffer<ZAY_Vertice> _verticesBuffer; //bx
             
         public:
             ArrayBuffer<GLushort>& getIndicesBuffer();
@@ -104,13 +104,9 @@ namespace ZAY
         public:
             typedef enum
             {
-                Position,
-                Color,
-                TexCoord,
-
-                COUNT,
+                Position, Color, TexCoord, Normal //bx
             } VertexAttrib;
-            
+
         public:
             ForwardMultiplyRenderer();
         public:
@@ -174,11 +170,18 @@ namespace ZAY
             GLint _finalPassLocationColorTexture;
             GLint _finalPassLocationMVPMatrix;
             GLuint _finalPassVAO;
-            
+
+        public: //bx
+            virtual void _setRenderMode(const float mode) override;
+
+        private: //bx
+            GLint _finalPassRenderModeLocation;
+            GLfloat _finalPassRenderMode;
+
         public:
             void checkAndRemakeShaders();
         public:
-            virtual void render() override;
+            virtual void render(bool shadow) override;
             virtual void update() override;
             
             
@@ -190,7 +193,7 @@ namespace ZAY
             void _multiplyRenderEnd();
         private:
             void _setMultiplyMapTexture(Texture2D* texture);
-            void _addMultiplyMapVerticesAndIndices(ZAY_V3F_C4B_T2F* verticesPointer,
+            void _addMultiplyMapVerticesAndIndices(ZAY_Vertice* verticesPointer,
                                                    int32_t verticesCount,
                                                    GLushort* indices,
                                                    int32_t indicesCount);
@@ -205,7 +208,7 @@ namespace ZAY
             void _setTrianglesMeshTexture(Texture2D* texture);
             void _setTrianglesMeshBlendType(BlendType blendType);
             void _setTrianglesMeshMultiplyMapMultiplier(float multiplier);
-            void _addTrianglesMeshVerticesAndIndices(ZAY_V3F_C4B_T2F* vertices,
+            void _addTrianglesMeshVerticesAndIndices(ZAY_Vertice* vertices,
                                                      int32_t verticesCount,
                                                      GLushort* indices,
                                                      int32_t indicesCount);
@@ -215,8 +218,10 @@ namespace ZAY
             BlendType _currentBlendType;
             //float _currentMultiplyMapMultiplier;
         private:
+            BlendType _forcedBlendType; //bx
+        private:
             int32_t _verticesCapacity;
-            ZAY_V3F_C4B_T2F* _vertices;
+            ZAY_Vertice* _vertices; //bx
             int32_t _verticesCount;
             GLuint _vbo;
         private:

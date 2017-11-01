@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "Ftrcpl4ZQpe9KnI7JYauWXpk5lY", "spine": "3.6.43", "width": 405, "height": 508, "images": "./ougu/" },
+"skeleton": { "hash": "g+kPdy80a4qYkXtyOT6ZE8l4Dmw", "spine": "3.6.46", "width": 405, "height": 508, "images": "./ougu/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 49.49, "rotation": 90, "x": -1.53, "y": -1.07 },
@@ -33,7 +33,8 @@
 	{ "name": "r_nunsup", "bone": "r_nunsup", "attachment": "r_nunsup" },
 	{ "name": "l_nunsup", "bone": "l_nunsup", "attachment": "l_nunsup" },
 	{ "name": "ko", "bone": "ko", "attachment": "ko" },
-	{ "name": "area", "bone": "area", "attachment": "area" }
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "toast", "bone": "area", "attachment": "toast" }
 ],
 "skins": {
 	"default": {
@@ -82,6 +83,13 @@
 		},
 		"r_par": {
 			"r_par": { "x": 94.28, "y": -12.58, "rotation": 90, "width": 92, "height": 216 }
+		},
+		"toast": {
+			"toast": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 90.93, 110.28, 89.98, -102.3, 289.27, -101.35, 289.27, 116.92 ]
+			}
 		},
 		"tuc": {
 			"tuc": { "x": 58.13, "y": -17.19, "rotation": 180, "width": 160, "height": 80 }

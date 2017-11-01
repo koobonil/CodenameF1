@@ -66,8 +66,9 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
             m->mBreathing = true;
             m->mBreathPos = Point(ClampX, ClampY);
             m->mBreathMsec = Platform::Utility::CurrentTimeMsec();
-            m->mBreathPowerPermil = 0;
+            m->mBreathGaugeTimeUsingCurrently = 0;
             m->mBreathSizeRCurrently = m->mBreathSizeR;
+            m->mBreathPowerPermil = 0;
         }
         else if(type == GT_InDragging || type == GT_OutDragging)
         {
@@ -85,6 +86,7 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
                 NewBreath.mPos = m->mBreathPos;
                 NewBreath.mSizeR = m->mBreathSizeRCurrently;
                 NewBreath.mDamage = m->GetCalcedBreathDamage();
+                m->mBreathGaugeTime = Math::Max(0, m->mBreathGaugeTime - m->mBreathGaugeTimeUsingCurrently);
             }
         }
     }
@@ -101,17 +103,18 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
 ingameData::ingameData()
 {
     mShowDebug = false;
-    mWaveData = Context(ST_Json, SO_NeedCopy, String::FromFile("table/stage_0.json"));
+    mWaveData = Context(ST_Json, SO_NeedCopy, String::FromFile("table/stage_0_test.json"));
     mWave = -1;
     mWaveTitle = "";
     mWaveSec = 0;
-    mBreathReadySpine.InitSpineForSeek(&mSpines("meteo_ready"), "meteo_ready", false);
-    mBreathAttackSpine.InitSpineForSeek(&mSpines("meteo_attack"), "attack", false);
+    mBreathReadySpine.InitSpine(&mSpines("meteo_ready")).PlayMotionSeek("meteo_ready", false);
+    mBreathAttackSpine.InitSpine(&mSpines("meteo_attack")).PlayMotionSeek("attack", false);
     mBreathing = false;
     mBreathPos = Point(0, 0);
     mBreathMsec = 0;
-    mBreathPowerPermil = 0;
+    mBreathGaugeTimeUsingCurrently = 0;
     mBreathSizeRCurrently = 0;
+    mBreathPowerPermil = 0;
 
     const String MapName = mWaveData("MapName").GetString();
     id_asset_read TextAsset = Asset::OpenForRead("table/" + MapName + ".json");
@@ -127,12 +130,12 @@ ingameData::ingameData()
     }
 
     // 타이틀화면
-    mMainTitleSpine.InitSpine(&mSpines("ui_main_title"), "loding", "idle",
+    mMainTitleSpine.InitSpine(&mSpines("ui_main_title"),
         [this](chars motionname)
         {
             if(!String::Compare("start", motionname))
                 ReadyForNextWave();
-        });
+        }).PlayMotionAttached("loding", "idle", true);
     mMainTitleStaffTime = Platform::Utility::CurrentTimeMsec();
     mMainTitleStaffBegin[0] = Point(-0.3f, 0.0f);
     mMainTitleStaffTarget[0] = Point(-0.2f, 0.0f);
@@ -142,12 +145,20 @@ ingameData::ingameData()
     mMainTitleStaffTarget[2] = Point(0.2f, 0.0f);
     // 스태프 캐릭터
     auto PtrStaff = mMonsters.AtDumpingAdded(3);
-    PtrStaff[0].InitSpine(&mSpines("ui_main_title_jjs"), "run");
-    PtrStaff[0].Init(&mMonsterTypes[0], 0, mMainTitleStaffBegin[0].x, mMainTitleStaffBegin[0].y);
-    PtrStaff[1].InitSpine(&mSpines("ui_main_title_kbh"), "run");
-    PtrStaff[1].Init(&mMonsterTypes[0], 0, mMainTitleStaffBegin[1].x, mMainTitleStaffBegin[1].y);
-    PtrStaff[2].InitSpine(&mSpines("ui_main_title_kbi"), "run");
-    PtrStaff[2].Init(&mMonsterTypes[0], 0, mMainTitleStaffBegin[2].x, mMainTitleStaffBegin[2].y);
+    PtrStaff[0].Init(&mMonsterTypes[0], 0, mMainTitleStaffBegin[0].x, mMainTitleStaffBegin[0].y,
+        mSpines("ui_main_title_jjs"), nullptr);
+    PtrStaff[1].Init(&mMonsterTypes[0], 0, mMainTitleStaffBegin[1].x, mMainTitleStaffBegin[1].y,
+        mSpines("ui_main_title_kbh"), nullptr);
+    PtrStaff[2].Init(&mMonsterTypes[0], 0, mMainTitleStaffBegin[2].x, mMainTitleStaffBegin[2].y,
+        mSpines("ui_main_title_kbi"), nullptr);
+
+    // UI
+    mGaugeHUD.InitSpine(&mSpines("ui_ingame_gauge")).PlayMotion("loading", false);
+    mGaugeHUD.PlayMotionSeek("charge", false);
+    mSlotHUD.InitSpine(&mSpines("ui_ingame_slot")).PlayMotion("loading", false);
+    // 브레스게이지
+    mBreathGaugeTime = mBreathMaxGauge;
+    mBreathGaugeTimeLog = mBreathMaxGauge;
 }
 
 ingameData::~ingameData()
@@ -269,7 +280,7 @@ void ingameData::AnimationOnce(sint32 timespan)
     for(sint32 i = 0, iend = mTargets.Count(); i < iend; ++i)
     {
         if(0 < mTargets[i].mHP)
-            mTargets.At(i).mHP = Math::Min(mTargets[i].mHP + mEggHPRegenValue * timespan, mEggHP);
+            mTargets.At(i).mHP = Math::Min(mTargets[i].mHP + mEggHPRegenValue * timespan, mTargets[i].mHPMax);
     }
 
     // 웨이브클리어
@@ -287,6 +298,10 @@ void ingameData::AnimationOnce(sint32 timespan)
             mBreathes.SubtractionSection(i);
         }
     }
+
+    // 브레스게이지연출
+    mBreathGaugeTime = Math::Min(mBreathGaugeTime + timespan * mBreathGaugeChargingPerSec, mBreathMaxGauge);
+    mBreathGaugeTimeLog = (mBreathGaugeTimeLog * 9 + mBreathGaugeTime * 1) / 10;
 }
 
 void ingameData::ClearPath()
@@ -326,7 +341,7 @@ void ingameData::Render(ZayPanel& panel)
             if(CurBreath.mAniTimeMsec < CurTimeMsec)
             {
                 mBreathAttackSpine.SetSeekSec((CurTimeMsec - CurBreath.mAniTimeMsec) * 0.001f);
-                RenderObject(mShowDebug, panel, mBreathAttackSpine, mInGameX, mInGameY, mInGameW, mInGameH, false);
+                RenderObject(true, mShowDebug, panel, mBreathAttackSpine, mInGameX, mInGameY, mInGameW, mInGameH, false);
             }
         }
     }
@@ -335,18 +350,26 @@ void ingameData::Render(ZayPanel& panel)
     if(mBreathing)
     ZAY_XYRR(panel, mBreathPos.x, mBreathPos.y, mBreathSizeR, mBreathSizeR)
     {
-        mBreathReadySpine.SetSeekSec((CurTimeMsec - mBreathMsec) * 0.001f);
-        RenderObject(mShowDebug, panel, mBreathReadySpine, mInGameX, mInGameY, mInGameW, mInGameH, false);
+        // 게이지파워 사용량 계산
+        mBreathGaugeTimeUsingCurrently = Math::Min(mBreathGaugeTime, CurTimeMsec - mBreathMsec);
+        mBreathReadySpine.SetSeekSec(mBreathGaugeTimeUsingCurrently * 0.001f);
+        RenderObject(true, mShowDebug, panel, mBreathReadySpine, mInGameX, mInGameY, mInGameW, mInGameH, false);
 
-        // 데미지영역 계산
-        const float AreaWidth = mBreathReadySpine.GetBoundRect("area").Width();
-        const float RedWidth = mBreathReadySpine.GetBoundRect("background_red_area").Width();
-        mBreathSizeRCurrently = Math::Max(mBreathSizeR, mBreathSizeR * RedWidth / AreaWidth);
+        if(const Rect* Area = mBreathReadySpine.GetBoundRect("area"))
+        if(const Rect* RedArea = mBreathReadySpine.GetBoundRect("background_red_area"))
+        if(const Rect* MinArea = mBreathReadySpine.GetBoundRect("background_min_area"))
+        if(const Rect* MaxArea = mBreathReadySpine.GetBoundRect("background_max_area"))
+        {
+            // 데미지영역 계산
+            const float AreaWidth = Area->Width();
+            const float RedWidth = RedArea->Width();
+            mBreathSizeRCurrently = Math::Max(mBreathSizeR, mBreathSizeR * RedWidth / AreaWidth);
 
-        // 데미지파워 계산
-        const float MinWidth = mBreathReadySpine.GetBoundRect("background_min_area").Width();
-        const float MaxWidth = mBreathReadySpine.GetBoundRect("background_max_area").Width();
-        mBreathPowerPermil = Math::Clamp(1000 * (RedWidth - MinWidth) / (MaxWidth - MinWidth), 0, 1000);
+            // 데미지파워 계산
+            const float MinWidth = MinArea->Width();
+            const float MaxWidth = MaxArea->Width();
+            mBreathPowerPermil = Math::Clamp(1000 * (RedWidth - MinWidth) / (MaxWidth - MinWidth), 0, 1000);
+        }
 
         // 데미지스코어
         ZAY_FONT(panel, 1.5, "Arial Black")
@@ -359,15 +382,16 @@ void ingameData::Render(ZayPanel& panel)
         }
     }
 
-    // 게임전 메인타이틀
+    const Point XY = panel.toview(0, 0);
+    const sint32 SX = (sint32) (XY.x * panel.zoom());
+    const sint32 SY = (sint32) (XY.y * panel.zoom());
+    const sint32 SW = (sint32) (panel.w() * panel.zoom());
+    const sint32 SH = (sint32) (panel.h() * panel.zoom());
+    // 게임전 UI
     if(mWave == -1)
     {
-        const Point XY = panel.toview(0, 0);
-        const sint32 SX = (sint32) (XY.x * panel.zoom());
-        const sint32 SY = (sint32) (XY.y * panel.zoom());
-        const sint32 SW = (sint32) (panel.w() * panel.zoom());
-        const sint32 SH = (sint32) (panel.h() * panel.zoom());
-        RenderObject(mShowDebug, panel, mMainTitleSpine, SX, SY, SW, SH, false, "Title_",
+        // 메인타이틀
+        RenderObject(true, mShowDebug, panel, mMainTitleSpine, SX, SY, SW, SH, false, "Title_",
             ZAY_GESTURE_NT(n, t, this)
             {
                 if(t == GT_Pressed && !String::Compare(n, "Title_butten_start_area"))
@@ -377,6 +401,28 @@ void ingameData::Render(ZayPanel& panel)
                         mMonsters.At(i).Staff_Start();
                 }
             });
+    }
+    else // 인게임 UI
+    {
+        // 게이지
+        mGaugeHUD.SetSeekSec(5 - Math::ClampF(5 * mBreathGaugeTimeLog / mBreathMaxGauge, 0, 5));
+        sint32 GaugeWidth = 0;
+        if(const Rect* Area = mGaugeHUD.GetBoundRect("area"))
+        {
+            GaugeWidth = Math::Min(panel.w() / 2, mUIB * Area->Width() / Area->Height());
+            const sint32 GaugeHeight = GaugeWidth * Area->Height() / Area->Width();
+            ZAY_LTRB(panel, 0, panel.h() - GaugeHeight, GaugeWidth, panel.h())
+                RenderObject(true, mShowDebug, panel, mGaugeHUD, SX, SY, SW, SH, false);
+        }
+        // 슬롯
+        if(const Rect* Area = mSlotHUD.GetBoundRect("area"))
+        {
+            const sint32 SlotMaxWidth = panel.w() - GaugeWidth;
+            const sint32 SlotWidth = Math::Min(SlotMaxWidth, mUIB * Area->Width() / Area->Height());
+            const sint32 SlotHeight = SlotWidth * Area->Height() / Area->Width();
+            ZAY_XYWH(panel, GaugeWidth + (SlotMaxWidth - SlotWidth) / 2, panel.h() - SlotHeight, SlotWidth, SlotHeight)
+                RenderObject(true, mShowDebug, panel, mSlotHUD, SX, SY, SW, SH, false);
+        }
     }
 
     #if BOSS_WINDOWS | BOSS_MAC_OSX
@@ -453,14 +499,16 @@ void ingameData::ReadyForNextWave()
             {
                 const String CurJsonMonsterID = JsonMonsters[j]("ID").GetString("");
                 for(sint32 k = 0, kend = mMonsterTypes.Count(); k < kend; ++k)
+                {
                     if(!CurJsonMonsterID.Compare(mMonsterTypes[k].mID))
                     {
                         chars CurAssetName = mMonsterTypes[k].mAsset;
-                        PtrMonsters[j].InitSpine(mSpines.Access(CurAssetName), "run");
                         PtrMonsters[j].Init(&mMonsterTypes[k], TimeSec,
-                            JsonMonsters[j]("PosX").GetFloat(0), JsonMonsters[j]("PosY").GetFloat(0));
+                            JsonMonsters[j]("PosX").GetFloat(0), JsonMonsters[j]("PosY").GetFloat(0),
+                            mSpines(CurAssetName), mSpines.Access("monster_toast"));
                         break;
                     }
+                }
             }
         }
     }
@@ -486,7 +534,7 @@ void ingameData::BreathAttack(const MapBreath* breath)
             mMonsters.At(i).mHP = Math::Max(0, mMonsters[i].mHP - breath->mDamage);
             if(mMonsters[i].mHP == 0) // 방금 죽어서 데스애니 시작
             {
-                mMonsters.At(i).Kill();
+                mMonsters.At(i).Dead();
                 mMonsters.At(i).mDeathCount = 10;
             }
             else mMonsters.At(i).Hit();

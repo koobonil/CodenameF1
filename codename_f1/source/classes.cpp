@@ -38,7 +38,7 @@ void SpineRenderer::Release()
     mSpine = nullptr;
 }
 
-void SpineRenderer::Render(ZAY::id_spine_instance instance, ZayPanel& panel, sint32 sx, sint32 sy, sint32 sw, sint32 sh, sint32 h, float scale, bool flip) const
+void SpineRenderer::Render(ZAY::id_spine_instance instance, ZayPanel& panel, sint32 sx, sint32 sy, sint32 sw, sint32 sh, sint32 h, float scale, bool flip, bool outline) const
 {
     if(!instance) return;
     const Point XY = panel.toview(0, 0);
@@ -48,7 +48,23 @@ void SpineRenderer::Render(ZAY::id_spine_instance instance, ZayPanel& panel, sin
     const sint32 H = (sint32) (panel.h() * panel.zoom());
     const float cx = ((X + W * 0.5f) - sx) / sw;
     const float cy = ((Y + H * 0.5f) - sy) / sh;
-    ZAY::SpineBuilder::Render(panel, instance, flip, cx, cy, scale, sx, sy, sw, sh);
+
+    if(outline) ZAY::SpineBuilder::Render(panel, instance, flip, cx, cy, scale, 1.0f, sx, sy, sw, sh);
+    ZAY::SpineBuilder::Render(panel, instance, flip, cx, cy, scale, 0.0f, sx, sy, sw, sh);
+}
+
+void SpineRenderer::RenderShadow(ZAY::id_spine_instance instance, ZayPanel& panel, sint32 sx, sint32 sy, sint32 sw, sint32 sh, sint32 h, float scale, bool flip) const
+{
+    if(!instance) return;
+    const Point XY = panel.toview(0, 0);
+    const sint32 X = (sint32) (XY.x * panel.zoom());
+    const sint32 Y = (sint32) ((h - (XY.y + panel.h())) * panel.zoom());
+    const sint32 W = (sint32) (panel.w() * panel.zoom());
+    const sint32 H = (sint32) (panel.h() * panel.zoom());
+    const float cx = ((X + W * 0.5f) - sx) / sw;
+    const float cy = ((Y + H * 0.5f) - sy) / sh;
+
+    ZAY::SpineBuilder::Render(panel, instance, flip, cx, cy, scale, 0.5f, sx, sy, sw, sh);
 }
 
 void SpineRenderer::RenderBound(ZAY::id_spine_instance instance, ZayPanel& panel, bool guideline, float ox, float oy, float scale, bool flip,
@@ -59,12 +75,11 @@ void SpineRenderer::RenderBound(ZAY::id_spine_instance instance, ZayPanel& panel
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-MapSpine::MapSpine()
+MapSpine::MapSpine(SpineType type) : mSpineType(type)
 {
     mSpineRenderer = nullptr;
     mSpineInstance = nullptr;
     mSpineMsecOld = 0;
-    mSeekMode = false;
     mSeekSec = 0;
     mSeekSecOld = -1;
     mStaffIdleMode = false;
@@ -76,7 +91,7 @@ MapSpine::~MapSpine()
     ZAY::SpineBuilder::Release(mSpineInstance);
 }
 
-MapSpine::MapSpine(const MapSpine& rhs)
+MapSpine::MapSpine(const MapSpine& rhs) : mSpineType(rhs.mSpineType)
 {
     mSpineInstance = nullptr;
     operator=(rhs);
@@ -90,7 +105,6 @@ MapSpine& MapSpine::operator=(const MapSpine& rhs)
     if(rhs.mSpineInstance)
         mSpineInstance = ZAY::SpineBuilder::Clone(rhs.mSpineInstance);
     mSpineMsecOld = rhs.mSpineMsecOld;
-    mSeekMode = rhs.mSeekMode;
     mSeekSec = rhs.mSeekSec;
     mSeekSecOld = rhs.mSeekSecOld;
     mStaffIdleMode = rhs.mStaffIdleMode;
@@ -98,7 +112,7 @@ MapSpine& MapSpine::operator=(const MapSpine& rhs)
     return *this;
 }
 
-MapSpine::MapSpine(MapSpine&& rhs)
+MapSpine::MapSpine(MapSpine&& rhs) : mSpineType(rhs.mSpineType)
 {
     operator=(ToReference(rhs));
 }
@@ -109,7 +123,6 @@ MapSpine& MapSpine::operator=(MapSpine&& rhs)
     mSpineInstance = rhs.mSpineInstance;
     rhs.mSpineInstance = nullptr;
     mSpineMsecOld = rhs.mSpineMsecOld;
-    mSeekMode = rhs.mSeekMode;
     mSeekSec = rhs.mSeekSec;
     mSeekSecOld = rhs.mSeekSecOld;
     mStaffIdleMode = rhs.mStaffIdleMode;
@@ -117,26 +130,29 @@ MapSpine& MapSpine::operator=(MapSpine&& rhs)
     return *this;
 }
 
-void MapSpine::InitSpine(const SpineRenderer* renderer, chars first_motion, chars second_motion,
-    ZAY::SpineBuilder::MotionFinishedCB fcb, ZAY::SpineBuilder::UserEventCB ecb)
+MapSpine& MapSpine::InitSpine(const SpineRenderer* renderer, ZAY::SpineBuilder::MotionFinishedCB fcb, ZAY::SpineBuilder::UserEventCB ecb)
 {
     if(mSpineRenderer = renderer)
-    {
         mSpineInstance = ZAY::SpineBuilder::Create(mSpineRenderer->spine(), "default", fcb, ecb);
-        ZAY::SpineBuilder::SetMotionOn(mSpineInstance, first_motion, second_motion == nullptr);
-        if(second_motion)
-            ZAY::SpineBuilder::SetMotionOnAttached(mSpineInstance, first_motion, second_motion, true);
-    }
+    return *this;
 }
 
-void MapSpine::InitSpineForSeek(const SpineRenderer* renderer, chars motion, bool repeat)
+void MapSpine::PlayMotion(chars motion, bool repeat)
 {
-    if(mSpineRenderer = renderer)
-    {
-        mSpineInstance = ZAY::SpineBuilder::Create(mSpineRenderer->spine(), "default", nullptr, nullptr);
-        ZAY::SpineBuilder::SetMotionOn(mSpineInstance, motion, repeat);
-        mSeekMode = true;
-    }
+    if(!mSpineInstance) return;
+    ZAY::SpineBuilder::SetMotionOn(mSpineInstance, motion, repeat);
+}
+
+void MapSpine::PlayMotionAttached(chars first_motion, chars second_motion, bool repeat)
+{
+    if(!mSpineInstance) return;
+    ZAY::SpineBuilder::SetMotionOn(mSpineInstance, first_motion, false);
+    ZAY::SpineBuilder::SetMotionOnAttached(mSpineInstance, first_motion, second_motion, repeat);
+}
+
+void MapSpine::PlayMotionSeek(chars seek_motion, bool repeat)
+{
+    ZAY::SpineBuilder::SetMotionOnSeek(mSpineInstance, seek_motion, false);
 }
 
 void MapSpine::Seek() const
@@ -161,9 +177,9 @@ void MapSpine::Update() const
     }
 }
 
-Rect MapSpine::GetBoundRect(chars name) const
+const Rect* MapSpine::GetBoundRect(chars name) const
 {
-    if(!mSpineInstance) return Rect(0, 0, 0, 0);
+    if(!mSpineInstance) return nullptr;
     return ZAY::SpineBuilder::GetBoundRect(mSpineInstance, name);
 }
 
@@ -199,7 +215,7 @@ void MapSpine::Staff_Start()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-MapObject::MapObject()
+MapObject::MapObject() : MapSpine(ST_Object)
 {
     mType = nullptr;
     mVisible = true;
@@ -257,7 +273,7 @@ void MapObject::Dead() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-MapMonster::MapMonster()
+MapMonster::MapMonster() : MapSpine(ST_Monster), mToast(ST_MonsterToast)
 {
     mType = nullptr;
     mEntranceSec = 0;
@@ -302,10 +318,12 @@ MapMonster& MapMonster::operator=(MapMonster&& rhs)
     mTargetPath = rhs.mTargetPath;
     rhs.mTargetPath = nullptr;
     mTargetPathScore = rhs.mTargetPathScore;
+    mToast = ToReference(rhs.mToast);
     return *this;
 }
 
-void MapMonster::Init(const MonsterType* type, sint32 timesec, float x, float y)
+void MapMonster::Init(const MonsterType* type, sint32 timesec, float x, float y,
+    const SpineRenderer& renderer, const SpineRenderer* toast_renderer)
 {
     mType = type;
     mEntranceSec = timesec;
@@ -318,14 +336,38 @@ void MapMonster::Init(const MonsterType* type, sint32 timesec, float x, float y)
     mDeathCount = 0;
     mPos.x = x;
     mPos.y = y;
+
+    InitSpine(&renderer).PlayMotion("run", true);
+    if(toast_renderer)
+        mToast.InitSpine(toast_renderer);
 }
 
-void MapMonster::Kill() const
+void MapMonster::Hit() const
+{
+    if(mSpineInstance)
+    {
+        ZAY::SpineBuilder::SetMotionOffAll(mSpineInstance, true);
+        ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "hit", false);
+        ZAY::SpineBuilder::SetMotionOnAttached(mSpineInstance, "hit", (mAttackMode)? "attack" : "run", true);
+        if(mToast.renderer())
+        {
+            mToast.mSpineMsecOld = 0;
+            ZAY::SpineBuilder::SetMotionOnOnce(mToast.mSpineInstance, "breath_normal_hit");
+        }
+    }
+}
+
+void MapMonster::Dead() const
 {
     if(mSpineInstance)
     {
         ZAY::SpineBuilder::SetMotionOffAll(mSpineInstance, true);
         ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "dead", false);
+        if(mToast.renderer())
+        {
+            mToast.mSpineMsecOld = 0;
+            ZAY::SpineBuilder::SetMotionOnOnce(mToast.mSpineInstance, "breath_normal_hit");
+        }
     }
 }
 
@@ -336,16 +378,6 @@ void MapMonster::Turn() const
         ZAY::SpineBuilder::SetMotionOffAll(mSpineInstance, true);
         ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "flip", false);
         ZAY::SpineBuilder::SetMotionOnAttached(mSpineInstance, "flip", (mAttackMode)? "attack" : "run", true);
-    }
-}
-
-void MapMonster::Hit() const
-{
-    if(mSpineInstance)
-    {
-        ZAY::SpineBuilder::SetMotionOffAll(mSpineInstance, true);
-        ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "hit", false);
-        ZAY::SpineBuilder::SetMotionOnAttached(mSpineInstance, "hit", (mAttackMode)? "attack" : "run", true);
     }
 }
 
@@ -385,6 +417,7 @@ TargetZone::TargetZone()
     mLayerId = 0;
     mObjectId = 0;
     mHP = 0;
+    mHPMax = 0;
     mSizeR = 0;
 }
 
@@ -402,6 +435,7 @@ TargetZone& TargetZone::operator=(TargetZone&& rhs)
     mLayerId = rhs.mLayerId;
     mObjectId = rhs.mObjectId;
     mHP = rhs.mHP;
+    mHPMax = rhs.mHPMax;
     mPos = rhs.mPos;
     mSizeR = rhs.mSizeR;
     return *this;
@@ -412,6 +446,7 @@ void TargetZone::Init(sint32 layerid, sint32 objectid, sint32 hp, float x, float
     mLayerId = layerid;
     mObjectId = objectid;
     mHP = hp;
+    mHPMax = hp;
     mPos.x = x;
     mPos.y = y;
     mSizeR = size_r;
@@ -450,9 +485,10 @@ F1State::F1State()
     mBreathScale = Parser::GetInt(GlobalWeightMap("BreathScale")) / 1000.0f;
     mBreathMinDamage = Parser::GetInt(GlobalWeightMap("BreathMinDamage"));
     mBreathMaxDamage = Parser::GetInt(GlobalWeightMap("BreathMaxDamage"));
-    mEggHPbarDeleteTime = Parser::GetInt(GlobalWeightMap("EggHPbarDeleteTime")); // HP가 다시 투명이되는데 걸리는 시간
+    mBreathMaxGauge = Parser::GetInt(GlobalWeightMap("BreathMaxGauge"));
+    mBreathGaugeChargingPerSec = Parser::GetInt(GlobalWeightMap("BreathGaugeChargingPerSec"));
+    mHPbarDeleteTime = Parser::GetInt(GlobalWeightMap("HPbarDeleteTime")); // HP가 다시 투명이되는데 걸리는 시간
     mEggHPRegenValue = Parser::GetInt(GlobalWeightMap("EggHPRegenValue")); // HP의 초당 재생량
-    mEggHP = Parser::GetInt(GlobalWeightMap("EggHP"));
     m1StarHpRate = Parser::GetInt(GlobalWeightMap("1StarHpRate"));
     m2StarHpRate = Parser::GetInt(GlobalWeightMap("2StarHpRate"));
     m3StarHpRate = Parser::GetInt(GlobalWeightMap("3StarHpRate"));
@@ -471,6 +507,7 @@ F1State::F1State()
             NewObjectType.mID = ObjectTable[i]("ID").GetString("");
             NewObjectType.mType = ObjectTable[i]("Type").GetString("Null");
             NewObjectType.mAsset = ObjectTable[i]("Asset").GetString("noname");
+            NewObjectType.mHP = ObjectTable[i]("HP").GetInt(0);
         }
     }
     else BOSS_ASSERT("object_table.json의 로딩에 실패하였습니다", false);
@@ -517,6 +554,10 @@ F1State::F1State()
             This->mSpines(name).Create(String::Format("spine/%s/spine.json", name), String::Format("spine/%s/path.json", name));
         }, this, false);
 
+    mUIL = 0;
+    mUIT = 0;
+    mUIR = 0;
+    mUIB = 0;
     mScreenW = 0;
     mScreenH = 0;
     mInGameW = 0;
@@ -526,28 +567,33 @@ F1State::F1State()
     mBreathSizeR = 0;
     mMonsterSizeR = 0;
 
-    mBGName = "";
+    mBGNameA = "";
+    mBGNameB = "";
     mLayers.AtDumpingAdded(mLayerLength);
-
+    mShadowSurface = nullptr;
     mHurdle = nullptr;
     mMap = nullptr;
 }
 
 F1State::~F1State()
 {
+    Platform::Graphics::RemoveSurface(mShadowSurface);
     TryWorld::Hurdle::Release(mHurdle);
     TryWorld::Map::Release(mMap);
 }
 
 void F1State::LoadMap(chars json)
 {
-    mBGName = "";
+    mBGNameA = "";
+    mBGNameB = "";
     mTargets.SubtractionAll();
     mLayers.SubtractionAll();
     mLayers.AtDumpingAdded(mLayerLength);
 
     Context JsonLayer(ST_Json, SO_OnlyReference, json);
-    mBGName = JsonLayer("BGName").GetString();
+    mBGNameA = JsonLayer("BGName").GetString();
+    mBGNameB = mBGNameA;
+    mBGNameB.Sub(2) += "_b";
     for(sint32 layer = 0, layer_end = JsonLayer("Layers").LengthOfIndexable(); layer < layer_end; ++layer)
     {
         auto& CurJsonLayer = JsonLayer("Layers")[layer];
@@ -575,11 +621,11 @@ void F1State::LoadMap(chars json)
             NewObject.mRect.r = CurJsonObject("RectR").GetFloat();
             NewObject.mRect.b = CurJsonObject("RectB").GetFloat();
             if(auto CurSpine = mSpines.Access(NewObject.mType->mAsset))
-                NewObject.InitSpine(CurSpine, "idle");
+                NewObject.InitSpine(CurSpine).PlayMotion("idle", true);
             if(NewObject.mType->mType == ObjectType::TypeClass::Target)
             {
                 auto& NewTarget = mTargets.AtAdding();
-                NewTarget.Init(LayerID, NewObjectId, mEggHP,
+                NewTarget.Init(LayerID, NewObjectId, NewObject.mType->mHP,
                     NewObject.mRect.CenterX(), NewObject.mRect.CenterY(),
                     Math::Sqrt(Math::Pow(NewObject.mRect.Width()) * 2) / 2);
             }
@@ -611,7 +657,7 @@ void F1State::LoadMap(chars json)
 String F1State::SaveMap()
 {
     Context JsonLayer;
-    JsonLayer.At("BGName").Set(mBGName);
+    JsonLayer.At("BGName").Set(mBGNameA);
     for(sint32 layer = 0; layer < mLayerLength; ++layer)
     {
         auto& CurLayer = mLayers.At(layer);
@@ -635,6 +681,7 @@ String F1State::SaveMap()
         for(sint32 plg = 0, plg_end = CurLayer.mPolygons.Count(); plg < plg_end; ++plg)
         {
             auto& CurPolygon = CurLayer.mPolygons[plg];
+            if(CurPolygon.mPolygon.Count() <= 2) continue;
             auto& NewJsonPolygon = NewJsonLayer.At("Polygons").At(plg);
 
             NewJsonPolygon.At("ID").Set(CurPolygon.mType->mID);
@@ -689,21 +736,23 @@ void F1State::SetSize(sint32 width, sint32 height)
     ScreenHeight.Execute();
 
     // 리사이징
-    const sint32 ViewL = (sint32) mUILeft.result();
-    const sint32 ViewT = (sint32) mUITop.result();
-    const sint32 ViewR = (sint32) mUIRight.result();
-    const sint32 ViewB = (sint32) mUIBottom.result();
-    const sint32 ViewWidth = Math::Max(0, width - (ViewL + ViewR));
-    const sint32 ViewHeight = Math::Max(0, height - (ViewT + ViewB));
+    mUIL = (sint32) mUILeft.result();
+    mUIT = (sint32) mUITop.result();
+    mUIR = (sint32) mUIRight.result();
+    mUIB = (sint32) mUIBottom.result();
+    const sint32 ViewWidth = Math::Max(0, width - (mUIL + mUIR));
+    const sint32 ViewHeight = Math::Max(0, height - (mUIT + mUIB));
     const float CurRate = ViewWidth / (float) ViewHeight;
     mScreenW = width;
     mScreenH = height;
     mInGameW = (sint32) (ViewWidth * ((CurRate < mViewRate)? 1 : mViewRate / CurRate));
     mInGameH = (sint32) (ViewHeight * ((CurRate < mViewRate)? CurRate / mViewRate : 1));
-    mInGameX = ViewL + (ViewWidth - mInGameW) / 2;
-    mInGameY = ViewT + (ViewHeight - mInGameH) / 2;
+    mInGameX = mUIL + (ViewWidth - mInGameW) / 2;
+    mInGameY = mUIT + (ViewHeight - mInGameH) / 2;
     mBreathSizeR = mInGameW * mBreathScale / 2;
     mMonsterSizeR = mInGameW * mMonsterScale / 2;
+    Platform::Graphics::RemoveSurface(mShadowSurface);
+    mShadowSurface = Platform::Graphics::CreateSurface(mScreenW, mScreenH);
 }
 
 void F1State::RenderImage(bool editmode, ZayPanel& panel, const Image& image)
@@ -724,41 +773,65 @@ void F1State::RenderImage(bool editmode, ZayPanel& panel, const Image& image)
         panel.rect(1);
 }
 
-void F1State::RenderObject(bool editmode, ZayPanel& panel, const MapSpine& spine, sint32 sx, sint32 sy, sint32 sw, sint32 sh, bool flip,
+void F1State::RenderObject(bool needupdate, bool editmode, ZayPanel& panel, const MapSpine& spine, sint32 sx, sint32 sy, sint32 sw, sint32 sh, bool flip,
     chars uiname, ZayPanel::SubGestureCB cb)
 {
-    if(spine.mSeekMode)
+    if(needupdate)
     {
         if(spine.IsSeekUpdated())
             spine.Seek();
+        spine.Update();
+        if(spine.mSpineType == MapSpine::ST_MonsterToast && !spine.enabled())
+            return; // 업데이트후 MonsterToast경우 즉시 사라져야 할 수도 있음
     }
-    else spine.Update();
 
-    const Rect AreaRect = spine.GetBoundRect("area");
-    const float Width = Math::MaxF(0.001, AreaRect.Width());
-    const float Height = Math::MaxF(0.001, AreaRect.Height());
-    const float Rate = Math::MinF(panel.w() / Width, panel.h() / Height);
-    const float CX = (flip)? -AreaRect.CenterX() : AreaRect.CenterX();
-    const float CY = AreaRect.CenterY();
-
-    ZAY_XYRR(panel, panel.w() / 2 - CX * Rate, panel.h() / 2 - CY * Rate, 0, 0)
+    if(const Rect* AreaRect = spine.GetBoundRect("area"))
     {
-        Platform::Graphics::BeginGL();
-        spine.renderer()->Render(spine.mSpineInstance, panel, sx, mScreenH - (sy + sh), sw, sh, mScreenH, Rate, flip);
-        Platform::Graphics::EndGL();
+        const float Width = AreaRect->Width();
+        const float Height = AreaRect->Height();
+        const float Rate = Math::MinF(panel.w() / Width, panel.h() / Height);
+        const float CX = (flip)? -AreaRect->CenterX() : AreaRect->CenterX();
+        const float CY = AreaRect->CenterY();
+
+        ZAY_XYRR(panel, panel.w() / 2 - CX * Rate, panel.h() / 2 - CY * Rate, 0, 0)
+        {
+            Platform::Graphics::BeginGL();
+            spine.renderer()->Render(spine.mSpineInstance, panel, sx, mScreenH - (sy + sh), sw, sh, mScreenH,
+                Rate, flip, spine.mSpineType == MapSpine::ST_Monster);
+            Platform::Graphics::EndGL();
+        }
+
+        if(editmode)
+        ZAY_RGBA(panel, 255, 255, 255, 128)
+            panel.fill();
+
+        if(editmode || uiname)
+        ZAY_XYRR(panel, panel.w() / 2, panel.h() / 2, 0, 0)
+            spine.renderer()->RenderBound(spine.mSpineInstance, panel, editmode, CX, CY, Rate, flip, uiname, cb);
+
+        if(editmode)
+        ZAY_RGBA(panel, 255, 0, 0, 128)
+            panel.rect(1);
     }
+}
 
-    if(editmode)
-    ZAY_RGBA(panel, 255, 255, 255, 128)
-        panel.fill();
+void F1State::RenderObjectShadow(ZayPanel& panel, const MapSpine& spine, sint32 sx, sint32 sy, sint32 sw, sint32 sh, bool flip)
+{
+    if(const Rect* AreaRect = spine.GetBoundRect("area"))
+    {
+        const float Width = AreaRect->Width();
+        const float Height = AreaRect->Height();
+        const float Rate = Math::MinF(panel.w() / Width, panel.h() / Height);
+        const float CX = (flip)? -AreaRect->CenterX() : AreaRect->CenterX();
+        const float CY = AreaRect->CenterY();
 
-    if(editmode || uiname)
-    ZAY_XYRR(panel, panel.w() / 2, panel.h() / 2, 0, 0)
-        spine.renderer()->RenderBound(spine.mSpineInstance, panel, editmode, CX, CY, Rate, flip, uiname, cb);
-
-    if(editmode)
-    ZAY_RGBA(panel, 255, 0, 0, 128)
-        panel.rect(1);
+        ZAY_XYRR(panel, panel.w() / 2 - CX * Rate, panel.h() / 2 - CY * Rate, 0, 0)
+        {
+            Platform::Graphics::BeginGL();
+            spine.renderer()->RenderShadow(spine.mSpineInstance, panel, sx, mScreenH - (sy + sh), sw, sh, mScreenH, Rate, flip);
+            Platform::Graphics::EndGL();
+        }
+    }
 }
 
 void F1State::RenderLayer(bool editmode, bool titlemode, ZayPanel& panel, const MapLayer& layer,
@@ -808,15 +881,23 @@ void F1State::RenderLayer(bool editmode, bool titlemode, ZayPanel& panel, const 
         if(wavesec < (*monsters)[i].mEntranceSec) continue;
         if(0 < (*monsters)[i].mHP || 0 < (*monsters)[i].mDeathCount)
         {
-            auto& NewNode = Nodes.AtAdding();
-            NewNode.mIsMonster = true;
-            NewNode.mData = &(*monsters)[i];
-            NewNode.mRect.l = mInGameW * ((*monsters)[i].mPos.x + 0.5f) - mMonsterSizeR;
-            NewNode.mRect.t = mInGameH * ((*monsters)[i].mPos.y + 0.5f) - mMonsterSizeR;
-            NewNode.mRect.r = NewNode.mRect.l + mMonsterSizeR * 2;
-            NewNode.mRect.b = NewNode.mRect.t + mMonsterSizeR * 2;
-            NewNode.BindUpdater(&Head);
-            Head.Sort(&NewNode, OrderNode::Sorter);
+            if((*monsters)[i].renderer())
+            {
+                // 선행 업데이트
+                if((*monsters)[i].IsSeekUpdated())
+                    (*monsters)[i].Seek();
+                (*monsters)[i].Update();
+
+                auto& NewNode = Nodes.AtAdding();
+                NewNode.mIsMonster = true;
+                NewNode.mData = &(*monsters)[i];
+                NewNode.mRect.l = mInGameW * ((*monsters)[i].mPos.x + 0.5f) - mMonsterSizeR;
+                NewNode.mRect.t = mInGameH * ((*monsters)[i].mPos.y + 0.5f) - mMonsterSizeR;
+                NewNode.mRect.r = NewNode.mRect.l + mMonsterSizeR * 2;
+                NewNode.mRect.b = NewNode.mRect.t + mMonsterSizeR * 2;
+                NewNode.BindUpdater(&Head);
+                Head.Sort(&NewNode, OrderNode::Sorter);
+            }
         }
     }
 
@@ -837,6 +918,37 @@ void F1State::RenderLayer(bool editmode, bool titlemode, ZayPanel& panel, const 
         Head.Sort(&NewNode, OrderNode::Sorter);
     }
 
+    // 몬스터 레이어에는 그림자랜더링
+    /*if(monsters)
+    {
+        const Point XY = panel.toview(0, 0);
+        ZAY_MAKE_SUB(panel, mShadowSurface)
+        {
+            ZAY_RGB(panel, 255, 255, 255)
+                panel.fill();
+            ZAY_XYWH(panel, SX, SY, SW, SH)
+            {
+                OrderUpdater* CurNode = &Head;
+                while((CurNode = CurNode->Next()) != &Head)
+                {
+                    OrderNode* CurOrderNode = (OrderNode*) CurNode;
+                    ZAY_RECT(panel, CurOrderNode->mRect)
+                    {
+                        if(CurOrderNode->mIsMonster)
+                        {
+                            const MapMonster* CurMonster = (const MapMonster*) CurOrderNode->mData;
+                            if(auto CurRenderer = CurMonster->renderer())
+                                RenderObjectShadow(panel, *CurMonster, SX, SY, SW, SH, CurMonster->mFlipMode);
+                        }
+                    }
+                }
+            }
+        }
+        ZAY_XYWH(panel, -XY.x, -XY.y, Platform::Graphics::GetSurfaceWidth(mShadowSurface), Platform::Graphics::GetSurfaceHeight(mShadowSurface))
+        ZAY_BLEND(panel, BR_Multiply)
+            panel.sub("shadow", mShadowSurface);
+    }*/
+
     // 몬스터와 오브젝트
     OrderUpdater* CurNode = &Head;
     while((CurNode = CurNode->Next()) != &Head)
@@ -848,7 +960,37 @@ void F1State::RenderLayer(bool editmode, bool titlemode, ZayPanel& panel, const 
             {
                 const MapMonster* CurMonster = (const MapMonster*) CurOrderNode->mData;
                 if(auto CurRenderer = CurMonster->renderer())
-                    RenderObject(editmode, panel, *CurMonster, SX, SY, SW, SH, CurMonster->mFlipMode);
+                {
+                    RenderObject(false, editmode, panel, *CurMonster, SX, SY, SW, SH, CurMonster->mFlipMode);
+                    // 몬스터 토스트
+                    if(CurMonster->mToast.renderer() && CurMonster->mToast.enabled())
+                    if(const Rect* AreaRect = CurMonster->GetBoundRect("area"))
+                    if(const Rect* ToastRect = CurMonster->GetBoundRect("toast"))
+                    {
+                        const float Width = AreaRect->Width();
+                        const float Height = AreaRect->Height();
+                        const float Rate = Math::MinF(panel.w() / Width, panel.h() / Height);
+                        const float CX = (CurMonster->mFlipMode)? -AreaRect->CenterX() : AreaRect->CenterX();
+                        const float CY = AreaRect->CenterY();
+                        BOSS::Rect NewRect;
+                        if(CurMonster->mFlipMode)
+                        {
+                            NewRect.l = panel.w() / 2 + (-ToastRect->r - CX) * Rate;
+                            NewRect.t = panel.h() / 2 + (ToastRect->t - CY) * Rate;
+                            NewRect.r = panel.w() / 2 + (-ToastRect->l - CX) * Rate;
+                            NewRect.b = panel.h() / 2 + (ToastRect->b - CY) * Rate;
+                        }
+                        else
+                        {
+                            NewRect.l = panel.w() / 2 + (ToastRect->l - CX) * Rate;
+                            NewRect.t = panel.h() / 2 + (ToastRect->t - CY) * Rate;
+                            NewRect.r = panel.w() / 2 + (ToastRect->r - CX) * Rate;
+                            NewRect.b = panel.h() / 2 + (ToastRect->b - CY) * Rate;
+                        }
+                        ZAY_RECT(panel, NewRect)
+                            RenderObject(true, false, panel, CurMonster->mToast, SX, SY, SW, SH, false);
+                    }
+                }
                 else RenderImage(editmode, panel, R(CurMonster->mType->mAsset));
                 // 몬스터HP
                 if(!titlemode)
@@ -866,7 +1008,7 @@ void F1State::RenderLayer(bool editmode, bool titlemode, ZayPanel& panel, const 
                 if(CurObject->mVisible)
                 {
                     if(auto CurRenderer = CurObject->renderer())
-                        RenderObject(editmode, panel, *CurObject, SX, SY, SW, SH, false);
+                        RenderObject(true, editmode, panel, *CurObject, SX, SY, SW, SH, false);
                     else RenderImage(editmode, panel, R(CurObject->mType->mAsset));
                     // 타입ID
                     if(editmode)
@@ -914,26 +1056,6 @@ void F1State::RenderLayer(bool editmode, bool titlemode, ZayPanel& panel, const 
             }
         }
     }
-
-    // 몬스터와 오브젝트 순서출력
-    /*if(editmode)
-    {
-        sint32 OrderId = 0;
-        CurNode = &Head;
-        ZAY_FONT(panel, 0.9)
-        while((CurNode = CurNode->Next()) != &Head)
-        {
-            OrderNode* CurOrderNode = (OrderNode*) CurNode;
-            ZAY_RECT(panel, CurOrderNode->mRect)
-            {
-                ZAY_RGB(panel, 0, 0, 0)
-                    panel.text(panel.w() / 2 + 1, panel.h() / 2 + 1, String::Format("%d", OrderId), UIFA_CenterMiddle);
-                ZAY_RGB(panel, 0, 0, 255)
-                    panel.text(panel.w() / 2, panel.h() / 2, String::Format("%d", OrderId), UIFA_CenterMiddle);
-            }
-            OrderId++;
-        }
-    }*/
 }
 
 void F1State::Render(bool editmode, bool titlemode, ZayPanel& panel, const MapMonsters* monsters, sint32 wavesec)
@@ -945,7 +1067,7 @@ void F1State::Render(bool editmode, bool titlemode, ZayPanel& panel, const MapMo
     const sint32 SH = (sint32) (panel.h() * panel.zoom());
 
     // 배경
-    const Image& BGImage = R(mBGName);
+    const Image& BGImage = R(mBGNameA);
     const float XRate = SW / (float) BGImage.GetWidth();
     const float YRate = SH / (float) BGImage.GetHeight();
     const sint32 DstX = (sint32) (SX - BGImage.L() * XRate);
@@ -953,14 +1075,6 @@ void F1State::Render(bool editmode, bool titlemode, ZayPanel& panel, const MapMo
     const sint32 DstWidth = (sint32) (BGImage.GetImageWidth() * XRate);
     const sint32 DstHeight = (sint32) (BGImage.GetImageHeight() * YRate);
     panel.stretch(BGImage, true);
-
-    // 배경의 아웃라인(전)
-    const Rect OutlineRect(Math::Max(0, DstX) - SX, Math::Max(0, DstY) - SY,
-        Math::Min(DstX + DstWidth, mScreenW) - SX, Math::Min(DstY + DstHeight, mScreenH) - SY);
-    const sint32 OutlineHeightHalf = OutlineRect.Height() / 2;
-    ZAY_LTRB_SCISSOR(panel, OutlineRect.l, OutlineRect.t, OutlineRect.r, OutlineRect.t + OutlineHeightHalf)
-    ZAY_LTRB(panel, 0, 0, OutlineRect.Width(), OutlineRect.Height())
-        panel.stretch(R("black_aera"), true);
 
     // 레이어
     ZAY_FONT(panel, 1.1, "Arial Black")
@@ -988,10 +1102,14 @@ void F1State::Render(bool editmode, bool titlemode, ZayPanel& panel, const MapMo
         }
     }
 
-    // 배경의 아웃라인(후)
-    ZAY_LTRB_SCISSOR(panel, OutlineRect.l, OutlineRect.t + OutlineHeightHalf, OutlineRect.r, OutlineRect.b)
-    ZAY_LTRB(panel, 0, -OutlineHeightHalf, OutlineRect.Width(), OutlineRect.Height() - OutlineHeightHalf)
-        panel.stretch(R("black_aera"), true);
+    // 배경(뚜껑)
+    panel.stretch(R(mBGNameB), true);
+
+    // 배경의 아웃라인
+    if(0 < DstX || 0 < DstY || DstX + DstWidth < mScreenW || DstY + DstHeight < mScreenH)
+        ZAY_LTRB(panel, Math::Max(0, DstX) - SX, Math::Max(0, DstY) - SY,
+            Math::Min(DstX + DstWidth, mScreenW) - SX, Math::Min(DstY + DstHeight, mScreenH) - SY)
+            panel.stretch(R("black_aera"), true);
 
     // 길찾기 정보
     if(editmode)

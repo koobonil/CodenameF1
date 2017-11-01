@@ -241,7 +241,7 @@ void maptoolData::Render(ZayPanel& panel)
             {
                 const float x = mState.mInGameW * (mCurDrawingPoints[i].x + 0.5f);
                 const float y = mState.mInGameH * (mCurDrawingPoints[i].y + 0.5f);
-                if(i == 0 && 2 <= iend)
+                if(i == 0 && 2 < iend)
                 {
                     ZAY_XYRR_UI(panel, x, y, 10, 10, "drawing_polygon",
                         ZAY_GESTURE_T(t, this)
@@ -430,9 +430,9 @@ void maptoolData::Render(ZayPanel& panel)
             {
                 if(t == GT_InReleased)
                 {
-                    String BGName = mState.mBGName;
+                    String BGName = mState.mBGNameA;
                     if(Platform::Popup::TextDialog(BGName, "Load BG", "Typing the asset name"))
-                        mState.mBGName = BGName;
+                        mState.mBGNameA = BGName;
                 }
             })
         {

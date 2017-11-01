@@ -5,8 +5,8 @@
 
 namespace ZAY
 {
-    extern void SetCurrentBoundBox(const char* name, int r, int g, int b, int a);
-    extern void AddCurrentBoundBox(float x, float y);
+    extern void SpineBuilder_SetBoundBox(const char* name, int r, int g, int b, int a);
+    extern void SpineBuilder_MergeBoundBox(float x, float y);
 
     TouchAreaInstance::TouchAreaInstance()
     {
@@ -126,10 +126,10 @@ namespace ZAY
     {
         if(6 <= _vertciesCount && _bossVerticesValid)
         {
-            SetCurrentBoundBox(_name.c_str(), 255, 0, 0, 128);
+            SpineBuilder_SetBoundBox(_name.c_str(), 255, 0, 0, 128);
             for(int i = 0; i < _vertciesCount; i += 2)
-                AddCurrentBoundBox(_bossVertciesXY[i], _bossVertciesXY[i + 1]);
-            AddCurrentBoundBox(_bossVertciesXY[0], _bossVertciesXY[1]);
+                SpineBuilder_MergeBoundBox(_bossVertciesXY[i], _bossVertciesXY[i + 1]);
+            SpineBuilder_MergeBoundBox(_bossVertciesXY[0], _bossVertciesXY[1]);
         }
     }
 

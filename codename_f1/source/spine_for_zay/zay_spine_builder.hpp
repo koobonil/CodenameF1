@@ -37,12 +37,15 @@ namespace ZAY
         static void SetMotionOnOnce(id_spine_instance spine_instance, chars motion);
         static void SetMotionOnAttached(id_spine_instance spine_instance, chars target_motion, chars motion, bool repeat);
         static void SetMotionOnOnceAttached(id_spine_instance spine_instance, chars target_motion, chars motion);
+        static void SetMotionOnSeek(id_spine_instance spine_instance, chars motion, bool repeat);
         static void SetMotionOff(id_spine_instance spine_instance, chars motion);
         static void SetMotionOffAll(id_spine_instance spine_instance, bool with_reserve);
+        static bool IsMotionEnabled(id_spine_instance spine_instance);
         static Strings GetActiveMotions(id_spine_instance spine_instance);
-        static void Render(ZayPanel& panel, id_spine_instance spine_instance, bool flip, float cx, float cy, float scale, sint32 sx, sint32 sy, sint32 sw, sint32 sh);
+        static void Render(ZayPanel& panel, id_spine_instance spine_instance,
+            bool flip, float cx, float cy, float scale, float rendermode, sint32 sx, sint32 sy, sint32 sw, sint32 sh);
         static void RenderBound(ZayPanel& panel, id_spine_instance spine_instance, float ox, float oy, float scale, bool flip, bool guideline,
             chars uiname = nullptr, ZayPanel::SubGestureCB cb = nullptr);
-        static BOSS::Rect GetBoundRect(id_spine_instance spine_instance, chars name);
+        static const BOSS::Rect* GetBoundRect(id_spine_instance spine_instance, chars name);
     };
 }

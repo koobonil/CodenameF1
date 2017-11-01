@@ -8,6 +8,7 @@ namespace ZAY
         _needToSetInitState = true;
         _enabled = true;
         _animationLoop = 1;
+        _animationSeek = false;
         _lastTime = 0.0f;
         _currentTime = 0.0f;
         _animationSpeed = 1.0f;
@@ -43,14 +44,20 @@ namespace ZAY
         return _enabled;
     }
 
-    void AnimationState::setLoop(int value)
+    void AnimationState::setLoopAndSeek(int loop, bool seek)
     {
-        _animationLoop = value;
+        _animationLoop = loop;
+        _animationSeek = seek;
     }
 
     int AnimationState::getLoop() const
     {
         return _animationLoop;
+    }
+
+    bool AnimationState::getSeek() const
+    {
+        return _animationSeek;
     }
 
     void AnimationState::setLastTime(float lastTime)

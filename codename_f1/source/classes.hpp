@@ -13,6 +13,7 @@ class ObjectType
 public:
     ObjectType()
     {
+        mHP = 0;
     }
     ~ObjectType()
     {
@@ -23,6 +24,7 @@ public:
         mID = ToReference(rhs.mID);
         mType = rhs.mType;
         mAsset = ToReference(rhs.mAsset);
+        mHP = rhs.mHP;
         return *this;
     }
 
@@ -30,7 +32,7 @@ public:
     class TypeClass
     {
     public:
-        enum Type {Target, Static, Dynamic, Ground, Max, Null = -1};
+        enum Type {Target, Static, Dynamic, Ground, Hole, Max, Null = -1};
     public:
         TypeClass() {mValue = Null;}
         TypeClass(const TypeClass& rhs) {operator=(rhs);}
@@ -46,6 +48,8 @@ public:
                 mValue = Dynamic;
             else if(!String::Compare(rhs, "Ground"))
                 mValue = Ground;
+            else if(!String::Compare(rhs, "Hole"))
+                mValue = Hole;
             else
             {
                 mValue = Null;
@@ -67,6 +71,7 @@ public:
     String mID;
     TypeClass mType;
     String mAsset;
+    sint32 mHP;
 };
 typedef Array<ObjectType> ObjectTypes;
 
@@ -96,7 +101,7 @@ public:
     class TypeClass
     {
     public:
-        enum Type {Spot, Wall, Mud, Water, Max, Null = -1};
+        enum Type {Wall, Water, Max, Null = -1};
     public:
         TypeClass() {mValue = Null;}
         TypeClass(const TypeClass& rhs) {operator=(rhs);}
@@ -104,12 +109,8 @@ public:
         TypeClass& operator=(Type rhs) {mValue = rhs; return *this;}
         TypeClass& operator=(chars rhs)
         {
-            if(!String::Compare(rhs, "Spot"))
-                mValue = Spot;
-            else if(!String::Compare(rhs, "Wall"))
+            if(!String::Compare(rhs, "Wall"))
                 mValue = Wall;
-            else if(!String::Compare(rhs, "Mud"))
-                mValue = Mud;
             else if(!String::Compare(rhs, "Water"))
                 mValue = Water;
             else
@@ -223,7 +224,8 @@ public:
 public:
     void Create(chars spinepath, chars imagepath);
     void Release();
-    void Render(ZAY::id_spine_instance instance, ZayPanel& panel, sint32 sx, sint32 sy, sint32 sw, sint32 sh, sint32 h, float scale, bool flip) const;
+    void Render(ZAY::id_spine_instance instance, ZayPanel& panel, sint32 sx, sint32 sy, sint32 sw, sint32 sh, sint32 h, float scale, bool flip, bool outline) const;
+    void RenderShadow(ZAY::id_spine_instance instance, ZayPanel& panel, sint32 sx, sint32 sy, sint32 sw, sint32 sh, sint32 h, float scale, bool flip) const;
     void RenderBound(ZAY::id_spine_instance instance, ZayPanel& panel, bool guideline, float ox, float oy, float scale, bool flip,
         chars uiname, ZayPanel::SubGestureCB cb) const;
 
@@ -238,7 +240,10 @@ private:
 class MapSpine
 {
 public:
-    MapSpine();
+    enum SpineType {ST_Unknown, ST_Object, ST_Monster, ST_MonsterToast};
+
+public:
+    MapSpine(SpineType type = ST_Unknown);
     ~MapSpine();
     MapSpine(const MapSpine& rhs);
     MapSpine& operator=(const MapSpine& rhs);
@@ -246,12 +251,13 @@ public:
     MapSpine& operator=(MapSpine&& rhs);
 
 public:
-    void InitSpine(const SpineRenderer* renderer, chars first_motion, chars second_motion = nullptr,
-        ZAY::SpineBuilder::MotionFinishedCB fcb = nullptr, ZAY::SpineBuilder::UserEventCB ecb = nullptr);
-    void InitSpineForSeek(const SpineRenderer* renderer, chars motion, bool repeat);
+    MapSpine& InitSpine(const SpineRenderer* renderer, ZAY::SpineBuilder::MotionFinishedCB fcb = nullptr, ZAY::SpineBuilder::UserEventCB ecb = nullptr);
+    void PlayMotion(chars motion, bool repeat);
+    void PlayMotionAttached(chars first_motion, chars second_motion, bool repeat);
+    void PlayMotionSeek(chars seek_motion, bool repeat);
     void Seek() const;
     void Update() const;
-    Rect GetBoundRect(chars name) const;
+    const Rect* GetBoundRect(chars name) const;
 
 public:
     void SetSeekSec(float sec);
@@ -261,12 +267,14 @@ public:
 
 public:
     inline const SpineRenderer* renderer() const {return mSpineRenderer;}
+    inline const bool enabled() const
+    {return (mSpineInstance && ZAY::SpineBuilder::IsMotionEnabled(mSpineInstance));}
 
 public:
+    const SpineType mSpineType;
     const SpineRenderer* mSpineRenderer;
     ZAY::id_spine_instance mSpineInstance;
     mutable uint64 mSpineMsecOld;
-    bool mSeekMode;
     float mSeekSec;
     mutable float mSeekSecOld;
     bool mStaffIdleMode;
@@ -332,10 +340,11 @@ public:
     MapMonster& operator=(MapMonster&& rhs);
 
 public:
-    void Init(const MonsterType* type, sint32 timesec, float x, float y);
-    void Kill() const;
-    void Turn() const;
+    void Init(const MonsterType* type, sint32 timesec, float x, float y,
+        const SpineRenderer& renderer, const SpineRenderer* toast_renderer = nullptr);
     void Hit() const;
+    void Dead() const;
+    void Turn() const;
     sint32 TryAttack();
     void CancelAttack();
 
@@ -354,6 +363,7 @@ public:
     sint32 mTargetId;
     TryWorld::Path* mTargetPath;
     sint32 mTargetPathScore;
+    MapSpine mToast;
 };
 typedef Array<MapMonster> MapMonsters;
 
@@ -374,6 +384,7 @@ public:
     sint32 mLayerId;
     sint32 mObjectId;
     sint32 mHP;
+    sint32 mHPMax;
     Point mPos;
     float mSizeR;
 };
@@ -393,8 +404,9 @@ public:
     void RebuildTryWorld();
     void SetSize(sint32 width, sint32 height);
     void RenderImage(bool editmode, ZayPanel& panel, const Image& image);
-    void RenderObject(bool editmode, ZayPanel& panel, const MapSpine& spine, sint32 sx, sint32 sy, sint32 sw, sint32 sh, bool flip,
+    void RenderObject(bool needupdate, bool editmode, ZayPanel& panel, const MapSpine& spine, sint32 sx, sint32 sy, sint32 sw, sint32 sh, bool flip,
         chars uiname = nullptr, ZayPanel::SubGestureCB cb = nullptr);
+    void RenderObjectShadow(ZayPanel& panel, const MapSpine& spine, sint32 sx, sint32 sy, sint32 sw, sint32 sh, bool flip);
     void RenderLayer(bool editmode, bool titlemode, ZayPanel& panel, const MapLayer& layer,
         const MapMonsters* monsters = nullptr, const sint32 wavesec = 0, const sint32 SX = 0, const sint32 SY = 0, const sint32 SW = 0, const sint32 SH = 0);
     void Render(bool editmode, bool titlemode, ZayPanel& panel, const MapMonsters* monsters = nullptr, sint32 wavesec = 0);
@@ -408,9 +420,10 @@ public: // 기획요소
     float mBreathScale;
     sint32 mBreathMinDamage;
     sint32 mBreathMaxDamage;
-    sint32 mEggHPbarDeleteTime; // 투명해지는데 걸리는 시간
+    sint32 mBreathMaxGauge;
+    sint32 mBreathGaugeChargingPerSec;
+    sint32 mHPbarDeleteTime; // 투명해지는데 걸리는 시간
     sint32 mEggHPRegenValue; // 초당 재생량
-    sint32 mEggHP;
     sint32 m1StarHpRate;
     sint32 m2StarHpRate;
     sint32 m3StarHpRate;
@@ -425,6 +438,10 @@ public: // 기획요소
     Map<SpineRenderer> mSpines;
 
 public: // UI요소
+    sint32 mUIL;
+    sint32 mUIT;
+    sint32 mUIR;
+    sint32 mUIB;
     sint32 mScreenW;
     sint32 mScreenH;
     sint32 mInGameW;
@@ -437,9 +454,11 @@ public: // UI요소
     const sint32 mLayerLength = 6;
 
 public: // 맵요소
-    String mBGName;
+    String mBGNameA;
+    String mBGNameB;
     TargetZones mTargets;
     MapLayers mLayers;
+    id_surface mShadowSurface;
     TryWorld::Hurdle* mHurdle;
     TryWorld::Map* mMap;
 };

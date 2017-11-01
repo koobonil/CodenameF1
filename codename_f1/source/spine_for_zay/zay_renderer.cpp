@@ -143,4 +143,10 @@ namespace ZAY
     {
         return _mvpMatrix;
     }
+
+    //bx
+    void Renderer::setRenderMode(const float mode)
+    {
+        _setRenderMode(mode);
+    }
 }
