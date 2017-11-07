@@ -24,6 +24,7 @@ public:
         mID = ToReference(rhs.mID);
         mType = rhs.mType;
         mAsset = ToReference(rhs.mAsset);
+        mAssetShadow = ToReference(rhs.mAssetShadow);
         mHP = rhs.mHP;
         return *this;
     }
@@ -71,6 +72,7 @@ public:
     String mID;
     TypeClass mType;
     String mAsset;
+    String mAssetShadow;
     sint32 mHP;
 };
 typedef Array<ObjectType> ObjectTypes;
@@ -155,6 +157,8 @@ public:
         mAttackSpeed = 0;
         mAttackRange = 0;
         mAsset = "noname";
+        mWeight = 0;
+        mResistance = 0;
     }
     ~MonsterType() {}
     MonsterType(MonsterType&& rhs) {operator=(ToReference(rhs));}
@@ -170,6 +174,8 @@ public:
         mAttackSpeed = rhs.mAttackSpeed;
         mAttackRange = rhs.mAttackRange;
         mAsset = ToReference(rhs.mAsset);
+        mWeight = rhs.mWeight;
+        mResistance = rhs.mResistance;
         return *this;
     }
 
@@ -211,6 +217,8 @@ public:
     sint32 mAttackSpeed;
     sint32 mAttackRange;
     String mAsset;
+    sint32 mWeight;
+    sint32 mResistance;
 };
 typedef Array<MonsterType> MonsterTypes;
 
@@ -307,12 +315,21 @@ typedef Array<MapObject> MapObjects;
 class MapPolygon
 {
 public:
-    MapPolygon() {mType = nullptr; mVisible = true;}
-    ~MapPolygon() {}
+    MapPolygon();
+    ~MapPolygon();
+    MapPolygon(const MapPolygon& rhs);
+    MapPolygon& operator=(const MapPolygon& rhs);
+    MapPolygon(MapPolygon&& rhs);
+    MapPolygon& operator=(MapPolygon&& rhs);
+
+public:
+    void UpdateCW();
+
 public:
     const PolygonType* mType;
     bool mVisible;
-    Points mPolygon;
+    bool mIsCW;
+    Points mPoints;
 };
 typedef Array<MapPolygon> MapPolygons;
 
@@ -342,24 +359,33 @@ public:
 public:
     void Init(const MonsterType* type, sint32 timesec, float x, float y,
         const SpineRenderer& renderer, const SpineRenderer* toast_renderer = nullptr);
-    void Hit() const;
-    void Dead() const;
+    void ResetCB();
+    void KnockBack(bool down, bool kill);
+    void KnockBackEnd();
     void Turn() const;
     sint32 TryAttack();
     void CancelAttack();
+    void ClearTarget();
+
+public:
+    const float mKnockBackAccelMin = 0.001f; // 화면크기비율상수
+    const sint32 mKnockBackNearMin = 3; // 3px
+    enum Mode {Mode_Run, Mode_Attack, Mode_Dying};
 
 public:
     const MonsterType* mType;
     sint32 mEntranceSec;
     sint32 mHP;
-    bool mAttackMode;
+    Mode mMode;
+    sint32 mDeathStep;
     sint32 mAttackCount;
     uint64 mAttackTimeMsec;
     bool mFlipMode;
     bool mLastFlip;
     Point mLastFlipPos;
-    sint32 mDeathCount;
-    Point mPos;
+    Point mCurrentPos;
+    Point mTargetPos;
+    Point mKnockBackAccel;
     sint32 mTargetId;
     TryWorld::Path* mTargetPath;
     sint32 mTargetPathScore;
@@ -393,7 +419,7 @@ typedef Array<TargetZone> TargetZones;
 ////////////////////////////////////////////////////////////////////////////////
 class F1State
 {
-    BOSS_DECLARE_NONCOPYABLE_CLASS(F1State)
+    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(F1State, mIsLandscape(landscape()))
 public:
     F1State();
     ~F1State();
@@ -407,9 +433,9 @@ public:
     void RenderObject(bool needupdate, bool editmode, ZayPanel& panel, const MapSpine& spine, sint32 sx, sint32 sy, sint32 sw, sint32 sh, bool flip,
         chars uiname = nullptr, ZayPanel::SubGestureCB cb = nullptr);
     void RenderObjectShadow(ZayPanel& panel, const MapSpine& spine, sint32 sx, sint32 sy, sint32 sw, sint32 sh, bool flip);
-    void RenderLayer(bool editmode, bool titlemode, ZayPanel& panel, const MapLayer& layer,
+    void RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
         const MapMonsters* monsters = nullptr, const sint32 wavesec = 0, const sint32 SX = 0, const sint32 SY = 0, const sint32 SW = 0, const sint32 SH = 0);
-    void Render(bool editmode, bool titlemode, ZayPanel& panel, const MapMonsters* monsters = nullptr, sint32 wavesec = 0);
+    void Render(bool editmode, ZayPanel& panel, const MapMonsters* monsters = nullptr, sint32 wavesec = 0);
 
 public: // 기획요소
     Solver mUILeft;
@@ -420,6 +446,8 @@ public: // 기획요소
     float mBreathScale;
     sint32 mBreathMinDamage;
     sint32 mBreathMaxDamage;
+    float mKnockBackMinDistance;
+    float mKnockBackMaxDistance;
     sint32 mBreathMaxGauge;
     sint32 mBreathGaugeChargingPerSec;
     sint32 mHPbarDeleteTime; // 투명해지는데 걸리는 시간
@@ -437,6 +465,10 @@ public: // 기획요소
     MonsterTypes mMonsterTypes;
     Map<SpineRenderer> mSpines;
 
+public: // 가로모드
+    static bool& landscape() {static bool _ = false; return _;}
+    const bool mIsLandscape;
+
 public: // UI요소
     sint32 mUIL;
     sint32 mUIT;
@@ -450,6 +482,8 @@ public: // UI요소
     sint32 mInGameY;
     sint32 mBreathSizeR;
     sint32 mMonsterSizeR;
+    sint32 mKnockBackMinV;
+    sint32 mKnockBackMaxV;
     const sint32 mTimelineLength = 60;
     const sint32 mLayerLength = 6;
 
@@ -489,7 +523,7 @@ public:
     virtual void OnSelectSub(chars name) = 0;
     virtual void InitSelectBox(sint32 index) = 0;
     virtual void QuitSelectBox(sint32 index) = 0;
-    virtual void ChangeSelectBox(sint32 index) = 0;
+    virtual void ChangeSelectBox(sint32 type, sint32 index) = 0;
     virtual void OnSelectBoxMoving(sint32 index, float addx, float addy) = 0;
     virtual void OnSelectBoxMoved(sint32 index) = 0;
     virtual void OnSelectBoxSizing(sint32 index, float addx, float addy) = 0;

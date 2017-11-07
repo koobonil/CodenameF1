@@ -176,6 +176,12 @@ namespace ZAY
         static SpineInstance* Clone(const SpineInstance* old)
         {return new SpineInstance(old->Instance->getSkeletonData(), old->FinishedCB, old->EventCB);}
 
+        void ResetCB(SpineBuilder::MotionFinishedCB fcb, SpineBuilder::UserEventCB ecb)
+        {
+            FinishedCB = fcb;
+            EventCB = ecb;
+        }
+
         void SetBoundBox(chars name, int r, int g, int b, int a)
         {
             BoundBox& NewBoundBox = BoxMap(name);
@@ -287,6 +293,20 @@ namespace ZAY
             {
                 it.second->setEnabled(false);
                 it.second->setLoopAndSeek(0, false);
+            }
+            if(with_reserve)
+                ReservedMotionMap.Reset();
+        }
+
+        void SetMotionOffAllWithoutSeek(bool with_reserve)
+        {
+            for(auto it : StateSet->getAnimationStates())
+            {
+                if(!it.second->getSeek())
+                {
+                    it.second->setEnabled(false);
+                    it.second->setLoopAndSeek(0, false);
+                }
             }
             if(with_reserve)
                 ReservedMotionMap.Reset();
@@ -409,9 +429,7 @@ namespace ZAY
             Renderer->setOriginalFBO(fbo);
             Renderer->checkAndRemakeShaders();
             Renderer->update();
-            if(rendermode == 0.0) // 일반모드
-                Renderer->render(false);
-            else Renderer->render(true); // 그림자모드, 외곽선모드
+            Renderer->render();
             Node->_postRender();
 
             // Viewport And Scissor
@@ -582,6 +600,12 @@ namespace ZAY
         delete (SpineInstance*) spine_instance;
     }
 
+    void SpineBuilder::ResetCB(id_spine_instance spine_instance, MotionFinishedCB fcb, UserEventCB ecb)
+    {
+        SpineInstance* CurInstance = (SpineInstance*) spine_instance;
+        CurInstance->ResetCB(fcb, ecb);
+    }
+
     void SpineBuilder::Seek(id_spine_instance spine_instance, float sec)
     {
         SpineInstance* CurInstance = (SpineInstance*) spine_instance;
@@ -646,6 +670,12 @@ namespace ZAY
     {
         SpineInstance* CurInstance = (SpineInstance*) spine_instance;
         CurInstance->SetMotionOffAll(with_reserve);
+    }
+
+    void SpineBuilder::SetMotionOffAllWithoutSeek(id_spine_instance spine_instance, bool with_reserve)
+    {
+        SpineInstance* CurInstance = (SpineInstance*) spine_instance;
+        CurInstance->SetMotionOffAllWithoutSeek(with_reserve);
     }
 
     bool SpineBuilder::IsMotionEnabled(id_spine_instance spine_instance)

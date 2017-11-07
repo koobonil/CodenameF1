@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "HdJJDQ7fiZhWTRnIuzPyCVPxqvU", "spine": "3.6.45", "width": 2623.27, "height": 3306.55, "images": "./main_title_ui/" },
+"skeleton": { "hash": "KiIqR0qyumX3pjZe9Z6tyNfWNXw", "spine": "3.6.47", "width": 12101.24, "height": 3306.55, "images": "./main_title_ui/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 205.23, "rotation": 90, "x": -0.49, "y": 3.34 },
@@ -61,7 +61,7 @@
 			}
 		},
 		"backgroubd_a": {
-			"backgroubd_a": { "x": -85.68, "y": 294.06, "scaleX": 4.372, "scaleY": 5.695, "rotation": -90, "width": 600, "height": 164 }
+			"backgroubd_a": { "x": -85.68, "y": 294.06, "scaleX": 20.169, "scaleY": 5.695, "rotation": -90, "width": 600, "height": 164 }
 		},
 		"butteb_meteo": {
 			"butteb_meteo": { "x": 0.34, "y": -13.34, "width": 249, "height": 247 }

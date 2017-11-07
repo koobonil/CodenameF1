@@ -8,4 +8,5 @@ public:
     ~codename_f1Data();
 
 public:
+    bool mIsLandscape;
 };

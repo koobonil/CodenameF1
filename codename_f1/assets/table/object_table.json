@@ -7,6 +7,7 @@
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"wall_forest_a",
+		"AssetShadow":"object_shadow",
 		"IsTool":"True"
 	},
 	{
@@ -17,6 +18,7 @@
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"wall_forest_b",
+		"AssetShadow":"object_shadow",
 		"IsTool":"True"
 	},
 	{

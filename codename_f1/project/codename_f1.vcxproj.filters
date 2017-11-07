@@ -36,9 +36,6 @@
     <ClInclude Include="..\source\codename_f1.hpp">
       <Filter>source</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\r.hpp">
-      <Filter>source</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\ingame.hpp">
       <Filter>source</Filter>
     </ClInclude>
@@ -216,15 +213,15 @@
     <ClInclude Include="..\source\classes.hpp">
       <Filter>source</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\resource.hpp">
+      <Filter>source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\codename_f1.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\source\main.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\r.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\source\ingame.cpp">
@@ -411,6 +408,9 @@
       <Filter>source\spine_for_zay</Filter>
     </ClCompile>
     <ClCompile Include="..\source\classes.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\resource.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

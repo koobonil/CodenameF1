@@ -10,7 +10,8 @@
 		"AttackSpeed":1000,
 		"AttackRange":300,
 		"Asset":"mob_forest_slime",
-		"Weight":1000
+		"Weight":1000,
+		"Resistance":950
 	},
 	{
 		"ID":"F_Middle",
@@ -23,7 +24,8 @@
 		"AttackSpeed":1600,
 		"AttackRange":300,
 		"Asset":"mob_forest_orc",
-		"Weight":1000
+		"Weight":800,
+		"Resistance":750
 	},
 	{
 		"ID":"F_Fast",
@@ -36,7 +38,8 @@
 		"AttackSpeed":500,
 		"AttackRange":300,
 		"Asset":"mob_forest_helmetorc",
-		"Weight":1000
+		"Weight":500,
+		"Resistance":750
 	},
 	{
 		"ID":"F_MiddleBoss",
@@ -49,7 +52,8 @@
 		"AttackSpeed":2000,
 		"AttackRange":300,
 		"Asset":"mob_forest_wolf",
-		"Weight":500
+		"Weight":1000,
+		"Resistance":950
 	},
 	{
 		"ID":"F_FinalBoss",
@@ -62,6 +66,7 @@
 		"AttackSpeed":3000,
 		"AttackRange":300,
 		"Asset":"mob_forest_ogre",
-		"Weight":200
+		"Weight":200,
+		"Resistance":150
 	}
 ]

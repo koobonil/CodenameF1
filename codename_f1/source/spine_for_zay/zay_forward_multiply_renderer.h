@@ -181,7 +181,7 @@ namespace ZAY
         public:
             void checkAndRemakeShaders();
         public:
-            virtual void render(bool shadow) override;
+            virtual void render() override;
             virtual void update() override;
             
             

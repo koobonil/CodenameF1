@@ -33,7 +33,7 @@
     <ClInclude Include="..\source\codename_f1.hpp" />
     <ClInclude Include="..\source\ingame.hpp" />
     <ClInclude Include="..\source\maptool.hpp" />
-    <ClInclude Include="..\source\r.hpp" />
+    <ClInclude Include="..\source\resource.hpp" />
     <ClInclude Include="..\source\spine_for_zay\cheetah_texture_packer\imagepacker.h" />
     <ClInclude Include="..\source\spine_for_zay\cheetah_texture_packer\maxrects.h" />
     <ClInclude Include="..\source\spine_for_zay\zay_animatable.h" />
@@ -97,7 +97,7 @@
     <ClCompile Include="..\source\ingame.cpp" />
     <ClCompile Include="..\source\main.cpp" />
     <ClCompile Include="..\source\maptool.cpp" />
-    <ClCompile Include="..\source\r.cpp" />
+    <ClCompile Include="..\source\resource.cpp" />
     <ClCompile Include="..\source\spine_for_zay\cheetah_texture_packer\imagecompare.cpp" />
     <ClCompile Include="..\source\spine_for_zay\cheetah_texture_packer\imagecrop.cpp" />
     <ClCompile Include="..\source\spine_for_zay\cheetah_texture_packer\imagepacker.cpp" />

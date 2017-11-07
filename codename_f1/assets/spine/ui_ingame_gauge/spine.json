@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "YsfraozBeu2xeFNbiFJWJX4VXNE", "spine": "3.6.46", "width": 2567.18, "height": 907.9, "images": "./ingame_ui/" },
+"skeleton": { "hash": "IbZCBOJ46HkvXJ04nfvx214PlR8", "spine": "3.6.47", "width": 9985.26, "height": 1108.38, "images": "./ingame_ui/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 58.97, "rotation": 90, "x": -0.35, "y": -93.59 },
@@ -7,7 +7,7 @@
 	{ "name": "background_b", "parent": "bone3", "length": 101.83, "rotation": 90, "x": -22.93, "y": -34.04 },
 	{ "name": "gauge_back", "parent": "bone3", "length": 79.22, "rotation": 90, "x": -179.22, "y": 962.81 },
 	{ "name": "gauge", "parent": "gauge_back", "length": 45.9, "rotation": 360, "x": 4.17, "y": -29.18, "scaleX": 1.257 },
-	{ "name": "gauge_back2", "parent": "gauge_back", "length": 20.03, "x": -770.26, "y": -10.45, "scaleX": 0.01 },
+	{ "name": "gauge_back2", "parent": "gauge_back", "length": 20.03, "x": -770.26, "y": -10.45, "scaleX": 0.01, "scaleY": 0.996 },
 	{ "name": "gauge_dragon", "parent": "gauge_back", "length": 58.7, "x": 5.31, "y": -56.25, "color": "ff0000ff" }
 ],
 "slots": [
@@ -24,11 +24,11 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 222.77, 1047.05, 220.74, 178.85, -25.41, 180.88, -23.37, 1049.08 ]
+				"vertices": [ 232.86, 1047.05, 230.83, 163.71, -43.91, 165.74, -41.88, 1049.08 ]
 			}
 		},
 		"background_b": {
-			"background_b": { "x": 43.63, "y": 313.3, "scaleX": 3.209, "scaleY": 4.274, "rotation": 180, "width": 800, "height": 177 }
+			"background_b": { "x": -2908.37, "y": 313.3, "scaleX": 12.482, "scaleY": 4.274, "rotation": 180, "width": 800, "height": 177 }
 		},
 		"gauge": {
 			"gauge": { "x": -306.84, "y": 16.05, "scaleX": 0.796, "rotation": 180, "width": 768, "height": 214 }
@@ -37,7 +37,7 @@
 			"gauge_back": { "x": -381.71, "y": -13.12, "rotation": 180, "width": 803, "height": 250 }
 		},
 		"gauge_dragon": {
-			"gauge_dragon": { "x": -113.67, "y": -3.86, "rotation": 180, "width": 597, "height": 625 }
+			"gauge_dragon": { "x": 96.89, "y": -55.46, "scaleX": 2.3, "scaleY": 2.3, "rotation": -158.81, "width": 300, "height": 314 }
 		},
 		"gauge_front": {
 			"gauge_front": { "x": 389.5, "rotation": 180, "width": 803, "height": 250 }
@@ -55,8 +55,8 @@
 					{ "time": 0, "x": 0, "y": 0 }
 				],
 				"scale": [
-					{ "time": 0, "x": 1, "y": 1 },
-					{ "time": 5, "x": 103.926, "y": 1 }
+					{ "time": 0, "x": 0.508, "y": 1 },
+					{ "time": 5, "x": 98.682, "y": 1 }
 				]
 			}
 		}

@@ -200,11 +200,11 @@ namespace ZAY
             _finalPassRenderMode = 1.0;
 
             _currentTexture = nullptr;
-            _currentBlendType = BlendType::COUNT;
+            _currentBlendType = BlendType::DEFAULT;
             //_currentMultiplyMapMultiplier = 0.0f;
 
             //bx
-            _forcedBlendType = BlendType::COUNT;
+            _forcedBlendType = BlendType::DEFAULT;
 
             _verticesCapacity =  16 * 1024;
             _vertices = new ZAY_Vertice[_verticesCapacity];
@@ -586,15 +586,17 @@ namespace ZAY
                     "    else if(u_renderMode < 1.0)\n" // 그림자모드
                     "    {\n"
                     "        v_fragmentColor = vec4(0.0, 0.0, 0.0, 1.0);\n"
-                    "        gl_Position = u_mvpMat * vec4(a_position.x + a_position.y * (u_renderMode - 0.5), a_position.y * -0.5, 0.0, 1.0);\n"
+                    "        gl_Position = u_mvpMat * vec4(a_position.x + a_position.y * (u_renderMode - 0.5), a_position.y * -0.25, 0.0, 1.0);\n"
                     "    }\n"
                     "    else\n" // 외곽선모드
                     "    {\n"
-                    "        v_fragmentColor = vec4(0.0, 0.0, 0.0, 1.0);\n"
+                    "        if(a_color.w < 0.8)\n"
+                    "            v_fragmentColor = vec4(0.0, 0.0, 0.0, 0.0);\n"
+                    "        else v_fragmentColor = vec4(0.0, 0.0, 0.0, 1.0);\n"
                     "        vec2 n = normalize(a_position.zw);\n"
                     "        vec4 n_pos = u_mvpMat * vec4(n.x, n.y, 0.0, 1.0);\n"
                     "        vec4 a_pos = u_mvpMat * vec4(a_position.x, a_position.y, 0.0, 1.0);\n"
-                    "        gl_Position = vec4(a_pos.x + n_pos.x * 20.0, a_pos.y + n_pos.y * 20.0, a_pos.z, a_pos.w);\n"
+                    "        gl_Position = vec4(a_pos.x + n_pos.x * 17.5, a_pos.y + n_pos.y * 17.5, a_pos.z, a_pos.w);\n"
                     "    }\n"
                     "}\n";
 
@@ -755,7 +757,7 @@ namespace ZAY
             }
         }
 
-        void ForwardMultiplyRenderer::render(bool shadow)
+        void ForwardMultiplyRenderer::render()
         {
             if (_renderPriorities[static_cast<int>(RenderType::TrianglesMesh)].left.size() > 0)
             {
@@ -913,8 +915,11 @@ namespace ZAY
                 */
 
                 //bx
-                if(shadow) _forcedBlendType = BlendType::Multiply;
-                else _forcedBlendType = BlendType::COUNT;
+                if(_finalPassRenderMode == 0.0) // 일반모드
+                    _forcedBlendType = BlendType::DEFAULT;
+                else if(_finalPassRenderMode == 1.0) // 외곽선모드
+                    _forcedBlendType = BlendType::Outline;
+                else _forcedBlendType = BlendType::Shadow; // 그림자모드
 
                 _trianglesMeshRenderStart();
                 
@@ -931,6 +936,9 @@ namespace ZAY
                 }
                 
                 _trianglesMeshRenderEnd();
+
+                glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+                testGL();
             }
         }
 
@@ -1048,7 +1056,7 @@ namespace ZAY
                 _currentTexture = nullptr;
             }
 
-            _currentBlendType = BlendType::COUNT;
+            _currentBlendType = BlendType::DEFAULT;
             //_currentMultiplyMapMultiplier = 0.0f;
         }
         
@@ -1059,7 +1067,7 @@ namespace ZAY
                 Texture2D* texture = renderCommand->getTexture();
 
                 _setTrianglesMeshTexture(texture);
-                _setTrianglesMeshBlendType((_forcedBlendType != BlendType::COUNT)? _forcedBlendType : renderCommand->getBlendType()); //bx
+                _setTrianglesMeshBlendType((_forcedBlendType != BlendType::DEFAULT)? _forcedBlendType : renderCommand->getBlendType()); //bx
                 _setTrianglesMeshMultiplyMapMultiplier(renderCommand->getMultiplyMapMultiplier());
                 _addTrianglesMeshVerticesAndIndices(renderCommand->getVerticesBuffer().getBufferPointer(),
                                                     renderCommand->getVerticesBuffer().getBufferSize(),
@@ -1073,7 +1081,7 @@ namespace ZAY
             if (_currentTexture &&
                 _verticesCount > 0 &&
                 _indicesCount > 0 &&
-                _currentBlendType != BlendType::COUNT)
+                _currentBlendType != BlendType::DEFAULT)
             {
 #ifdef  USE_BUFFER_OBJECT
                 glActiveTexture(GL_TEXTURE0);
@@ -1116,7 +1124,7 @@ namespace ZAY
                 _currentTexture = nullptr;
             }
 
-            _currentBlendType = BlendType::COUNT;
+            _currentBlendType = BlendType::DEFAULT;
             //_currentMultiplyMapMultiplier = 0.0f;
         }
 
@@ -1164,6 +1172,14 @@ namespace ZAY
                         break;
                     case BlendType::Screen:
                         glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE);
+                        testGL();
+                        break;
+                    case BlendType::Outline:
+                        glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_ALPHA);
+                        testGL();
+                        break;
+                    case BlendType::Shadow:
+                        glBlendFunc(GL_ONE, GL_ONE);
                         testGL();
                         break;
                     default:

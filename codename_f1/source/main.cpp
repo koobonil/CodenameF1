@@ -2,7 +2,7 @@
 #include <platform/boss_platform.hpp>
 #include <service/boss_zay.hpp>
 
-#include <r.hpp>
+#include <resource.hpp>
 
 void PlatformInit()
 {

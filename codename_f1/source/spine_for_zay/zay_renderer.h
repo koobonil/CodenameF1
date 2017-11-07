@@ -86,7 +86,7 @@ namespace ZAY
         virtual void _setRenderMode(const float mode) = 0;
 
     public:
-        virtual void render(bool shadow) = 0;
+        virtual void render() = 0;
         virtual void update() = 0;
 
     public:

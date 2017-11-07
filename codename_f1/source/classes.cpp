@@ -1,7 +1,7 @@
 ﻿#include <boss.hpp>
 #include "classes.hpp"
 
-#include <r.hpp>
+#include <resource.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////
 static sint32 gSpineRendererCount = 0;
@@ -64,7 +64,7 @@ void SpineRenderer::RenderShadow(ZAY::id_spine_instance instance, ZayPanel& pane
     const float cx = ((X + W * 0.5f) - sx) / sw;
     const float cy = ((Y + H * 0.5f) - sy) / sh;
 
-    ZAY::SpineBuilder::Render(panel, instance, flip, cx, cy, scale, 0.5f, sx, sy, sw, sh);
+    ZAY::SpineBuilder::Render(panel, instance, flip, cx, cy, scale, (flip)? 0.2f : 0.8f, sx, sy, sw, sh);
 }
 
 void SpineRenderer::RenderBound(ZAY::id_spine_instance instance, ZayPanel& panel, bool guideline, float ox, float oy, float scale, bool flip,
@@ -273,18 +273,95 @@ void MapObject::Dead() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+MapPolygon::MapPolygon()
+{
+    mType = nullptr;
+    mVisible = true;
+    mIsCW = false;
+}
+
+MapPolygon::~MapPolygon()
+{
+}
+
+MapPolygon::MapPolygon(const MapPolygon& rhs)
+{
+    operator=(rhs);
+}
+
+MapPolygon& MapPolygon::operator=(const MapPolygon& rhs)
+{
+    mType = rhs.mType;
+    mVisible = rhs.mVisible;
+    mPoints = rhs.mPoints;
+    mIsCW = rhs.mIsCW;
+    return *this;
+}
+
+MapPolygon::MapPolygon(MapPolygon&& rhs)
+{
+    operator=(ToReference(rhs));
+}
+
+MapPolygon& MapPolygon::operator=(MapPolygon&& rhs)
+{
+    mType = rhs.mType;
+    mVisible = rhs.mVisible;
+    mPoints = ToReference(rhs.mPoints);
+    mIsCW = rhs.mIsCW;
+    return *this;
+}
+
+void MapPolygon::UpdateCW()
+{
+    mIsCW = false;
+    if(3 <= mPoints.Count())
+    {
+        Rect BoundRect(mPoints[0], Size(0, 0));
+        for(sint32 i = 1, iend = mPoints.Count(); i < iend; ++i)
+        {
+            const auto& CurPoint = mPoints[i];
+            BoundRect.l = Math::MinF(BoundRect.l, CurPoint.x);
+            BoundRect.t = Math::MinF(BoundRect.t, CurPoint.y);
+            BoundRect.r = Math::MaxF(BoundRect.r, CurPoint.x);
+            BoundRect.b = Math::MaxF(BoundRect.b, CurPoint.y);
+        }
+        bool ResultCW = mIsCW;
+        float ResultDistance = -1;
+        const Point TestLine[2] = {
+            Point(BoundRect.l - BoundRect.Width(), BoundRect.CenterY()),
+            Point(BoundRect.r + BoundRect.Width(), BoundRect.CenterY())};
+        for(sint32 i = 0, iend = mPoints.Count(); i < iend; ++i)
+        {
+            const Point& LineBegin = mPoints[i];
+            const Point& LineEnd = mPoints[(i + 1) % iend];
+            if(const Point* CurPos = TryWorld::Util::GetDotByLineCross(LineBegin, LineEnd, TestLine[0], TestLine[1]))
+            {
+                const float CurDistance = Math::Distance(TestLine[0].x, TestLine[0].y, CurPos->x, CurPos->y);
+                if(ResultDistance < 0 || CurDistance < ResultDistance)
+                {
+                    ResultCW = (TryWorld::Util::GetClockwiseValue(LineBegin, LineEnd, TestLine[0]) < 0);
+                    ResultDistance = CurDistance;
+                }
+            }
+        }
+        mIsCW = ResultCW;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
 MapMonster::MapMonster() : MapSpine(ST_Monster), mToast(ST_MonsterToast)
 {
     mType = nullptr;
     mEntranceSec = 0;
     mHP = 0;
-    mAttackMode = false;
+    mMode = Mode_Run;
+    mDeathStep = 0;
     mAttackCount = 0;
     mAttackTimeMsec = 0;
     mFlipMode = false;
     mLastFlip = false;
     mLastFlipPos = Point(0, 0);
-    mDeathCount = 0;
     mTargetId = -1;
     mTargetPath = nullptr;
     mTargetPathScore = 0;
@@ -306,14 +383,16 @@ MapMonster& MapMonster::operator=(MapMonster&& rhs)
     mType = rhs.mType;
     mEntranceSec = rhs.mEntranceSec;
     mHP = rhs.mHP;
-    mAttackMode = rhs.mAttackMode;
+    mMode = rhs.mMode;
+    mDeathStep = rhs.mDeathStep;
     mAttackCount = rhs.mAttackCount;
     mAttackTimeMsec = rhs.mAttackTimeMsec;
     mFlipMode = rhs.mFlipMode;
     mLastFlip = rhs.mLastFlip;
     mLastFlipPos = rhs.mLastFlipPos;
-    mDeathCount = rhs.mDeathCount;
-    mPos = rhs.mPos;
+    mCurrentPos = rhs.mCurrentPos;
+    mTargetPos = rhs.mTargetPos;
+    mKnockBackAccel = rhs.mKnockBackAccel;
     mTargetId = rhs.mTargetId;
     mTargetPath = rhs.mTargetPath;
     rhs.mTargetPath = nullptr;
@@ -328,27 +407,43 @@ void MapMonster::Init(const MonsterType* type, sint32 timesec, float x, float y,
     mType = type;
     mEntranceSec = timesec;
     mHP = type->mHP;
-    mAttackMode = false;
+    mMode = Mode_Run;
+    mDeathStep = 0;
     mAttackCount = 0;
     mAttackTimeMsec = 0;
     mFlipMode = (x < 0);
     mLastFlip = mFlipMode;
-    mDeathCount = 0;
-    mPos.x = x;
-    mPos.y = y;
+    mCurrentPos = Point(x, y);
+    mTargetPos = Point(x, y);
 
     InitSpine(&renderer).PlayMotion("run", true);
+    PlayMotionSeek("_style", false);
+    SetSeekSec((Platform::Utility::Random() % 5000) * 0.001f);
+
     if(toast_renderer)
         mToast.InitSpine(toast_renderer);
 }
 
-void MapMonster::Hit() const
+void MapMonster::ResetCB()
 {
     if(mSpineInstance)
     {
-        ZAY::SpineBuilder::SetMotionOffAll(mSpineInstance, true);
-        ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "hit", false);
-        ZAY::SpineBuilder::SetMotionOnAttached(mSpineInstance, "hit", (mAttackMode)? "attack" : "run", true);
+        ZAY::SpineBuilder::ResetCB(mSpineInstance,
+            [this](chars motionname)
+            {
+                if(!String::Compare("dead", motionname))
+                    mDeathStep = 2;
+            }, nullptr);
+    }
+}
+
+void MapMonster::KnockBack(bool down, bool kill)
+{
+    if(mSpineInstance)
+    {
+        if(kill) mMode = Mode_Dying;
+        ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mSpineInstance, true);
+        ZAY::SpineBuilder::SetMotionOn(mSpineInstance, (down)? "hit_down" : "hit_up", false);
         if(mToast.renderer())
         {
             mToast.mSpineMsecOld = 0;
@@ -357,41 +452,45 @@ void MapMonster::Hit() const
     }
 }
 
-void MapMonster::Dead() const
+void MapMonster::KnockBackEnd()
 {
     if(mSpineInstance)
     {
-        ZAY::SpineBuilder::SetMotionOffAll(mSpineInstance, true);
-        ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "dead", false);
-        if(mToast.renderer())
+        ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mSpineInstance, true);
+        if(mMode == Mode_Dying)
         {
-            mToast.mSpineMsecOld = 0;
-            ZAY::SpineBuilder::SetMotionOnOnce(mToast.mSpineInstance, "breath_normal_hit");
+            mDeathStep = 1;
+            ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "dead", false);
+        }
+        else
+        {
+            mMode = Mode_Run;
+            ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "run", true);
         }
     }
 }
 
 void MapMonster::Turn() const
 {
-    if(mSpineInstance)
+    if(mSpineInstance && mMode != Mode_Dying)
     {
-        ZAY::SpineBuilder::SetMotionOffAll(mSpineInstance, true);
+        ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mSpineInstance, true);
         ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "flip", false);
-        ZAY::SpineBuilder::SetMotionOnAttached(mSpineInstance, "flip", (mAttackMode)? "attack" : "run", true);
+        ZAY::SpineBuilder::SetMotionOnAttached(mSpineInstance, "flip", (mMode == Mode_Attack)? "attack" : "run", true);
     }
 }
 
 sint32 MapMonster::TryAttack()
 {
-    if(!mSpineInstance)
+    if(!mSpineInstance || mMode == Mode_Dying)
         return 0;
 
-    if(!mAttackMode)
+    if(mMode != Mode_Attack)
     {
-        mAttackMode = true;
+        mMode = Mode_Attack;
         mAttackCount = 0;
         mAttackTimeMsec = Platform::Utility::CurrentTimeMsec();
-        ZAY::SpineBuilder::SetMotionOffAll(mSpineInstance, true);
+        ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mSpineInstance, true);
         ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "attack", true);
     }
 
@@ -403,12 +502,20 @@ sint32 MapMonster::TryAttack()
 
 void MapMonster::CancelAttack()
 {
-    if(mSpineInstance && mAttackMode)
+    if(mSpineInstance && mMode == Mode_Attack)
     {
-        mAttackMode = false;
-        ZAY::SpineBuilder::SetMotionOffAll(mSpineInstance, true);
+        mMode = Mode_Run;
+        ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mSpineInstance, true);
         ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "run", true);
     }
+}
+
+void MapMonster::ClearTarget()
+{
+    mTargetId = -1;
+    TryWorld::Path::Release(mTargetPath);
+    mTargetPath = nullptr;
+    mTargetPathScore = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -453,7 +560,7 @@ void TargetZone::Init(sint32 layerid, sint32 objectid, sint32 hp, float x, float
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-F1State::F1State()
+F1State::F1State() : mIsLandscape(landscape())
 {
     Map<String> GlobalWeightMap;
     if(auto GlobalWeightTable = Context(ST_Json, SO_NeedCopy, String::FromFile("table/globalweight_table.json")))
@@ -480,11 +587,11 @@ F1State::F1State()
     mUIRight.Execute();
     mUIBottom.Execute();
 
-    mViewRate = 5000.0f / 6000.0f;
-
     mBreathScale = Parser::GetInt(GlobalWeightMap("BreathScale")) / 1000.0f;
     mBreathMinDamage = Parser::GetInt(GlobalWeightMap("BreathMinDamage"));
     mBreathMaxDamage = Parser::GetInt(GlobalWeightMap("BreathMaxDamage"));
+    mKnockBackMinDistance = Parser::GetInt(GlobalWeightMap("KnockBackMinDistance")) / 1000.0f;
+    mKnockBackMaxDistance = Parser::GetInt(GlobalWeightMap("KnockBackMaxDistance")) / 1000.0f;
     mBreathMaxGauge = Parser::GetInt(GlobalWeightMap("BreathMaxGauge"));
     mBreathGaugeChargingPerSec = Parser::GetInt(GlobalWeightMap("BreathGaugeChargingPerSec"));
     mHPbarDeleteTime = Parser::GetInt(GlobalWeightMap("HPbarDeleteTime")); // HP가 다시 투명이되는데 걸리는 시간
@@ -507,6 +614,7 @@ F1State::F1State()
             NewObjectType.mID = ObjectTable[i]("ID").GetString("");
             NewObjectType.mType = ObjectTable[i]("Type").GetString("Null");
             NewObjectType.mAsset = ObjectTable[i]("Asset").GetString("noname");
+            NewObjectType.mAssetShadow = ObjectTable[i]("AssetShadow").GetString("");
             NewObjectType.mHP = ObjectTable[i]("HP").GetInt(0);
         }
     }
@@ -543,6 +651,8 @@ F1State::F1State()
             NewMonsterType.mAttackSpeed = MonsterTable[i]("AttackSpeed").GetInt(1000);
             NewMonsterType.mAttackRange = MonsterTable[i]("AttackRange").GetInt(100);
             NewMonsterType.mAsset = MonsterTable[i]("Asset").GetString("noname");
+            NewMonsterType.mWeight = MonsterTable[i]("Weight").GetInt(1000);
+            NewMonsterType.mResistance = MonsterTable[i]("Resistance").GetInt(900);
         }
     }
     else BOSS_ASSERT("monster_table.json의 로딩에 실패하였습니다", false);
@@ -566,6 +676,8 @@ F1State::F1State()
     mInGameY = 0;
     mBreathSizeR = 0;
     mMonsterSizeR = 0;
+    mKnockBackMinV = 0;
+    mKnockBackMaxV = 0;
 
     mBGNameA = "";
     mBGNameB = "";
@@ -616,10 +728,20 @@ void F1State::LoadMap(chars json)
                     break;
                 }
             NewObject.mVisible = (CurJsonObject("Visible").GetInt(1) != 0)? true : false;
-            NewObject.mRect.l = CurJsonObject("RectL").GetFloat();
-            NewObject.mRect.t = CurJsonObject("RectT").GetFloat();
-            NewObject.mRect.r = CurJsonObject("RectR").GetFloat();
-            NewObject.mRect.b = CurJsonObject("RectB").GetFloat();
+            if(mIsLandscape)
+            {
+                NewObject.mRect.l = CurJsonObject("RectT").GetFloat();
+                NewObject.mRect.t = -CurJsonObject("RectR").GetFloat();
+                NewObject.mRect.r = CurJsonObject("RectB").GetFloat();
+                NewObject.mRect.b = -CurJsonObject("RectL").GetFloat();
+            }
+            else
+            {
+                NewObject.mRect.l = CurJsonObject("RectL").GetFloat();
+                NewObject.mRect.t = CurJsonObject("RectT").GetFloat();
+                NewObject.mRect.r = CurJsonObject("RectR").GetFloat();
+                NewObject.mRect.b = CurJsonObject("RectB").GetFloat();
+            }
             if(auto CurSpine = mSpines.Access(NewObject.mType->mAsset))
                 NewObject.InitSpine(CurSpine).PlayMotion("idle", true);
             if(NewObject.mType->mType == ObjectType::TypeClass::Target)
@@ -644,12 +766,22 @@ void F1State::LoadMap(chars json)
                     break;
                 }
             NewPolygon.mVisible = (CurJsonPolygon("Visible").GetInt(1) != 0)? true : false;
-            NewPolygon.mPolygon.AtDumpingAdded(CurJsonPolygon("Points").LengthOfIndexable());
-            for(sint32 i = 0, iend = NewPolygon.mPolygon.Count(); i < iend; ++i)
+            NewPolygon.mPoints.AtDumpingAdded(CurJsonPolygon("Points").LengthOfIndexable());
+            for(sint32 i = 0, iend = NewPolygon.mPoints.Count(); i < iend; ++i)
             {
-                NewPolygon.mPolygon.At(i).x = CurJsonPolygon("Points")[i]("X").GetFloat();
-                NewPolygon.mPolygon.At(i).y = CurJsonPolygon("Points")[i]("Y").GetFloat();
+                auto& CurPoint = NewPolygon.mPoints.At(i);
+                if(mIsLandscape)
+                {
+                    CurPoint.x = CurJsonPolygon("Points")[i]("Y").GetFloat();
+                    CurPoint.y = -CurJsonPolygon("Points")[i]("X").GetFloat();
+                }
+                else
+                {
+                    CurPoint.x = CurJsonPolygon("Points")[i]("X").GetFloat();
+                    CurPoint.y = CurJsonPolygon("Points")[i]("Y").GetFloat();
+                }
             }
+            NewPolygon.UpdateCW();
         }
     }
 }
@@ -673,23 +805,42 @@ String F1State::SaveMap()
 
             NewJsonObject.At("ID").Set(CurObject.mType->mID);
             NewJsonObject.At("Visible").Set((CurObject.mVisible)? "1" : "0");
-            NewJsonObject.At("RectL").Set(String::FromFloat(CurObject.mRect.l));
-            NewJsonObject.At("RectT").Set(String::FromFloat(CurObject.mRect.t));
-            NewJsonObject.At("RectR").Set(String::FromFloat(CurObject.mRect.r));
-            NewJsonObject.At("RectB").Set(String::FromFloat(CurObject.mRect.b));
+            if(mIsLandscape)
+            {
+                NewJsonObject.At("RectL").Set(String::FromFloat(CurObject.mRect.t));
+                NewJsonObject.At("RectT").Set(String::FromFloat(-CurObject.mRect.r));
+                NewJsonObject.At("RectR").Set(String::FromFloat(CurObject.mRect.b));
+                NewJsonObject.At("RectB").Set(String::FromFloat(-CurObject.mRect.l));
+            }
+            else
+            {
+                NewJsonObject.At("RectL").Set(String::FromFloat(CurObject.mRect.l));
+                NewJsonObject.At("RectT").Set(String::FromFloat(CurObject.mRect.t));
+                NewJsonObject.At("RectR").Set(String::FromFloat(CurObject.mRect.r));
+                NewJsonObject.At("RectB").Set(String::FromFloat(CurObject.mRect.b));
+            }
         }
         for(sint32 plg = 0, plg_end = CurLayer.mPolygons.Count(); plg < plg_end; ++plg)
         {
             auto& CurPolygon = CurLayer.mPolygons[plg];
-            if(CurPolygon.mPolygon.Count() <= 2) continue;
+            if(CurPolygon.mPoints.Count() <= 2) continue;
             auto& NewJsonPolygon = NewJsonLayer.At("Polygons").At(plg);
 
             NewJsonPolygon.At("ID").Set(CurPolygon.mType->mID);
             NewJsonPolygon.At("Visible").Set((CurPolygon.mVisible)? "1" : "0");
-            for(sint32 i = 0, iend = CurPolygon.mPolygon.Count(); i < iend; ++i)
+            for(sint32 i = 0, iend = CurPolygon.mPoints.Count(); i < iend; ++i)
             {
-                NewJsonPolygon.At("Points").At(i).At("X").Set(String::FromFloat(CurPolygon.mPolygon[i].x));
-                NewJsonPolygon.At("Points").At(i).At("Y").Set(String::FromFloat(CurPolygon.mPolygon[i].y));
+                auto& NewJsonPoint = NewJsonPolygon.At("Points").At(i);
+                if(mIsLandscape)
+                {
+                    NewJsonPoint.At("X").Set(String::FromFloat(CurPolygon.mPoints[i].y));
+                    NewJsonPoint.At("Y").Set(String::FromFloat(-CurPolygon.mPoints[i].x));
+                }
+                else
+                {
+                    NewJsonPoint.At("X").Set(String::FromFloat(CurPolygon.mPoints[i].x));
+                    NewJsonPoint.At("Y").Set(String::FromFloat(CurPolygon.mPoints[i].y));
+                }
             }
         }
     }
@@ -709,7 +860,7 @@ void F1State::RebuildTryWorld()
         {
             if(CurPolygons[j].mType->mType != PolygonType::TypeClass::Wall)
                 continue;
-            auto& CurPoints = CurPolygons[j].mPolygon;
+            auto& CurPoints = CurPolygons[j].mPoints;
             Points NewPoints;
             NewPoints.AtDumpingAdded(CurPoints.Count());
             for(sint32 k = 0, kend = CurPoints.Count(); k < kend; ++k)
@@ -721,7 +872,7 @@ void F1State::RebuildTryWorld()
             mHurdle->Add(NewPoints);
         }
     }
-    mMap = mHurdle->BuildMap(Rect(-mInGameW, -mInGameH, mInGameW * 2, mInGameH * 2));
+    mMap = mHurdle->BuildMap(Rect(0, 0, mScreenW, mScreenH) - Point(mInGameX, mInGameY));
 }
 
 void F1State::SetSize(sint32 width, sint32 height)
@@ -743,14 +894,18 @@ void F1State::SetSize(sint32 width, sint32 height)
     const sint32 ViewWidth = Math::Max(0, width - (mUIL + mUIR));
     const sint32 ViewHeight = Math::Max(0, height - (mUIT + mUIB));
     const float CurRate = ViewWidth / (float) ViewHeight;
+    const float ViewRate = (mIsLandscape)? 6000.0f / 5000.0f : 5000.0f / 6000.0f;
     mScreenW = width;
     mScreenH = height;
-    mInGameW = (sint32) (ViewWidth * ((CurRate < mViewRate)? 1 : mViewRate / CurRate));
-    mInGameH = (sint32) (ViewHeight * ((CurRate < mViewRate)? CurRate / mViewRate : 1));
+    mInGameW = (sint32) (ViewWidth * ((CurRate < ViewRate)? 1 : ViewRate / CurRate));
+    mInGameH = (sint32) (ViewHeight * ((CurRate < ViewRate)? CurRate / ViewRate : 1));
     mInGameX = mUIL + (ViewWidth - mInGameW) / 2;
     mInGameY = mUIT + (ViewHeight - mInGameH) / 2;
-    mBreathSizeR = mInGameW * mBreathScale / 2;
-    mMonsterSizeR = mInGameW * mMonsterScale / 2;
+    const sint32 BaseSize = (mIsLandscape)? mInGameH : mInGameW;
+    mBreathSizeR = BaseSize * mBreathScale / 2;
+    mMonsterSizeR = BaseSize * mMonsterScale / 2;
+    mKnockBackMinV = BaseSize * mKnockBackMinDistance;
+    mKnockBackMaxV = BaseSize * mKnockBackMaxDistance;
     Platform::Graphics::RemoveSurface(mShadowSurface);
     mShadowSurface = Platform::Graphics::CreateSurface(mScreenW, mScreenH);
 }
@@ -834,7 +989,7 @@ void F1State::RenderObjectShadow(ZayPanel& panel, const MapSpine& spine, sint32 
     }
 }
 
-void F1State::RenderLayer(bool editmode, bool titlemode, ZayPanel& panel, const MapLayer& layer,
+void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
     const MapMonsters* monsters, const sint32 wavesec, const sint32 SX, const sint32 SY, const sint32 SW, const sint32 SH)
 {
     class OrderNode : public OrderUpdater
@@ -879,7 +1034,7 @@ void F1State::RenderLayer(bool editmode, bool titlemode, ZayPanel& panel, const 
     for(sint32 i = 0, iend = monsters->Count(); i < iend; ++i)
     {
         if(wavesec < (*monsters)[i].mEntranceSec) continue;
-        if(0 < (*monsters)[i].mHP || 0 < (*monsters)[i].mDeathCount)
+        if((*monsters)[i].mDeathStep < 2)
         {
             if((*monsters)[i].renderer())
             {
@@ -891,8 +1046,8 @@ void F1State::RenderLayer(bool editmode, bool titlemode, ZayPanel& panel, const 
                 auto& NewNode = Nodes.AtAdding();
                 NewNode.mIsMonster = true;
                 NewNode.mData = &(*monsters)[i];
-                NewNode.mRect.l = mInGameW * ((*monsters)[i].mPos.x + 0.5f) - mMonsterSizeR;
-                NewNode.mRect.t = mInGameH * ((*monsters)[i].mPos.y + 0.5f) - mMonsterSizeR;
+                NewNode.mRect.l = mInGameW * ((*monsters)[i].mCurrentPos.x + 0.5f) - mMonsterSizeR;
+                NewNode.mRect.t = mInGameH * ((*monsters)[i].mCurrentPos.y + 0.5f) - mMonsterSizeR;
                 NewNode.mRect.r = NewNode.mRect.l + mMonsterSizeR * 2;
                 NewNode.mRect.b = NewNode.mRect.t + mMonsterSizeR * 2;
                 NewNode.BindUpdater(&Head);
@@ -919,16 +1074,28 @@ void F1State::RenderLayer(bool editmode, bool titlemode, ZayPanel& panel, const 
     }
 
     // 몬스터 레이어에는 그림자랜더링
-    /*if(monsters)
+    if(monsters)
     {
-        const Point XY = panel.toview(0, 0);
         ZAY_MAKE_SUB(panel, mShadowSurface)
         {
-            ZAY_RGB(panel, 255, 255, 255)
-                panel.fill();
+            panel.erase();
             ZAY_XYWH(panel, SX, SY, SW, SH)
             {
                 OrderUpdater* CurNode = &Head;
+                while((CurNode = CurNode->Next()) != &Head)
+                {
+                    OrderNode* CurOrderNode = (OrderNode*) CurNode;
+                    ZAY_RECT(panel, CurOrderNode->mRect)
+                    {
+                        if(!CurOrderNode->mIsMonster)
+                        {
+                            const MapObject* CurObject = (const MapObject*) CurOrderNode->mData;
+                            if(CurObject->mVisible && 0 < CurObject->mType->mAssetShadow.Length())
+                                RenderImage(editmode, panel, R(CurObject->mType->mAssetShadow));
+                        }
+                    }
+                }
+                CurNode = &Head;
                 while((CurNode = CurNode->Next()) != &Head)
                 {
                     OrderNode* CurOrderNode = (OrderNode*) CurNode;
@@ -944,10 +1111,11 @@ void F1State::RenderLayer(bool editmode, bool titlemode, ZayPanel& panel, const 
                 }
             }
         }
+        const Point XY = panel.toview(0, 0);
         ZAY_XYWH(panel, -XY.x, -XY.y, Platform::Graphics::GetSurfaceWidth(mShadowSurface), Platform::Graphics::GetSurfaceHeight(mShadowSurface))
-        ZAY_BLEND(panel, BR_Multiply)
+        ZAY_RGBA(panel, 128, 128, 128, 32)
             panel.sub("shadow", mShadowSurface);
-    }*/
+    }
 
     // 몬스터와 오브젝트
     OrderUpdater* CurNode = &Head;
@@ -993,7 +1161,7 @@ void F1State::RenderLayer(bool editmode, bool titlemode, ZayPanel& panel, const 
                 }
                 else RenderImage(editmode, panel, R(CurMonster->mType->mAsset));
                 // 몬스터HP
-                if(!titlemode)
+                if(editmode)
                 {
                     const String HP = String::Format("HP-%d", CurMonster->mHP);
                     ZAY_RGB(panel, 0, 0, 0)
@@ -1030,35 +1198,46 @@ void F1State::RenderLayer(bool editmode, bool titlemode, ZayPanel& panel, const 
     if(editmode)
     {
         auto& CurPolygons = layer.mPolygons;
-        for(sint32 j = 0, jend = CurPolygons.Count(); j < jend; ++j)
+        for(sint32 i = 0, iend = CurPolygons.Count(); i < iend; ++i)
         {
-            auto& CurPoints = CurPolygons[j].mPolygon;
+            auto& CurPoints = CurPolygons[i].mPoints;
             Points NewPoints;
-            NewPoints.AtDumpingAdded(CurPoints.Count());
-            for(sint32 k = 0, kend = CurPoints.Count(); k < kend; ++k)
+            NewPoints.AtDumpingAdded(CurPoints.Count() + (!CurPolygons[i].mIsCW));
+            for(sint32 j = 0, jend = CurPoints.Count(); j < jend; ++j)
             {
-                const float x = mInGameW * (CurPoints[k].x + 0.5f);
-                const float y = mInGameH * (CurPoints[k].y + 0.5f);
-                NewPoints.At(k) = Point(x, y);
+                const float x = mInGameW * (CurPoints[j].x + 0.5f);
+                const float y = mInGameH * (CurPoints[j].y + 0.5f);
+                NewPoints.At(j) = Point(x, y);
             }
-            if(CurPolygons[j].mVisible)
+            if(!CurPolygons[i].mIsCW)
+                NewPoints.At(-1) = NewPoints.At(0);
+
+            if(CurPolygons[i].mVisible)
             {
-                const sint32 ColorR = CurPolygons[j].mType->mColorR;
-                const sint32 ColorG = CurPolygons[j].mType->mColorG;
-                const sint32 ColorB = CurPolygons[j].mType->mColorB;
+                const sint32 ColorR = CurPolygons[i].mType->mColorR;
+                const sint32 ColorG = CurPolygons[i].mType->mColorG;
+                const sint32 ColorB = CurPolygons[i].mType->mColorB;
                 ZAY_RGBA(panel, ColorR, ColorG, ColorB, 128)
-                    panel.polygon(NewPoints);
+                {
+                    if(CurPolygons[i].mIsCW)
+                        panel.polygon(NewPoints);
+                    else panel.polyline(NewPoints, 4);
+                }
             }
             else
             {
                 ZAY_RGBA(panel, 64, 64, 64, 64)
-                    panel.polygon(NewPoints);
+                {
+                    if(CurPolygons[i].mIsCW)
+                        panel.polygon(NewPoints);
+                    else panel.polyline(NewPoints, 4);
+                }
             }
         }
     }
 }
 
-void F1State::Render(bool editmode, bool titlemode, ZayPanel& panel, const MapMonsters* monsters, sint32 wavesec)
+void F1State::Render(bool editmode, ZayPanel& panel, const MapMonsters* monsters, sint32 wavesec)
 {
     const Point XY = panel.toview(0, 0);
     const sint32 SX = (sint32) (XY.x * panel.zoom());
@@ -1067,7 +1246,7 @@ void F1State::Render(bool editmode, bool titlemode, ZayPanel& panel, const MapMo
     const sint32 SH = (sint32) (panel.h() * panel.zoom());
 
     // 배경
-    const Image& BGImage = R(mBGNameA);
+    const Image& BGImage = R((mIsLandscape)? (chars) (mBGNameA + "w") : (chars) mBGNameA);
     const float XRate = SW / (float) BGImage.GetWidth();
     const float YRate = SH / (float) BGImage.GetHeight();
     const sint32 DstX = (sint32) (SX - BGImage.L() * XRate);
@@ -1081,12 +1260,11 @@ void F1State::Render(bool editmode, bool titlemode, ZayPanel& panel, const MapMo
     for(sint32 i = 0; i < mLayerLength; ++i)
     {
         if(!mLayers[i].mShowFlag) continue;
-        RenderLayer(editmode, titlemode, panel, mLayers[i],
-            (i == 2)? monsters : nullptr, wavesec, SX, SY, SW, SH);
+        RenderLayer(editmode, panel, mLayers[i], (i == 2)? monsters : nullptr, wavesec, SX, SY, SW, SH);
     }
 
-    // 타겟
-    if(!titlemode)
+    // 타겟정보
+    if(editmode)
     for(sint32 i = 0, iend = mTargets.Count(); i < iend; ++i)
     {
         const float x = mInGameW * (mTargets[i].mPos.x + 0.5f);
@@ -1103,7 +1281,8 @@ void F1State::Render(bool editmode, bool titlemode, ZayPanel& panel, const MapMo
     }
 
     // 배경(뚜껑)
-    panel.stretch(R(mBGNameB), true);
+    const R BGResource((mIsLandscape)? (chars) (mBGNameB + "w") : (chars) mBGNameB);
+    if(BGResource.exist()) panel.stretch((const Image&) BGResource, true);
 
     // 배경의 아웃라인
     if(0 < DstX || 0 < DstY || DstX + DstWidth < mScreenW || DstY + DstHeight < mScreenH)
@@ -1126,7 +1305,7 @@ void F1State::Render(bool editmode, bool titlemode, ZayPanel& panel, const MapMo
         for(sint32 i = 0, iend = monsters->Count(); i < iend; ++i)
         {
             if(wavesec < (*monsters)[i].mEntranceSec) continue;
-            if(0 < (*monsters)[i].mHP || 0 < (*monsters)[i].mDeathCount)
+            if((*monsters)[i].mDeathStep < 2)
             {
                 if(auto CurPath = (*monsters)[i].mTargetPath)
                 if(0 < CurPath->Dots.Count())
@@ -1217,8 +1396,8 @@ Point F1Tool::GestureToPos(sint32 x, sint32 y)
 
 Point F1Tool::AttachGrid(float fx, float fy)
 {
-    const float fxmax = 1000;
-    const float fymax = 1000 * mState.mInGameH / mState.mInGameW;
+    const float fxmax = (mState.mIsLandscape)? 1000 * mState.mInGameW / mState.mInGameH : 1000;
+    const float fymax = (mState.mIsLandscape)? 1000 : 1000 * mState.mInGameH / mState.mInGameW;
     sint32 nx = 0, ny = 0;
     if(0 <= fx) nx = (((sint32) (fx * fxmax)) + mState.mToolGrid / 2) / mState.mToolGrid * mState.mToolGrid;
     else nx = -((((sint32) (-fx * fxmax)) + mState.mToolGrid / 2) / mState.mToolGrid * mState.mToolGrid);
@@ -1229,8 +1408,9 @@ Point F1Tool::AttachGrid(float fx, float fy)
 
 void F1Tool::RenderGrid(ZayPanel& panel)
 {
+    const float GridSize = (mState.mIsLandscape)? panel.h() / 1000 : panel.w() / 1000;
     // 중간 -> 좌측
-    for(sint32 x = 500 - mState.mToolGrid, ix = 0; 0 < (ix = x * panel.w() / 1000); x -= mState.mToolGrid)
+    for(sint32 x = 500 - mState.mToolGrid, ix = 0; 0 < (ix = x * GridSize); x -= mState.mToolGrid)
     {
         ZAY_RGBA(panel, 255, 255, 255, 64)
         ZAY_XYWH(panel, ix - 1, 0, 1, panel.h())
@@ -1240,7 +1420,7 @@ void F1Tool::RenderGrid(ZayPanel& panel)
             panel.fill();
     }
     // 중간 -> 우측
-    for(sint32 x = 500, ix = 0; (ix = x * panel.w() / 1000) < panel.w(); x += mState.mToolGrid)
+    for(sint32 x = 500, ix = 0; (ix = x * GridSize) < panel.w(); x += mState.mToolGrid)
     {
         ZAY_RGBA(panel, 255, 255, 255, 64)
         ZAY_XYWH(panel, ix - 1, 0, 1, panel.h())
@@ -1250,7 +1430,7 @@ void F1Tool::RenderGrid(ZayPanel& panel)
             panel.fill();
     }
     // 중간 -> 상측
-    for(sint32 y = 500 - mState.mToolGrid, iy = 0; 0 < (iy = y * panel.w() / 1000); y -= mState.mToolGrid)
+    for(sint32 y = 500 - mState.mToolGrid, iy = 0; 0 < (iy = y * GridSize); y -= mState.mToolGrid)
     {
         ZAY_RGBA(panel, 255, 255, 255, 64)
         ZAY_XYWH(panel, 0, iy - 1, panel.w(), 1)
@@ -1260,7 +1440,7 @@ void F1Tool::RenderGrid(ZayPanel& panel)
             panel.fill();
     }
     // 중간 -> 하측
-    for(sint32 y = 500, iy = 0; (iy = y * panel.w() / 1000) < panel.h(); y += mState.mToolGrid)
+    for(sint32 y = 500, iy = 0; (iy = y * GridSize) < panel.h(); y += mState.mToolGrid)
     {
         ZAY_RGBA(panel, 255, 255, 255, 64)
         ZAY_XYWH(panel, 0, iy - 1, panel.w(), 1)

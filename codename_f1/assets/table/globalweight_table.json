@@ -32,7 +32,7 @@
 	},
 	{
 		"ID":"BreathMaxGauge",
-		"Value":9000,
+		"Value":10000,
 		"IsDev":"FALSE",
 		"Description":"최대 게이지량 (브레스 총 사용 시간을 기준으로 입력)",
 		"Unit":"1000=1초"
@@ -46,7 +46,7 @@
 	},
 	{
 		"ID":"BreathStartGaugeValue",
-		"Value":500,
+		"Value":5000,
 		"IsDev":"FALSE",
 		"Description":"스테이지 시작 시점의 기본 게이지량"
 	},

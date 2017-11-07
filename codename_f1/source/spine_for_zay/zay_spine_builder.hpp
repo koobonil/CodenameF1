@@ -29,6 +29,7 @@ namespace ZAY
         static id_spine_instance Create(id_spine spine, chars skin, MotionFinishedCB fcb = nullptr, UserEventCB ecb = nullptr);
         static id_spine_instance Clone(id_spine_instance spine_instance);
         static void Release(id_spine_instance spine_instance);
+        static void ResetCB(id_spine_instance spine_instance, MotionFinishedCB fcb, UserEventCB ecb);
         static void Seek(id_spine_instance spine_instance, float sec);
         static void Update(id_spine_instance spine_instance, float delta_sec);
         static void SetSkin(id_spine_instance spine_instance, chars skin);
@@ -40,6 +41,7 @@ namespace ZAY
         static void SetMotionOnSeek(id_spine_instance spine_instance, chars motion, bool repeat);
         static void SetMotionOff(id_spine_instance spine_instance, chars motion);
         static void SetMotionOffAll(id_spine_instance spine_instance, bool with_reserve);
+        static void SetMotionOffAllWithoutSeek(id_spine_instance spine_instance, bool with_reserve);
         static bool IsMotionEnabled(id_spine_instance spine_instance);
         static Strings GetActiveMotions(id_spine_instance spine_instance);
         static void Render(ZayPanel& panel, id_spine_instance spine_instance,

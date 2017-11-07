@@ -1,7 +1,7 @@
 ﻿#include <boss.hpp>
 #include "stagetool.hpp"
 
-#include <r.hpp>
+#include <resource.hpp>
 
 ZAY_DECLARE_VIEW_CLASS("stagetoolView", stagetoolData)
 
@@ -124,8 +124,16 @@ void stagetoolData::Load(chars filename)
                             NewTimelineMonster.mType = &mState.mMonsterTypes[i];
                             break;
                         }
-                    NewTimelineMonster.mPos.x = CurJsonMonster("PosX").GetFloat();
-                    NewTimelineMonster.mPos.y = CurJsonMonster("PosY").GetFloat();
+                    if(mState.mIsLandscape)
+                    {
+                        NewTimelineMonster.mPos.x = CurJsonMonster("PosY").GetFloat();
+                        NewTimelineMonster.mPos.y = -CurJsonMonster("PosX").GetFloat();
+                    }
+                    else
+                    {
+                        NewTimelineMonster.mPos.x = CurJsonMonster("PosX").GetFloat();
+                        NewTimelineMonster.mPos.y = CurJsonMonster("PosY").GetFloat();
+                    }
                 }
             }
         }
@@ -175,8 +183,16 @@ void stagetoolData::Save(chars filename)
                 {
                     auto& NewJsonMonster = NewJsonEvent.At("Monsters").At(mon);
                     NewJsonMonster.At("ID").Set(CurEvent[mon].mType->mID);
-                    NewJsonMonster.At("PosX").Set(String::FromFloat(CurEvent[mon].mPos.x));
-                    NewJsonMonster.At("PosY").Set(String::FromFloat(CurEvent[mon].mPos.y));
+                    if(mState.mIsLandscape)
+                    {
+                        NewJsonMonster.At("PosX").Set(String::FromFloat(CurEvent[mon].mPos.y));
+                        NewJsonMonster.At("PosY").Set(String::FromFloat(-CurEvent[mon].mPos.x));
+                    }
+                    else
+                    {
+                        NewJsonMonster.At("PosX").Set(String::FromFloat(CurEvent[mon].mPos.x));
+                        NewJsonMonster.At("PosY").Set(String::FromFloat(CurEvent[mon].mPos.y));
+                    }
                 }
             }
         }
@@ -192,7 +208,7 @@ void stagetoolData::Render(ZayPanel& panel)
     // 인게임
     ZAY_XYWH(panel, mMapPos.x + mState.mInGameX, mMapPos.y + mState.mInGameY, mState.mInGameW, mState.mInGameH)
     {
-        mState.Render(true, false, panel);
+        mState.Render(true, panel);
 
         // 현재 타임라인의 몬스터들
         auto& CurMonsters = mWaves[mCurWave].mEvents[mCurEvent];
@@ -484,7 +500,7 @@ void stagetoolData::QuitSelectBox(sint32 index)
 {
 }
 
-void stagetoolData::ChangeSelectBox(sint32 index)
+void stagetoolData::ChangeSelectBox(sint32 type, sint32 index)
 {
 }
 

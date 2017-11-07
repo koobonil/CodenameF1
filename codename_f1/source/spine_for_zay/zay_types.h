@@ -108,8 +108,10 @@ namespace ZAY
             Additive,
             Screen,
             Multiply,
-            
-            COUNT
+            Outline,
+            Shadow,
+
+            DEFAULT
         };
 
         enum class VertexAttrib

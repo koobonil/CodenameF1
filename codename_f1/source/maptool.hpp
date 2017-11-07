@@ -16,7 +16,8 @@ public:
     void CopyFrom(const MapSelectBox& rhs);
 
 public:
-    bool mVisibled;
+    bool mFlagShow;
+    bool mFlagCW;
     float mX;
     float mY;
     float mWidth;
@@ -45,7 +46,7 @@ public:
     void OnSelectSub(chars name) override;
     void InitSelectBox(sint32 index) override;
     void QuitSelectBox(sint32 index) override;
-    void ChangeSelectBox(sint32 index) override;
+    void ChangeSelectBox(sint32 type, sint32 index) override;
     void OnSelectBoxMoving(sint32 index, float addx, float addy) override;
     void OnSelectBoxMoved(sint32 index) override;
     void OnSelectBoxSizing(sint32 index, float addx, float addy) override;

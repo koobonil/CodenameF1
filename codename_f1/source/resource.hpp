@@ -17,6 +17,7 @@ namespace BOSS
         static void RebuildAll();
 
     public:
+        inline bool exist() const {return mExist;}
         inline sint32 w() const {return (mImage)? mImage->GetWidth() : 0;}
         inline sint32 h() const {return (mImage)? mImage->GetHeight() : 0;}
 
@@ -34,5 +35,6 @@ namespace BOSS
 
     private:
         Image* mImage;
+        bool mExist;
     };
 }

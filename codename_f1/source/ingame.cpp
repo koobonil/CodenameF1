@@ -1,7 +1,7 @@
 ﻿#include <boss.hpp>
 #include "ingame.hpp"
 
-#include <r.hpp>
+#include <resource.hpp>
 
 ZAY_DECLARE_VIEW_CLASS("ingameView", ingameData)
 
@@ -30,9 +30,12 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
             // 스태프 위치
             StaffProgress = Math::MinF(1.0f, StaffProgress);
             for(sint32 i = 0; i < 3; ++i)
-                m->mMonsters.At(i).mPos = Point(
+            {
+                m->mMonsters.At(i).mCurrentPos = Point(
                     m->mMainTitleStaffBegin[i].x * (1 - StaffProgress) + m->mMainTitleStaffTarget[i].x * StaffProgress,
                     m->mMainTitleStaffBegin[i].y * (1 - StaffProgress) + m->mMainTitleStaffTarget[i].y * StaffProgress);
+                m->mMonsters.At(i).mTargetPos = m->mMonsters[i].mCurrentPos;
+            }
         }
         else m->AnimationOnce(CurTimeSecSpan);
         // 자동화면갱신
@@ -80,13 +83,16 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
             if(m->mBreathing)
             {
                 m->mBreathing = false;
-                auto& NewBreath = m->mBreathes.AtAdding();
-                NewBreath.mAniTimeMsec = Platform::Utility::CurrentTimeMsec() + m->mDragonEntryTime;
-                NewBreath.mEndTimeMsec = NewBreath.mAniTimeMsec + m->mDragonBreathTime;
-                NewBreath.mPos = m->mBreathPos;
-                NewBreath.mSizeR = m->mBreathSizeRCurrently;
-                NewBreath.mDamage = m->GetCalcedBreathDamage();
-                m->mBreathGaugeTime = Math::Max(0, m->mBreathGaugeTime - m->mBreathGaugeTimeUsingCurrently);
+                if(0 < m->mBreathGaugeTime && 0 < m->mBreathGaugeTimeUsingCurrently)
+                {
+                    auto& NewBreath = m->mBreathes.AtAdding();
+                    NewBreath.mAniTimeMsec = Platform::Utility::CurrentTimeMsec() + m->mDragonEntryTime;
+                    NewBreath.mEndTimeMsec = NewBreath.mAniTimeMsec + m->mDragonBreathTime;
+                    NewBreath.mPos = m->mBreathPos;
+                    NewBreath.mSizeR = m->mBreathSizeRCurrently;
+                    NewBreath.mDamage = m->GetCalcedBreathDamage();
+                    m->mBreathGaugeTime = Math::Max(0, m->mBreathGaugeTime - m->mBreathGaugeTimeUsingCurrently);
+                }
             }
         }
     }
@@ -143,6 +149,12 @@ ingameData::ingameData()
     mMainTitleStaffTarget[1] = Point(0.0f, 0.2f);
     mMainTitleStaffBegin[2] = Point(0.3f, 0.0f);
     mMainTitleStaffTarget[2] = Point(0.2f, 0.0f);
+    if(mIsLandscape)
+    for(sint32 i = 0; i < 3; ++i)
+    {
+        mMainTitleStaffBegin[i] = Point(mMainTitleStaffBegin[i].y, -mMainTitleStaffBegin[i].x);
+        mMainTitleStaffTarget[i] = Point(mMainTitleStaffTarget[i].y, -mMainTitleStaffTarget[i].x);
+    }
     // 스태프 캐릭터
     auto PtrStaff = mMonsters.AtDumpingAdded(3);
     PtrStaff[0].Init(&mMonsterTypes[0], 0, mMainTitleStaffBegin[0].x, mMainTitleStaffBegin[0].y,
@@ -171,16 +183,20 @@ void ingameData::AnimationOnce(sint32 timespan)
     sint32 DeadMonsterCount = 0;
     for(sint32 i = 0, iend = mMonsters.Count(); i < iend; ++i)
     {
-        if(mMonsters[i].mHP == 0 && mMonsters[i].mDeathCount == 0)
-            DeadMonsterCount++;
-        if(mWaveSec < mMonsters[i].mEntranceSec || mMonsters[i].mHP == 0)
+        auto& CurMonster = mMonsters.At(i);
+        if(mWaveSec < CurMonster.mEntranceSec || 0 < CurMonster.mDeathStep) // 등장전 또는 죽을때
+        {
+            if(CurMonster.mDeathStep == 2)
+                DeadMonsterCount++;
             continue;
-        const Point CurMonsterPos = Point(mInGameW * (mMonsters[i].mPos.x + 0.5f), mInGameH * (mMonsters[i].mPos.y + 0.5f));
+        }
+        const Point CurMonsterPos = Point(mInGameW * (CurMonster.mCurrentPos.x + 0.5f), mInGameH * (CurMonster.mCurrentPos.y + 0.5f));
+
         // 트리공격
         bool HasAttack = false;
-        if(mMonsters[i].mTargetId != -1)
+        if(CurMonster.mTargetId != -1)
         {
-            const sint32 TargetId = mMonsters[i].mTargetId;
+            const sint32 TargetId = CurMonster.mTargetId;
             if(0 < mTargets[TargetId].mHP)
             {
                 const float x = mInGameW * (mTargets[TargetId].mPos.x + 0.5f);
@@ -188,9 +204,9 @@ void ingameData::AnimationOnce(sint32 timespan)
                 if(Math::Distance(CurMonsterPos.x, CurMonsterPos.y, x, y) < mTargets[TargetId].mSizeR * mInGameW)
                 {
                     HasAttack = true;
-                    if(auto AttackCount = mMonsters.At(i).TryAttack())
+                    if(auto AttackCount = CurMonster.TryAttack())
                     {
-                        mTargets.At(TargetId).mHP = Math::Max(0, mTargets[TargetId].mHP - mMonsters[i].mType->mAttackPower * AttackCount);
+                        mTargets.At(TargetId).mHP = Math::Max(0, mTargets[TargetId].mHP - CurMonster.mType->mAttackPower * AttackCount);
                         auto& CurObject = mLayers[mTargets[TargetId].mLayerId].mObjects[mTargets[TargetId].mObjectId];
                         if(0 < mTargets[TargetId].mHP)
                             CurObject.Hit();
@@ -200,79 +216,113 @@ void ingameData::AnimationOnce(sint32 timespan)
             }
             else
             {
-                mMonsters.At(i).mTargetId = -1;
-                TryWorld::Path::Release(mMonsters.At(i).mTargetPath);
-                mMonsters.At(i).mTargetPath = nullptr;
-                mMonsters.At(i).mTargetPathScore = 0;
-                mMonsters.At(i).CancelAttack();
+                CurMonster.CancelAttack();
+                CurMonster.ClearTarget();
             }
         }
+
         // 전진
         if(!HasAttack && mHurdle && mMap)
         {
-            if(mMonsters[i].mTargetId == -1)
+            // 다음위치 계산
+            Point NextPos = CurMonster.mCurrentPos;
+            const float KnockBackAccelSize = Math::Sqrt(Math::Pow(CurMonster.mKnockBackAccel.x) + Math::Pow(CurMonster.mKnockBackAccel.y));
+            if(KnockBackAccelSize < mMonsters[i].mKnockBackAccelMin) // 걷기진행
             {
-                sint32 ResultId = -1;
-                TryWorld::Path* ResultPath = nullptr;
-                sint32 ResultPathScore = 0;
-                for(sint32 j = 0, jend = mTargets.Count(); j < jend; ++j)
+                // 타겟설정
+                if(CurMonster.mTargetId == -1)
                 {
-                    if(mTargets[j].mHP == 0) continue;
-                    const float x = mInGameW * (mTargets[j].mPos.x + 0.5f);
-                    const float y = mInGameH * (mTargets[j].mPos.y + 0.5f);
-                    sint32 GetScore = 0;
-                    auto NewPath = mMap->BuildPath(CurMonsterPos, Point(x, y), 20, &GetScore);
-                    sint32 NewPathScore = GetScore * 1000 / mInGameW;
-                    NewPathScore -= mTargets[j].mHP; // 타겟의 현재점수를 뺌
-                    NewPathScore += Platform::Utility::Random() % 500; // 랜덤점수 추가
-                    if(!ResultPath || (NewPath && NewPathScore < ResultPathScore))
+                    sint32 ResultId = -1;
+                    TryWorld::Path* ResultPath = nullptr;
+                    sint32 ResultPathScore = 0;
+                    for(sint32 j = 0, jend = mTargets.Count(); j < jend; ++j)
                     {
-                        TryWorld::Path::Release(ResultPath);
-                        ResultId = j;
-                        ResultPath = NewPath;
-                        ResultPathScore = NewPathScore;
+                        if(mTargets[j].mHP == 0) continue;
+                        const float x = mInGameW * (mTargets[j].mPos.x + 0.5f);
+                        const float y = mInGameH * (mTargets[j].mPos.y + 0.5f);
+                        sint32 GetScore = 0;
+                        auto NewPath = mMap->BuildPath(CurMonsterPos, Point(x, y), 20, &GetScore);
+                        sint32 NewPathScore = GetScore * 1000 / mInGameW;
+                        NewPathScore -= mTargets[j].mHP; // 타겟의 현재점수를 뺌
+                        NewPathScore += Platform::Utility::Random() % 500; // 랜덤점수 추가
+                        if(!ResultPath || (NewPath && NewPathScore < ResultPathScore))
+                        {
+                            TryWorld::Path::Release(ResultPath);
+                            ResultId = j;
+                            ResultPath = NewPath;
+                            ResultPathScore = NewPathScore;
+                        }
+                        else TryWorld::Path::Release(NewPath);
                     }
-                    else TryWorld::Path::Release(NewPath);
+                    CurMonster.mTargetId = ResultId;
+                    CurMonster.mTargetPath = ResultPath;
+                    CurMonster.mTargetPathScore = ResultPathScore;
                 }
-                mMonsters.At(i).mTargetId = ResultId;
-                mMonsters.At(i).mTargetPath = ResultPath;
-                mMonsters.At(i).mTargetPathScore = ResultPathScore;
-            }
-            if(mMonsters[i].mTargetId == -1)
-            {
-                // 목표가 없는 경우
-            }
-            else
-            {
-                const Point TargetPos = TryWorld::GetPosition::SubTarget(mHurdle, mMonsters[i].mTargetPath, CurMonsterPos);
-                const float SpeedDelay = 10;
-                const float MoveDistance = mMonsterSizeR * mMonsters[i].mType->mMoveSpeed / (1000 * SpeedDelay);
+
+                // 서브타겟위치 업데이트
+                Point TargetPos;
+                if(CurMonster.mTargetId == -1)
+                    TargetPos = Point(mInGameW * (CurMonster.mTargetPos.x + 0.5f), mInGameH * (CurMonster.mTargetPos.y + 0.5f));
+                else
+                {
+                    TargetPos = TryWorld::GetPosition::SubTarget(mHurdle, CurMonster.mTargetPath, CurMonsterPos);
+                    CurMonster.mTargetPos = Point(TargetPos.x / mInGameW - 0.5f, TargetPos.y / mInGameH - 0.5f);
+                }
+
                 const float TargetDistance = Math::Distance(CurMonsterPos.x, CurMonsterPos.y, TargetPos.x, TargetPos.y);
-                const float TryNextPosX = CurMonsterPos.x + (TargetPos.x - CurMonsterPos.x) * MoveDistance / TargetDistance * mMonsters[i].mType->mMoveSight;
-                const float TryNextPosY = CurMonsterPos.y + (TargetPos.y - CurMonsterPos.y) * MoveDistance / TargetDistance * mMonsters[i].mType->mMoveSight;
-                const Point ResultNextPos = TryWorld::GetPosition::ValidNext(mHurdle, CurMonsterPos, Point(TryNextPosX, TryNextPosY));
-                const float NextPosX = CurMonsterPos.x + (ResultNextPos.x - CurMonsterPos.x) / mMonsters[i].mType->mMoveSight;
-                const float NextPosY = CurMonsterPos.y + (ResultNextPos.y - CurMonsterPos.y) / mMonsters[i].mType->mMoveSight;
-                const Point NextPos = Point(NextPosX / mInGameW - 0.5f, NextPosY / mInGameH - 0.5f);
-                // 방향전환된 꼭지점 기록
-                const bool CurFlip = (mMonsters[i].mPos.x < NextPos.x);
-                if(mMonsters[i].mLastFlip != CurFlip)
+                if(0 < TargetDistance)
                 {
-                    mMonsters.At(i).mLastFlip = CurFlip;
-                    mMonsters.At(i).mLastFlipPos = mMonsters[i].mPos;
-                }
-                // 방향전환
-                if(mMonsters[i].mFlipMode != mMonsters[i].mLastFlip)
-                {
-                    const float FlipDist = Math::Distance(mMonsters[i].mLastFlipPos.x, mMonsters[i].mLastFlipPos.y, NextPos.x, NextPos.y);
-                    if(mMonsters[i].mType->mTurnDistance < FlipDist * 1000)
+                    const float SpeedDelay = 10;
+                    const float MoveDistance = mMonsterSizeR * CurMonster.mType->mMoveSpeed / (1000 * SpeedDelay);
+                    const float TryNextPosX = CurMonsterPos.x + (TargetPos.x - CurMonsterPos.x) * MoveDistance / TargetDistance * CurMonster.mType->mMoveSight; // 시야고려
+                    const float TryNextPosY = CurMonsterPos.y + (TargetPos.y - CurMonsterPos.y) * MoveDistance / TargetDistance * CurMonster.mType->mMoveSight;
+                    Point ResultPos(TryNextPosX, TryNextPosY);
+                    TryWorld::GetPosition::GetValidNext(mHurdle, CurMonsterPos, ResultPos);
+                    const float ResultNextPosX = CurMonsterPos.x + (ResultPos.x - CurMonsterPos.x) / CurMonster.mType->mMoveSight;
+                    const float ResultNextPosY = CurMonsterPos.y + (ResultPos.y - CurMonsterPos.y) / CurMonster.mType->mMoveSight;
+                    NextPos = Point(ResultNextPosX / mInGameW - 0.5f, ResultNextPosY / mInGameH - 0.5f);
+
+                    // 방향전환된 꼭지점 기록
+                    const bool CurFlip = (CurMonster.mCurrentPos.x < NextPos.x);
+                    if(CurMonster.mLastFlip != CurFlip)
                     {
-                        mMonsters.At(i).mFlipMode = mMonsters[i].mLastFlip;
-                        mMonsters.At(i).Turn();
+                        CurMonster.mLastFlip = CurFlip;
+                        CurMonster.mLastFlipPos = CurMonster.mCurrentPos;
+                    }
+                    // 방향전환
+                    if(CurMonster.mFlipMode != CurMonster.mLastFlip)
+                    {
+                        const float FlipDist = Math::Distance(CurMonster.mLastFlipPos.x, CurMonster.mLastFlipPos.y, NextPos.x, NextPos.y);
+                        if(CurMonster.mType->mTurnDistance < FlipDist * 1000)
+                        {
+                            CurMonster.mFlipMode = CurMonster.mLastFlip;
+                            CurMonster.Turn();
+                        }
                     }
                 }
-                mMonsters.At(i).mPos = NextPos;
             }
+            else // 넉백중
+            {
+                const float TryNextPosX = CurMonsterPos.x + CurMonster.mKnockBackAccel.x * mInGameW;
+                const float TryNextPosY = CurMonsterPos.y + CurMonster.mKnockBackAccel.y * mInGameH;
+                Point ResultPos(TryNextPosX, TryNextPosY);
+                if(TryWorld::GetPosition::GetValidNext(mHurdle, CurMonsterPos, ResultPos))
+                {
+                    ResultPos.x = (ResultPos.x - CurMonsterPos.x) * 0.9f + CurMonsterPos.x;
+                    ResultPos.y = (ResultPos.y - CurMonsterPos.y) * 0.9f + CurMonsterPos.y;
+                    CurMonster.mKnockBackAccel = Point(0, 0); // 가속도제거
+                }
+                NextPos = Point(ResultPos.x / mInGameW - 0.5f, ResultPos.y / mInGameH - 0.5f);
+
+                CurMonster.mKnockBackAccel = CurMonster.mKnockBackAccel * CurMonster.mType->mResistance / 1000; // 가속도감소
+                const float NextKnockBackAccelSize = Math::Sqrt(Math::Pow(CurMonster.mKnockBackAccel.x) + Math::Pow(CurMonster.mKnockBackAccel.y));
+                if(NextKnockBackAccelSize < mMonsters[i].mKnockBackAccelMin) // 정신차리기
+                {
+                    CurMonster.mKnockBackAccel = Point(0, 0);
+                    CurMonster.KnockBackEnd();
+                }
+            }
+            CurMonster.mCurrentPos = NextPos;
         }
     }
 
@@ -321,7 +371,7 @@ void ingameData::Render(ZayPanel& panel)
 
     // 인게임
     ZAY_XYWH(panel, mInGameX, mInGameY, mInGameW, mInGameH)
-        F1State::Render(mShowDebug, mWave == -1, panel, &mMonsters, mWaveSec);
+        F1State::Render(mShowDebug, panel, &mMonsters, mWaveSec);
 
     // 시간
     if(mWave != -1)
@@ -351,7 +401,8 @@ void ingameData::Render(ZayPanel& panel)
     ZAY_XYRR(panel, mBreathPos.x, mBreathPos.y, mBreathSizeR, mBreathSizeR)
     {
         // 게이지파워 사용량 계산
-        mBreathGaugeTimeUsingCurrently = Math::Min(mBreathGaugeTime, CurTimeMsec - mBreathMsec);
+        sint32 AniTime = Math::Min(3000, CurTimeMsec - mBreathMsec);
+        mBreathGaugeTimeUsingCurrently = Math::Min(mBreathGaugeTimeLog, Math::Min(mBreathGaugeTime, AniTime));
         mBreathReadySpine.SetSeekSec(mBreathGaugeTimeUsingCurrently * 0.001f);
         RenderObject(true, mShowDebug, panel, mBreathReadySpine, mInGameX, mInGameY, mInGameW, mInGameH, false);
 
@@ -471,13 +522,6 @@ void ingameData::Render(ZayPanel& panel)
             }
         }
     #endif
-
-    // 몬스터 데스카운트
-    for(sint32 i = 0, iend = mMonsters.Count(); i < iend; ++i)
-    {
-        if(0 < mMonsters[i].mDeathCount)
-            mMonsters.At(i).mDeathCount--;
-    }
 }
 
 void ingameData::ReadyForNextWave()
@@ -504,13 +548,16 @@ void ingameData::ReadyForNextWave()
                     {
                         chars CurAssetName = mMonsterTypes[k].mAsset;
                         PtrMonsters[j].Init(&mMonsterTypes[k], TimeSec,
-                            JsonMonsters[j]("PosX").GetFloat(0), JsonMonsters[j]("PosY").GetFloat(0),
+                            (mIsLandscape)? JsonMonsters[j]("PosY").GetFloat(0) : JsonMonsters[j]("PosX").GetFloat(0),
+                            (mIsLandscape)? -JsonMonsters[j]("PosX").GetFloat(0) : JsonMonsters[j]("PosY").GetFloat(0),
                             mSpines(CurAssetName), mSpines.Access("monster_toast"));
                         break;
                     }
                 }
             }
         }
+        for(sint32 i = 0, iend = mMonsters.Count(); i < iend; ++i)
+            mMonsters.At(i).ResetCB();
     }
     else mWaveTitle = "Stage Over";
 }
@@ -525,19 +572,31 @@ void ingameData::BreathAttack(const MapBreath* breath)
     // 몬스터피해
     for(sint32 i = 0, iend = mMonsters.Count(); i < iend; ++i)
     {
-        if(mWaveSec < mMonsters[i].mEntranceSec || mMonsters[i].mHP == 0)
+        auto& CurMonster = mMonsters.At(i);
+        if(mWaveSec < CurMonster.mEntranceSec || CurMonster.mHP == 0)
             continue;
-        const float x = mInGameX + mInGameW * (mMonsters[i].mPos.x + 0.5f);
-        const float y = mInGameY + mInGameH * (mMonsters[i].mPos.y + 0.5f);
+        float x = mInGameX + mInGameW * (CurMonster.mCurrentPos.x + 0.5f);
+        float y = mInGameY + mInGameH * (CurMonster.mCurrentPos.y + 0.5f);
         if(Math::Distance(x, y, breath->mPos.x, breath->mPos.y) < mMonsterSizeR + breath->mSizeR)
         {
-            mMonsters.At(i).mHP = Math::Max(0, mMonsters[i].mHP - breath->mDamage);
-            if(mMonsters[i].mHP == 0) // 방금 죽어서 데스애니 시작
+            CurMonster.mHP = Math::Max(0, CurMonster.mHP - breath->mDamage);
+
+            // 넉백처리
+            sint32 Distance = 0;
+            while((Distance = Math::Distance(x, y, breath->mPos.x, breath->mPos.y)) < CurMonster.mKnockBackNearMin) // 극인접처리
             {
-                mMonsters.At(i).Dead();
-                mMonsters.At(i).mDeathCount = 10;
+                x = breath->mPos.x + (Platform::Utility::Random() % 1000) - 500;
+                y = breath->mPos.y + (Platform::Utility::Random() % 1000) - 500;
             }
-            else mMonsters.At(i).Hit();
+            const float PowerRate = Math::ClampF((breath->mDamage - mBreathMinDamage) / (float) (mBreathMaxDamage - mBreathMinDamage), 0, 1);
+            const float AccelRate = ((mKnockBackMaxV - mKnockBackMinV) * PowerRate + mKnockBackMinV) / Distance;
+            const Point NewAccel = Point((x - breath->mPos.x) * AccelRate, (y - breath->mPos.y) * AccelRate) * 1000 / CurMonster.mType->mWeight;
+            CurMonster.mKnockBackAccel = Point(NewAccel.x / mInGameW, NewAccel.y / mInGameH);
+
+            // 애니처리
+            CurMonster.mFlipMode = (x < breath->mPos.x) ^ (y > breath->mPos.y);
+            CurMonster.KnockBack(y > breath->mPos.y, CurMonster.mHP == 0);
+            CurMonster.ClearTarget();
         }
     }
 
