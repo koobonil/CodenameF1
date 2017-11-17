@@ -7,7 +7,59 @@
 #include "spine_for_zay/zay_spine_builder.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
-class ObjectType
+class SpineAsset
+{
+    BOSS_DECLARE_NONCOPYABLE_CLASS(SpineAsset)
+public:
+    SpineAsset()
+    {
+        mAsset = "";
+        mSpine = "";
+    }
+    ~SpineAsset()
+    {
+    }
+    SpineAsset(SpineAsset&& rhs) {operator=(ToReference(rhs));}
+    SpineAsset& operator=(SpineAsset&& rhs)
+    {
+        mAsset = ToReference(rhs.mAsset);
+        mSpine = ToReference(rhs.mSpine);
+        return *this;
+    }
+
+private:
+    String mAsset;
+    String mSpine;
+
+public:
+    void SetAsset(const String& asset) {mAsset = asset;}
+    void SetSpine(const String& spine) {mSpine = spine;}
+    chars imageName() const {return mAsset;}
+    const String spineName() const
+    {
+        if(0 < mSpine.Length())
+        {
+            sint32 Pos = mSpine.Find(0, ':');
+            if(Pos == -1) return mSpine;
+            if(0 < Pos) return mSpine.Left(Pos);
+        }
+        return mAsset;
+    }
+    const String spineSkinName() const
+    {
+        if(0 < mSpine.Length())
+        {
+            sint32 Pos = mSpine.Find(0, ':');
+            if(0 <= Pos)
+            if(sint32 Length = mSpine.Length() - 1 - Pos)
+                return mSpine.Right(Length);
+        }
+        return "default";
+    }
+};
+
+////////////////////////////////////////////////////////////////////////////////
+class ObjectType : public SpineAsset
 {
     BOSS_DECLARE_NONCOPYABLE_CLASS(ObjectType)
 public:
@@ -21,9 +73,9 @@ public:
     ObjectType(ObjectType&& rhs) {operator=(ToReference(rhs));}
     ObjectType& operator=(ObjectType&& rhs)
     {
+        SpineAsset::operator=(ToReference(rhs));
         mID = ToReference(rhs.mID);
         mType = rhs.mType;
-        mAsset = ToReference(rhs.mAsset);
         mAssetShadow = ToReference(rhs.mAssetShadow);
         mHP = rhs.mHP;
         return *this;
@@ -71,7 +123,6 @@ public:
 public:
     String mID;
     TypeClass mType;
-    String mAsset;
     String mAssetShadow;
     sint32 mHP;
 };
@@ -142,7 +193,7 @@ public:
 typedef Array<PolygonType> PolygonTypes;
 
 ////////////////////////////////////////////////////////////////////////////////
-class MonsterType
+class MonsterType : public SpineAsset
 {
     BOSS_DECLARE_NONCOPYABLE_CLASS(MonsterType)
 public:
@@ -151,12 +202,13 @@ public:
         mHP = 0;
         mMoveType = MoveType::Null;
         mMoveSpeed = 0;
-        mMoveSight = 1;
         mTurnDistance = 0;
         mAttackPower = 0;
         mAttackSpeed = 0;
         mAttackRange = 0;
-        mAsset = "noname";
+        mWaistScaleWidth = 0;
+        mWaistScaleHeight = 0;
+        mPolygon = "";
         mWeight = 0;
         mResistance = 0;
     }
@@ -164,16 +216,18 @@ public:
     MonsterType(MonsterType&& rhs) {operator=(ToReference(rhs));}
     MonsterType& operator=(MonsterType&& rhs)
     {
+        SpineAsset::operator=(ToReference(rhs));
         mID = rhs.mID;
         mHP = rhs.mHP;
         mMoveType = rhs.mMoveType;
         mMoveSpeed = rhs.mMoveSpeed;
-        mMoveSight = rhs.mMoveSight;
         mTurnDistance = rhs.mTurnDistance;
         mAttackPower = rhs.mAttackPower;
         mAttackSpeed = rhs.mAttackSpeed;
         mAttackRange = rhs.mAttackRange;
-        mAsset = ToReference(rhs.mAsset);
+        mWaistScaleWidth = rhs.mWaistScaleWidth;
+        mWaistScaleHeight = rhs.mWaistScaleHeight;
+        mPolygon = ToReference(rhs.mPolygon);
         mWeight = rhs.mWeight;
         mResistance = rhs.mResistance;
         return *this;
@@ -211,12 +265,13 @@ public:
     sint32 mHP;
     MoveType mMoveType;
     sint32 mMoveSpeed;
-    sint32 mMoveSight;
     sint32 mTurnDistance;
     sint32 mAttackPower;
     sint32 mAttackSpeed;
     sint32 mAttackRange;
-    String mAsset;
+    sint32 mWaistScaleWidth;
+    sint32 mWaistScaleHeight;
+    String mPolygon;
     sint32 mWeight;
     sint32 mResistance;
 };
@@ -243,6 +298,7 @@ public:
 private:
     ZAY::id_spine mSpine;
 };
+typedef Map<SpineRenderer> SpineRendererMap;
 
 ////////////////////////////////////////////////////////////////////////////////
 class MapSpine
@@ -259,7 +315,8 @@ public:
     MapSpine& operator=(MapSpine&& rhs);
 
 public:
-    MapSpine& InitSpine(const SpineRenderer* renderer, ZAY::SpineBuilder::MotionFinishedCB fcb = nullptr, ZAY::SpineBuilder::UserEventCB ecb = nullptr);
+    MapSpine& InitSpine(const SpineRenderer* renderer, chars skin = "default",
+        ZAY::SpineBuilder::MotionFinishedCB fcb = nullptr, ZAY::SpineBuilder::UserEventCB ecb = nullptr);
     void PlayMotion(chars motion, bool repeat);
     void PlayMotionAttached(chars first_motion, chars second_motion, bool repeat);
     void PlayMotionSeek(chars seek_motion, bool repeat);
@@ -301,13 +358,15 @@ public:
     MapObject& operator=(MapObject&& rhs);
 
 public:
+    void ResetCB();
     void Hit() const;
     void Dead() const;
 
 public:
     const ObjectType* mType;
     bool mVisible;
-    Rect mRect;
+    sint32 mHP;
+    Rect mCurrentRect;
 };
 typedef Array<MapObject> MapObjects;
 
@@ -328,8 +387,9 @@ public:
 public:
     const PolygonType* mType;
     bool mVisible;
-    bool mIsCW;
     Points mPoints;
+    bool mIsCW;
+    sint32 mNearHoleIndex;
 };
 typedef Array<MapPolygon> MapPolygons;
 
@@ -360,12 +420,15 @@ public:
     void Init(const MonsterType* type, sint32 timesec, float x, float y,
         const SpineRenderer& renderer, const SpineRenderer* toast_renderer = nullptr);
     void ResetCB();
-    void KnockBack(bool down, bool kill);
+    bool IsKnockBackMode();
+    void KnockBack(bool down, const Point& accel);
     void KnockBackEnd();
+    void KnockBackEndByHole(const Point& hole);
     void Turn() const;
     sint32 TryAttack();
     void CancelAttack();
     void ClearTarget();
+    void TryDeathMove();
 
 public:
     const float mKnockBackAccelMin = 0.001f; // 화면크기비율상수
@@ -378,6 +441,7 @@ public:
     sint32 mHP;
     Mode mMode;
     sint32 mDeathStep;
+    Point mDeathPos;
     sint32 mAttackCount;
     uint64 mAttackTimeMsec;
     bool mFlipMode;
@@ -385,13 +449,35 @@ public:
     Point mLastFlipPos;
     Point mCurrentPos;
     Point mTargetPos;
-    Point mKnockBackAccel;
-    sint32 mTargetId;
+    sint32 mTargetIndex;
     TryWorld::Path* mTargetPath;
     sint32 mTargetPathScore;
+    sint32 mBounceObjectIndex;
     MapSpine mToast;
+
+private:
+    bool mKnockBackMode;
+    Point mKnockBackAccel;
+
+public:
+    inline const Point& knockbackaccel() const {return mKnockBackAccel;}
+    inline void SetKnockBackAccel(const Point& accel) {mKnockBackAccel = accel;}
 };
 typedef Array<MapMonster> MapMonsters;
+
+////////////////////////////////////////////////////////////////////////////////
+class TryWorldZone
+{
+    BOSS_DECLARE_NONCOPYABLE_CLASS(TryWorldZone)
+public:
+    TryWorldZone();
+    ~TryWorldZone();
+
+public:
+    TryWorld::Hurdle* mHurdle;
+    TryWorld::Map* mMap;
+};
+typedef Map<TryWorldZone> TryWorldZoneMap;
 
 ////////////////////////////////////////////////////////////////////////////////
 class TargetZone
@@ -404,14 +490,11 @@ public:
     TargetZone& operator=(TargetZone&& rhs);
 
 public:
-    void Init(sint32 layerid, sint32 objectid, sint32 hp, float x, float y, float size_r);
+    void Init(sint32 layerindex, sint32 objectindex, float r);
 
 public:
-    sint32 mLayerId;
-    sint32 mObjectId;
-    sint32 mHP;
-    sint32 mHPMax;
-    Point mPos;
+    sint32 mLayerIndex;
+    sint32 mObjectIndex;
     float mSizeR;
 };
 typedef Array<TargetZone> TargetZones;
@@ -419,7 +502,7 @@ typedef Array<TargetZone> TargetZones;
 ////////////////////////////////////////////////////////////////////////////////
 class F1State
 {
-    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(F1State, mIsLandscape(landscape()))
+    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(F1State, mLandscape(landscape()), mStage(stage()))
 public:
     F1State();
     ~F1State();
@@ -463,11 +546,13 @@ public: // 기획요소
     ObjectTypes mObjectTypes;
     PolygonTypes mPolygonTypes;
     MonsterTypes mMonsterTypes;
-    Map<SpineRenderer> mSpines;
+    SpineRendererMap mAllSpines;
 
-public: // 가로모드
+public: // 글로벌 요소
     static bool& landscape() {static bool _ = false; return _;}
-    const bool mIsLandscape;
+    const bool mLandscape;
+    static String& stage() {static String _; return _;}
+    const String mStage;
 
 public: // UI요소
     sint32 mUIL;
@@ -493,8 +578,7 @@ public: // 맵요소
     TargetZones mTargets;
     MapLayers mLayers;
     id_surface mShadowSurface;
-    TryWorld::Hurdle* mHurdle;
-    TryWorld::Map* mMap;
+    TryWorldZoneMap mAllTryWorldZones;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

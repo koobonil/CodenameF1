@@ -124,7 +124,7 @@ void stagetoolData::Load(chars filename)
                             NewTimelineMonster.mType = &mState.mMonsterTypes[i];
                             break;
                         }
-                    if(mState.mIsLandscape)
+                    if(mState.mLandscape)
                     {
                         NewTimelineMonster.mPos.x = CurJsonMonster("PosY").GetFloat();
                         NewTimelineMonster.mPos.y = -CurJsonMonster("PosX").GetFloat();
@@ -183,7 +183,7 @@ void stagetoolData::Save(chars filename)
                 {
                     auto& NewJsonMonster = NewJsonEvent.At("Monsters").At(mon);
                     NewJsonMonster.At("ID").Set(CurEvent[mon].mType->mID);
-                    if(mState.mIsLandscape)
+                    if(mState.mLandscape)
                     {
                         NewJsonMonster.At("PosX").Set(String::FromFloat(CurEvent[mon].mPos.y));
                         NewJsonMonster.At("PosY").Set(String::FromFloat(-CurEvent[mon].mPos.x));

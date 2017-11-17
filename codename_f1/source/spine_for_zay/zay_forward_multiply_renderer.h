@@ -134,10 +134,11 @@ namespace ZAY
 
             // frame buffer objects
         public:
-            void setOriginalFBO(GLint originalFBO);
+            void setOriginalFBO(GLint fbo);
             GLint getOriginalFBO() const;
         private:
-            GLint _originalFBO;
+            GLint _firstFBO;
+            GLint _currentFBO;
 
             GLuint _multiplyPassFBO;
 
@@ -179,6 +180,7 @@ namespace ZAY
             GLfloat _finalPassRenderMode;
 
         public:
+            uint08 _getVersion(); //bx
             void checkAndRemakeShaders();
         public:
             virtual void render() override;

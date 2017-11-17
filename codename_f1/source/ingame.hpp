@@ -10,14 +10,17 @@ public:
         mAniTimeMsec = 0;
         mEndTimeMsec = 0;
         mSizeR = 0;
+        mGaugeTime = 0;
         mDamage = 0;
     }
     ~MapBreath() {}
+
 public:
     uint64 mAniTimeMsec;
     uint64 mEndTimeMsec;
     Point mPos;
     sint32 mSizeR;
+    sint32 mGaugeTime;
     sint32 mDamage;
 };
 typedef Array<MapBreath, datatype_pod_canmemcpy> MapBreathes;
@@ -28,7 +31,11 @@ public:
     ingameData();
     ~ingameData();
 
+private:
+    sint32 GetValidNextForDynamic(const MapMonster& monster, const Point& curPos, Point& nextPos, Point* reflectPos = nullptr);
+
 public:
+    void InitForSpine();
     void AnimationOnce(sint32 timespan);
     void ClearPath();
     void Render(ZayPanel& panel);
@@ -37,6 +44,7 @@ public:
     void BreathAttack(const MapBreath* breath);
 
 public: // 게임상태
+    bool mIsSpineInited;
     bool mShowDebug;
     Context mWaveData;
     sint32 mWave; // -1: 게임전, 0~N: 게임중
@@ -62,8 +70,11 @@ public: // 게임상태
     Point mMainTitleStaffTarget[3];
 
     // UI
+    MapSpine mWeather[2];
     MapSpine mGaugeHUD;
     MapSpine mSlotHUD;
+    MapSpine mWaveHUD;
+    MapSpine mStopButton;
     sint32 mBreathGaugeTime;
     float mBreathGaugeTimeLog;
 };

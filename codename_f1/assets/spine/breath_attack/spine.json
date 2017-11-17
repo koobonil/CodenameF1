@@ -1,0 +1,1247 @@
+{
+"skeleton": { "hash": "ZlLXTt0IcaqFouhH5aR2w4+R5Po", "spine": "3.6.47", "width": 277.5, "height": 241.5, "images": "./breath/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 60.25, "rotation": 91.36, "x": -2.34, "y": 4.75 },
+	{ "name": "breath", "parent": "root", "length": 72.1, "rotation": -135, "x": -0.68, "y": 0.67 },
+	{ "name": "b_effect", "parent": "breath", "length": 28.32, "rotation": -135, "y": 0.96 },
+	{ "name": "f_effect", "parent": "breath", "length": 43.8, "rotation": -135, "y": 0.96 }
+],
+"slots": [
+	{ "name": "b_lighting", "bone": "b_effect", "attachment": "b_lightning_effect_o" },
+	{ "name": "b_wind", "bone": "b_effect", "attachment": "b_wind_effect_a" },
+	{ "name": "b_fire", "bone": "b_effect", "attachment": "b_fire_effect_a" },
+	{ "name": "b_ice", "bone": "b_effect", "attachment": "b_ice_effect_g" },
+	{ "name": "lightning_breath", "bone": "breath", "attachment": "lightning_breath" },
+	{ "name": "wind_breath", "bone": "breath", "attachment": "wind_breath" },
+	{ "name": "ice_breath", "bone": "breath", "attachment": "ice_breath" },
+	{ "name": "fire_breath", "bone": "breath", "attachment": "fire_breath" },
+	{ "name": "breath", "bone": "breath", "attachment": "breath" },
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "f_fire", "bone": "f_effect", "attachment": "f_fire_effect_a" },
+	{ "name": "f_ice", "bone": "f_effect", "attachment": "f_ice_effect_a" },
+	{ "name": "f_wind", "bone": "f_effect", "attachment": "f_wind_effect_h" },
+	{ "name": "f_lightning", "bone": "f_effect", "attachment": "f_lightning_effect_b" }
+],
+"skins": {
+	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 58.04, 55.55, -61.8, 56.44, -65, -59.71, 54.06, -61.45 ]
+			}
+		},
+		"b_fire": {
+			"b_fire_effect_a": { "x": 28.4, "y": -28.5, "rotation": -90, "width": 194, "height": 194 },
+			"b_fire_effect_b": { "x": 27.9, "y": -30.5, "rotation": -90, "width": 194, "height": 201 },
+			"b_fire_effect_c": { "x": 28.4, "y": -31.5, "rotation": -90, "width": 197, "height": 200 },
+			"b_fire_effect_d": { "x": 28.4, "y": -30.5, "rotation": -90, "width": 203, "height": 200 },
+			"b_fire_effect_e": { "x": 29.9, "y": -32, "rotation": -90, "width": 205, "height": 198 },
+			"b_fire_effect_f": { "x": 25.9, "y": -27.5, "rotation": -90, "width": 196, "height": 197 },
+			"b_fire_effect_g": { "x": 25.4, "y": -29, "rotation": -90, "width": 196, "height": 200 },
+			"b_fire_effect_h": { "x": 25.9, "y": -30, "rotation": -90, "width": 195, "height": 201 },
+			"b_fire_effect_i": { "x": 20.4, "y": -28, "rotation": -90, "width": 192, "height": 191 },
+			"b_fire_effect_j": { "x": 20.4, "y": -26, "rotation": -90, "width": 187, "height": 194 },
+			"b_fire_effect_k": { "x": 22.9, "y": -25, "rotation": -90, "width": 189, "height": 193 },
+			"b_fire_effect_l": { "x": 20.9, "y": -29, "rotation": -90, "width": 197, "height": 194 },
+			"b_fire_effect_m": { "x": 22.4, "y": -26.5, "rotation": -90, "width": 192, "height": 202 },
+			"b_fire_effect_n": { "x": 23.9, "y": -30, "rotation": -90, "width": 193, "height": 195 },
+			"b_fire_effect_o": { "x": 24.9, "y": -24.5, "rotation": -90, "width": 183, "height": 194 }
+		},
+		"b_ice": {
+			"b_ice_effect_a": { "x": 33.9, "y": -37, "rotation": -90, "width": 210, "height": 193 },
+			"b_ice_effect_b": { "x": 34.4, "y": -36.5, "rotation": -90, "width": 203, "height": 200 },
+			"b_ice_effect_c": { "x": 33.9, "y": -35.5, "rotation": -90, "width": 201, "height": 199 },
+			"b_ice_effect_d": { "x": 35.4, "y": -34, "rotation": -90, "width": 200, "height": 199 },
+			"b_ice_effect_e": { "x": 36.4, "y": -36.5, "rotation": -90, "width": 199, "height": 201 },
+			"b_ice_effect_f": { "x": 32.9, "y": -30.5, "rotation": -90, "width": 186, "height": 192 },
+			"b_ice_effect_g": { "x": 24.4, "y": -34, "rotation": -90, "width": 192, "height": 173 }
+		},
+		"b_lighting": {
+			"b_lightning_effect_a": { "x": -26.6, "y": 41, "rotation": -90, "width": 58, "height": 72 },
+			"b_lightning_effect_b": { "x": -26.6, "y": 41, "rotation": -90, "width": 58, "height": 72 },
+			"b_lightning_effect_c": { "x": -21.1, "y": 34, "rotation": -90, "width": 77, "height": 88 },
+			"b_lightning_effect_d": { "x": -15.6, "y": 21.5, "rotation": -90, "width": 90, "height": 104 },
+			"b_lightning_effect_e": { "x": -15.6, "y": 21.5, "rotation": -90, "width": 90, "height": 104 },
+			"b_lightning_effect_f": { "x": -7.6, "y": 9, "rotation": -90, "width": 116, "height": 120 },
+			"b_lightning_effect_g": { "x": -7.6, "y": 9, "rotation": -90, "width": 116, "height": 120 },
+			"b_lightning_effect_h": { "x": -0.1, "rotation": -90, "width": 131, "height": 134 },
+			"b_lightning_effect_i": { "x": 16.4, "y": -19, "rotation": -90, "width": 168, "height": 158 },
+			"b_lightning_effect_j": { "x": 16.4, "y": -19, "rotation": -90, "width": 168, "height": 158 },
+			"b_lightning_effect_k": { "x": 26.9, "y": -33, "rotation": -90, "width": 196, "height": 180 },
+			"b_lightning_effect_l": { "x": 26.9, "y": -33, "rotation": -90, "width": 196, "height": 180 },
+			"b_lightning_effect_m": { "x": 33.4, "y": -46, "rotation": -90, "width": 215, "height": 189 },
+			"b_lightning_effect_n": { "x": 42.9, "y": -58.5, "rotation": -90, "width": 239, "height": 203 },
+			"b_lightning_effect_o": { "x": 53.4, "y": -72, "rotation": -90, "width": 232, "height": 195 }
+		},
+		"b_wind": {
+			"b_wind_effect_a": { "x": 24.4, "y": -27, "rotation": -90, "width": 233, "height": 230 },
+			"b_wind_effect_b": { "x": 28.9, "y": -36.5, "rotation": -90, "width": 202, "height": 222 },
+			"b_wind_effect_c": { "x": 24.4, "y": -27.5, "rotation": -90, "width": 234, "height": 230 },
+			"b_wind_effect_d": { "x": 20.9, "y": -25.5, "rotation": -90, "width": 237, "height": 238 },
+			"b_wind_effect_e": { "x": 33.9, "y": -35, "rotation": -90, "width": 200, "height": 211 },
+			"b_wind_effect_f": { "x": 20.4, "y": -29, "rotation": -90, "width": 219, "height": 239 },
+			"b_wind_effect_g": { "x": 24.4, "y": -27, "rotation": -90, "width": 233, "height": 230 },
+			"b_wind_effect_h": { "x": 28.9, "y": -36.5, "rotation": -90, "width": 202, "height": 222 }
+		},
+		"breath": {
+			"breath": { "x": 0.06, "y": 1.03, "rotation": 135, "width": 115, "height": 121 }
+		},
+		"f_fire": {
+			"f_fire_effect_a": { "x": -18.1, "y": 19.5, "rotation": -90, "width": 97, "height": 99 },
+			"f_fire_effect_b": { "x": -16.6, "y": 17, "rotation": -90, "width": 103, "height": 102 },
+			"f_fire_effect_c": { "x": -14.6, "y": 17.5, "rotation": -90, "width": 105, "height": 105 },
+			"f_fire_effect_d": { "x": -13.1, "y": 18.5, "rotation": -90, "width": 104, "height": 112 },
+			"f_fire_effect_e": { "x": -10.6, "y": 19, "rotation": -90, "width": 106, "height": 115 },
+			"f_fire_effect_f": { "x": -17.1, "y": 23, "rotation": -90, "width": 100, "height": 99 },
+			"f_fire_effect_g": { "x": -15.6, "y": 22, "rotation": -90, "width": 102, "height": 100 },
+			"f_fire_effect_h": { "x": -16.1, "y": 20, "rotation": -90, "width": 101, "height": 100 },
+			"f_fire_effect_i": { "x": -18.1, "y": 28, "rotation": -90, "width": 88, "height": 97 },
+			"f_fire_effect_j": { "x": -20.6, "y": 27, "rotation": -90, "width": 90, "height": 94 },
+			"f_fire_effect_k": { "x": -22.1, "y": 25, "rotation": -90, "width": 94, "height": 90 },
+			"f_fire_effect_l": { "x": -16.6, "y": 26, "rotation": -90, "width": 90, "height": 102 },
+			"f_fire_effect_m": { "x": -19.6, "y": 23, "rotation": -90, "width": 98, "height": 95 },
+			"f_fire_effect_n": { "x": -16.6, "y": 22.5, "rotation": -90, "width": 93, "height": 100 }
+		},
+		"f_ice": {
+			"f_ice_effect_a": { "x": -25.6, "y": 25.5, "rotation": -90, "width": 65, "height": 69 },
+			"f_ice_effect_b": { "x": -21.6, "y": 19.5, "rotation": -90, "width": 71, "height": 67 },
+			"f_ice_effect_c": { "x": -19.1, "y": 13.5, "rotation": -90, "width": 85, "height": 87 },
+			"f_ice_effect_d": { "x": -13.6, "y": 6, "rotation": -90, "width": 102, "height": 101 },
+			"f_ice_effect_e": { "x": -4.6, "y": -2.5, "rotation": -90, "width": 105, "height": 112 },
+			"f_ice_effect_f": { "x": 3.9, "y": -7, "rotation": -90, "width": 114, "height": 120 },
+			"f_ice_effect_g": { "x": 7.9, "y": -14.5, "rotation": -90, "width": 125, "height": 122 },
+			"f_ice_effect_h": { "x": 11.9, "y": -34, "rotation": -90, "width": 108, "height": 125 }
+		},
+		"f_lightning": {
+			"f_lightning_effect_b": { "x": -45.1, "y": 15.5, "rotation": -90, "width": 31, "height": 22 },
+			"f_lightning_effect_c": { "x": -38.6, "y": 17, "rotation": -90, "width": 46, "height": 30 },
+			"f_lightning_effect_d": { "x": -27.1, "y": 10.5, "rotation": -90, "width": 56, "height": 30 },
+			"f_lightning_effect_e": { "x": -22.6, "y": 11.5, "rotation": -90, "width": 54, "height": 40 },
+			"f_lightning_effect_f": { "x": -16.6, "y": 10, "rotation": -90, "width": 67, "height": 56 },
+			"f_lightning_effect_g": { "x": -9.6, "y": 14, "rotation": -90, "width": 62, "height": 54 },
+			"f_lightning_effect_h": { "x": -23.1, "y": 18, "rotation": -90, "width": 53, "height": 66 },
+			"f_lightning_effect_i": { "x": -38.6, "y": 17, "rotation": -90, "width": 46, "height": 30 },
+			"f_lightning_effect_j": { "x": -27.1, "y": 10.5, "rotation": -90, "width": 56, "height": 30 },
+			"f_lightning_effect_k": { "x": -22.6, "y": 11.5, "rotation": -90, "width": 54, "height": 40 },
+			"f_lightning_effect_l": { "x": -16.6, "y": 10, "rotation": -90, "width": 67, "height": 56 },
+			"f_lightning_effect_m": { "x": -9.6, "y": 14, "rotation": -90, "width": 62, "height": 54 },
+			"f_lightning_effect_n": { "x": -11.6, "y": 18, "rotation": -90, "width": 53, "height": 42 }
+		},
+		"f_wind": {
+			"f_wind_effect_a": { "x": -39.1, "y": 37.5, "rotation": -90, "width": 48, "height": 47 },
+			"f_wind_effect_b": { "x": -31.6, "y": 30.5, "rotation": -90, "width": 62, "height": 62 },
+			"f_wind_effect_c": { "x": -24.1, "y": 20.5, "rotation": -90, "width": 80, "height": 80 },
+			"f_wind_effect_d": { "x": -7.1, "y": 4.5, "rotation": -90, "width": 101, "height": 101 },
+			"f_wind_effect_e": { "x": 20.4, "y": -24.5, "rotation": -90, "width": 132, "height": 132 },
+			"f_wind_effect_f": { "x": 52.4, "y": -59.5, "rotation": -90, "width": 150, "height": 149 },
+			"f_wind_effect_g": { "x": 74.4, "y": -80, "rotation": -90, "width": 96, "height": 95 },
+			"f_wind_effect_h": { "x": 90.4, "y": -94.5, "rotation": -90, "width": 58, "height": 58 }
+		},
+		"fire_breath": {
+			"fire_breath": { "x": 0.06, "y": 1.03, "rotation": 135, "width": 115, "height": 121 }
+		},
+		"ice_breath": {
+			"ice_breath": { "x": 0.06, "y": 1.03, "rotation": 135, "width": 115, "height": 121 }
+		},
+		"lightning_breath": {
+			"lightning_breath": { "x": -0.64, "y": 0.32, "rotation": 135, "width": 115, "height": 121 }
+		},
+		"wind_breath": {
+			"wind_breath": { "x": 0.06, "y": 1.03, "rotation": 135, "width": 115, "height": 121 }
+		}
+	}
+},
+"animations": {
+	"breath_fire_attack_a": {
+		"slots": {
+			"b_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.4667, "color": "ffffff00" },
+					{ "time": 0.8333, "color": "ffa6a6d0" },
+					{ "time": 0.9, "color": "ffffffff" },
+					{ "time": 1, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0.5, "name": "b_fire_effect_a" },
+					{ "time": 0.5333, "name": "b_fire_effect_b" },
+					{ "time": 0.5667, "name": "b_fire_effect_c" },
+					{ "time": 0.6, "name": "b_fire_effect_d" },
+					{ "time": 0.6333, "name": "b_fire_effect_e" },
+					{ "time": 0.6667, "name": "b_fire_effect_f" },
+					{ "time": 0.7, "name": "b_fire_effect_g" },
+					{ "time": 0.7333, "name": "b_fire_effect_h" },
+					{ "time": 0.7667, "name": "b_fire_effect_i" },
+					{ "time": 0.8, "name": "b_fire_effect_j" },
+					{ "time": 0.8333, "name": "b_fire_effect_k" },
+					{ "time": 0.8667, "name": "b_fire_effect_l" },
+					{ "time": 0.9, "name": "b_fire_effect_m" },
+					{ "time": 0.9333, "name": "b_fire_effect_n" },
+					{ "time": 0.9667, "name": "b_fire_effect_o" },
+					{ "time": 1, "name": "b_fire_effect_a" }
+				]
+			},
+			"b_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_lighting": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.4667, "color": "ffffff00" },
+					{ "time": 0.8333, "color": "ffa6a6d0" },
+					{ "time": 0.9, "color": "ffffffff" },
+					{ "time": 1, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0.5, "name": "f_fire_effect_a" },
+					{ "time": 0.5333, "name": "f_fire_effect_c" },
+					{ "time": 0.5667, "name": "f_fire_effect_d" },
+					{ "time": 0.6, "name": "f_fire_effect_e" },
+					{ "time": 0.6333, "name": "f_fire_effect_f" },
+					{ "time": 0.6667, "name": "f_fire_effect_g" },
+					{ "time": 0.7, "name": "f_fire_effect_h" },
+					{ "time": 0.7333, "name": "f_fire_effect_i" },
+					{ "time": 0.7667, "name": "f_fire_effect_j" },
+					{ "time": 0.8, "name": "f_fire_effect_k" },
+					{ "time": 0.8333, "name": "f_fire_effect_l" },
+					{ "time": 0.8667, "name": "f_fire_effect_m" },
+					{ "time": 0.9, "name": "f_fire_effect_n" },
+					{ "time": 0.9333, "name": "f_fire_effect_a" },
+					{ "time": 0.9667, "name": "f_fire_effect_b" },
+					{ "time": 1, "name": "f_fire_effect_c" }
+				]
+			},
+			"f_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_lightning": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"fire_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.4667, "color": "ffffff00" },
+					{ "time": 0.8333, "color": "ffffffff" }
+				]
+			},
+			"ice_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"lightning_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"wind_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"breath": {
+				"rotate": [
+					{ "time": 0.9667, "angle": 0, "curve": "stepped" },
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 361.28, "y": 361.28, "curve": "stepped" },
+					{
+						"time": 0.5,
+						"x": 361.28,
+						"y": 361.28,
+						"curve": [ 0.958, 0, 0.901, 0.83 ]
+					},
+					{ "time": 0.9667, "x": 0.68, "y": -0.67, "curve": "stepped" },
+					{ "time": 1, "x": 0.68, "y": -0.67 }
+				],
+				"scale": [
+					{ "time": 0.9667, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"breath_fire_attack_b": {
+		"slots": {
+			"b_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_lighting": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"f_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_lightning": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"fire_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.9667, "color": "ffffff00" },
+					{ "time": 1, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.2333, "color": "ffffffff" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"ice_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"lightning_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"wind_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"breath": {
+				"rotate": [
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 1, "x": 0.68, "y": -0.67 },
+					{ "time": 1.0667, "x": 11.44, "y": 10.09 },
+					{ "time": 1.1333, "x": 0.68, "y": -0.67 },
+					{ "time": 1.1667, "x": 6.06, "y": 4.71 },
+					{ "time": 1.2, "x": 0.68, "y": -0.67 }
+				],
+				"scale": [
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"breath_ice_attack_a": {
+		"slots": {
+			"b_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.4667, "color": "ffffff00" },
+					{ "time": 0.8333, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 0.9, "color": "ffffffff" },
+					{ "time": 1, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0.5, "name": "b_ice_effect_a" },
+					{ "time": 0.5667, "name": "b_ice_effect_b" },
+					{ "time": 0.7, "name": "b_ice_effect_d" },
+					{ "time": 0.7667, "name": "b_ice_effect_e" },
+					{ "time": 0.8333, "name": "b_ice_effect_f" },
+					{ "time": 0.9, "name": "b_ice_effect_g" },
+					{ "time": 0.9667, "name": "b_ice_effect_a" },
+					{ "time": 1, "name": "b_ice_effect_c" }
+				]
+			},
+			"b_lighting": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.4667, "color": "ffffff00" },
+					{ "time": 0.8333, "color": "b0e3ffc9" },
+					{ "time": 0.9, "color": "ffffffff" },
+					{ "time": 1, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0.5, "name": "f_ice_effect_a" },
+					{ "time": 0.5667, "name": "f_ice_effect_b" },
+					{ "time": 0.7, "name": "f_ice_effect_d" },
+					{ "time": 0.7667, "name": "f_ice_effect_e" },
+					{ "time": 0.8333, "name": "f_ice_effect_f" },
+					{ "time": 0.9, "name": "f_ice_effect_g" },
+					{ "time": 0.9667, "name": "f_ice_effect_h" },
+					{ "time": 1, "name": "f_ice_effect_c" }
+				]
+			},
+			"f_lightning": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"fire_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"ice_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.4667, "color": "ffffff00" },
+					{ "time": 0.8333, "color": "ffffffff" }
+				]
+			},
+			"lightning_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"wind_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"breath": {
+				"rotate": [
+					{ "time": 0.9667, "angle": 0, "curve": "stepped" },
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 361.28, "y": 361.28, "curve": "stepped" },
+					{
+						"time": 0.5,
+						"x": 361.28,
+						"y": 361.28,
+						"curve": [ 0.958, 0, 0.901, 0.83 ]
+					},
+					{ "time": 0.9667, "x": 0.68, "y": -0.67, "curve": "stepped" },
+					{ "time": 1, "x": 0.68, "y": -0.67 }
+				],
+				"scale": [
+					{ "time": 0.9667, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"breath_ice_attack_b": {
+		"slots": {
+			"b_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_lighting": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"f_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_lightning": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"fire_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"ice_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.9667, "color": "ffffff00" },
+					{ "time": 1, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.2333, "color": "ffffffff" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"lightning_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"wind_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"breath": {
+				"rotate": [
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 1, "x": 0.68, "y": -0.67 },
+					{ "time": 1.0667, "x": 11.44, "y": 10.09 },
+					{ "time": 1.1333, "x": 0.68, "y": -0.67 },
+					{ "time": 1.1667, "x": 6.06, "y": 4.71 },
+					{ "time": 1.2, "x": 0.68, "y": -0.67 }
+				],
+				"scale": [
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"breath_lightning_attack_a": {
+		"slots": {
+			"b_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_lighting": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.4667, "color": "ffffff00" },
+					{ "time": 0.8333, "color": "fff8dcd7" },
+					{ "time": 0.9, "color": "ffffffff" },
+					{ "time": 1, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0.5, "name": "b_lightning_effect_a" },
+					{ "time": 0.5333, "name": "b_lightning_effect_b" },
+					{ "time": 0.5667, "name": "b_lightning_effect_c" },
+					{ "time": 0.6, "name": "b_lightning_effect_d" },
+					{ "time": 0.6333, "name": "b_lightning_effect_e" },
+					{ "time": 0.6667, "name": "b_lightning_effect_f" },
+					{ "time": 0.7, "name": "b_lightning_effect_g" },
+					{ "time": 0.7333, "name": "b_lightning_effect_h" },
+					{ "time": 0.7667, "name": "b_lightning_effect_i" },
+					{ "time": 0.8, "name": "b_lightning_effect_j" },
+					{ "time": 0.8333, "name": "b_lightning_effect_k" },
+					{ "time": 0.8667, "name": "b_lightning_effect_l" },
+					{ "time": 0.9, "name": "b_lightning_effect_m" },
+					{ "time": 0.9333, "name": "b_lightning_effect_n" },
+					{ "time": 0.9667, "name": "b_lightning_effect_o" }
+				]
+			},
+			"b_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_lightning": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.4667, "color": "ffffff00" },
+					{ "time": 0.8333, "color": "fff6cbd7" },
+					{ "time": 0.9, "color": "ffffffff" },
+					{ "time": 1, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0.5, "name": "f_lightning_effect_b" },
+					{ "time": 0.5333, "name": "f_lightning_effect_c" },
+					{ "time": 0.5667, "name": "f_lightning_effect_d" },
+					{ "time": 0.6, "name": "f_lightning_effect_e" },
+					{ "time": 0.6333, "name": "f_lightning_effect_f" },
+					{ "time": 0.6667, "name": "f_lightning_effect_g" },
+					{ "time": 0.7, "name": "f_lightning_effect_h" },
+					{ "time": 0.7333, "name": "f_lightning_effect_i" },
+					{ "time": 0.7667, "name": "f_lightning_effect_j" },
+					{ "time": 0.8, "name": "f_lightning_effect_k" },
+					{ "time": 0.8333, "name": "f_lightning_effect_l" },
+					{ "time": 0.8667, "name": "f_lightning_effect_m" },
+					{ "time": 0.9, "name": "f_lightning_effect_n" },
+					{ "time": 0.9333, "name": null }
+				]
+			},
+			"f_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"fire_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"ice_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"lightning_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.4667, "color": "ffffff00" },
+					{ "time": 0.8333, "color": "ffffffff" }
+				]
+			},
+			"wind_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"breath": {
+				"rotate": [
+					{ "time": 0.9667, "angle": 0, "curve": "stepped" },
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 361.28, "y": 361.28, "curve": "stepped" },
+					{
+						"time": 0.5,
+						"x": 361.28,
+						"y": 361.28,
+						"curve": [ 0.958, 0, 0.901, 0.83 ]
+					},
+					{ "time": 0.9667, "x": 0.68, "y": -0.67, "curve": "stepped" },
+					{ "time": 1, "x": 0.68, "y": -0.67 }
+				],
+				"scale": [
+					{ "time": 0.9667, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"breath_lightning_attack_b": {
+		"slots": {
+			"b_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_lighting": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"f_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_lightning": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"fire_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"ice_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"lightning_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.9667, "color": "ffffff00" },
+					{ "time": 1, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.2333, "color": "ffffffff" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"wind_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"breath": {
+				"rotate": [
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 1, "x": 0.68, "y": -0.67 },
+					{ "time": 1.0667, "x": 11.44, "y": 10.09 },
+					{ "time": 1.1333, "x": 0.68, "y": -0.67 },
+					{ "time": 1.1667, "x": 6.06, "y": 4.71 },
+					{ "time": 1.2, "x": 0.68, "y": -0.67 }
+				],
+				"scale": [
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"breath_normal_attack_a": {
+		"slots": {
+			"b_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_lighting": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.4667, "color": "ffffff00" },
+					{ "time": 0.8333, "color": "ffffffff" }
+				]
+			},
+			"f_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_lightning": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"fire_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"ice_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"lightning_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"wind_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"breath": {
+				"rotate": [
+					{ "time": 0.9667, "angle": 0, "curve": "stepped" },
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 361.28, "y": 361.28, "curve": "stepped" },
+					{
+						"time": 0.5,
+						"x": 361.28,
+						"y": 361.28,
+						"curve": [ 0.958, 0, 0.901, 0.83 ]
+					},
+					{ "time": 0.9667, "x": 0.68, "y": -0.67, "curve": "stepped" },
+					{ "time": 1, "x": 0.68, "y": -0.67 }
+				],
+				"scale": [
+					{ "time": 0.9667, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"breath_normal_attack_b": {
+		"slots": {
+			"b_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_lighting": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.9667, "color": "ffffff00" },
+					{ "time": 1, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.2333, "color": "ffffffff" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"f_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_lightning": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"fire_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"ice_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"lightning_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"wind_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"breath": {
+				"rotate": [
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 1, "x": 0.68, "y": -0.67 },
+					{ "time": 1.0667, "x": 11.44, "y": 10.09 },
+					{ "time": 1.1333, "x": 0.68, "y": -0.67 },
+					{ "time": 1.1667, "x": 6.06, "y": 4.71 },
+					{ "time": 1.2, "x": 0.68, "y": -0.67 }
+				],
+				"scale": [
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"breath_wind_attack_a": {
+		"slots": {
+			"b_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_lighting": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.4667, "color": "ffffff00" },
+					{ "time": 0.8333, "color": "dfffe6d7" },
+					{ "time": 0.9, "color": "ffffffff" },
+					{ "time": 1, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0.5, "name": "b_wind_effect_a" },
+					{ "time": 0.5667, "name": "b_wind_effect_b" },
+					{ "time": 0.6333, "name": "b_wind_effect_c" },
+					{ "time": 0.7, "name": "b_wind_effect_d" },
+					{ "time": 0.8, "name": "b_wind_effect_e" },
+					{ "time": 0.8667, "name": "b_wind_effect_f" },
+					{ "time": 0.9333, "name": "b_wind_effect_g" },
+					{ "time": 1, "name": "b_wind_effect_h" }
+				]
+			},
+			"breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_lightning": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.4667, "color": "ffffff00" },
+					{ "time": 0.8333, "color": "dfffe6d7" },
+					{ "time": 0.9, "color": "ffffffff" },
+					{ "time": 1, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0.5, "name": "f_wind_effect_a" },
+					{ "time": 0.5333, "name": "f_wind_effect_b" },
+					{ "time": 0.5667, "name": "f_wind_effect_c" },
+					{ "time": 0.6, "name": "f_wind_effect_d" },
+					{ "time": 0.6333, "name": "f_wind_effect_e" },
+					{ "time": 0.6667, "name": "f_wind_effect_f" },
+					{ "time": 0.7, "name": "f_wind_effect_g" },
+					{ "time": 0.7333, "name": "f_wind_effect_h" },
+					{ "time": 0.7667, "name": "f_wind_effect_a" },
+					{ "time": 0.8, "name": "f_wind_effect_b" },
+					{ "time": 0.8333, "name": "f_wind_effect_c" },
+					{ "time": 0.8667, "name": "f_wind_effect_d" },
+					{ "time": 0.9, "name": "f_wind_effect_e" },
+					{ "time": 0.9333, "name": "f_wind_effect_f" },
+					{ "time": 0.9667, "name": "f_wind_effect_g" },
+					{ "time": 1, "name": "f_wind_effect_h" }
+				]
+			},
+			"fire_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"ice_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"lightning_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"wind_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.4667, "color": "ffffff00" },
+					{ "time": 0.8333, "color": "ffffffff" }
+				]
+			}
+		},
+		"bones": {
+			"breath": {
+				"rotate": [
+					{ "time": 0.9667, "angle": 0, "curve": "stepped" },
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 361.28, "y": 361.28, "curve": "stepped" },
+					{
+						"time": 0.5,
+						"x": 361.28,
+						"y": 361.28,
+						"curve": [ 0.958, 0, 0.901, 0.83 ]
+					},
+					{ "time": 0.9667, "x": 0.68, "y": -0.67, "curve": "stepped" },
+					{ "time": 1, "x": 0.68, "y": -0.67 }
+				],
+				"scale": [
+					{ "time": 0.9667, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"breath_wind_attack_b": {
+		"slots": {
+			"b_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_lighting": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"b_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"f_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_lightning": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"f_wind": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"fire_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"ice_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"lightning_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"wind_breath": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.9667, "color": "ffffff00" },
+					{ "time": 1, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.2333, "color": "ffffffff" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"breath": {
+				"rotate": [
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 1, "x": 0.68, "y": -0.67 },
+					{ "time": 1.0667, "x": 11.44, "y": 10.09 },
+					{ "time": 1.1333, "x": 0.68, "y": -0.67 },
+					{ "time": 1.1667, "x": 6.06, "y": 4.71 },
+					{ "time": 1.2, "x": 0.68, "y": -0.67 }
+				],
+				"scale": [
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

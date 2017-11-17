@@ -1,15 +1,16 @@
 {
-"skeleton": { "hash": "+mGoKHQbHEgqBmQmpb1rgRly9xY", "spine": "3.6.45", "width": 0, "height": 0, "images": "./ingame_ui/" },
+"skeleton": { "hash": "hKDunKOI1VsTqrfvMCM54tBs3t0", "spine": "3.6.47", "width": 786, "height": 167, "images": "./wave/" },
 "bones": [
 	{ "name": "root" },
-	{ "name": "area", "parent": "root", "length": 59.35, "rotation": 90, "x": -0.6, "y": 24.11 },
-	{ "name": "pont_wave", "parent": "root", "length": 98.15, "rotation": 180, "x": -170.38, "y": 58.72 },
-	{ "name": "pont_wave_b", "parent": "root", "length": 39.22, "rotation": 180, "x": 249.04, "y": 51.55 }
+	{ "name": "area", "parent": "root", "length": 59.35, "rotation": 90, "x": 173.81, "y": 24.11 },
+	{ "name": "pont_wave", "parent": "root", "length": 98.15, "rotation": 180, "x": 4.03, "y": 58.72 },
+	{ "name": "pont_wave_b", "parent": "root", "length": 39.22, "rotation": 180, "x": 212.66, "y": 67.6 }
 ],
 "slots": [
 	{ "name": "area", "bone": "area", "attachment": "area" },
 	{ "name": "pont_wave_b_area", "bone": "pont_wave_b", "attachment": "pont_area" },
-	{ "name": "pont_wave_area", "bone": "pont_wave", "attachment": "pont_wave_area" }
+	{ "name": "pont_wave", "bone": "pont_wave", "attachment": "wave" },
+	{ "name": "pont_wave_b", "bone": "pont_wave_b", "attachment": "pont" }
 ],
 "skins": {
 	"default": {
@@ -17,21 +18,20 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 104.86, 428.86, 104.86, -491.09, -31.22, -489.47, -33.65, 428.05 ]
+				"vertices": [ 161.24, 603, 161.24, -512.05, -251.95, -510.43, -254.38, 602.19 ]
 			}
 		},
-		"pont_wave_area": {
-			"pont_wave_area": {
-				"type": "boundingbox",
-				"vertexCount": 4,
-				"vertices": [ 243.87, -64.47, 244.66, 65.55, -243.9, 64.76, -243.9, -65.26 ]
-			}
+		"pont_wave": {
+			"wave": { "rotation": -180, "width": 786, "height": 167 }
+		},
+		"pont_wave_b": {
+			"pont": { "x": -7.49, "scaleX": 0.7, "scaleY": 0.7, "rotation": 180, "width": 280, "height": 108 }
 		},
 		"pont_wave_b_area": {
 			"pont_area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 161.1, -51.51, 161.91, 58.65, -225.48, 59.88, -226.32, -51.93 ]
+				"vertices": [ 154.68, -51.51, 155.49, 49.02, -158.07, 50.25, -158.91, -51.93 ]
 			}
 		}
 	}

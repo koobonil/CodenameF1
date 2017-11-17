@@ -18,6 +18,7 @@
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"wall_forest_b",
+		"Spine":"stone:forest",
 		"AssetShadow":"object_shadow",
 		"IsTool":"True"
 	},
@@ -29,6 +30,7 @@
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"egg",
+		"AssetShadow":"egg_shadow",
 		"IsTool":"True"
 	},
 	{
@@ -49,6 +51,7 @@
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"hole_forest",
+		"Spine":"hole",
 		"IsTool":"True"
 	},
 	{
@@ -59,6 +62,7 @@
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"tree_forest_a",
+		"AssetShadow":"tree_shadow",
 		"IsTool":"True"
 	},
 	{

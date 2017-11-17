@@ -2,7 +2,7 @@
 // detail/impl/win_iocp_socket_service_base.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2014 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -177,9 +177,16 @@ boost::system::error_code win_iocp_socket_service_base::close(
             reinterpret_cast<void**>(&reactor_), 0, 0));
     if (r)
       r->deregister_descriptor(impl.socket_, impl.reactor_data_, true);
-  }
 
-  socket_ops::close(impl.socket_, impl.state_, false, ec);
+    socket_ops::close(impl.socket_, impl.state_, false, ec);
+
+    if (r)
+      r->cleanup_descriptor_data(impl.reactor_data_);
+  }
+  else
+  {
+    ec = boost::system::error_code();
+  }
 
   impl.socket_ = invalid_socket;
   impl.state_ = 0;
@@ -629,10 +636,14 @@ void win_iocp_socket_service_base::close_for_destruction(
             reinterpret_cast<void**>(&reactor_), 0, 0));
     if (r)
       r->deregister_descriptor(impl.socket_, impl.reactor_data_, true);
+
+    boost::system::error_code ignored_ec;
+    socket_ops::close(impl.socket_, impl.state_, true, ignored_ec);
+
+    if (r)
+      r->cleanup_descriptor_data(impl.reactor_data_);
   }
 
-  boost::system::error_code ignored_ec;
-  socket_ops::close(impl.socket_, impl.state_, true, ignored_ec);
   impl.socket_ = invalid_socket;
   impl.state_ = 0;
   impl.cancel_token_.reset();
@@ -671,6 +682,11 @@ win_iocp_socket_service_base::connect_ex_fn
 win_iocp_socket_service_base::get_connect_ex(
     win_iocp_socket_service_base::base_implementation_type& impl, int type)
 {
+#if defined(BOOST_ASIO_DISABLE_CONNECTEX)
+  (void)impl;
+  (void)type;
+  return 0;
+#else // defined(BOOST_ASIO_DISABLE_CONNECTEX)
   if (type != BOOST_ASIO_OS_DEF(SOCK_STREAM)
       && type != BOOST_ASIO_OS_DEF(SOCK_SEQPACKET))
     return 0;
@@ -694,6 +710,7 @@ win_iocp_socket_service_base::get_connect_ex(
   }
 
   return reinterpret_cast<connect_ex_fn>(ptr == this ? 0 : ptr);
+#endif // defined(BOOST_ASIO_DISABLE_CONNECTEX)
 }
 
 void* win_iocp_socket_service_base::interlocked_compare_exchange_pointer(

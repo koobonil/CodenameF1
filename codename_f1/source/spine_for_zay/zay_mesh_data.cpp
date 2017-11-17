@@ -96,9 +96,12 @@ namespace ZAY
     void MeshData::loadTextureImage(const char* path)
     {
         _textureImage = new Image;
-
         id_asset_read AssetID = Asset::OpenForRead(path, (id_assetpath_read) s_assetpath);
-        if(!AssetID) AssetID = Asset::OpenForRead("image/noimage.png");
+        if(!AssetID)
+        {
+            BOSS_ASSERT(String::Format("Spine image not found(%s)", path), false);
+            AssetID = Asset::OpenForRead("image/noimg.png");
+        }
 
         sint32 AssetLen = Asset::Size(AssetID);
         buffer AssetBuf = Buffer::Alloc(BOSS_DBG AssetLen);

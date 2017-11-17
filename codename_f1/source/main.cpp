@@ -3,6 +3,7 @@
 #include <service/boss_zay.hpp>
 
 #include <resource.hpp>
+#include "classes.hpp"
 
 void PlatformInit()
 {
@@ -13,6 +14,8 @@ void PlatformInit()
     #if BOSS_WINDOWS | BOSS_MAC_OSX
         Platform::SetWindowView("codename_f1View");
     #else
+        F1State::landscape() = false;
+        F1State::stage() = "stage_0_test";
         Platform::SetWindowView("ingameView");
     #endif
 

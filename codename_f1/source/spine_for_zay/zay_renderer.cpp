@@ -64,7 +64,7 @@ namespace ZAY
         
         if (errorCode != GL_NO_ERROR)
         {
-            assert(false);
+            BOSS_ASSERT(BOSS::String::Format("SPINE_FOR_ZAY(GLError: %d)", errorCode), false);
         }
     }
 
@@ -74,35 +74,16 @@ namespace ZAY
         
         GLint status;
         BOSS_GL(GetShaderiv, shader, GL_COMPILE_STATUS, &status);
-        
-        if (errorCode != GL_NO_ERROR)
-        {
-            if (status == GL_FALSE)
-            {
-                GLchar log[4096];
-                GLsizei s;
-                BOSS_GL(GetShaderInfoLog, shader,
-                                   4096,
-                                   &s,
-                                   log);
-            }
-            
-            assert(false);
-        }
-        else
-        {
-            if (status == GL_FALSE)
-            {
-                GLchar log[4096];
-                GLsizei s;
-                BOSS_GL(GetShaderInfoLog, shader,
-                                   4096,
-                                   &s,
-                                   log);
 
-                assert(false);
-            }
+        if (status == GL_FALSE)
+        {
+            GLchar log[4096];
+            GLsizei s;
+            BOSS_GL(GetShaderInfoLog, shader, 4096, &s, log);
+            BOSS_ASSERT(BOSS::String::Format("SPINE_FOR_ZAY(ShaderError: %s)", log), false);
         }
+        else if(errorCode != GL_NO_ERROR)
+            BOSS_ASSERT(BOSS::String::Format("SPINE_FOR_ZAY(GLError: %d)", errorCode), false);
     }
     
     void Renderer::testProgram(GLuint program)
@@ -112,7 +93,6 @@ namespace ZAY
         if (errorCode != GL_NO_ERROR)
         {
             GLint linked;
-            
             BOSS_GL(GetProgramiv, program, GL_LINK_STATUS, &linked);
             if (!linked)
             {
@@ -121,12 +101,10 @@ namespace ZAY
                 char* pszInfoLog = new char[i32InfoLogLength];
                 BOSS_GL(GetProgramInfoLog, program, i32InfoLogLength, &i32CharsWritten, pszInfoLog);
                 
-                assert(false);
-                
+                BOSS_ASSERT(BOSS::String::Format("SPINE_FOR_ZAY(ProgramError: %s)", pszInfoLog), false);
                 delete [] pszInfoLog;
             }
-            
-            assert(false);
+            BOSS_ASSERT(BOSS::String::Format("SPINE_FOR_ZAY(GLError: %d)", errorCode), false);
         }
     }
 

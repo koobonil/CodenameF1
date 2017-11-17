@@ -1,0 +1,137 @@
+{
+"skeleton": { "hash": "7sujcOLo+iGgB2Q46fnralTSaXA", "spine": "3.6.47", "width": 787.5, "height": 787.5, "images": "./meteo_ready/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 26.42, "rotation": 88.49, "x": 10.62, "y": 0.61 },
+	{ "name": "background", "parent": "root", "length": 46.92, "rotation": 90 },
+	{ "name": "background_red_a", "parent": "background", "length": 44.88 },
+	{ "name": "background_red_area", "parent": "root", "length": 30.1, "rotation": -87.88 },
+	{ "name": "background_red_b", "parent": "background", "length": 44.42 },
+	{ "name": "bone", "parent": "root", "length": 20.83, "rotation": 90 },
+	{ "name": "뼈", "parent": "root" }
+],
+"slots": [
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "background_red_area", "bone": "background_red_area", "attachment": "background_red_area" },
+	{ "name": "background_min_area", "bone": "bone", "attachment": "background_min_area" },
+	{ "name": "background_max_area", "bone": "bone", "attachment": "background_max_area" },
+	{ "name": "meteo_ready_b", "bone": "background", "attachment": "meteo_ready_b" },
+	{ "name": "meteo_ready_c", "bone": "background_red_b", "color": "ff0000ff", "attachment": "meteo_ready_c", "blend": "additive" },
+	{ "name": "meteo_ready_a", "bone": "background_red_a", "attachment": "meteo_ready_a", "blend": "additive" }
+],
+"skins": {
+	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 60.37, 75.2, -65.77, 72.65, -63.98, -54.28, 64.48, -51.67 ]
+			}
+		},
+		"background_max_area": {
+			"background_max_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 398.84, 399.19, -392.94, 396.75, -401.48, -397.67, 398.84, -396.45 ]
+			}
+		},
+		"background_min_area": {
+			"background_min_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 62.95, 63.3, -66.63, 63.3, -65.71, -65.36, 61.12, -65.36 ]
+			}
+		},
+		"background_red_area": {
+			"background_red_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -281.71, -275.53, -260.07, 296.46, 290.41, 265.36, 261.41, -295.03 ]
+			}
+		},
+		"meteo_ready_a": {
+			"meteo_ready_a": { "scaleX": 3.15, "scaleY": 3.15, "rotation": -90, "width": 250, "height": 250 }
+		},
+		"meteo_ready_b": {
+			"meteo_ready_b": { "scaleX": 3.15, "scaleY": 3.15, "width": 250, "height": 250 }
+		},
+		"meteo_ready_c": {
+			"meteo_ready_c": { "scaleX": 3.15, "scaleY": 3.15, "width": 250, "height": 250 }
+		}
+	}
+},
+"animations": {
+	"meteo_ready": {
+		"slots": {
+			"meteo_ready_c": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.4, "color": "ffffffff" },
+					{ "time": 0.5667, "color": "ffffff00" },
+					{ "time": 1.2333, "color": "ffffffff" },
+					{ "time": 1.4, "color": "ffffff00" },
+					{ "time": 2.2667, "color": "fffffffe" },
+					{ "time": 2.4333, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"background_red_a": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 3, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{
+						"time": 0,
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.032, 0.05, 0.565, 1 ]
+					},
+					{ "time": 3, "x": 1, "y": 1 }
+				],
+				"shear": [
+					{ "time": 3, "x": 0, "y": 0 }
+				]
+			},
+			"background_red_area": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 3, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{
+						"time": 0,
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.032, 0.05, 0.565, 1 ]
+					},
+					{ "time": 3, "x": 1, "y": 1 }
+				],
+				"shear": [
+					{ "time": 3, "x": 0, "y": 0 }
+				]
+			},
+			"background_red_b": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.5, "x": 0.35, "y": 0.35 },
+					{ "time": 0.6, "x": 0, "y": 0 },
+					{ "time": 1.3333, "x": 0.75, "y": 0.75 },
+					{ "time": 1.4333, "x": 0, "y": 0 },
+					{ "time": 2.3333, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

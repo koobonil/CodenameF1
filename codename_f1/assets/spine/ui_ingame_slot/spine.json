@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "7CPRZvcXYPI/oRWYCGgBVEKf+5Y", "spine": "3.6.46", "width": 1034, "height": 249.25, "images": "./ingame_ui/" },
+"skeleton": { "hash": "Nw6HNRF1RsLg8vzUzMyEoYKf25Y", "spine": "3.6.47", "width": 1023, "height": 275.6, "images": "./ingame_ui/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 58.97, "rotation": 90, "x": -0.35, "y": -93.59 },
@@ -28,11 +28,11 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 220.28, 129.92, 218.25, -915.28, -32.16, -913.24, -30.13, 131.95 ]
+				"vertices": [ 220.28, 129.92, 218.25, -915.28, -101.66, -913.24, -99.63, 131.95 ]
 			}
 		},
 		"item_butten_a": {
-			"item_butten_a": { "x": 2.51, "y": -3.87, "rotation": 180, "width": 246, "height": 246 }
+			"item_butten_a": { "x": 2.51, "y": 8.39, "rotation": 180, "width": 235, "height": 272 }
 		},
 		"item_butten_a_area": {
 			"item_butten_a_area": {
@@ -42,7 +42,7 @@
 			}
 		},
 		"item_butten_b": {
-			"item_butten_b": { "x": 0.93, "y": 2.38, "scaleX": 1.013, "scaleY": 1.013, "rotation": 180, "width": 246, "height": 246 }
+			"item_butten_b": { "x": 0.93, "y": 14.65, "scaleX": 1.013, "scaleY": 1.013, "rotation": 180, "width": 235, "height": 272 }
 		},
 		"item_butten_b_area": {
 			"item_butten_a_area": {
@@ -52,7 +52,7 @@
 			}
 		},
 		"item_butten_c": {
-			"item_butten_c": { "x": -0.49, "y": 4.47, "rotation": 180, "width": 246, "height": 246 }
+			"item_butten_c": { "x": -0.49, "y": 16.73, "rotation": 180, "width": 235, "height": 272 }
 		},
 		"item_butten_c_area": {
 			"item_butten_a_area": {
@@ -62,7 +62,7 @@
 			}
 		},
 		"item_butten_d": {
-			"item_butten_d": { "x": 12.68, "y": -1.79, "rotation": 180, "width": 246, "height": 246 }
+			"item_butten_d": { "x": 12.68, "y": 10.48, "rotation": 180, "width": 235, "height": 272 }
 		},
 		"item_butten_d_area": {
 			"item_butten_a_area": {

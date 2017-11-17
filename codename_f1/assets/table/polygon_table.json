@@ -1,9 +1,16 @@
 ﻿[
 	{
-		"ID":"NonHitWall",
+		"ID":"SmallWall",
 		"Type":"Wall",
 		"Color_R":255,
 		"Color_G":1,
 		"Color_B":1
+	},
+	{
+		"ID":"LargeWall",
+		"Type":"Wall",
+		"Color_R":154,
+		"Color_G":91,
+		"Color_B":8
 	}
 ]

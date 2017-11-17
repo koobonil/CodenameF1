@@ -9,4 +9,5 @@ public:
 
 public:
     bool mIsLandscape;
+    String mFirstStage;
 };

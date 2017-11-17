@@ -79,10 +79,10 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
                 auto& CurObjects = m->mState.mLayers.At(m->mCurLayer).mObjects;
                 auto& NewObject = CurObjects.AtAdding();
                 NewObject.mType = &m->mState.mObjectTypes[m->mCurObject];
-                NewObject.mRect.l = Math::MinF(m->mCurDrawingPoints[0].x, m->mCurDrawingPoints[1].x);
-                NewObject.mRect.t = Math::MinF(m->mCurDrawingPoints[0].y, m->mCurDrawingPoints[1].y);
-                NewObject.mRect.r = Math::MaxF(m->mCurDrawingPoints[0].x, m->mCurDrawingPoints[1].x);
-                NewObject.mRect.b = Math::MaxF(m->mCurDrawingPoints[0].y, m->mCurDrawingPoints[1].y);
+                NewObject.mCurrentRect.l = Math::MinF(m->mCurDrawingPoints[0].x, m->mCurDrawingPoints[1].x);
+                NewObject.mCurrentRect.t = Math::MinF(m->mCurDrawingPoints[0].y, m->mCurDrawingPoints[1].y);
+                NewObject.mCurrentRect.r = Math::MaxF(m->mCurDrawingPoints[0].x, m->mCurDrawingPoints[1].x);
+                NewObject.mCurrentRect.b = Math::MaxF(m->mCurDrawingPoints[0].y, m->mCurDrawingPoints[1].y);
                 m->mCurDrawingPoints.SubtractionAll();
             }
         }
@@ -618,10 +618,10 @@ void maptoolData::InitSelectBox(sint32 index)
         auto& CurObjects = mState.mLayers.At(i).mObjects;
         for(sint32 j = 0; j < CurObjects.Count(); ++j)
         {
-            if(CurObjects[j].mRect.r < CurBox.mX) continue;
-            if(CurObjects[j].mRect.b < CurBox.mY) continue;
-            if(CurBox.mX + CurBox.mWidth <= CurObjects[j].mRect.l) continue;
-            if(CurBox.mY + CurBox.mHeight <= CurObjects[j].mRect.t) continue;
+            if(CurObjects[j].mCurrentRect.r < CurBox.mX) continue;
+            if(CurObjects[j].mCurrentRect.b < CurBox.mY) continue;
+            if(CurBox.mX + CurBox.mWidth <= CurObjects[j].mCurrentRect.l) continue;
+            if(CurBox.mY + CurBox.mHeight <= CurObjects[j].mCurrentRect.t) continue;
             CurLayer.mObjects.AtAdding() = ToReference(CurObjects.At(j));
             CurObjects.SubtractionSection(j, 1);
             j--;
@@ -658,13 +658,13 @@ void maptoolData::InitSelectBox(sint32 index)
             auto& CurObjects = OtherBox.mLayers.At(j).mObjects;
             for(sint32 k = 0; k < CurObjects.Count(); ++k)
             {
-                if(CurObjects[k].mRect.r + AddX < CurBox.mX) continue;
-                if(CurObjects[k].mRect.b + AddY < CurBox.mY) continue;
-                if(CurBox.mX + CurBox.mWidth <= CurObjects[k].mRect.l + AddX) continue;
-                if(CurBox.mY + CurBox.mHeight <= CurObjects[k].mRect.t + AddY) continue;
+                if(CurObjects[k].mCurrentRect.r + AddX < CurBox.mX) continue;
+                if(CurObjects[k].mCurrentRect.b + AddY < CurBox.mY) continue;
+                if(CurBox.mX + CurBox.mWidth <= CurObjects[k].mCurrentRect.l + AddX) continue;
+                if(CurBox.mY + CurBox.mHeight <= CurObjects[k].mCurrentRect.t + AddY) continue;
                 auto& NewObject = CurLayer.mObjects.AtAdding();
                 NewObject = ToReference(CurObjects.At(k));
-                NewObject.mRect += Point(AddX, AddY);
+                NewObject.mCurrentRect += Point(AddX, AddY);
                 CurObjects.SubtractionSection(k, 1);
                 k--;
             }
@@ -705,10 +705,10 @@ void maptoolData::QuitSelectBox(sint32 index)
         {
             auto& NewObject = mState.mLayers.At(i).mObjects.AtAdding();
             NewObject = ToReference(CurLayer.mObjects.At(j));
-            NewObject.mRect.l += AddX;
-            NewObject.mRect.t += AddY;
-            NewObject.mRect.r += AddX;
-            NewObject.mRect.b += AddY;
+            NewObject.mCurrentRect.l += AddX;
+            NewObject.mCurrentRect.t += AddY;
+            NewObject.mCurrentRect.r += AddX;
+            NewObject.mCurrentRect.b += AddY;
         }
         // 폴리곤
         for(sint32 j = 0; j < CurLayer.mPolygons.Count(); ++j)

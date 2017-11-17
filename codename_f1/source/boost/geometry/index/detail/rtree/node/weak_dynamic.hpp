@@ -197,9 +197,9 @@ struct create_weak_node
         if ( 0 == p )
             throw_runtime_error("boost::geometry::index::rtree node creation failed");
 
-        auto_deallocator<AllocNode> deallocator(alloc_node, p);
+        scoped_deallocator<AllocNode> deallocator(p, alloc_node);
 
-        Al::construct(alloc_node, boost::addressof(*p), alloc_node);
+        Al::construct(alloc_node, boost::pointer_traits<P>::to_address(p), alloc_node);
 
         deallocator.release();
         return p;

@@ -167,7 +167,8 @@ namespace ZAY
             _multiplyMapBorder = 1;
             _needToRegenerateMultiplyMap = false;
 
-            _originalFBO = 0;
+            _firstFBO = 0; //bx
+            _currentFBO = 0;
             
             _multiplyPassFBO = 0;
             
@@ -310,7 +311,8 @@ namespace ZAY
 
         void ForwardMultiplyRenderer::init()
         {
-            glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_originalFBO);
+            glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_firstFBO);
+            _currentFBO = _firstFBO; //bx
             testGL();
 
             
@@ -382,7 +384,7 @@ namespace ZAY
                 //bx:testGL();
             }
             
-            BOSS_GL(BindFramebuffer, GL_FRAMEBUFFER, _originalFBO);
+            BOSS_GL(BindFramebuffer, GL_FRAMEBUFFER, _currentFBO);
             
             checkAndRemakeShaders();
         }
@@ -501,14 +503,14 @@ namespace ZAY
             }
         }
 
-        void ForwardMultiplyRenderer::setOriginalFBO(GLint originalFBO)
+        void ForwardMultiplyRenderer::setOriginalFBO(GLint fbo)
         {
-            _originalFBO = originalFBO;
+            _currentFBO = (fbo == -1)? _firstFBO : fbo;
         }
 
         GLint ForwardMultiplyRenderer::getOriginalFBO() const
         {
-            return _originalFBO;
+            return _currentFBO;
         }
 
         //bx
@@ -526,6 +528,32 @@ namespace ZAY
                     testGL();
                 }
             }
+        }
+
+        //bx
+        uint08 ForwardMultiplyRenderer::_getVersion()
+        {
+            static uint08 Version = 0x00;
+            if(Version != 0x00) return Version;
+
+            chars VendorString = (chars) glGetString(GL_VENDOR);
+            chars RendererString = (chars) glGetString(GL_RENDERER);
+            chars VersionString = (chars) glGetString(GL_VERSION);
+            // 예시1: OpenGL ES 2.0 IMGSGX543-124.1
+            // 예시2: OpenGL ES 3.0 APPLE-12.0.38
+            // 예시3: 2.1 ATI-1.51.8
+            // 예시4: 4.0.0 - Build 10.18.10.4303
+
+            if(!boss_strncmp(VersionString, "OpenGL ES ", 10))
+            {
+                const uint32 VersionMajor = VersionString[10] - '0';
+                const uint32 VersionMinor = VersionString[12] - '0';
+                Version = ((VersionMajor & 0xF) << 4) | (VersionMinor & 0xF);
+            }
+            else if(!boss_strncmp(VersionString, "2.1 ATI-1.51.8", 7)) Version = 0x20;
+            else if(!boss_strncmp(VersionString, "4.0.0 - Build 10.18.10.4303", 13)) Version = 0x40;
+            else BOSS_ASSERT(String::Format("알 수 없는 버전정보(%s)입니다", VersionString), false);
+            return Version;
         }
 
         void ForwardMultiplyRenderer::checkAndRemakeShaders()
@@ -559,14 +587,7 @@ namespace ZAY
             if (_finalPassVertexShader == 0 ||
                 BOSS_GL(IsShader, _finalPassVertexShader) == GL_FALSE)
             {
-                _finalPassVertexShader = BOSS_GL(CreateShader, GL_VERTEX_SHADER);
-                testGL();
-                
-                const char* s_vshFinalPassVertexShaderSourceCode =
-                    "#ifdef GL_ES\n"
-                    "    precision mediump float;\n"
-                    "    precision mediump int;\n"
-                    "#endif\n"
+                const char* s_vshFinalPassVertexShaderSourceCode20 =
                     "uniform float u_renderMode;\n"
                     "uniform mat4 u_mvpMat;\n"
                     "attribute vec4 a_position;\n"
@@ -600,25 +621,23 @@ namespace ZAY
                     "    }\n"
                     "}\n";
 
-                BOSS_GL(ShaderSource, _finalPassVertexShader,
-                               1,
-                               (const char**)&s_vshFinalPassVertexShaderSourceCode,
-                               NULL);
-                testGL();
-                
-                BOSS_GL(CompileShader, _finalPassVertexShader);
-                testShader(_finalPassVertexShader);
+                //if(_getVersion() == 0x20)
+                {
+                    _finalPassVertexShader = BOSS_GL(CreateShader, GL_VERTEX_SHADER);
+                    testGL();
+                    BOSS_GL(ShaderSource, _finalPassVertexShader, 1,
+                        (const char**) &s_vshFinalPassVertexShaderSourceCode20, NULL);
+                    testGL();
+                    BOSS_GL(CompileShader, _finalPassVertexShader);
+                    testShader(_finalPassVertexShader);
+                }
+                //else BOSS_ASSERT("지원되는 OpenGLES버전이 아닙니다", false);
             }
-            
-            
-            
+
             if (_finalPassFragmentShader == 0 ||
                 BOSS_GL(IsShader, _finalPassFragmentShader) == GL_FALSE)
             {
-                _finalPassFragmentShader = BOSS_GL(CreateShader, GL_FRAGMENT_SHADER);
-                testGL();
-                
-                const char* s_vshFinalPassFragmentShaderSourceCode =
+                const char* s_vshFinalPassFragmentShaderSourceCode20 =
                     "#ifdef GL_ES\n"
                     "    precision mediump float;\n"
                     "    precision mediump int;\n"
@@ -632,17 +651,18 @@ namespace ZAY
                     "    gl_FragColor = v_fragmentColor * texture2D(u_colorTexture, v_texCoord);\n"
                     "}\n";
 
-                BOSS_GL(ShaderSource, _finalPassFragmentShader,
-                               1,
-                               (const char**)&s_vshFinalPassFragmentShaderSourceCode,
-                               NULL);
-                testGL();
-                
-                BOSS_GL(CompileShader, _finalPassFragmentShader);
-                testShader(_finalPassFragmentShader);
+                //if(_getVersion() == 0x20)
+                {
+                    _finalPassFragmentShader = BOSS_GL(CreateShader, GL_FRAGMENT_SHADER);
+                    testGL();
+                    BOSS_GL(ShaderSource, _finalPassFragmentShader, 1,
+                        (const char**) &s_vshFinalPassFragmentShaderSourceCode20, NULL);
+                    testGL();
+                    BOSS_GL(CompileShader, _finalPassFragmentShader);
+                    testShader(_finalPassFragmentShader);
+                }
+                //else BOSS_ASSERT("지원되는 OpenGLES버전이 아닙니다", false);
             }
-
-            
             
             if (_finalPassProgram == 0 ||
                 BOSS_GL(IsProgram, _finalPassProgram) == GL_FALSE)
@@ -820,7 +840,7 @@ namespace ZAY
                 
                 
                 
-                BOSS_GL(BindFramebuffer, GL_FRAMEBUFFER, _originalFBO);
+                BOSS_GL(BindFramebuffer, GL_FRAMEBUFFER, _currentFBO);
                 testGL();
                 
                 glViewport(getViewportX(),
@@ -1179,7 +1199,11 @@ namespace ZAY
                         testGL();
                         break;
                     case BlendType::Shadow:
-                        glBlendFunc(GL_ONE, GL_ONE);
+                        #if BOSS_WINDOWS //bx: 임시방편, 차후수정요망
+                            glBlendFunc(GL_ONE, GL_ONE);
+                        #else
+                            glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
+                        #endif
                         testGL();
                         break;
                     default:

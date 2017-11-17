@@ -11,6 +11,8 @@
 #ifndef BOOST_GEOMETRY_INDEX_DETAIL_RTREE_NODE_VARIANT_DYNAMIC_HPP
 #define BOOST_GEOMETRY_INDEX_DETAIL_RTREE_NODE_VARIANT_DYNAMIC_HPP
 
+#include <boost/core/pointer_traits.hpp>
+
 namespace boost { namespace geometry { namespace index {
 
 namespace detail { namespace rtree {
@@ -96,7 +98,8 @@ class allocators<Allocator, Value, Parameters, Box, node_variant_dynamic_tag>
         typename node<
             Value, Parameters, Box,
             allocators<Allocator, Value, Parameters, Box, node_variant_dynamic_tag>,
-            node_variant_dynamic_tag>::type
+            node_variant_dynamic_tag
+        >::type
     >::other
 {
     typedef typename Allocator::template rebind<
@@ -180,9 +183,9 @@ struct create_variant_node
         if ( 0 == p )
             throw_runtime_error("boost::geometry::index::rtree node creation failed");
 
-        auto_deallocator<AllocNode> deallocator(alloc_node, p);
+        scoped_deallocator<AllocNode> deallocator(p, alloc_node);
 
-        Al::construct(alloc_node, boost::addressof(*p), Node(alloc_node)); // implicit cast to Variant
+        Al::construct(alloc_node, boost::pointer_traits<P>::to_address(p), Node(alloc_node)); // implicit cast to Variant
 
         deallocator.release();
         return p;
