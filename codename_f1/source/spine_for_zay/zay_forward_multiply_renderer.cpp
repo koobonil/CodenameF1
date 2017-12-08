@@ -1199,7 +1199,7 @@ namespace ZAY
                         testGL();
                         break;
                     case BlendType::Shadow:
-                        #if BOSS_WINDOWS //bx: 임시방편, 차후수정요망
+                        #if BOSS_WINDOWS || BOSS_LINUX //bx: 임시방편, 차후수정요망
                             glBlendFunc(GL_ONE, GL_ONE);
                         #else
                             glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);

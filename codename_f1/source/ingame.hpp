@@ -7,6 +7,7 @@ class MapBreath
 public:
     MapBreath()
     {
+        mEnable = false;
         mAniTimeMsec = 0;
         mEndTimeMsec = 0;
         mSizeR = 0;
@@ -16,6 +17,7 @@ public:
     ~MapBreath() {}
 
 public:
+    bool mEnable;
     uint64 mAniTimeMsec;
     uint64 mEndTimeMsec;
     Point mPos;
@@ -23,7 +25,6 @@ public:
     sint32 mGaugeTime;
     sint32 mDamage;
 };
-typedef Array<MapBreath, datatype_pod_canmemcpy> MapBreathes;
 
 class ingameData : public ZayObject, public F1State
 {
@@ -39,6 +40,8 @@ public:
     void AnimationOnce(sint32 timespan);
     void ClearPath();
     void Render(ZayPanel& panel);
+    void RenderItems(ZayPanel& panel, bool slot, uint64 msec);
+    void RenderBreathArea(ZayPanel& panel) override;
     void ReadyForNextWave();
     sint32 GetCalcedBreathDamage();
     void BreathAttack(const MapBreath* breath);
@@ -52,10 +55,20 @@ public: // 게임상태
     sint32 mWaveSec;
     MapMonsters mMonsters;
 
-    // Breath
-    MapBreathes mBreathes;
+    // Item
+    MapItemMap mItemMap;
+    bool mSlotFlag[4];
+    Point mSlotPos[4];
+    String mCurItemSkin;
+    String mCurItemSkinForDragon;
+    uint64 mCurItemSkinEndTimeMsec;
+
+    // Dragon & Breath
+    MapDragon mDragon;
+    MapBreath mBreath;
     MapSpine mBreathReadySpine;
     MapSpine mBreathAttackSpine;
+    MapSpine mBreathEffectSpine;
     bool mBreathing;
     Point mBreathPos;
     uint64 mBreathMsec;

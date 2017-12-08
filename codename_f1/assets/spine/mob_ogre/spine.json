@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "7oDAQXMpNSTZOucXm2bJS4dHxoI", "spine": "3.6.47", "width": 392.5, "height": 598.93, "images": "./mop_ogre/" },
+"skeleton": { "hash": "orgbvBELEi74NktmwFNkP4aJWoo", "spine": "3.6.47", "width": 392.5, "height": 598.93, "images": "./mop_ogre/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 49.49, "rotation": 90, "x": -1.53, "y": -1.07 },
@@ -133,7 +133,7 @@
 			"skin": { "name": "pants_ice", "x": 46.27, "y": 13.99, "rotation": 90, "width": 217, "height": 73 }
 		},
 		"pants_a": {
-			"skin": { "name": "pants_a_ice", "x": 27.17, "y": 6.36, "rotation": 90, "width": 84, "height": 100 }
+			"skin": { "name": "pants_a_ice", "x": 27.17, "y": 6.36, "rotation": 90, "width": 2, "height": 2 }
 		},
 		"r_dari": {
 			"skin": { "name": "r_dari_ice", "x": 29.99, "y": 4.91, "rotation": 90, "width": 89, "height": 121 }

@@ -7,7 +7,9 @@
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"wall_forest_a",
+		"Spine":"None",
 		"AssetShadow":"object_shadow",
+		"GaugePosition":37,
 		"IsTool":"True"
 	},
 	{
@@ -20,6 +22,7 @@
 		"Asset":"wall_forest_b",
 		"Spine":"stone:forest",
 		"AssetShadow":"object_shadow",
+		"GaugePosition":37,
 		"IsTool":"True"
 	},
 	{
@@ -30,7 +33,9 @@
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"egg",
+		"Spine":"None",
 		"AssetShadow":"egg_shadow",
+		"GaugePosition":60,
 		"IsTool":"True"
 	},
 	{
@@ -41,6 +46,35 @@
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"spot_forest",
+		"Spine":"None",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
+		"IsTool":"True"
+	},
+	{
+		"ID":"AllyStart",
+		"Type":"Ground",
+		"HP":"None",
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":"None",
+		"Asset":"ally_spot_right",
+		"Spine":"None",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
+		"IsTool":"True"
+	},
+	{
+		"ID":"AllyEnd",
+		"Type":"AllyTarget",
+		"HP":100,
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":"None",
+		"Asset":"ally_spot_left",
+		"Spine":"None",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
 		"IsTool":"True"
 	},
 	{
@@ -51,7 +85,61 @@
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"hole_forest",
-		"Spine":"hole",
+		"Spine":"hole:normal",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
+		"IsTool":"True"
+	},
+	{
+		"ID":"FireHole",
+		"Type":"Hole",
+		"HP":"None",
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":"None",
+		"Asset":"hole_forest",
+		"Spine":"hole:fire",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
+		"IsTool":"True"
+	},
+	{
+		"ID":"IceHole",
+		"Type":"Hole",
+		"HP":"None",
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":"None",
+		"Asset":"hole_forest",
+		"Spine":"hole:ice",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
+		"IsTool":"True"
+	},
+	{
+		"ID":"LightningHole",
+		"Type":"Hole",
+		"HP":"None",
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":"None",
+		"Asset":"hole_forest",
+		"Spine":"hole:lightning",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
+		"IsTool":"True"
+	},
+	{
+		"ID":"WindHole",
+		"Type":"Hole",
+		"HP":"None",
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":"None",
+		"Asset":"hole_forest",
+		"Spine":"hole:wind",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
 		"IsTool":"True"
 	},
 	{
@@ -62,7 +150,9 @@
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"tree_forest_a",
+		"Spine":"None",
 		"AssetShadow":"tree_shadow",
+		"GaugePosition":"None",
 		"IsTool":"True"
 	},
 	{
@@ -73,6 +163,9 @@
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"stone_forest_a",
+		"Spine":"None",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
 		"IsTool":"True"
 	},
 	{
@@ -83,6 +176,22 @@
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"flower_forest_a",
+		"Spine":"None",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
+		"IsTool":"True"
+	},
+	{
+		"ID":"Grating",
+		"Type":"Trigger",
+		"HP":"None",
+		"Duration":"None",
+		"SKillID":"None",
+		"DropID":"None",
+		"Asset":"None",
+		"Spine":"grating",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
 		"IsTool":"True"
 	},
 	{
@@ -92,6 +201,10 @@
 		"Duration":"None",
 		"SKillID":"Slow",
 		"DropID":"None",
+		"Asset":"None",
+		"Spine":"None",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
 		"IsTool":"True"
 	},
 	{
@@ -101,6 +214,10 @@
 		"Duration":"None",
 		"SKillID":"Stop",
 		"DropID":"None",
+		"Asset":"None",
+		"Spine":"None",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
 		"IsTool":"True"
 	},
 	{
@@ -110,6 +227,10 @@
 		"Duration":"None",
 		"SKillID":"DotDamage",
 		"DropID":"None",
+		"Asset":"None",
+		"Spine":"None",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
 		"IsTool":"True"
 	},
 	{
@@ -119,6 +240,10 @@
 		"Duration":"None",
 		"SKillID":"None",
 		"DropID":1,
+		"Asset":"None",
+		"Spine":"None",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
 		"IsTool":"False"
 	},
 	{
@@ -128,6 +253,10 @@
 		"Duration":"None",
 		"SKillID":"None",
 		"DropID":2,
+		"Asset":"None",
+		"Spine":"None",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
 		"IsTool":"False"
 	},
 	{
@@ -137,6 +266,10 @@
 		"Duration":"None",
 		"SKillID":"None",
 		"DropID":3,
+		"Asset":"None",
+		"Spine":"None",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
 		"IsTool":"False"
 	},
 	{
@@ -146,6 +279,10 @@
 		"Duration":10000,
 		"SKillID":"Slow",
 		"DropID":"None",
+		"Asset":"None",
+		"Spine":"None",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
 		"IsTool":"False"
 	},
 	{
@@ -155,6 +292,10 @@
 		"Duration":10000,
 		"SKillID":"Stop",
 		"DropID":"None",
+		"Asset":"None",
+		"Spine":"None",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
 		"IsTool":"False"
 	},
 	{
@@ -164,6 +305,10 @@
 		"Duration":10000,
 		"SKillID":"DotDamage",
 		"DropID":"None",
+		"Asset":"None",
+		"Spine":"None",
+		"AssetShadow":"None",
+		"GaugePosition":"None",
 		"IsTool":"False"
 	}
 ]

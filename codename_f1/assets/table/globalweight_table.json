@@ -31,6 +31,48 @@
 		"Description":"최대 넉백 거리"
 	},
 	{
+		"ID":"DragonScale",
+		"Value":23,
+		"IsDev":"TRUE",
+		"Description":"드래곤의 크기"
+	},
+	{
+		"ID":"DragonScaleMax",
+		"Value":23,
+		"IsDev":"TRUE",
+		"Description":"드래곤의 최대 크기"
+	},
+	{
+		"ID":"DragonCurve",
+		"Value":300,
+		"IsDev":"TRUE",
+		"Description":"드래곤의 커브값"
+	},
+	{
+		"ID":"DragonMouthX",
+		"Value":350,
+		"IsDev":"TRUE",
+		"Description":"드래곤의 입 위치 X"
+	},
+	{
+		"ID":"DragonMouthY",
+		"Value":-100,
+		"IsDev":"TRUE",
+		"Description":"드래곤의 입 위치 Y"
+	},
+	{
+		"ID":"ItemScale",
+		"Value":200,
+		"IsDev":"TRUE",
+		"Description":"아이템의 크기"
+	},
+	{
+		"ID":"SlotScale",
+		"Value":120,
+		"IsDev":"TRUE",
+		"Description":"슬롯아이템의 크기"
+	},
+	{
 		"ID":"BreathMaxGauge",
 		"Value":10000,
 		"IsDev":"FALSE",
@@ -52,7 +94,7 @@
 	},
 	{
 		"ID":"HPbarDeleteTime",
-		"Value":3000,
+		"Value":7000,
 		"IsDev":"TRUE",
 		"Description":"HP바 삭제시간",
 		"Unit":"1000=1초"
@@ -90,25 +132,25 @@
 	},
 	{
 		"ID":"UILeft",
-		"Value":"ScreenWidth * 0.0",
+		"Value":"UIBottom * 0.5",
 		"IsDev":"TRUE",
 		"Description":"왼쪽 UI여백"
 	},
 	{
 		"ID":"UIRight",
-		"Value":"ScreenWidth * 0.0",
+		"Value":"UIBottom * 0.5",
 		"IsDev":"TRUE",
 		"Description":"오른쪽 UI여백"
 	},
 	{
 		"ID":"UITop",
-		"Value":"ScreenHeight * 0.1",
+		"Value":"UIBottom * 1.0",
 		"IsDev":"TRUE",
 		"Description":"위 UI여백"
 	},
 	{
 		"ID":"UIBottom",
-		"Value":"ScreenHeight * 0.15",
+		"Value":"(ScreenWidth * 0.2) [min] (ScreenHeight * 0.15)",
 		"IsDev":"TRUE",
 		"Description":"아래 UI여백"
 	},
@@ -121,24 +163,31 @@
 	},
 	{
 		"ID":"DragonEntryTime",
-		"Value":1500,
-		"IsDev":"FALSE",
+		"Value":1800,
+		"IsDev":"TRUE",
 		"Description":"등장 시간 (출발 지점에서 브레스 발동 지점까지 도착하는 시간) ",
 		"Unit":"1000=1초"
 	},
 	{
 		"ID":"DragonBreathTime",
-		"Value":1000,
-		"IsDev":"FALSE",
+		"Value":1500,
+		"IsDev":"TRUE",
 		"Description":"드래곤이 브레스를 발사하고 지면에서 폭발시키는데 걸리는 연출 시간",
 		"Unit":"1000=1초"
 	},
 	{
 		"ID":"DragonExitTime",
-		"Value":2000,
-		"IsDev":"FALSE",
+		"Value":5000,
+		"IsDev":"TRUE",
 		"Description":"퇴장 시간 (브레스 발동 지점에서 퇴장 지점까지 도착하는 시간) ",
 		"Unit":"1000=1초"
+	},
+	{
+		"ID":"HoleItemGetCount",
+		"Value":3,
+		"IsDev":"TRUE",
+		"Description":"구멍에 몬스터를 넣으면 아이템이 등장하는 횟수",
+		"Unit":"개"
 	},
 	{
 		"ID":"ItemSlotStack",

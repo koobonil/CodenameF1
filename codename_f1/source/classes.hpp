@@ -32,8 +32,8 @@ private:
     String mSpine;
 
 public:
-    void SetAsset(const String& asset) {mAsset = asset;}
-    void SetSpine(const String& spine) {mSpine = spine;}
+    void SetAsset(const String& asset) {mAsset = (!asset.Compare("None"))? "" : asset;}
+    void SetSpine(const String& spine) {mSpine = (!spine.Compare("None"))? "" : spine;}
     chars imageName() const {return mAsset;}
     const String spineName() const
     {
@@ -66,6 +66,7 @@ public:
     ObjectType()
     {
         mHP = 0;
+        mGaugePosition = 0;
     }
     ~ObjectType()
     {
@@ -78,14 +79,18 @@ public:
         mType = rhs.mType;
         mAssetShadow = ToReference(rhs.mAssetShadow);
         mHP = rhs.mHP;
+        mGaugePosition = rhs.mGaugePosition;
         return *this;
     }
+
+public:
+    void SetAssetShadow(const String& asset) {mAssetShadow = (!asset.Compare("None"))? "" : asset;}
 
 public:
     class TypeClass
     {
     public:
-        enum Type {Target, Static, Dynamic, Ground, Hole, Max, Null = -1};
+        enum Type {Static, Dynamic, Ground, Hole, Trigger, Target, AllyTarget, Max, Null = -1};
     public:
         TypeClass() {mValue = Null;}
         TypeClass(const TypeClass& rhs) {operator=(rhs);}
@@ -93,9 +98,7 @@ public:
         TypeClass& operator=(Type rhs) {mValue = rhs; return *this;}
         TypeClass& operator=(chars rhs)
         {
-            if(!String::Compare(rhs, "Target"))
-                mValue = Target;
-            else if(!String::Compare(rhs, "Static"))
+            if(!String::Compare(rhs, "Static"))
                 mValue = Static;
             else if(!String::Compare(rhs, "Dynamic"))
                 mValue = Dynamic;
@@ -103,6 +106,12 @@ public:
                 mValue = Ground;
             else if(!String::Compare(rhs, "Hole"))
                 mValue = Hole;
+            else if(!String::Compare(rhs, "Trigger"))
+                mValue = Trigger;
+            else if(!String::Compare(rhs, "Target"))
+                mValue = Target;
+            else if(!String::Compare(rhs, "AllyTarget"))
+                mValue = AllyTarget;
             else
             {
                 mValue = Null;
@@ -125,6 +134,7 @@ public:
     TypeClass mType;
     String mAssetShadow;
     sint32 mHP;
+    sint32 mGaugePosition;
 };
 typedef Array<ObjectType> ObjectTypes;
 
@@ -199,6 +209,7 @@ class MonsterType : public SpineAsset
 public:
     MonsterType()
     {
+        mType = TypeClass::Null;
         mHP = 0;
         mMoveType = MoveType::Null;
         mMoveSpeed = 0;
@@ -208,9 +219,11 @@ public:
         mAttackRange = 0;
         mWaistScaleWidth = 0;
         mWaistScaleHeight = 0;
+        mGaugePosition = 0;
         mPolygon = "";
         mWeight = 0;
         mResistance = 0;
+        mWaveStop = false;
     }
     ~MonsterType() {}
     MonsterType(MonsterType&& rhs) {operator=(ToReference(rhs));}
@@ -218,6 +231,7 @@ public:
     {
         SpineAsset::operator=(ToReference(rhs));
         mID = rhs.mID;
+        mType = rhs.mType;
         mHP = rhs.mHP;
         mMoveType = rhs.mMoveType;
         mMoveSpeed = rhs.mMoveSpeed;
@@ -227,11 +241,46 @@ public:
         mAttackRange = rhs.mAttackRange;
         mWaistScaleWidth = rhs.mWaistScaleWidth;
         mWaistScaleHeight = rhs.mWaistScaleHeight;
+        mGaugePosition = rhs.mGaugePosition;
         mPolygon = ToReference(rhs.mPolygon);
         mWeight = rhs.mWeight;
         mResistance = rhs.mResistance;
+        mWaveStop = rhs.mWaveStop;
         return *this;
     }
+
+public:
+    class TypeClass
+    {
+    public:
+        enum Type {Enemy, Ally, Max, Null = -1};
+    public:
+        TypeClass() {mValue = Null;}
+        TypeClass(const TypeClass& rhs) {operator=(rhs);}
+        TypeClass& operator=(const TypeClass& rhs) {mValue = rhs.mValue; return *this;}
+        TypeClass& operator=(Type rhs) {mValue = rhs; return *this;}
+        TypeClass& operator=(chars rhs)
+        {
+            if(!String::Compare(rhs, "Enemy"))
+                mValue = Enemy;
+            else if(!String::Compare(rhs, "Ally"))
+                mValue = Ally;
+            else
+            {
+                mValue = Null;
+                if(!String::Compare(rhs, "Null"))
+                    BOSS_ASSERT("키워드가 없습니다", false);
+                else BOSS_ASSERT("알 수 없는 키워드입니다", false);
+            }
+            return *this;
+        }
+        bool operator==(Type rhs) const
+        {return (mValue == rhs);}
+        bool operator!=(Type rhs) const
+        {return (mValue != rhs);}
+    private:
+        Type mValue;
+    };
 
 public:
     class MoveType
@@ -262,6 +311,7 @@ public:
 
 public:
     String mID;
+    TypeClass mType;
     sint32 mHP;
     MoveType mMoveType;
     sint32 mMoveSpeed;
@@ -271,9 +321,11 @@ public:
     sint32 mAttackRange;
     sint32 mWaistScaleWidth;
     sint32 mWaistScaleHeight;
+    sint32 mGaugePosition;
     String mPolygon;
     sint32 mWeight;
     sint32 mResistance;
+    bool mWaveStop;
 };
 typedef Array<MonsterType> MonsterTypes;
 
@@ -304,7 +356,7 @@ typedef Map<SpineRenderer> SpineRendererMap;
 class MapSpine
 {
 public:
-    enum SpineType {ST_Unknown, ST_Object, ST_Monster, ST_MonsterToast};
+    enum SpineType {ST_Unknown, ST_Object, ST_Monster, ST_MonsterToast, ST_Dragon, ST_Item};
 
 public:
     MapSpine(SpineType type = ST_Unknown);
@@ -317,9 +369,12 @@ public:
 public:
     MapSpine& InitSpine(const SpineRenderer* renderer, chars skin = "default",
         ZAY::SpineBuilder::MotionFinishedCB fcb = nullptr, ZAY::SpineBuilder::UserEventCB ecb = nullptr);
+    void SetSkin(chars skin);
     void PlayMotion(chars motion, bool repeat);
+    void PlayMotionOnce(chars motion);
     void PlayMotionAttached(chars first_motion, chars second_motion, bool repeat);
     void PlayMotionSeek(chars seek_motion, bool repeat);
+    void StopMotionAll();
     void Seek() const;
     void Update() const;
     const Rect* GetBoundRect(chars name) const;
@@ -359,14 +414,26 @@ public:
 
 public:
     void ResetCB();
+    void SetHP(sint32 hp, sint32 deleteTime);
     void Hit() const;
     void Dead() const;
+    void Drop() const;
+
+public:
+    inline void AddExtraInfo(chars text) {mExtraInfo.AtAdding() = text;}
+    inline void ResetExtraInfo() {mExtraInfo.Clear();}
+    inline sint32 GetExtraInfoCount() const {return mExtraInfo.Count();}
+    inline chars GetExtraInfo(sint32 i) const {return mExtraInfo[i];}
 
 public:
     const ObjectType* mType;
+    sint32 mRID;
     bool mVisible;
-    sint32 mHP;
+    sint32 mHPValue;
+    uint64 mHPTimeMsec;
+    mutable float mHPAni;
     Rect mCurrentRect;
+    Strings mExtraInfo;
 };
 typedef Array<MapObject> MapObjects;
 
@@ -386,10 +453,10 @@ public:
 
 public:
     const PolygonType* mType;
+    sint32 mRID;
     bool mVisible;
-    Points mPoints;
+    TryWorld::DotList mDots;
     bool mIsCW;
-    sint32 mNearHoleIndex;
 };
 typedef Array<MapPolygon> MapPolygons;
 
@@ -417,11 +484,11 @@ public:
     MapMonster& operator=(MapMonster&& rhs);
 
 public:
-    void Init(const MonsterType* type, sint32 timesec, float x, float y,
+    void Init(const MonsterType* type, sint32 rid, sint32 timesec, float x, float y,
         const SpineRenderer& renderer, const SpineRenderer* toast_renderer = nullptr);
     void ResetCB();
     bool IsKnockBackMode();
-    void KnockBack(bool down, const Point& accel);
+    void KnockBack(bool down, const Point& accel, chars skin);
     void KnockBackEnd();
     void KnockBackEndByHole(const Point& hole);
     void Turn() const;
@@ -429,6 +496,8 @@ public:
     void CancelAttack();
     void ClearTarget();
     void TryDeathMove();
+    void Ally_Arrived();
+    void Ally_Touched();
 
 public:
     const float mKnockBackAccelMin = 0.001f; // 화면크기비율상수
@@ -437,8 +506,11 @@ public:
 
 public:
     const MonsterType* mType;
+    sint32 mRID;
     sint32 mEntranceSec;
-    sint32 mHP;
+    sint32 mHPValue;
+    uint64 mHPTimeMsec;
+    mutable float mHPAni;
     Mode mMode;
     sint32 mDeathStep;
     Point mDeathPos;
@@ -464,6 +536,96 @@ public:
     inline void SetKnockBackAccel(const Point& accel) {mKnockBackAccel = accel;}
 };
 typedef Array<MapMonster> MapMonsters;
+
+////////////////////////////////////////////////////////////////////////////////
+class MapDragon : public MapSpine
+{
+    BOSS_DECLARE_NONCOPYABLE_CLASS(MapDragon)
+public:
+    MapDragon();
+    ~MapDragon();
+    MapDragon(MapDragon&& rhs);
+    MapDragon& operator=(MapDragon&& rhs);
+
+public:
+    void Init(const SpineRenderer& renderer, float scaleMax, Updater* updater,
+        const Point& homepos, const Point& exitposL, const Point& exitposR);
+    void GoTarget(const Point& pos, bool isExitRight,
+        sint32 entryMsec, sint32 breathMsec, sint32 exitMsec);
+    Point MoveOnce(float curve, Point mouthpos, sint32 breathdelayMsec);
+    float CalcEntryRate(uint64 msec) const;
+    float CalcBreathRate(uint64 msec) const;
+    float CalcExitRate(uint64 msec) const;
+
+public:
+    inline bool flip() const {return mDragonFlipMode;}
+    inline bool breath_flip() const {return mBreathFlipMode;}
+    inline float scale() const {return mDragonScale;}
+
+private:
+    void Turn() const;
+    void Attack() const;
+
+private:
+    bool mDragonFlipMode;
+    bool mBreathFlipMode;
+    bool mAttackDone;
+    float mDragonScale;
+    float mDragonScaleMax;
+    Point mBreathPosAdd;
+    uint64 mDragonEntryTimeMsec;
+    uint64 mDragonBreathBeginTimeMsec;
+    uint64 mDragonBreathEndTimeMsec;
+    uint64 mDragonExitTimeMsec;
+    Tween2D* mTween;
+    Point mSpotPos[3];
+    Point mNewPos;
+    Point mOldPos;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+class MapItem : public MapSpine
+{
+    BOSS_DECLARE_NONCOPYABLE_CLASS(MapItem)
+public:
+    MapItem();
+    ~MapItem();
+    MapItem(MapItem&& rhs);
+    MapItem& operator=(MapItem&& rhs);
+
+public:
+    void Init(chars skin, const SpineRenderer& renderer, const MapObject* sender, Updater* updater,
+        float ypos, sint32 entryMsec, sint32 flyingMsec);
+    bool AnimationOnce();
+    void MoveToSlot(const Point* pos, sint32 slotMsec);
+    const Point* Use();
+    Point CalcPos(uint64 msec) const;
+    float CalcFlyingRate(uint64 msec) const;
+    float CalcSlotRate(uint64 msec) const;
+
+public:
+    enum class ItemMode {Wait, Show, Slot, Used, Destroy};
+
+public:
+    inline chars skin() const {return mSkin;}
+    inline bool slot() const {return (mMode == ItemMode::Slot || mMode == ItemMode::Used || mMode == ItemMode::Destroy);}
+    static String MakeId() {static sint32 _ = 0; return String::Format("%d", _++);}
+
+private:
+    void Show() const;
+
+private:
+    String mSkin;
+    const MapObject* mSender;
+    Tween2D* mTween;
+    uint64 mFlyingBeginTimeMsec;
+    uint64 mFlyingEndTimeMsec;
+    uint64 mSlotBeginTimeMsec;
+    uint64 mSlotEndTimeMsec;
+    const Point* mSlotPos;
+    ItemMode mMode;
+};
+typedef Map<MapItem> MapItemMap;
 
 ////////////////////////////////////////////////////////////////////////////////
 class TryWorldZone
@@ -513,12 +675,15 @@ public:
     void RebuildTryWorld();
     void SetSize(sint32 width, sint32 height);
     void RenderImage(bool editmode, ZayPanel& panel, const Image& image);
-    void RenderObject(bool needupdate, bool editmode, ZayPanel& panel, const MapSpine& spine, sint32 sx, sint32 sy, sint32 sw, sint32 sh, bool flip,
-        chars uiname = nullptr, ZayPanel::SubGestureCB cb = nullptr);
-    void RenderObjectShadow(ZayPanel& panel, const MapSpine& spine, sint32 sx, sint32 sy, sint32 sw, sint32 sh, bool flip);
-    void RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
-        const MapMonsters* monsters = nullptr, const sint32 wavesec = 0, const sint32 SX = 0, const sint32 SY = 0, const sint32 SW = 0, const sint32 SH = 0);
-    void Render(bool editmode, ZayPanel& panel, const MapMonsters* monsters = nullptr, sint32 wavesec = 0);
+    void RenderObject(bool needupdate, bool editmode, ZayPanel& panel, const MapSpine& spine, bool flip, chars uiname = nullptr, ZayPanel::SubGestureCB cb = nullptr);
+    void RenderObjectShadow(ZayPanel& panel, const MapSpine& spine, bool flip);
+    void RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer, const MapMonsters* monsters = nullptr, const sint32 wavesec = 0);
+    Rect RenderMap(bool editmode, ZayPanel& panel, const MapMonsters* monsters = nullptr, sint32 wavesec = 0);
+    void RenderCap(ZayPanel& panel, const Rect outline);
+    void RenderDebug(ZayPanel& panel, const MapMonsters& monsters, sint32 wavesec);
+
+public:
+    virtual void RenderBreathArea(ZayPanel& panel) {}
 
 public: // 기획요소
     Solver mUILeft;
@@ -526,6 +691,14 @@ public: // 기획요소
     Solver mUIRight;
     Solver mUIBottom;
     float mViewRate; // 뷰비율 = 가로길이 / 세로길이
+    float mDragonScale;
+    float mDragonScaleMax;
+    float mDragonCurve;
+    float mDragonMouthX;
+    float mDragonMouthY;
+    float mItemScale;
+    float mSlotScale;
+    sint32 mHoleItemGetCount;
     float mBreathScale;
     sint32 mBreathMinDamage;
     sint32 mBreathMaxDamage;
@@ -548,7 +721,7 @@ public: // 기획요소
     MonsterTypes mMonsterTypes;
     SpineRendererMap mAllSpines;
 
-public: // 글로벌 요소
+public: // 글로벌요소
     static bool& landscape() {static bool _ = false; return _;}
     const bool mLandscape;
     static String& stage() {static String _; return _;}
@@ -565,17 +738,35 @@ public: // UI요소
     sint32 mInGameH;
     sint32 mInGameX;
     sint32 mInGameY;
+    sint32 mInGameSize;
+    Point mDragonHome;
+    Point mDragonExitL;
+    Point mDragonExitR;
+    sint32 mDragonSizeR;
     sint32 mBreathSizeR;
+    sint32 mItemSizeR;
+    sint32 mSlotSizeR;
     sint32 mMonsterSizeR;
     sint32 mKnockBackMinV;
     sint32 mKnockBackMaxV;
     const sint32 mTimelineLength = 60;
     const sint32 mLayerLength = 6;
 
+public: // 인스턴스ID
+    const sint32 mObjectRIDBegin = 81000000 - 1;
+    const sint32 mPolygonRIDBegin = 82000000 - 1;
+    const sint32 mMonsterRIDBegin = 83000000 - 1;
+    const sint32 mMissionRIDBegin = 84000000 - 1;
+    sint32 mObjectLastRID;
+    sint32 mPolygonLastRID;
+    sint32 mMonsterLastRID;
+    sint32 mMissionLastRID;
+
 public: // 맵요소
     String mBGNameA;
     String mBGNameB;
-    TargetZones mTargets;
+    TargetZones mTargetsForEnemy;
+    TargetZones mTargetsForAlly;
     MapLayers mLayers;
     id_surface mShadowSurface;
     TryWorldZoneMap mAllTryWorldZones;

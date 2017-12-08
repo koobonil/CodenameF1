@@ -6,13 +6,42 @@
 class TimelineMonster
 {
 public:
-    TimelineMonster() {mType = nullptr;}
+    TimelineMonster() {mType = nullptr; mRID = 0;}
     ~TimelineMonster() {}
 public:
     const MonsterType* mType;
+    sint32 mRID;
     Point mPos;
 };
-typedef Array<TimelineMonster> TimelineEvent;
+typedef Array<TimelineMonster> TimelineMonsters;
+
+////////////////////////////////////////////////////////////////////////////////
+class TimelineMission
+{
+public:
+    TimelineMission() {mTargetRID = 0; mRID = 0; mLocked = false;}
+    ~TimelineMission() {}
+public:
+    sint32 mTargetRID;
+    sint32 mRID;
+    Point mPos;
+    bool mLocked;
+};
+typedef Map<TimelineMission> TimelineMissions;
+
+////////////////////////////////////////////////////////////////////////////////
+class TimelineScript
+{
+public:
+    TimelineScript() {mTargetRID = 0; mLocked = false;}
+    ~TimelineScript() {}
+public:
+    sint32 mTargetRID;
+    Point mPos;
+    String mText;
+    bool mLocked;
+};
+typedef Map<TimelineScript> TimelineScripts;
 
 ////////////////////////////////////////////////////////////////////////////////
 class TimelineWave
@@ -22,7 +51,9 @@ public:
     ~TimelineWave() {}
 public:
     String mTitle;
-    Array<TimelineEvent> mEvents;
+    Array<TimelineMonsters> mEventMonsters;
+    Array<TimelineMissions> mEventMissions;
+    Array<TimelineScripts> mEventScripts;
 };
 typedef Array<TimelineWave> TimelineWaves;
 
@@ -38,6 +69,9 @@ public:
     void Load(chars filename);
     void Save(chars filename);
     void Render(ZayPanel& panel);
+    void RenderModeToggle(ZayPanel& panel);
+    void RenderMission(ZayPanel& panel, sint32 rid);
+    void RenderScript(ZayPanel& panel, sint32 eid, sint32 rid, bool circle = true, bool ui = true);
 
 public:
     void OnModeChanged() override;
@@ -52,9 +86,12 @@ public:
     void OnSelectBoxClone(sint32 index) override;
 
 public:
+    enum class Mode {Mob, Mission, Script};
+    Mode mMode;
     sint32 mCurWave;
     sint32 mCurEvent;
     sint32 mCurMonster;
+    bool mShowScript[3];
     String mMapName;
     TimelineWaves mWaves;
 };

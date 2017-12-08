@@ -11,7 +11,7 @@ void PlatformInit()
     Platform::SetViewCreator(ZayView::Creator);
 
     Platform::SetWindowName("Codename F1");
-    #if BOSS_WINDOWS | BOSS_MAC_OSX
+    #if BOSS_WINDOWS | BOSS_LINUX | BOSS_MAC_OSX
         Platform::SetWindowView("codename_f1View");
     #else
         F1State::landscape() = false;

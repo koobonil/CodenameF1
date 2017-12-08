@@ -8,14 +8,22 @@
 
 namespace BOSS
 {
+    class BoolClass
+    {
+    public:
+        BoolClass() {mFlag = false;}
+        ~BoolClass() {}
+    public:
+        bool mFlag;
+    };
     static Map<Image> gImageMap;
-    static Map<bool> gExistMap;
+    static Map<BoolClass> gExistMap;
     static String gAtlasDir;
 
     R::R(chars name)
     {
         mImage = gImageMap.Access(name);
-        bool& Exist = gExistMap(name);
+        bool& Exist = gExistMap(name).mFlag;
         if(!mImage)
         {
             mImage = &gImageMap(name);

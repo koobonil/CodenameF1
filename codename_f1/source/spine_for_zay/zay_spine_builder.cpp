@@ -349,24 +349,15 @@ namespace ZAY
                     SpineInstance* This = (SpineInstance*) payload;
 
                     // 1회성 모션처리
-                    bool IsMotionAlived = true;
                     if(loop == -1)
-                    {
-                        IsMotionAlived = false;
                         This->SetMotionOff(motion);
-                    }
 
                     // 예약모션 수행
                     if(ReservedMotionQueue* CurQueue = This->ReservedMotionMap.Access(motion))
                     if(sint32 CurCount = CurQueue->Count())
                     {
-                        if(IsMotionAlived)
-                        {
-                            IsMotionAlived = false;
-                            This->SetMotionOff(motion);
-                        }
-
                         ReservedMotion* CurMotion = CurQueue->Dequeue();
+                        This->SetMotionOff(motion);
                         This->SetMotionOn(CurMotion->Name, CurMotion->BeginPos, CurMotion->Loop);
                         delete CurMotion;
 
@@ -374,8 +365,8 @@ namespace ZAY
                             This->ReservedMotionMap.Remove(motion);
                     }
 
-                    // 현재 모션이 살아있고, 반복모드가 아니며, CB를 가진 경우, 콜백처리
-                    if(IsMotionAlived && loop == 0 && This->FinishedCB)
+                    // 반복모드가 아니며, CB를 가진 경우, 콜백처리
+                    if(loop != 1 && This->FinishedCB)
                         This->FinishedCB(motion);
                 }, this);
             Instance->applyInitialAnimationPose(true, false);
@@ -1809,6 +1800,7 @@ namespace ZAY
                                     flipYTrack->setKeyFrame(time, animationKeyFrame);
                                 }
                             }
+                            else BOSS_ASSERT(String::Format("미지원되는 기능(%s)이 존재합니다", timeline_name), false);
                         }
                     }
                 }

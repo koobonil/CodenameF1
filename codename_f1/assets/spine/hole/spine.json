@@ -1,13 +1,15 @@
 {
-"skeleton": { "hash": "uARx2S+HVzOAc8Lj1hdEu5yFOF0", "spine": "3.6.47", "width": 157, "height": 177, "images": "./hole/" },
+"skeleton": { "hash": "sajP+ddGs9Ko3sTjsz4rPpYs1bY", "spine": "3.6.48", "width": 157, "height": 280.78, "images": "./hole/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 49.57, "rotation": 90 },
 	{ "name": "hole", "parent": "root", "length": 44.1, "rotation": 90 },
-	{ "name": "hole_effect", "parent": "root", "length": 54.03, "rotation": 90 }
+	{ "name": "hole_effect", "parent": "root", "length": 54.03, "rotation": 90 },
+	{ "name": "item_drop_effect", "parent": "root", "length": 43.32, "rotation": 90, "y": 18.71 }
 ],
 "slots": [
-	{ "name": "hole", "bone": "hole", "attachment": "hole" },
+	{ "name": "hole", "bone": "hole", "attachment": "skin" },
+	{ "name": "effect_hole_fire", "bone": "item_drop_effect", "attachment": "skin", "blend": "additive" },
 	{ "name": "hole_effect", "bone": "hole_effect", "attachment": "hole_a" },
 	{ "name": "area", "bone": "area", "attachment": "area" }
 ],
@@ -17,11 +19,8 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 150.93, 75.28, 0.7, 75.28, -0.58, -77.49, 151.1, -76.85 ]
+				"vertices": [ 205.14, 129.76, -61.35, 129.76, -60.8, -128.96, 205.31, -128.32 ]
 			}
-		},
-		"hole": {
-			"hole": { "x": 74.5, "y": -2.09, "rotation": -90, "width": 150, "height": 149 }
 		},
 		"hole_effect": {
 			"hole_a": { "x": 107.5, "y": 11.41, "rotation": -90, "width": 137, "height": 139 },
@@ -42,11 +41,126 @@
 			"hole_p": { "x": 196.5, "y": 6.91, "rotation": -90, "width": 120, "height": 65 },
 			"hole_q": { "x": 198.5, "y": 5.91, "rotation": -90, "width": 106, "height": 53 }
 		}
+	},
+	"fire": {
+		"effect_hole_fire": {
+			"skin": { "name": "effect_hole_fire", "x": 129.07, "y": -2.28, "rotation": -90, "width": 118, "height": 266 }
+		},
+		"hole": {
+			"skin": { "name": "hole_fire", "x": 74.5, "y": -2.09, "rotation": -90, "width": 150, "height": 149 }
+		}
+	},
+	"ice": {
+		"effect_hole_fire": {
+			"skin": { "name": "effect_hole_ice", "x": 130.48, "y": -1.68, "rotation": -90, "width": 118, "height": 266 }
+		},
+		"hole": {
+			"skin": { "name": "hole_ice", "x": 74.5, "y": -2.09, "rotation": -90, "width": 150, "height": 149 }
+		}
+	},
+	"lightning": {
+		"effect_hole_fire": {
+			"skin": { "name": "effect_hole_light", "x": 129.92, "y": -2.24, "rotation": -90, "width": 118, "height": 266 }
+		},
+		"hole": {
+			"skin": { "name": "hole_light", "x": 74.5, "y": -2.09, "rotation": -90, "width": 150, "height": 149 }
+		}
+	},
+	"normal": {
+		"hole": {
+			"skin": { "name": "hole_normal", "x": 74.5, "y": -2.09, "rotation": -90, "width": 150, "height": 149 }
+		}
+	},
+	"wind": {
+		"effect_hole_fire": {
+			"skin": { "name": "effect_hole_wind", "x": 130.48, "y": -2.8, "rotation": -90, "width": 118, "height": 266 }
+		},
+		"hole": {
+			"skin": { "name": "hole_wind", "x": 74.5, "y": -2.09, "rotation": -90, "width": 150, "height": 149 }
+		}
 	}
 },
 "animations": {
+	"drop": {
+		"slots": {
+			"effect_hole_fire": {
+				"color": [
+					{ "time": 0.1, "color": "ffffffff" },
+					{ "time": 0.5, "color": "ffffff00" }
+				]
+			},
+			"hole_effect": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"area": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"hole": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"hole_effect": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"item_drop_effect": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 0, "y": 1 },
+					{ "time": 0.1, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
 	"hit": {
 		"slots": {
+			"effect_hole_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
 			"hole_effect": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" },
@@ -87,6 +201,11 @@
 	},
 	"idle": {
 		"slots": {
+			"effect_hole_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
 			"hole_effect": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }

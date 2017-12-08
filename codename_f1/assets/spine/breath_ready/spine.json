@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "7sujcOLo+iGgB2Q46fnralTSaXA", "spine": "3.6.47", "width": 787.5, "height": 787.5, "images": "./meteo_ready/" },
+"skeleton": { "hash": "yVGIx5b+T5qC7qr8B7Ft443thuM", "spine": "3.6.47", "width": 787.5, "height": 787.5, "images": "./meteo_ready/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 26.42, "rotation": 88.49, "x": 10.62, "y": 0.61 },
@@ -15,7 +15,6 @@
 	{ "name": "background_red_area", "bone": "background_red_area", "attachment": "background_red_area" },
 	{ "name": "background_min_area", "bone": "bone", "attachment": "background_min_area" },
 	{ "name": "background_max_area", "bone": "bone", "attachment": "background_max_area" },
-	{ "name": "meteo_ready_b", "bone": "background", "attachment": "meteo_ready_b" },
 	{ "name": "meteo_ready_c", "bone": "background_red_b", "color": "ff0000ff", "attachment": "meteo_ready_c", "blend": "additive" },
 	{ "name": "meteo_ready_a", "bone": "background_red_a", "attachment": "meteo_ready_a", "blend": "additive" }
 ],
@@ -51,9 +50,6 @@
 		},
 		"meteo_ready_a": {
 			"meteo_ready_a": { "scaleX": 3.15, "scaleY": 3.15, "rotation": -90, "width": 250, "height": 250 }
-		},
-		"meteo_ready_b": {
-			"meteo_ready_b": { "scaleX": 3.15, "scaleY": 3.15, "width": 250, "height": 250 }
 		},
 		"meteo_ready_c": {
 			"meteo_ready_c": { "scaleX": 3.15, "scaleY": 3.15, "width": 250, "height": 250 }
