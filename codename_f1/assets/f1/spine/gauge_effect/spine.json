@@ -1,0 +1,77 @@
+{
+"skeleton": { "hash": "5T561dCjs4wGh5UWUDIRbIZClRk", "spine": "3.6.48", "width": 159, "height": 292.26, "images": "./gauge_effect/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 19.79, "rotation": 90 },
+	{ "name": "gauge_effect", "parent": "root", "length": 34.66, "rotation": 90, "y": -31.47, "scaleX": 0.771 }
+],
+"slots": [
+	{
+		"name": "gauge_effect_a",
+		"bone": "gauge_effect",
+		"color": "ffffff96",
+		"dark": "ffffff",
+		"attachment": "gauge_effect_a",
+		"blend": "additive"
+	},
+	{ "name": "area", "bone": "area", "attachment": "area" }
+],
+"skins": {
+	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -13.59, 33.07, -76.1, 33.07, -76.1, -30.35, -14.39, -32.06 ]
+			}
+		},
+		"gauge_effect_a": {
+			"gauge_effect_a": { "x": 117.08, "y": 4.63, "rotation": -90, "width": 159, "height": 379 },
+			"gauge_effect_b": { "x": 136.58, "y": 9.63, "rotation": -90, "width": 209, "height": 454 },
+			"gauge_effect_c": { "x": 149.08, "y": 6.63, "rotation": -90, "width": 218, "height": 465 },
+			"gauge_effect_d": { "x": 114.08, "y": 5.13, "rotation": -90, "width": 221, "height": 426 },
+			"gauge_effect_e": { "x": 120.08, "y": 2.13, "rotation": -90, "width": 217, "height": 438 },
+			"gauge_effect_f": { "x": 113.08, "y": 1.63, "rotation": -90, "width": 225, "height": 427 },
+			"gauge_effect_g": { "x": 130.58, "y": -0.37, "rotation": -90, "width": 223, "height": 450 },
+			"gauge_effect_h": { "x": 138.58, "y": -3.87, "rotation": -90, "width": 219, "height": 460 },
+			"gauge_effect_i": { "x": 143.08, "y": -1.37, "rotation": -90, "width": 161, "height": 462 },
+			"gauge_effect_j": { "x": 147.08, "y": -3.87, "rotation": -90, "width": 175, "height": 465 },
+			"gauge_effect_k": { "x": 149.08, "y": -8.37, "rotation": -90, "width": 166, "height": 466 },
+			"gauge_effect_l": { "x": 138.58, "y": -13.87, "rotation": -90, "width": 175, "height": 454 },
+			"gauge_effect_m": { "x": 140.58, "y": -7.87, "rotation": -90, "width": 184, "height": 461 }
+		}
+	}
+},
+"animations": {
+	"idle": {
+		"slots": {
+			"gauge_effect_a": {
+				"twoColor": [
+					{ "time": 0, "light": "ffffff00", "dark": "ffffff" }
+				]
+			}
+		}
+	},
+	"show": {
+		"slots": {
+			"gauge_effect_a": {
+				"attachment": [
+					{ "time": 0, "name": "gauge_effect_a" },
+					{ "time": 0.0667, "name": "gauge_effect_b" },
+					{ "time": 0.1333, "name": "gauge_effect_c" },
+					{ "time": 0.2, "name": "gauge_effect_d" },
+					{ "time": 0.2667, "name": "gauge_effect_e" },
+					{ "time": 0.3333, "name": "gauge_effect_f" },
+					{ "time": 0.4, "name": "gauge_effect_g" },
+					{ "time": 0.4667, "name": "gauge_effect_h" },
+					{ "time": 0.5333, "name": "gauge_effect_i" },
+					{ "time": 0.6, "name": "gauge_effect_j" },
+					{ "time": 0.6667, "name": "gauge_effect_k" },
+					{ "time": 0.7333, "name": "gauge_effect_l" },
+					{ "time": 0.8, "name": "gauge_effect_m" }
+				]
+			}
+		}
+	}
+}
+}

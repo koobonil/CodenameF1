@@ -2,7 +2,8 @@
 #include "codename_f1.hpp"
 
 #include <resource.hpp>
-#include "classes.hpp"
+#include "outgame.hpp"
+#include "classes_f1.hpp"
 
 ZAY_DECLARE_VIEW_CLASS("codename_f1View", codename_f1Data)
 
@@ -65,9 +66,12 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
         {
             if(t == GT_InReleased)
             {
-                F1State::landscape() = m->mIsLandscape;
-                F1State::stage() = m->mFirstStage;
-                m->next("ingameView");
+                //F1State::landscape() = m->mIsLandscape;
+                //F1State::stage() = m->mFirstStage;
+                //m->next("ingameView");
+
+                outgameData::landscape() = m->mIsLandscape;
+                m->next("outgameView");
             }
         })
     {

@@ -90,12 +90,13 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
     m->Render(panel);
 }
 
-stagetoolData::stagetoolData()
+stagetoolData::stagetoolData() : mMonsterScroll(updater()), mMonsterScrollMax(11)
 {
     mMode = Mode::Mob;
     mCurWave = 0;
     mCurEvent = 0;
     mCurMonster = 0;
+    mMonsterScroll.Reset(0);
     mShowScript[0] = true;
     mShowScript[1] = true;
     mShowScript[2] = true;
@@ -606,9 +607,9 @@ void stagetoolData::Render(ZayPanel& panel)
         // 몬스터리스트
         if(mMode == Mode::Mob)
         {
-            const sint32 MonsterCount = mState.mMonsterTypes.Count();
-            ZAY_XYWH(panel, InnerGap, ButtonSize * 2 + InnerGap, IconSize, IconSize * MonsterCount)
+            ZAY_XYWH_SCISSOR(panel, InnerGap, ButtonSize * 2 + InnerGap, IconSize * 2, IconSize * mMonsterScrollMax)
             {
+                const sint32 MonsterCount = mState.mMonsterTypes.Count();
                 // 몬스터통계
                 sint32s SumMonsters;
                 Memory::Set(SumMonsters.AtDumpingAdded(MonsterCount), 0, sizeof(sint32) * MonsterCount);
@@ -625,13 +626,18 @@ void stagetoolData::Render(ZayPanel& panel)
                             }
                     }
                 }
+                const float ScrollPos = mMonsterScroll.value();
                 for(sint32 i = 0; i < MonsterCount; ++i)
                 {
-                    ZAY_XYWH_UI(panel, 0, IconSize * i, ButtonSize, IconSize, String::Format("monster-%d", i),
+                    ZAY_XYWH_UI(panel, 0, IconSize * (i - ScrollPos), panel.w(), IconSize, String::Format("monster-%d", i),
                         ZAY_GESTURE_NT(n, t, this)
                         {
                             if(t == GT_InReleased)
+                            {
                                 mCurMonster = Parser::GetInt(&n[8]);
+                                const sint32 ScrollLimit = Math::Max(0, mState.mMonsterTypes.Count() - mMonsterScrollMax);
+                                mMonsterScroll.MoveTo(Math::Clamp(mCurMonster - mMonsterScrollMax / 2, 0, ScrollLimit), 0.5);
+                            }
                         })
                     {
                         ZAY_RGBA_IF(panel, 255, 128, 64, 192, i == mCurMonster)
@@ -652,6 +658,9 @@ void stagetoolData::Render(ZayPanel& panel)
                             panel.text(panel.w(), panel.h() / 2, String::Format(" (%d)", SumMonsters[i]), UIFA_LeftMiddle);
                     }
                 }
+                ZAY_INNER(panel, 2)
+                ZAY_RGB(panel, 0, 0, 0)
+                    panel.rect(2);
             }
         }
 

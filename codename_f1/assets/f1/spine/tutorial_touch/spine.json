@@ -1,0 +1,57 @@
+{
+"skeleton": { "hash": "XszNale0GV7MEqIALPLmUlGbfLs", "spine": "3.6.48", "width": 104, "height": 114, "images": "./touch/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 43.28, "rotation": 95.04 },
+	{ "name": "touch", "parent": "root", "length": 35.96, "rotation": 90 }
+],
+"slots": [
+	{ "name": "touch_a", "bone": "touch", "attachment": "touch_a" },
+	{ "name": "touch_b", "bone": "touch", "attachment": "touch_b" },
+	{ "name": "area", "bone": "area", "attachment": "area" }
+],
+"skins": {
+	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 222.86, 100.46, 12.56, 118.15, -6.35, -86.44, 202.65, -105.94 ]
+			}
+		},
+		"touch_a": {
+			"touch_a": { "x": 68, "y": 0.54, "rotation": -90, "width": 98, "height": 114 }
+		},
+		"touch_b": {
+			"touch_b": { "x": 59.05, "y": 3, "rotation": -90, "width": 104, "height": 96 }
+		}
+	}
+},
+"animations": {
+	"idle": {
+		"slots": {
+			"touch_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		}
+	},
+	"touch": {
+		"slots": {
+			"touch_a": {
+				"color": [
+					{ "time": 0.0333, "color": "ffffffff" },
+					{ "time": 0.5, "color": "ffffff00" }
+				]
+			},
+			"touch_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.1333, "color": "ffffffff" }
+				]
+			}
+		}
+	}
+}
+}

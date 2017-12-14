@@ -30,7 +30,7 @@ void PlatformInit()
 
     String AtlasInfoString = String::FromFile("atlasinfo.json");
     Context AtlasInfo(ST_Json, SO_OnlyReference, AtlasInfoString, AtlasInfoString.Length());
-    R::SetAtlasDir("image");
+    R::SetAtlasDir("f1/image");
     R::AddAtlas("ui_atlaskey.png", "atlas_latest.png", AtlasInfo);
     if(R::IsAtlasUpdated())
         R::RebuildAll();

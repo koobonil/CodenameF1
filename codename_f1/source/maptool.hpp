@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <service/boss_zay.hpp>
-#include "classes.hpp"
+#include "classes_f1.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 class MapSelectBox

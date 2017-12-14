@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <service/boss_zay.hpp>
-#include "classes.hpp"
+#include "classes_f1.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 class TimelineMonster
@@ -60,7 +60,7 @@ typedef Array<TimelineWave> TimelineWaves;
 ////////////////////////////////////////////////////////////////////////////////
 class stagetoolData : public F1Tool
 {
-    BOSS_DECLARE_NONCOPYABLE_CLASS(stagetoolData)
+    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(stagetoolData, mMonsterScrollMax(0))
 public:
     stagetoolData();
     ~stagetoolData();
@@ -91,6 +91,8 @@ public:
     sint32 mCurWave;
     sint32 mCurEvent;
     sint32 mCurMonster;
+    Tween1D mMonsterScroll;
+    const sint32 mMonsterScrollMax;
     bool mShowScript[3];
     String mMapName;
     TimelineWaves mWaves;

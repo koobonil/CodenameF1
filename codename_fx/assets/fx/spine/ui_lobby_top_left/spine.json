@@ -1,0 +1,114 @@
+{
+"skeleton": { "hash": "Y2nmfqFScJIP5WhPuw50lPQatMc", "spine": "3.6.48", "width": 1151, "height": 174, "images": "" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 101.04, "rotation": 90, "x": 393.77, "y": -3202.77 },
+	{ "name": "top", "parent": "root", "length": 101.64, "rotation": 90, "x": 393.77, "y": 103.89 },
+	{ "name": "top_slot_a", "parent": "top", "length": 85.26, "x": 20.32, "y": 653.96 },
+	{ "name": "top_slot_b", "parent": "top", "length": 84.72, "x": 16.93, "y": 68.19 }
+],
+"slots": [
+	{ "name": "top_slot_b", "bone": "top_slot_b", "attachment": "top_slot_b" },
+	{ "name": "top_slot_a", "bone": "top_slot_a", "attachment": "top_slot_a" },
+	{ "name": "top_heart", "bone": "top_slot_a", "attachment": "top_heart" },
+	{ "name": "mid_egg", "bone": "top_slot_b", "attachment": "mid_egg" },
+	{ "name": "heart_time_area", "bone": "top_slot_a", "attachment": "heart_time_area" },
+	{ "name": "egg_score_area", "bone": "top_slot_b", "attachment": "egg_score_area" },
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "heart_score_area", "bone": "top_slot_a", "attachment": "heart_score_area" }
+],
+"skins": {
+	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 3447.77, 998.1, 3203.59, 998.09, 3203.51, -244.47, 3449.87, -246.57 ]
+			}
+		},
+		"egg_score_area": {
+			"egg_score_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 50.01, 35.81, -40.99, 36.42, -40.95, -234.86, 50.09, -234.86 ]
+			}
+		},
+		"heart_score_area": {
+			"heart_score_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 43.58, 235.38, -18.18, 235.38, -19.23, 181.91, 43.35, 180.87 ]
+			}
+		},
+		"heart_time_area": {
+			"heart_time_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 46.88, 118.95, -44.47, 118.95, -44.41, -247.43, 47.33, -247.82 ]
+			}
+		},
+		"mid_egg": {
+			"mid_egg": { "x": 12.91, "y": 133.29, "rotation": -90, "width": 129, "height": 143 }
+		},
+		"top_heart": {
+			"top_heart": { "x": 3.53, "y": 207.51, "rotation": -90, "width": 117, "height": 111 }
+		},
+		"top_slot_a": {
+			"top_slot_a": { "x": -8.47, "y": -1.49, "rotation": -90, "width": 581, "height": 169 }
+		},
+		"top_slot_b": {
+			"top_slot_b": { "x": -5.09, "y": -25.71, "rotation": -90, "width": 501, "height": 169 }
+		}
+	}
+},
+"animations": {
+	"idle": {
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"top": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"top_slot_a": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"top_slot_b": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}
