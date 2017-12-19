@@ -108,6 +108,16 @@ void MapObject::Drop() const
     }
 }
 
+void MapObject::Spot() const
+{
+    if(mSpineInstance)
+    {
+        ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mSpineInstance, true);
+        ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "spot", false);
+        ZAY::SpineBuilder::SetMotionOnAttached(mSpineInstance, "spot", "idle", true);
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 MapPolygon::MapPolygon()
 {
@@ -225,6 +235,7 @@ MapMonster::MapMonster() : MapSpine(ST_Monster), mToast(ST_MonsterToast)
 {
     mType = nullptr;
     mRID = 0;
+    mEntranced = false;
     mEntranceSec = 0;
     mHPValue = 0;
     mHPTimeMsec = 0;
@@ -257,6 +268,7 @@ MapMonster& MapMonster::operator=(MapMonster&& rhs)
     MapSpine::operator=(ToReference(rhs));
     mType = rhs.mType;
     mRID = rhs.mRID;
+    mEntranced = rhs.mEntranced;
     mEntranceSec = rhs.mEntranceSec;
     mHPValue = rhs.mHPValue;
     mHPTimeMsec = rhs.mHPTimeMsec;
@@ -285,6 +297,7 @@ void MapMonster::Init(const MonsterType* type, sint32 rid, sint32 timesec, float
 {
     mType = type;
     mRID = rid;
+    mEntranced = true;
     mEntranceSec = timesec;
     mHPValue = type->mHP;
     mHPTimeMsec = 0;
@@ -320,6 +333,13 @@ void MapMonster::ResetCB()
                 else if(!String::Compare("touch", motionname))
                     mDeathStep = 2;
             }, nullptr);
+}
+
+bool MapMonster::IsEntranced()
+{
+    bool Result = mEntranced;
+    mEntranced = false;
+    return Result;
 }
 
 bool MapMonster::IsKnockBackMode()
@@ -818,8 +838,13 @@ void TargetZone::Init(sint32 layerindex, sint32 objectindex, float r)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-F1State::F1State() : mLandscape(landscape()), mStage(stage())
+F1State::F1State() :
+    mLandscape(Platform::Option::GetFlag("LandscapeMode")),
+    mStage((chars) Platform::Option::GetPayload("StageName"))
 {
+    // StageName은 임시포인터임으로 사용후 지운다
+    Platform::Option::SetPayload("StageName", nullptr);
+
     Map<String> GlobalWeightMap;
     if(auto GlobalWeightTable = Context(ST_Json, SO_NeedCopy, String::FromFile("f1/table/globalweight_table.json")))
     {
@@ -983,6 +1008,7 @@ void F1State::LoadMap(chars json)
     mTargetsForAlly.SubtractionAll();
     mLayers.SubtractionAll();
     mLayers.AtDumpingAdded(mLayerLength);
+    mObjectRIDs.Reset();
 
     Context JsonLayer(ST_Json, SO_OnlyReference, json);
     mBGNameA = JsonLayer("BGName").GetString();
@@ -1118,7 +1144,11 @@ void F1State::LoadMap(chars json)
             }
         }
         for(sint32 obj = 0, obj_end = CurLayer.mObjects.Count(); obj < obj_end; ++obj)
-            CurLayer.mObjects.At(obj).ResetCB();
+        {
+            auto& CurObject = CurLayer.mObjects.At(obj);
+            CurObject.ResetCB();
+            mObjectRIDs[CurObject.mRID] = &CurObject;
+        }
     }
 }
 

@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "TaooA1vaJ34xaeX3LVYvchfDVNw", "spine": "3.6.48", "width": 7066.09, "height": 3172.52, "images": "./main_title_ui/" },
+"skeleton": { "hash": "myvuB/14Z2B0yhe0X7jJj7sroSI", "spine": "3.6.48", "width": 7066.09, "height": 3172.52, "images": "./main_title_ui/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 205.23, "rotation": 90, "x": -0.49, "y": 3.34 },
@@ -31,7 +31,7 @@
 	{ "name": "str_29", "bone": "butten_start2", "attachment": "str_29" },
 	{ "name": "butten_start_area", "bone": "butten_start", "attachment": "butten_start_area" },
 	{ "name": "butten_start_area2", "bone": "butten_start2", "attachment": "butten_start_area" },
-	{ "name": "area", "bone": "area" },
+	{ "name": "area", "bone": "area", "attachment": "area" },
 	{ "name": "title_d", "bone": "bone", "attachment": "title_d" },
 	{ "name": "title_r_a", "bone": "bone2", "attachment": "title_r_a" },
 	{ "name": "title_a_a", "bone": "bone3", "attachment": "title_a_a" },
@@ -52,7 +52,7 @@
 	{ "name": "butten_facebook_area", "bone": "butten_c", "attachment": "butten_facebook_area" },
 	{ "name": "butten_staff_area2", "bone": "butten_b", "attachment": "butten_like_area" },
 	{ "name": "main_tap_background", "bone": "butten_a", "attachment": "main_tap_background" },
-	{ "name": "main_tap_background2", "bone": "butten_a2", "attachment": "main_tap_background" },
+	{ "name": "main_tap_background2", "bone": "butten_a2", "attachment": "main_tap_background_b" },
 	{ "name": "meteor_under", "bone": "bone7", "attachment": "meteor_under" }
 ],
 "skins": {
@@ -65,10 +65,10 @@
 			}
 		},
 		"butten_b": {
-			"main_staff": { "width": 912, "height": 268 }
+			"main_staff": { "width": 915, "height": 266 }
 		},
 		"butten_c": {
-			"main_facebook": { "width": 912, "height": 268 }
+			"main_facebook": { "width": 915, "height": 266 }
 		},
 		"butten_facebook_area": {
 			"butten_facebook_area": {
@@ -102,7 +102,7 @@
 			"main_tap_background": { "scaleX": 2, "scaleY": 2, "width": 714, "height": 104 }
 		},
 		"main_tap_background2": {
-			"main_tap_background": { "x": -16.67, "scaleY": 2, "width": 714, "height": 104 }
+			"main_tap_background_b": { "x": -8.56, "y": 2.71, "scaleX": 2, "scaleY": 2, "width": 405, "height": 104 }
 		},
 		"main_underbar": {
 			"main_underbar": { "x": -138.08, "y": 257.88, "scaleX": 8.833, "scaleY": 2, "rotation": -90, "width": 800, "height": 259 }
@@ -128,7 +128,7 @@
 			"str_29": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ -177.36, 70.71, -178.83, -69.89, 144.19, -69.15, 144.19, 71.45 ]
+				"vertices": [ -242.45, 70.71, -243.92, -69.89, 211.12, -69.15, 211.12, 71.45 ]
 			}
 		},
 		"str_30": {

@@ -37,7 +37,8 @@ private:
 
 public:
     void InitForSpine();
-    void AnimationOnce(sint32 timespan);
+    void PlayScriptOnce(sint32 sec);
+    void AnimationOnce(sint32 sec_span);
     void ClearAllPathes();
     void Render(ZayPanel& panel);
     void RenderItems(ZayPanel& panel, bool slot, uint64 msec);
@@ -49,10 +50,12 @@ public:
 public: // 게임상태
     bool mIsSpineInited;
     bool mShowDebug;
+    sint32 mClosing;
     Context mWaveData;
     sint32 mWave; // -1: 게임전, 0~N: 게임중
     String mWaveTitle;
-    sint32 mWaveSec;
+    sint32 mWaveSecCurrently;
+    sint32 mWaveSecSettled;
     MapMonsters mMonsters;
 
     // Item

@@ -33,20 +33,20 @@
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"egg",
-		"Spine":"None",
+		"Spine":"egg:forest",
 		"AssetShadow":"egg_shadow",
 		"GaugePosition":60,
 		"IsTool":"True"
 	},
 	{
 		"ID":"Spot",
-		"Type":"Ground",
+		"Type":"Spot",
 		"HP":"None",
 		"Duration":"None",
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"spot_forest",
-		"Spine":"None",
+		"Spine":"spot",
 		"AssetShadow":"None",
 		"GaugePosition":"None",
 		"IsTool":"True"
@@ -131,7 +131,7 @@
 	},
 	{
 		"ID":"I_Spot",
-		"Type":"Ground",
+		"Type":"Spot",
 		"HP":"None",
 		"Duration":"None",
 		"SKillID":"None",

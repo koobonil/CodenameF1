@@ -18,7 +18,7 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
             sint32 CurTimeSecSpan = (sint32) (CurTimeSec - OldTimeSec);
             if(0 < CurTimeSecSpan)
             {
-                m->mWaveSec += CurTimeSecSpan;
+                m->mWaveSecCurrently += CurTimeSecSpan;
                 OldTimeSec = CurTimeSec;
             }
             // 애니메이션 진행
@@ -39,7 +39,12 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
                     m->mMonsters.At(i).mNextPos = m->mMonsters[i].mCurrentPos;
                 }
             }
-            else m->AnimationOnce(CurTimeSecSpan);
+            else
+            {
+                while(m->mWaveSecSettled < m->mWaveSecCurrently)
+                    m->PlayScriptOnce(m->mWaveSecSettled++);
+                m->AnimationOnce(CurTimeSecSpan);
+            }
             // 자동화면갱신
             m->invalidate();
         }
@@ -70,7 +75,7 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
 {
     static bool IsPressEnabled = true;
 
-    if(m->mWave == -1)
+    if(m->mWave == -1 || m->mClosing != -1)
         IsPressEnabled = true;
     else
     {
@@ -83,7 +88,7 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
             {
                 auto& CurMonster = m->mMonsters.At(i);
                 if(CurMonster.mType->mType != MonsterType::TypeClass::Ally) continue;
-                if(m->mWaveSec < CurMonster.mEntranceSec || 0 < CurMonster.mDeathStep) continue;
+                if(m->mWaveSecCurrently < CurMonster.mEntranceSec || 0 < CurMonster.mDeathStep) continue;
 
                 float AllyX = m->mInGameX + m->mInGameW * (CurMonster.mCurrentPos.x + 0.5f);
                 float AllyY = m->mInGameY + m->mInGameH * (CurMonster.mCurrentPos.y + 0.5f);
@@ -169,10 +174,12 @@ ingameData::ingameData()
 {
     mIsSpineInited = false;
     mShowDebug = false;
-    mWaveData = Context(ST_Json, SO_NeedCopy, String::FromFile(String::Format("f1/table/%s.json", (chars) mStage)));
-    mWave = -1;
+    mClosing = -1;
+    mWaveData = Context(ST_Json, SO_NeedCopy, String::FromFile(mStage));
+    mWave = Platform::Option::GetFlag("DirectPlay")? 0 : -1;
     mWaveTitle = "";
-    mWaveSec = 0;
+    mWaveSecCurrently = 0;
+    mWaveSecSettled = -1;
     mSlotFlag[0] = mSlotFlag[1] = mSlotFlag[2] = mSlotFlag[3] = false;
     mCurItemSkin = "normal";
     mCurItemSkinForDragon = "normal";
@@ -286,23 +293,26 @@ void ingameData::InitForSpine()
     mBreathAttackSpine.InitSpine(&mAllSpines("breath_attack")).PlayMotion("idle", true);
     mBreathEffectSpine.InitSpine(&mAllSpines("breath_effect")).PlayMotion("idle", true);
 
-    // 타이틀화면
-    mMainTitleSpine.InitSpine(&mAllSpines("ui_main_title"), "default",
-        [this](chars motionname)
-        {
-            if(!String::Compare("start", motionname))
-                ReadyForNextWave();
-        }).PlayMotionAttached("loding", "idle", true);
+    if(mWave == -1)
+    {
+        // 타이틀화면
+        mMainTitleSpine.InitSpine(&mAllSpines("ui_main_title"), "default",
+            [this](chars motionname)
+            {
+                if(!String::Compare("start", motionname))
+                    ReadyForNextWave();
+            }).PlayMotionAttached("loding", "idle", true);
 
-    // 스태프 캐릭터
-    auto PtrStaff = mMonsters.AtDumpingAdded(3);
-    static const MonsterType StaffType;
-    PtrStaff[0].Init(&StaffType, 1, 0, mMainTitleStaffBegin[0].x, mMainTitleStaffBegin[0].y,
-        mAllSpines("ui_main_title_jjs"), nullptr);
-    PtrStaff[1].Init(&StaffType, 2, 0, mMainTitleStaffBegin[1].x, mMainTitleStaffBegin[1].y,
-        mAllSpines("ui_main_title_kbh"), nullptr);
-    PtrStaff[2].Init(&StaffType, 3, 0, mMainTitleStaffBegin[2].x, mMainTitleStaffBegin[2].y,
-        mAllSpines("ui_main_title_kbi"), nullptr);
+        // 스태프 캐릭터
+        auto PtrStaff = mMonsters.AtDumpingAdded(3);
+        static const MonsterType StaffType;
+        PtrStaff[0].Init(&StaffType, 1, 0, mMainTitleStaffBegin[0].x, mMainTitleStaffBegin[0].y,
+            mAllSpines("ui_main_title_jjs"), nullptr);
+        PtrStaff[1].Init(&StaffType, 2, 0, mMainTitleStaffBegin[1].x, mMainTitleStaffBegin[1].y,
+            mAllSpines("ui_main_title_kbh"), nullptr);
+        PtrStaff[2].Init(&StaffType, 3, 0, mMainTitleStaffBegin[2].x, mMainTitleStaffBegin[2].y,
+            mAllSpines("ui_main_title_kbi"), nullptr);
+    }
 
     // UI
     mWeather[0].InitSpine(&mAllSpines("a_weather_toast")).PlayMotion("forest_weather", true);
@@ -314,7 +324,30 @@ void ingameData::InitForSpine()
     mStopButton.InitSpine(&mAllSpines("ui_ingame_stop_butten")).PlayMotion("loding", false);
 }
 
-void ingameData::AnimationOnce(sint32 timespan)
+void ingameData::PlayScriptOnce(sint32 sec)
+{
+    for(sint32 i = 0, iend = mWaveData("Waves")[mWave]("Events").LengthOfIndexable(); i < iend; ++i)
+    {
+        const sint32 TimeSec = mWaveData("Waves")[mWave]("Events")[i]("TimeSec").GetInt(0);
+        if(TimeSec == sec)
+        {
+            auto& JsonScripts = mWaveData("Waves")[mWave]("Events")[i]("Scripts");
+            for(sint32 j = 0, jend = JsonScripts.LengthOfIndexable(); j < jend; ++j)
+            {
+                const sint32 ObjectRID = JsonScripts[j]("TargetRID").GetInt(0);
+                const String ScriptText = JsonScripts[j]("Text").GetString();
+                if(auto CurObject = mObjectRIDs.Access(ObjectRID))
+                {
+                    if(!String::Compare(ScriptText, "animate ", 8))
+                        (*CurObject)->PlayMotionScript(((chars) ScriptText) + 8);
+                }
+            }
+            break;
+        }
+    }
+}
+
+void ingameData::AnimationOnce(sint32 sec_span)
 {
     // 스킨풀림
     if(mCurItemSkinEndTimeMsec != 0 && mCurItemSkinEndTimeMsec < Platform::Utility::CurrentTimeMsec())
@@ -329,13 +362,30 @@ void ingameData::AnimationOnce(sint32 timespan)
     for(sint32 i = 0, iend = mMonsters.Count(); i < iend; ++i)
     {
         auto& CurMonster = mMonsters.At(i);
-        if(mWaveSec < CurMonster.mEntranceSec || 0 < CurMonster.mDeathStep) // 등장전 또는 죽을때
+        if(mWaveSecCurrently < CurMonster.mEntranceSec || 0 < CurMonster.mDeathStep) // 등장전 또는 죽을때
         {
             if(CurMonster.mDeathStep == 1)
                 CurMonster.TryDeathMove();
             continue;
         }
         const Point CurMonsterPos = Point(mInGameW * (CurMonster.mCurrentPos.x + 0.5f), mInGameH * (CurMonster.mCurrentPos.y + 0.5f));
+
+        // 등장연출
+        if(CurMonster.IsEntranced())
+        {
+            auto& CurObjects = mLayers.At(1).mObjects;
+            for(sint32 j = 0, jend = CurObjects.Count(); j < jend; ++j)
+            {
+                auto& CurObject = CurObjects.At(j);
+                if(!CurObject.mVisible || CurObject.mType->mType != ObjectType::TypeClass::Spot)
+                    continue;
+                const float x = mInGameW * (CurObject.mCurrentRect.CenterX() + 0.5f);
+                const float y = mInGameH * (CurObject.mCurrentRect.CenterY() + 0.5f);
+                const float r = mInGameSize * CurObject.mCurrentRect.Width();
+                if(Math::Distance(x, y, CurMonsterPos.x, CurMonsterPos.y) < r)
+                    CurObject.Spot();
+            }
+        }
 
         // 공격
         bool HasAttack = false;
@@ -608,12 +658,18 @@ void ingameData::AnimationOnce(sint32 timespan)
     }
 
     // 타겟회복
+    bool IsAnyTargetLived = false;
     for(sint32 i = 0, iend = mTargetsForEnemy.Count(); i < iend; ++i)
     {
         auto& CurObject = mLayers.At(mTargetsForEnemy[i].mLayerIndex).mObjects.At(mTargetsForEnemy[i].mObjectIndex);
         if(0 < CurObject.mHPValue)
-            CurObject.mHPValue = Math::Min(CurObject.mHPValue + mEggHPRegenValue * timespan, CurObject.mType->mHP);
+        {
+            IsAnyTargetLived = true;
+            CurObject.mHPValue = Math::Min(CurObject.mHPValue + mEggHPRegenValue * sec_span, CurObject.mType->mHP);
+        }
     }
+    if(mClosing == -1 && !IsAnyTargetLived)
+        mClosing = 200;
 
     // 웨이브클리어
     const sint32 WaveCount = mWaveData("Waves").LengthOfIndexable();
@@ -627,7 +683,7 @@ void ingameData::AnimationOnce(sint32 timespan)
             auto& CurMonster = mMonsters.At(i);
             if(CurMonster.mDeathStep == 2) continue;
             AnyMonsterAlived = true;
-            if(AnyMonsterWaiting = (mWaveSec < CurMonster.mEntranceSec)) break;
+            if(AnyMonsterWaiting = (mWaveSecCurrently < CurMonster.mEntranceSec)) break;
             if(WaveStop = CurMonster.mType->mWaveStop) break;
         }
         // 중간 웨이브
@@ -638,7 +694,17 @@ void ingameData::AnimationOnce(sint32 timespan)
         }
         // 마지막 웨이브
         else if(!AnyMonsterAlived)
+        {
             ReadyForNextWave();
+            mClosing = 100;
+        }
+    }
+
+    // 인게임종료
+    if(0 < mClosing && --mClosing == 0)
+    {
+        Platform::Option::SetFlag("LandscapeMode", false);
+        next("outgameView");
     }
 
     // 브레스폭발
@@ -658,7 +724,7 @@ void ingameData::AnimationOnce(sint32 timespan)
     }
 
     // 브레스게이지연출
-    mBreathGaugeTime = Math::Min(mBreathGaugeTime + timespan * mBreathGaugeChargingPerSec, mBreathMaxGauge);
+    mBreathGaugeTime = Math::Min(mBreathGaugeTime + sec_span * mBreathGaugeChargingPerSec, mBreathMaxGauge);
     mBreathGaugeTimeLog = (mBreathGaugeTimeLog * 9 + mBreathGaugeTime * 1) / 10;
 }
 
@@ -676,7 +742,7 @@ void ingameData::Render(ZayPanel& panel)
     Rect OutlineRect;
     ZAY_XYWH(panel, mInGameX, mInGameY, mInGameW, mInGameH)
     {
-        OutlineRect = F1State::RenderMap(mShowDebug, panel, &mMonsters, mWaveSec);
+        OutlineRect = F1State::RenderMap(mShowDebug, panel, &mMonsters, mWaveSecCurrently);
         OutlineRect += Point(mInGameX, mInGameY);
         // 공중아이템
         RenderItems(panel, false, CurTimeMsec);
@@ -817,10 +883,15 @@ void ingameData::Render(ZayPanel& panel)
             RenderItems(panel, true, CurTimeMsec);
     }
 
+    // 인게임클로징
+    if(0 <= mClosing && mClosing < 50)
+        ZAY_RGBA(panel, 0, 0, 0, 255 * (50 - mClosing) / 50)
+            panel.fill();
+
     // 인게임 디버그정보
     if(mShowDebug)
     ZAY_XYWH(panel, mInGameX, mInGameY, mInGameW, mInGameH)
-        F1State::RenderDebug(panel, mMonsters, mWaveSec);
+        F1State::RenderDebug(panel, mMonsters, mWaveSecCurrently);
 
     #if BOSS_WINDOWS | BOSS_LINUX | BOSS_MAC_OSX
         const sint32 InnerGap = 10, ButtonSize = 80, ButtonSizeSmall = 50;
@@ -837,13 +908,15 @@ void ingameData::Render(ZayPanel& panel)
                     }
                 })
             {
-                ZAY_RGBA(panel, 255, 255, 128, 192)
-                    panel.fill();
-                ZAY_RGB(panel, 0, 0, 0)
-                {
-                    panel.rect(2);
-                    panel.text("Home", UIFA_CenterMiddle);
-                }
+                #if !BOSS_WINDOWS
+                    ZAY_RGBA(panel, 255, 255, 128, 192)
+                        panel.fill();
+                    ZAY_RGB(panel, 0, 0, 0)
+                    {
+                        panel.rect(2);
+                        panel.text("Home", UIFA_CenterMiddle);
+                    }
+                #endif
             }
 
             // 디버그버튼
@@ -857,14 +930,16 @@ void ingameData::Render(ZayPanel& panel)
                     }
                 })
             {
-                ZAY_RGBA_IF(panel, 255, 128, 255, 192, mShowDebug)
-                ZAY_RGBA_IF(panel, 128, 255, 255, 192, !mShowDebug)
-                    panel.fill();
-                ZAY_RGB(panel, 0, 0, 0)
-                {
-                    panel.rect(2);
-                    panel.text("Debug", UIFA_CenterMiddle);
-                }
+                #if !BOSS_WINDOWS
+                    ZAY_RGBA_IF(panel, 255, 128, 255, 192, mShowDebug)
+                    ZAY_RGBA_IF(panel, 128, 255, 255, 192, !mShowDebug)
+                        panel.fill();
+                    ZAY_RGB(panel, 0, 0, 0)
+                    {
+                        panel.rect(2);
+                        panel.text("Debug", UIFA_CenterMiddle);
+                    }
+                #endif
             }
         }
     #endif
@@ -885,7 +960,7 @@ void ingameData::RenderItems(ZayPanel& panel, bool slot, uint64 msec)
             CurItem->RenderObject(true, mShowDebug, panel, false, String::Format("Item%03d_", i),
                 ZAY_GESTURE_NT(n, t, this, i)
                 {
-                    if(t == GT_Pressed && !String::Compare(n + 8, "ston_touch_area"))
+                    if(t == GT_Pressed && mClosing == -1 && !String::Compare(n + 8, "ston_touch_area"))
                     {
                         auto CurItem = mItemMap.AccessByOrder(i);
                         if(CurItem->slot())
@@ -976,7 +1051,8 @@ void ingameData::ReadyForNextWave()
 {
     mWave++;
     mWaveTitle = "Load Failure";
-    mWaveSec = 0;
+    mWaveSecCurrently = 0;
+    mWaveSecSettled = -1;
 
     if(mWave == 0)
         mMonsters.SubtractionAll();
@@ -1068,7 +1144,7 @@ void ingameData::BreathAttack(const MapBreath* breath)
     {
         auto& CurMonster = mMonsters.At(i);
         if(CurMonster.mType->mType != MonsterType::TypeClass::Enemy) continue;
-        if(mWaveSec < CurMonster.mEntranceSec || CurMonster.mHPValue == 0) continue;
+        if(mWaveSecCurrently < CurMonster.mEntranceSec || CurMonster.mHPValue == 0) continue;
 
         float x = mInGameX + mInGameW * (CurMonster.mCurrentPos.x + 0.5f);
         float y = mInGameY + mInGameH * (CurMonster.mCurrentPos.y + 0.5f);

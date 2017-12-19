@@ -5,7 +5,7 @@
 
 class outgameData : public ZayObject
 {
-    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(outgameData, mLandscape(landscape()))
+    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(outgameData, mLandscape(false))
 
 public:
     outgameData();
@@ -16,8 +16,7 @@ public:
     void InitForSpine();
     void Render(ZayPanel& panel);
 
-public: // 글로벌요소
-    static bool& landscape() {static bool _ = false; return _;}
+public: // 상수요소
     const bool mLandscape;
 
 public: // 기획요소
@@ -46,8 +45,9 @@ public: // 게임상태
     sint32 mCardMax;
     sint32 mCurChapter;
     sint32 mCurCard;
+    Contexts mStageList;
 
-public:
+public: // 스파인
     SpineRendererMap mAllSpines;
     MapSpine mUILobby;
     MapSpine mUILobbyTL;

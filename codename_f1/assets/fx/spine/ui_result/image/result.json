@@ -1,0 +1,26 @@
+{"skeleton":{"images":""},
+"bones":[{"name":"root"}],
+"slots":[
+	{"name":"result_background","bone":"root","attachment":"result_background"},
+	{"name":"result_butten","bone":"root","attachment":"result_butten"},
+	{"name":"result_butten_heart_a","bone":"root","attachment":"result_butten_heart_a"},
+	{"name":"result_replay","bone":"root","attachment":"result_replay"},
+	{"name":"result_lobby","bone":"root","attachment":"result_lobby"},
+	{"name":"result_nextstage_x","bone":"root","attachment":"result_nextstage_x"},
+	{"name":"result_nextstage","bone":"root","attachment":"result_nextstage"},
+	{"name":"result_butten_heart_b","bone":"root","attachment":"result_butten_heart_b"}
+],
+"skins":{
+	"default":{
+		"result_butten_heart_b":{"result_butten_heart_b":{"x":1504,"y":859.5,"width":268,"height":175}},
+		"result_nextstage":{"result_nextstage":{"x":1501,"y":609.5,"width":278,"height":197}},
+		"result_nextstage_x":{"result_nextstage_x":{"x":1501,"y":609.5,"width":278,"height":197}},
+		"result_lobby":{"result_lobby":{"x":1008,"y":604,"width":276,"height":288}},
+		"result_replay":{"result_replay":{"x":510.5,"y":606,"width":271,"height":276}},
+		"result_butten_heart_a":{"result_butten_heart_a":{"x":507,"y":859.5,"width":268,"height":175}},
+		"result_butten":{"result_butten":{"x":1001,"y":562,"width":1364,"height":436}},
+		"result_background":{"result_background":{"x":973,"y":1725.5,"width":1946,"height":3451}}
+	}
+},
+"animations":{"animation":{}}
+}

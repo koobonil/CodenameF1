@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "Dq+sSlEECrAs/GmodQlYc0awuwM", "spine": "3.6.48", "width": 398, "height": 441.6, "images": "./egg/" },
+"skeleton": { "hash": "2KrTaWLjhep5OkP6hm7tgVX0TPI", "spine": "3.6.48", "width": 402, "height": 403.75, "images": "./egg/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 76.29, "rotation": 92.77, "x": -1.39, "y": -1.02 },
@@ -27,8 +27,8 @@
 	{ "name": "pice_q", "parent": "modem", "length": 16.23, "rotation": -13, "x": 83.95, "y": 63.64 }
 ],
 "slots": [
-	{ "name": "nest_a", "bone": "nest", "attachment": "nest_a" },
-	{ "name": "egg", "bone": "egg", "attachment": "egg" },
+	{ "name": "nest_a", "bone": "nest", "attachment": "skin" },
+	{ "name": "egg", "bone": "egg", "attachment": "skin" },
 	{ "name": "pice_a", "bone": "pice_a", "attachment": "pice_a" },
 	{ "name": "pice_b", "bone": "pice_b", "attachment": "pice_b" },
 	{ "name": "pice_c", "bone": "pice_c", "attachment": "pice_c" },
@@ -46,7 +46,7 @@
 	{ "name": "pice_o", "bone": "pice_o", "attachment": "pice_o" },
 	{ "name": "pice_p", "bone": "pice_p", "attachment": "pice_p" },
 	{ "name": "pice_q", "bone": "pice_q", "attachment": "pice_q" },
-	{ "name": "nest_b", "bone": "nest", "attachment": "nest_b" },
+	{ "name": "nest_b", "bone": "nest", "attachment": "skin" },
 	{ "name": "efect_h", "bone": "effect2", "color": "fbff6dff", "attachment": "efect_h", "blend": "additive" },
 	{ "name": "efect_g", "bone": "effect", "attachment": "efect_g", "blend": "additive" },
 	{ "name": "area", "bone": "area", "attachment": "area" }
@@ -65,15 +65,6 @@
 		},
 		"efect_h": {
 			"efect_h": { "width": 171, "height": 171 }
-		},
-		"egg": {
-			"egg": { "x": 103.68, "y": -4.56, "rotation": 90, "width": 330, "height": 316 }
-		},
-		"nest_a": {
-			"nest_a": { "x": 27.74, "y": 40.53, "width": 398, "height": 430 }
-		},
-		"nest_b": {
-			"nest_b": { "x": 26.62, "y": -51, "width": 387, "height": 144 }
 		},
 		"pice_a": {
 			"pice_a": { "x": -1.66, "y": 6.74, "rotation": 76.68, "width": 66, "height": 90 }
@@ -125,6 +116,28 @@
 		},
 		"pice_q": {
 			"pice_q": { "x": -42.21, "y": -44.4, "rotation": 85.03, "width": 179, "height": 167 }
+		}
+	},
+	"forest": {
+		"egg": {
+			"skin": { "name": "egg_forest", "x": 103.68, "y": -4.56, "rotation": 90, "width": 330, "height": 316 }
+		},
+		"nest_a": {
+			"skin": { "name": "nest_a_forest", "x": 27.74, "y": 40.53, "width": 398, "height": 430 }
+		},
+		"nest_b": {
+			"skin": { "name": "nest_b_forest", "x": 26.62, "y": -51, "width": 387, "height": 144 }
+		}
+	},
+	"ice": {
+		"egg": {
+			"skin": { "name": "egg_ice", "x": 103.68, "y": -4.56, "rotation": 90, "width": 326, "height": 314 }
+		},
+		"nest_a": {
+			"skin": { "name": "nest_a_ice", "x": 27.74, "y": 58.88, "width": 402, "height": 393 }
+		},
+		"nest_b": {
+			"skin": { "name": "nest_b_ice", "x": 28.09, "y": -80.62, "width": 396, "height": 104 }
 		}
 	}
 },
@@ -1002,6 +1015,91 @@
 					{ "time": 0.7, "color": "ffffff00" },
 					{ "time": 1.1333, "color": "fbff6dff" },
 					{ "time": 1.4, "color": "ffffff00" }
+				]
+			},
+			"pice_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"pice_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"pice_c": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"pice_d": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"pice_e": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"pice_f": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"pice_g": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"pice_h": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"pice_i": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"pice_j": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"pice_k": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"pice_l": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"pice_m": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"pice_n": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"pice_o": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"pice_p": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"pice_q": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
 				]
 			}
 		},

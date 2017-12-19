@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "COXR+LhwUjATSVS08zORW0H3dHI", "spine": "3.6.48", "width": 303.81, "height": 632.87, "images": "./spot/" },
+"skeleton": { "hash": "r19LBbuvLZnkiNf5nZSGA3oWTsQ", "spine": "3.6.48", "width": 303.81, "height": 632.87, "images": "./spot/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 48.16, "rotation": 91.51, "x": 1.82, "y": -1.99 },
@@ -72,15 +72,16 @@
 					{ "time": 5, "light": "ffffff00", "dark": "000000" }
 				],
 				"attachment": [
-					{ "time": 1, "name": "count_a" },
-					{ "time": 1.0333, "name": "count_b" },
-					{ "time": 2, "name": "count_b" },
+					{ "time": 0, "name": "count_e" },
+					{ "time": 1, "name": "count_e" },
+					{ "time": 1.0333, "name": "count_d" },
+					{ "time": 2, "name": "count_d" },
 					{ "time": 2.0333, "name": "count_c" },
 					{ "time": 3, "name": "count_c" },
-					{ "time": 3.0333, "name": "count_d" },
-					{ "time": 4, "name": "count_d" },
-					{ "time": 4.0333, "name": "count_e" },
-					{ "time": 5, "name": "count_e" }
+					{ "time": 3.0333, "name": "count_b" },
+					{ "time": 4, "name": "count_b" },
+					{ "time": 4.0333, "name": "count_a" },
+					{ "time": 5, "name": "count_a" }
 				]
 			},
 			"ring": {
@@ -101,87 +102,7 @@
 			},
 			"slime-forest-run_a": {
 				"color": [
-					{ "time": 0, "color": "ffffff00" },
-					{ "time": 0.3333, "color": "ffffffff", "curve": "stepped" },
-					{ "time": 4.8333, "color": "ffffffff" },
-					{ "time": 5, "color": "ffffff00" }
-				],
-				"attachment": [
-					{ "time": 0.0667, "name": "slime-forest-run_b" },
-					{ "time": 0.1333, "name": "slime-forest-run_c" },
-					{ "time": 0.2, "name": "slime-forest-run_d" },
-					{ "time": 0.2667, "name": "slime-forest-run_e" },
-					{ "time": 0.3333, "name": "slime-forest-run_f" },
-					{ "time": 0.4, "name": "slime-forest-run_g" },
-					{ "time": 0.4667, "name": "slime-forest-run_h" },
-					{ "time": 0.5333, "name": "slime-forest-run_i" },
-					{ "time": 0.5667, "name": "slime-forest-run_j" },
-					{ "time": 0.6333, "name": "slime-forest-run_k" },
-					{ "time": 0.7, "name": "slime-forest-run_l" },
-					{ "time": 0.7667, "name": "slime-forest-run_m" },
-					{ "time": 0.8333, "name": "slime-forest-run_n" },
-					{ "time": 0.9, "name": "slime-forest-run_o" },
-					{ "time": 0.9667, "name": "slime-forest-run_p" },
-					{ "time": 1.0667, "name": "slime-forest-run_b" },
-					{ "time": 1.1333, "name": "slime-forest-run_c" },
-					{ "time": 1.2, "name": "slime-forest-run_d" },
-					{ "time": 1.2667, "name": "slime-forest-run_e" },
-					{ "time": 1.3333, "name": "slime-forest-run_f" },
-					{ "time": 1.4, "name": "slime-forest-run_g" },
-					{ "time": 1.4667, "name": "slime-forest-run_h" },
-					{ "time": 1.5333, "name": "slime-forest-run_i" },
-					{ "time": 1.5667, "name": "slime-forest-run_j" },
-					{ "time": 1.6333, "name": "slime-forest-run_k" },
-					{ "time": 1.7, "name": "slime-forest-run_l" },
-					{ "time": 1.7667, "name": "slime-forest-run_m" },
-					{ "time": 1.8333, "name": "slime-forest-run_n" },
-					{ "time": 1.9, "name": "slime-forest-run_o" },
-					{ "time": 1.9667, "name": "slime-forest-run_p" },
-					{ "time": 2.0667, "name": "slime-forest-run_b" },
-					{ "time": 2.1333, "name": "slime-forest-run_c" },
-					{ "time": 2.2, "name": "slime-forest-run_d" },
-					{ "time": 2.2667, "name": "slime-forest-run_e" },
-					{ "time": 2.3333, "name": "slime-forest-run_f" },
-					{ "time": 2.4, "name": "slime-forest-run_g" },
-					{ "time": 2.4667, "name": "slime-forest-run_h" },
-					{ "time": 2.5333, "name": "slime-forest-run_i" },
-					{ "time": 2.5667, "name": "slime-forest-run_j" },
-					{ "time": 2.6333, "name": "slime-forest-run_k" },
-					{ "time": 2.7, "name": "slime-forest-run_l" },
-					{ "time": 2.7667, "name": "slime-forest-run_m" },
-					{ "time": 2.8333, "name": "slime-forest-run_n" },
-					{ "time": 2.9, "name": "slime-forest-run_o" },
-					{ "time": 2.9667, "name": "slime-forest-run_p" },
-					{ "time": 3.0667, "name": "slime-forest-run_b" },
-					{ "time": 3.1333, "name": "slime-forest-run_c" },
-					{ "time": 3.2, "name": "slime-forest-run_d" },
-					{ "time": 3.2667, "name": "slime-forest-run_e" },
-					{ "time": 3.3333, "name": "slime-forest-run_f" },
-					{ "time": 3.4, "name": "slime-forest-run_g" },
-					{ "time": 3.4667, "name": "slime-forest-run_h" },
-					{ "time": 3.5333, "name": "slime-forest-run_i" },
-					{ "time": 3.5667, "name": "slime-forest-run_j" },
-					{ "time": 3.6333, "name": "slime-forest-run_k" },
-					{ "time": 3.7, "name": "slime-forest-run_l" },
-					{ "time": 3.7667, "name": "slime-forest-run_m" },
-					{ "time": 3.8333, "name": "slime-forest-run_n" },
-					{ "time": 3.9, "name": "slime-forest-run_o" },
-					{ "time": 3.9667, "name": "slime-forest-run_p" },
-					{ "time": 4.0667, "name": "slime-forest-run_b" },
-					{ "time": 4.1333, "name": "slime-forest-run_c" },
-					{ "time": 4.2, "name": "slime-forest-run_d" },
-					{ "time": 4.2667, "name": "slime-forest-run_e" },
-					{ "time": 4.3333, "name": "slime-forest-run_f" },
-					{ "time": 4.4, "name": "slime-forest-run_g" },
-					{ "time": 4.4667, "name": "slime-forest-run_h" },
-					{ "time": 4.5333, "name": "slime-forest-run_i" },
-					{ "time": 4.5667, "name": "slime-forest-run_j" },
-					{ "time": 4.6333, "name": "slime-forest-run_k" },
-					{ "time": 4.7, "name": "slime-forest-run_l" },
-					{ "time": 4.7667, "name": "slime-forest-run_m" },
-					{ "time": 4.8333, "name": "slime-forest-run_n" },
-					{ "time": 4.9, "name": "slime-forest-run_o" },
-					{ "time": 4.9667, "name": "slime-forest-run_p" }
+					{ "time": 0, "color": "ffffff00" }
 				]
 			},
 			"spot_effect": {
@@ -231,16 +152,25 @@
 			"count_a": {
 				"twoColor": [
 					{ "time": 0, "light": "ffffff00", "dark": "000000" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
 				]
 			},
 			"ring": {
 				"twoColor": [
 					{ "time": 0, "light": "ffffff00", "dark": "000000" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
 				]
 			},
 			"slime-forest-run_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
 				]
 			},
 			"spot_effect": {
@@ -255,38 +185,47 @@
 			"count_a": {
 				"twoColor": [
 					{ "time": 0, "light": "ffffff00", "dark": "000000" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
 				]
 			},
 			"ring": {
 				"twoColor": [
 					{ "time": 0, "light": "ffffff00", "dark": "000000" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
 				]
 			},
 			"slime-forest-run_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
 				]
 			},
 			"spot_effect": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" },
-					{ "time": 0.1333, "color": "ffffffff" },
-					{ "time": 0.3333, "color": "ffffff00" }
+					{ "time": 0.1667, "color": "ffffffff" },
+					{ "time": 0.8333, "color": "ffffff00" }
 				]
 			}
 		},
 		"bones": {
 			"spot_effect": {
 				"rotate": [
-					{ "time": 0.1333, "angle": 0 }
+					{ "time": 0.1667, "angle": 0 }
 				],
 				"translate": [
-					{ "time": 0.1333, "x": 0, "y": -22.16 }
+					{ "time": 0.1667, "x": 0, "y": -22.16 }
 				],
 				"scale": [
 					{ "time": 0, "x": 0, "y": 1 },
-					{ "time": 0.1333, "x": 1.4, "y": 1.1 },
-					{ "time": 0.3333, "x": 0, "y": 0.8 }
+					{ "time": 0.1667, "x": 1.4, "y": 1.1 },
+					{ "time": 0.8333, "x": 0, "y": 0.8 }
 				]
 			}
 		}

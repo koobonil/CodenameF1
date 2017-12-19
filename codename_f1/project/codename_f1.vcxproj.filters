@@ -7,10 +7,13 @@
     <Filter Include="resource">
       <UniqueIdentifier>{63ca831b-57ca-44d0-b144-7784b657e4da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="source\spine_for_zay">
+    <Filter Include="source_fx">
+      <UniqueIdentifier>{e775c1de-2297-4e16-9410-9044b5090b87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source_fx\spine_for_zay">
       <UniqueIdentifier>{cf73edc2-820d-429b-a809-da91bea9946f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="source\spine_for_zay\cheetah_texture_packer">
+    <Filter Include="source_fx\spine_for_zay\cheetah_texture_packer">
       <UniqueIdentifier>{0af1695b-f160-41d2-9bb6-1877bd5ca401}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -36,184 +39,190 @@
     <ClInclude Include="..\source\codename_f1.hpp">
       <Filter>source</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ingame.hpp">
-      <Filter>source</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\maptool.hpp">
       <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="..\source\stagetool.hpp">
       <Filter>source</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\cheetah_texture_packer\imagepacker.h">
-      <Filter>source\spine_for_zay\cheetah_texture_packer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\cheetah_texture_packer\maxrects.h">
-      <Filter>source\spine_for_zay\cheetah_texture_packer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_animatable.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_animation.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_animation_container.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_animation_keyframe.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_animation_state.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_animation_state_set.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_animation_track.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_any_type.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_any_value.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_array_buffer.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_atlas.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_base.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_colour_value.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_forward_multiply_renderer.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_image.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_image_data.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_lerp.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_math.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_matrix3.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_matrix4.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_mesh_data.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_mesh_instance.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_node.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_object_base.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_opengl.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_plane.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_quaternion.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_random_generator.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_render_command.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_render_priority.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_renderer.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_scene_data.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_scene_instance.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_scene_node.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_scene_slot_data.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_scene_slot_instance.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_skeleton_bone.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_skeleton_bone_render_instance.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_skeleton_data.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_skeleton_instance.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_spine_builder.hpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_texture_atlas.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_texture_atlas_set.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_texture2d.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_touch.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_touch_area_data.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_touch_area_instance.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_touch_event.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_touch_event_dispatcher.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_types.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_vector2.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_vector3.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\spine_for_zay\zay_vector4.h">
-      <Filter>source\spine_for_zay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\classes.hpp">
+    <ClInclude Include="..\source\resource.hpp">
       <Filter>source</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\resource.hpp">
+    <ClInclude Include="..\..\codename_fx\source\classes.hpp">
+      <Filter>source_fx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\outgame.hpp">
+      <Filter>source_fx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_animatable.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_animation.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_animation_container.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_animation_keyframe.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_animation_state.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_animation_state_set.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_animation_track.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_any_type.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_any_value.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_array_buffer.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_atlas.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_base.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_colour_value.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_forward_multiply_renderer.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_image.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_image_data.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_lerp.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_math.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_matrix3.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_matrix4.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_mesh_data.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_mesh_instance.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_node.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_object_base.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_opengl.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_plane.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_quaternion.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_random_generator.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_render_command.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_render_priority.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_renderer.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_scene_data.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_scene_instance.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_scene_node.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_scene_slot_data.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_scene_slot_instance.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_skeleton_bone.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_skeleton_bone_render_instance.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_skeleton_data.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_skeleton_instance.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_spine_builder.hpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_texture_atlas.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_texture_atlas_set.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_texture2d.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_touch.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_touch_area_data.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_touch_area_instance.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_touch_event.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_touch_event_dispatcher.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_types.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_vector2.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_vector3.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_vector4.h">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\cheetah_texture_packer\imagepacker.h">
+      <Filter>source_fx\spine_for_zay\cheetah_texture_packer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\cheetah_texture_packer\maxrects.h">
+      <Filter>source_fx\spine_for_zay\cheetah_texture_packer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\classes_f1.hpp">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ingame_f1.hpp">
       <Filter>source</Filter>
     </ClInclude>
   </ItemGroup>
@@ -224,193 +233,199 @@
     <ClCompile Include="..\source\main.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\ingame.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\maptool.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\source\stagetool.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\cheetah_texture_packer\imagecompare.cpp">
-      <Filter>source\spine_for_zay\cheetah_texture_packer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\cheetah_texture_packer\imagecrop.cpp">
-      <Filter>source\spine_for_zay\cheetah_texture_packer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\cheetah_texture_packer\imagepacker.cpp">
-      <Filter>source\spine_for_zay\cheetah_texture_packer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\cheetah_texture_packer\imagesort.cpp">
-      <Filter>source\spine_for_zay\cheetah_texture_packer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\cheetah_texture_packer\maxrects.cpp">
-      <Filter>source\spine_for_zay\cheetah_texture_packer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_animatable.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_animation.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_animation_container.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_animation_keyframe.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_animation_state.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_animation_state_set.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_animation_track.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_any_type.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_any_value.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_array_buffer.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_atlas.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_base.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_colour_value.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_forward_multiply_renderer.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_image.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_image_data.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_lerp.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_math.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_matrix3.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_matrix4.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_mesh_data.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_mesh_instance.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_node.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_object_base.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_opengl.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_plane.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_quaternion.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_random_generator.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_render_command.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_render_priority.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_renderer.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_scene_data.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_scene_instance.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_scene_node.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_scene_slot_data.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_scene_slot_instance.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_skeleton_bone.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_skeleton_bone_render_instance.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_skeleton_data.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_skeleton_instance.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_spine_builder.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_texture_atlas.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_texture_atlas_set.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_texture2d.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_touch.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_touch_area_data.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_touch_area_instance.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_touch_event.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_touch_event_dispatcher.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_types.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_vector2.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_vector3.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\spine_for_zay\zay_vector4.cpp">
-      <Filter>source\spine_for_zay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\classes.cpp">
+    <ClCompile Include="..\source\resource.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\resource.cpp">
+    <ClCompile Include="..\..\codename_fx\source\classes.cpp">
+      <Filter>source_fx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\outgame.cpp">
+      <Filter>source_fx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_animatable.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_animation.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_animation_container.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_animation_keyframe.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_animation_state.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_animation_state_set.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_animation_track.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_any_type.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_any_value.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_array_buffer.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_atlas.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_base.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_colour_value.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_forward_multiply_renderer.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_image.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_image_data.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_lerp.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_math.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_matrix3.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_matrix4.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_mesh_data.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_mesh_instance.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_node.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_object_base.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_opengl.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_plane.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_quaternion.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_random_generator.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_render_command.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_render_priority.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_renderer.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_scene_data.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_scene_instance.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_scene_node.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_scene_slot_data.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_scene_slot_instance.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_skeleton_bone.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_skeleton_bone_render_instance.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_skeleton_data.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_skeleton_instance.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_spine_builder.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_texture_atlas.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_texture_atlas_set.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_texture2d.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_touch.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_touch_area_data.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_touch_area_instance.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_touch_event.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_touch_event_dispatcher.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_types.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_vector2.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_vector3.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_vector4.cpp">
+      <Filter>source_fx\spine_for_zay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\cheetah_texture_packer\imagecompare.cpp">
+      <Filter>source_fx\spine_for_zay\cheetah_texture_packer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\cheetah_texture_packer\imagecrop.cpp">
+      <Filter>source_fx\spine_for_zay\cheetah_texture_packer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\cheetah_texture_packer\imagepacker.cpp">
+      <Filter>source_fx\spine_for_zay\cheetah_texture_packer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\cheetah_texture_packer\imagesort.cpp">
+      <Filter>source_fx\spine_for_zay\cheetah_texture_packer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\cheetah_texture_packer\maxrects.cpp">
+      <Filter>source_fx\spine_for_zay\cheetah_texture_packer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\classes_f1.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ingame_f1.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "6DqM6P6OvqVPfZZyZOB04AOQAns", "spine": "3.6.48", "width": 1945, "height": 3452.56, "images": "./mid/" },
+"skeleton": { "hash": "dMzN7n7kPS7u16+DzxGUAj36ql4", "spine": "3.6.48", "width": 1945, "height": 3452.56, "images": "./mid/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 236.31, "rotation": 90 },
@@ -462,7 +462,7 @@
 			"mid_slot_underbar": { "x": -73.49, "y": 6.59, "rotation": -90, "width": 790, "height": 55 }
 		},
 		"mid_stage_forest": {
-			"mid_stage_forest": { "rotation": -180, "width": 1393, "height": 1741 }
+			"mid_stage_forest": { "scaleX": 2, "scaleY": 2, "rotation": -180, "width": 697, "height": 871 }
 		},
 		"mid_stage_forest_area": {
 			"mid_stage_forest_area": {
@@ -472,7 +472,7 @@
 			}
 		},
 		"mid_stage_ice": {
-			"mid_stage_ice": { "rotation": -180, "width": 1395, "height": 1737 }
+			"mid_stage_ice": { "scaleX": 2, "scaleY": 2, "rotation": -180, "width": 697, "height": 869 }
 		},
 		"mid_stage_ice_area": {
 			"mid_stage_ice_area": {

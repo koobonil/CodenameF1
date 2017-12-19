@@ -14,8 +14,11 @@ void PlatformInit()
     #if BOSS_WINDOWS | BOSS_LINUX | BOSS_MAC_OSX
         Platform::SetWindowView("codename_f1View");
     #else
-        F1State::landscape() = false;
-        F1State::stage() = "stage_0_test";
+        static String StageName;
+        StageName = "f1/table/stage_1.json";
+        Platform::Option::SetFlag("LandscapeMode", false);
+        Platform::Option::SetPayload("StageName", (payload)(chars) StageName);
+        Platform::Option::SetFlag("DirectPlay", false);
         Platform::SetWindowView("ingameView");
     #endif
 

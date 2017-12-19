@@ -42,11 +42,11 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
         {
             if(t == GT_Pressed)
             {
-                String Text = m->mFirstStage;
+                String Text = m->FirstStage();
                 const auto& VRect = v->rect(n);
                 if(Platform::Popup::OpenEditTracker(Text, UIET_String, VRect.l, VRect.t, VRect.r, VRect.b))
                 {
-                    m->mFirstStage = Text;
+                    m->FirstStage() = Text;
                     m->invalidate();
                 }
             }
@@ -56,7 +56,7 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
             panel.fill();
         ZAY_RGB(panel, 0, 0, 0)
         {
-            panel.text(m->mFirstStage, UIFA_CenterMiddle, UIFE_Right);
+            panel.text(m->FirstStage(), UIFA_CenterMiddle, UIFE_Right);
             panel.rect(3);
         }
     }
@@ -66,12 +66,15 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
         {
             if(t == GT_InReleased)
             {
-                //F1State::landscape() = m->mIsLandscape;
-                //F1State::stage() = m->mFirstStage;
-                //m->next("ingameView");
+                static String StageName;
+                StageName = String("f1/table/") + m->FirstStage() + ".json";
+                Platform::Option::SetFlag("LandscapeMode", false);
+                Platform::Option::SetPayload("StageName", (payload)(chars) StageName);
+                Platform::Option::SetFlag("DirectPlay", false);
+                m->next("ingameView");
 
-                outgameData::landscape() = m->mIsLandscape;
-                m->next("outgameView");
+                //Platform::Option::SetFlag("LandscapeMode", false);
+                //m->next("outgameView");
             }
         })
     {
@@ -90,7 +93,7 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
         {
             if(t == GT_InReleased)
             {
-                F1State::landscape() = m->mIsLandscape;
+                Platform::Option::SetFlag("LandscapeMode", false);
                 m->next("maptoolView");
             }
         })
@@ -110,7 +113,7 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
         {
             if(t == GT_InReleased)
             {
-                F1State::landscape() = m->mIsLandscape;
+                Platform::Option::SetFlag("LandscapeMode", false);
                 m->next("stagetoolView");
             }
         })
@@ -129,9 +132,6 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
 codename_f1Data::codename_f1Data()
 {
     mIsLandscape = false;
-    if(0 < F1State::stage().Length())
-        mFirstStage = F1State::stage();
-    else mFirstStage = "stage_0_test";
 }
 
 codename_f1Data::~codename_f1Data()

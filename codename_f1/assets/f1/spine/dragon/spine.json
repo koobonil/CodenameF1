@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "BKzqAZ62Cn3W+GMb6mvYlqnFjfI", "spine": "3.6.48", "width": 694, "height": 504, "fps": 25, "images": "./dragon_toast/" },
+"skeleton": { "hash": "+/Q2eLOgsxpTROod8oMktcAB5Ig", "spine": "3.6.48", "width": 697, "height": 504, "fps": 25, "images": "./dragon_toast/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 51.66, "rotation": 90 },
@@ -109,7 +109,7 @@
 	},
 	"fire": {
 		"back_head": {
-			"skin": { "name": "back_head_fire", "x": 30.61, "y": 6.55, "rotation": -62.3, "width": 88, "height": 85 }
+			"skin": { "name": "back_head_fire", "x": 42.11, "y": 0.28, "rotation": -62.3, "width": 108, "height": 104 }
 		},
 		"ear": {
 			"skin": { "name": "ear_fire", "x": 25.1, "y": -3.29, "rotation": -23.03, "width": 52, "height": 44 }
@@ -142,7 +142,7 @@
 			"skin": { "name": "gori_h_fire", "x": 16.99, "y": -4.01, "rotation": -33.15, "width": 56, "height": 49 }
 		},
 		"head": {
-			"skin": { "name": "head_fire", "x": 71.73, "y": -40.11, "rotation": -166.37, "width": 286, "height": 203 }
+			"skin": { "name": "head_fire", "x": 72.53, "y": -43.42, "rotation": -166.37, "width": 292, "height": 214 }
 		},
 		"l_dari_a": {
 			"skin": { "name": "l_dari_a_fire", "x": 57.43, "y": 10.85, "rotation": 106.35, "width": 108, "height": 134 }
@@ -169,7 +169,7 @@
 			"skin": { "name": "l_par_b_fire", "x": 43.15, "y": 8.92, "rotation": 103.08, "width": 75, "height": 120 }
 		},
 		"l_wing_a": {
-			"skin": { "name": "l_wing_a_fire", "x": 87.64, "y": -17.33, "rotation": -122.62, "width": 168, "height": 199 }
+			"skin": { "name": "l_wing_a_fire", "x": 87.64, "y": -17.33, "rotation": -122.62, "width": 163, "height": 197 }
 		},
 		"l_wing_b": {
 			"skin": { "name": "l_wing_b_fire", "x": 118.68, "y": 4.77, "rotation": 25.63, "width": 218, "height": 102 }
@@ -214,7 +214,7 @@
 			"skin": { "name": "r_par_b_fire", "x": 43.76, "y": 8.2, "rotation": 104.32, "width": 75, "height": 120 }
 		},
 		"r_wing_a": {
-			"skin": { "name": "r_wing_a_fire", "x": 112.87, "y": -17.14, "rotation": -73, "width": 119, "height": 222 }
+			"skin": { "name": "r_wing_a_fire", "x": 112.87, "y": -17.14, "rotation": -73, "width": 117, "height": 220 }
 		},
 		"r_wing_b": {
 			"skin": { "name": "r_wing_b_fire", "x": 80.4, "y": 15.04, "rotation": 48.31, "width": 138, "height": 112 }
@@ -231,7 +231,7 @@
 	},
 	"ice": {
 		"back_head": {
-			"skin": { "name": "back_head_ice", "x": 30.61, "y": 6.55, "rotation": -62.3, "width": 88, "height": 85 }
+			"skin": { "name": "back_head_ice", "x": 30.73, "y": 0.46, "rotation": -62.3, "width": 97, "height": 77 }
 		},
 		"ear": {
 			"skin": { "name": "ear_ice", "x": 25.1, "y": -3.29, "rotation": -23.03, "width": 52, "height": 44 }
@@ -264,7 +264,7 @@
 			"skin": { "name": "gori_h_ice", "x": 16.99, "y": -4.01, "rotation": -33.15, "width": 56, "height": 49 }
 		},
 		"head": {
-			"skin": { "name": "head_ice", "x": 71.73, "y": -40.11, "rotation": -166.37, "width": 286, "height": 203 }
+			"skin": { "name": "head_ice", "x": 76.14, "y": -39.04, "rotation": -166.37, "width": 275, "height": 201 }
 		},
 		"l_dari_a": {
 			"skin": { "name": "l_dari_a_ice", "x": 57.43, "y": 10.85, "rotation": 106.35, "width": 108, "height": 134 }
@@ -291,7 +291,7 @@
 			"skin": { "name": "l_par_b_ice", "x": 43.15, "y": 8.92, "rotation": 103.08, "width": 75, "height": 120 }
 		},
 		"l_wing_a": {
-			"skin": { "name": "l_wing_a_ice", "x": 87.64, "y": -17.33, "rotation": -122.62, "width": 168, "height": 199 }
+			"skin": { "name": "l_wing_a_ice", "x": 87.64, "y": -17.33, "rotation": -122.62, "width": 163, "height": 192 }
 		},
 		"l_wing_b": {
 			"skin": { "name": "l_wing_b_ice", "x": 118.68, "y": 4.77, "rotation": 25.63, "width": 218, "height": 102 }
@@ -336,7 +336,7 @@
 			"skin": { "name": "r_par_b_ice", "x": 43.76, "y": 8.2, "rotation": 104.32, "width": 75, "height": 120 }
 		},
 		"r_wing_a": {
-			"skin": { "name": "r_wing_a_ice", "x": 112.87, "y": -17.14, "rotation": -73, "width": 119, "height": 222 }
+			"skin": { "name": "r_wing_a_ice", "x": 112.87, "y": -17.14, "rotation": -73, "width": 117, "height": 219 }
 		},
 		"r_wing_b": {
 			"skin": { "name": "r_wing_b_ice", "x": 80.4, "y": 15.04, "rotation": 48.31, "width": 138, "height": 112 }
@@ -353,7 +353,7 @@
 	},
 	"lightning": {
 		"back_head": {
-			"skin": { "name": "back_head_light", "x": 30.61, "y": 6.55, "rotation": -62.3, "width": 88, "height": 85 }
+			"skin": { "name": "back_head_light", "x": 48.92, "y": 4.88, "rotation": -62.3, "width": 106, "height": 114 }
 		},
 		"ear": {
 			"skin": { "name": "ear_light", "x": 25.1, "y": -3.29, "rotation": -23.03, "width": 52, "height": 44 }
@@ -386,7 +386,7 @@
 			"skin": { "name": "gori_h_light", "x": 16.99, "y": -4.01, "rotation": -33.15, "width": 56, "height": 49 }
 		},
 		"head": {
-			"skin": { "name": "head_light", "x": 71.73, "y": -40.11, "rotation": -166.37, "width": 286, "height": 203 }
+			"skin": { "name": "head_light", "x": 64.43, "y": -44.68, "rotation": -166.37, "width": 301, "height": 208 }
 		},
 		"l_dari_a": {
 			"skin": { "name": "l_dari_a_light", "x": 57.43, "y": 10.85, "rotation": 106.35, "width": 108, "height": 134 }
@@ -413,7 +413,7 @@
 			"skin": { "name": "l_par_b_light", "x": 43.15, "y": 8.92, "rotation": 103.08, "width": 75, "height": 120 }
 		},
 		"l_wing_a": {
-			"skin": { "name": "l_wing_a_light", "x": 87.64, "y": -17.33, "rotation": -122.62, "width": 168, "height": 199 }
+			"skin": { "name": "l_wing_a_light", "x": 87.64, "y": -17.33, "rotation": -122.62, "width": 167, "height": 191 }
 		},
 		"l_wing_b": {
 			"skin": { "name": "l_wing_b_light", "x": 118.68, "y": 4.77, "rotation": 25.63, "width": 218, "height": 102 }
@@ -458,7 +458,7 @@
 			"skin": { "name": "r_par_b_light", "x": 43.76, "y": 8.2, "rotation": 104.32, "width": 75, "height": 120 }
 		},
 		"r_wing_a": {
-			"skin": { "name": "r_wing_a_light", "x": 112.87, "y": -17.14, "rotation": -73, "width": 119, "height": 222 }
+			"skin": { "name": "r_wing_a_light", "x": 112.87, "y": -17.14, "rotation": -73, "width": 117, "height": 221 }
 		},
 		"r_wing_b": {
 			"skin": { "name": "r_wing_b_light", "x": 80.4, "y": 15.04, "rotation": 48.31, "width": 138, "height": 112 }
@@ -597,7 +597,7 @@
 	},
 	"wind": {
 		"back_head": {
-			"skin": { "name": "back_head_wind", "x": 30.61, "y": 6.55, "rotation": -62.3, "width": 88, "height": 85 }
+			"skin": { "name": "back_head_wind", "x": 39.94, "y": -13.17, "rotation": -62.3, "width": 131, "height": 81 }
 		},
 		"ear": {
 			"skin": { "name": "ear_wind", "x": 25.1, "y": -3.29, "rotation": -23.03, "width": 52, "height": 44 }
@@ -630,7 +630,7 @@
 			"skin": { "name": "gori_h_wind", "x": 16.99, "y": -4.01, "rotation": -33.15, "width": 56, "height": 49 }
 		},
 		"head": {
-			"skin": { "name": "head_wind", "x": 71.73, "y": -40.11, "rotation": -166.37, "width": 286, "height": 203 }
+			"skin": { "name": "head_wind", "x": 66.44, "y": -41.39, "rotation": -166.37, "width": 293, "height": 199 }
 		},
 		"l_dari_a": {
 			"skin": { "name": "l_dari_a_wind", "x": 57.43, "y": 10.85, "rotation": 106.35, "width": 108, "height": 134 }
@@ -657,7 +657,7 @@
 			"skin": { "name": "l_par_b_wind", "x": 43.15, "y": 8.92, "rotation": 103.08, "width": 75, "height": 120 }
 		},
 		"l_wing_a": {
-			"skin": { "name": "l_wing_a_wind", "x": 87.64, "y": -17.33, "rotation": -122.62, "width": 168, "height": 199 }
+			"skin": { "name": "l_wing_a_wind", "x": 87.64, "y": -17.33, "rotation": -122.62, "width": 165, "height": 196 }
 		},
 		"l_wing_b": {
 			"skin": { "name": "l_wing_b_wind", "x": 118.68, "y": 4.77, "rotation": 25.63, "width": 218, "height": 102 }
@@ -702,7 +702,7 @@
 			"skin": { "name": "r_par_b_wind", "x": 43.76, "y": 8.2, "rotation": 104.32, "width": 75, "height": 120 }
 		},
 		"r_wing_a": {
-			"skin": { "name": "r_wing_a_wind", "x": 112.87, "y": -17.14, "rotation": -73, "width": 119, "height": 222 }
+			"skin": { "name": "r_wing_a_wind", "x": 112.87, "y": -17.14, "rotation": -73, "width": 117, "height": 220 }
 		},
 		"r_wing_b": {
 			"skin": { "name": "r_wing_b_wind", "x": 80.4, "y": 15.04, "rotation": 48.31, "width": 138, "height": 112 }
@@ -1759,9 +1759,7 @@
 			"neck": {
 				"rotate": [
 					{ "time": 0, "angle": 0 },
-					{ "time": 0.2, "angle": 16.14 },
 					{ "time": 0.4, "angle": -11.41 },
-					{ "time": 0.6, "angle": -24.54 },
 					{ "time": 0.88, "angle": 0 }
 				],
 				"translate": [
@@ -1782,9 +1780,7 @@
 			"head": {
 				"rotate": [
 					{ "time": 0, "angle": -13.45 },
-					{ "time": 0.2, "angle": -1.54 },
 					{ "time": 0.4, "angle": 26.6 },
-					{ "time": 0.6, "angle": 9.16 },
 					{ "time": 0.88, "angle": -13.45 }
 				],
 				"translate": [

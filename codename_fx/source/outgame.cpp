@@ -1,6 +1,7 @@
 ﻿#include <boss.hpp>
 #include "outgame.hpp"
 
+#include <service/boss_parasource.hpp>
 #include <resource.hpp>
 
 ZAY_DECLARE_VIEW_CLASS("outgameView", outgameData)
@@ -58,7 +59,7 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
     m->Render(panel);
 }
 
-outgameData::outgameData() : mLandscape(landscape())
+outgameData::outgameData() : mLandscape(Platform::Option::GetFlag("LandscapeMode"))
 {
     Map<String> GlobalWeightMap;
     if(auto GlobalWeightTable = Context(ST_Json, SO_NeedCopy, String::FromFile("fx/table/globalweight_table.json")))
@@ -102,6 +103,10 @@ outgameData::outgameData() : mLandscape(landscape())
     mCardMax = 3;
     mCurChapter = 0;
     mCurCard = -1;
+
+    ParaSource Source;
+    Source.SetContact("www.finalbossbehindthedoor.com", 80);
+    Source.GetJson(mStageList, "f1/stage_table.txt");
 
     Platform::File::Search("assets:/fx/spine",
         [](chars name, payload data)->void
@@ -200,6 +205,44 @@ void outgameData::Render(ZayPanel& panel)
                             {
                             case 0: mUILobby.PlayMotionAttached("mid_card_to_forest", "mid_forest_idle", true); break;
                             case 1: mUILobby.PlayMotionAttached("mid_card_to_ice", "mid_ice_idle", true); break;
+                            }
+                        }
+                        else if(!String::Compare(n, "Lobby_card_", 11))
+                        {
+                            const sint32 StageIndex = Parser::GetInt(n + 11) - 1;
+                            if(0 <= StageIndex && StageIndex < mStageList[0].LengthOfIndexable())
+                            {
+                                const Context& CurList = mStageList[0][StageIndex];
+                                String URL = CurList("FinalBoss").GetString();
+                                if(!String::CompareNoCase(URL, "http://", 7))
+                                {
+                                    URL = URL.Right(URL.Length() - 7);
+                                    sint32 SlashPos = URL.Find(0, '/');
+                                    if(SlashPos != -1)
+                                    {
+                                        ParaSource Source;
+                                        Source.SetContact(URL.Left(SlashPos), 80);
+                                        Contexts mMapAndStage;
+                                        Source.GetJson(mMapAndStage, URL.Right(URL.Length() - 1 - SlashPos));
+                                        if(mMapAndStage.Count() == 2)
+                                        {
+                                            const String Params[2] = {"MapJson", "StageJson"};
+                                            for(sint32 i = 0; i < 2; ++i)
+                                            {
+                                                id_asset NewAsset = Asset::OpenForWrite(CurList(Params[i]).GetString(), true);
+                                                const String NewJson = mMapAndStage[i].SaveJson();
+                                                Asset::Write(NewAsset, (bytes)(chars) NewJson, NewJson.Length());
+                                                Asset::Close(NewAsset);
+                                            }
+                                            static String StageName;
+                                            StageName = CurList("StageJson").GetString();
+                                            Platform::Option::SetFlag("LandscapeMode", false);
+                                            Platform::Option::SetPayload("StageName", (payload)(chars) StageName);
+                                            Platform::Option::SetFlag("DirectPlay", true);
+                                            next("ingameView");
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

@@ -229,7 +229,7 @@ void stagetoolData::Load(chars filename)
         NewWave.mEventScripts.AtDumpingAdded(mState.mTimelineLength);
     }
 
-    id_asset_read TextAsset = Asset::OpenForRead("table/" + mMapName + ".json");
+    id_asset_read TextAsset = Asset::OpenForRead("f1/table/" + mMapName + ".json");
     if(TextAsset)
     {
         const sint32 TextSize = Asset::Size(TextAsset);
@@ -579,7 +579,7 @@ void stagetoolData::Render(ZayPanel& panel)
                     if(Platform::Popup::TextDialog(MapName, "Load Map", "Typing the asset name"))
                     {
                         mMapName = MapName;
-                        id_asset_read TextAsset = Asset::OpenForRead("table/" + mMapName + ".json");
+                        id_asset_read TextAsset = Asset::OpenForRead("f1/table/" + mMapName + ".json");
                         if(TextAsset)
                         {
                             const sint32 TextSize = Asset::Size(TextAsset);

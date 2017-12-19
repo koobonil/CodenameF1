@@ -165,7 +165,25 @@ void MapSpine::PlayMotionAttached(chars first_motion, chars second_motion, bool 
 
 void MapSpine::PlayMotionSeek(chars seek_motion, bool repeat)
 {
+    if(!mSpineInstance) return;
     ZAY::SpineBuilder::SetMotionOnSeek(mSpineInstance, seek_motion, false);
+}
+
+void MapSpine::PlayMotionScript(chars script)
+{
+    if(!mSpineInstance) return;
+    const String Text = script;
+    Strings Motions;
+    for(sint32 pos = 0, nextpos = 0; (nextpos = Text.Find(pos, '-')) != -1; pos = nextpos + 1)
+        Motions.AtAdding() = String(((chars) Text) + pos, nextpos - pos);
+
+    ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mSpineInstance, true);
+    for(sint32 i = 0, iend = Motions.Count(); i < iend; ++i)
+    {
+        if(i == 0)
+            ZAY::SpineBuilder::SetMotionOn(mSpineInstance, Motions[i], iend == 1);
+        else ZAY::SpineBuilder::SetMotionOnAttached(mSpineInstance, Motions[i - 1], Motions[i], i == iend - 1);
+    }
 }
 
 void MapSpine::StopMotionAll()

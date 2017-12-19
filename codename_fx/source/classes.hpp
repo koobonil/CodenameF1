@@ -99,6 +99,7 @@ public:
     void PlayMotionOnce(chars motion);
     void PlayMotionAttached(chars first_motion, chars second_motion, bool repeat);
     void PlayMotionSeek(chars seek_motion, bool repeat);
+    void PlayMotionScript(chars script);
     void StopMotionAll();
     void Seek() const;
     void Update() const;

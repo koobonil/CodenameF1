@@ -28,134 +28,138 @@
     <ResourceCompile Include="..\common\windows\main.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\codename_fx\source\classes.hpp" />
+    <ClInclude Include="..\..\codename_fx\source\outgame.hpp" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\cheetah_texture_packer\imagepacker.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\cheetah_texture_packer\maxrects.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_animatable.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_animation.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_animation_container.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_animation_keyframe.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_animation_state.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_animation_state_set.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_animation_track.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_any_type.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_any_value.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_array_buffer.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_atlas.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_base.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_colour_value.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_forward_multiply_renderer.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_image.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_image_data.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_lerp.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_math.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_matrix3.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_matrix4.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_mesh_data.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_mesh_instance.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_node.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_object_base.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_opengl.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_plane.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_quaternion.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_random_generator.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_renderer.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_render_command.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_render_priority.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_scene_data.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_scene_instance.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_scene_node.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_scene_slot_data.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_scene_slot_instance.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_skeleton_bone.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_skeleton_bone_render_instance.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_skeleton_data.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_skeleton_instance.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_spine_builder.hpp" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_texture2d.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_texture_atlas.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_texture_atlas_set.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_touch.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_touch_area_data.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_touch_area_instance.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_touch_event.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_touch_event_dispatcher.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_types.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_vector2.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_vector3.h" />
+    <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_vector4.h" />
     <ClInclude Include="..\source\boss_config.h" />
-    <ClInclude Include="..\source\classes.hpp" />
+    <ClInclude Include="..\source\classes_f1.hpp" />
     <ClInclude Include="..\source\codename_f1.hpp" />
-    <ClInclude Include="..\source\ingame.hpp" />
+    <ClInclude Include="..\source\ingame_f1.hpp" />
     <ClInclude Include="..\source\maptool.hpp" />
     <ClInclude Include="..\source\resource.hpp" />
-    <ClInclude Include="..\source\spine_for_zay\cheetah_texture_packer\imagepacker.h" />
-    <ClInclude Include="..\source\spine_for_zay\cheetah_texture_packer\maxrects.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_animatable.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_animation.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_animation_container.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_animation_keyframe.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_animation_state.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_animation_state_set.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_animation_track.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_any_type.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_any_value.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_array_buffer.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_atlas.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_base.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_colour_value.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_forward_multiply_renderer.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_image.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_image_data.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_lerp.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_math.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_matrix3.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_matrix4.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_mesh_data.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_mesh_instance.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_node.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_object_base.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_opengl.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_plane.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_quaternion.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_random_generator.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_renderer.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_render_command.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_render_priority.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_scene_data.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_scene_instance.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_scene_node.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_scene_slot_data.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_scene_slot_instance.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_skeleton_bone.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_skeleton_bone_render_instance.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_skeleton_data.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_skeleton_instance.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_spine_builder.hpp" />
-    <ClInclude Include="..\source\spine_for_zay\zay_texture2d.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_texture_atlas.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_texture_atlas_set.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_touch.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_touch_area_data.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_touch_area_instance.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_touch_event.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_touch_event_dispatcher.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_types.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_vector2.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_vector3.h" />
-    <ClInclude Include="..\source\spine_for_zay\zay_vector4.h" />
     <ClInclude Include="..\source\stagetool.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\classes.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\classes.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\outgame.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\cheetah_texture_packer\imagecompare.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\cheetah_texture_packer\imagecrop.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\cheetah_texture_packer\imagepacker.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\cheetah_texture_packer\imagesort.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\cheetah_texture_packer\maxrects.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_animatable.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_animation.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_animation_container.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_animation_keyframe.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_animation_state.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_animation_state_set.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_animation_track.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_any_type.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_any_value.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_array_buffer.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_atlas.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_base.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_colour_value.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_forward_multiply_renderer.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_image.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_image_data.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_lerp.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_math.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_matrix3.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_matrix4.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_mesh_data.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_mesh_instance.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_node.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_object_base.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_opengl.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_plane.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_quaternion.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_random_generator.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_renderer.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_render_command.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_render_priority.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_scene_data.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_scene_instance.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_scene_node.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_scene_slot_data.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_scene_slot_instance.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_skeleton_bone.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_skeleton_bone_render_instance.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_skeleton_data.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_skeleton_instance.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_spine_builder.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_texture2d.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_texture_atlas.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_texture_atlas_set.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_touch.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_touch_area_data.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_touch_area_instance.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_touch_event.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_touch_event_dispatcher.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_types.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_vector2.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_vector3.cpp" />
+    <ClCompile Include="..\..\codename_fx\source\spine_for_zay\zay_vector4.cpp" />
+    <ClCompile Include="..\source\classes_f1.cpp" />
     <ClCompile Include="..\source\codename_f1.cpp" />
-    <ClCompile Include="..\source\ingame.cpp" />
+    <ClCompile Include="..\source\ingame_f1.cpp" />
     <ClCompile Include="..\source\main.cpp" />
     <ClCompile Include="..\source\maptool.cpp" />
     <ClCompile Include="..\source\resource.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\cheetah_texture_packer\imagecompare.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\cheetah_texture_packer\imagecrop.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\cheetah_texture_packer\imagepacker.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\cheetah_texture_packer\imagesort.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\cheetah_texture_packer\maxrects.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_animatable.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_animation.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_animation_container.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_animation_keyframe.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_animation_state.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_animation_state_set.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_animation_track.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_any_type.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_any_value.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_array_buffer.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_atlas.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_base.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_colour_value.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_forward_multiply_renderer.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_image.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_image_data.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_lerp.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_math.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_matrix3.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_matrix4.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_mesh_data.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_mesh_instance.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_node.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_object_base.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_opengl.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_plane.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_quaternion.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_random_generator.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_renderer.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_render_command.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_render_priority.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_scene_data.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_scene_instance.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_scene_node.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_scene_slot_data.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_scene_slot_instance.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_skeleton_bone.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_skeleton_bone_render_instance.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_skeleton_data.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_skeleton_instance.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_spine_builder.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_texture2d.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_texture_atlas.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_texture_atlas_set.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_touch.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_touch_area_data.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_touch_area_instance.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_touch_event.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_touch_event_dispatcher.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_types.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_vector2.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_vector3.cpp" />
-    <ClCompile Include="..\source\spine_for_zay\zay_vector4.cpp" />
     <ClCompile Include="..\source\stagetool.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -221,7 +225,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\codename_fx\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -252,7 +256,7 @@ xcopy "$(ProjectDir)..\..\dependency\msvc_$(PlatformToolset)\$(PlatformTarget)\*
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\codename_fx\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -283,7 +287,7 @@ xcopy "$(ProjectDir)..\..\dependency\msvc_$(PlatformToolset)\$(PlatformTarget)\*
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\codename_fx\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat />
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -316,7 +320,7 @@ xcopy "$(ProjectDir)..\..\dependency\msvc_$(PlatformToolset)\$(PlatformTarget)\*
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\codename_fx\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>
       </DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>

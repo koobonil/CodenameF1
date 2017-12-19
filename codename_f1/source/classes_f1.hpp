@@ -36,7 +36,7 @@ public:
     class TypeClass
     {
     public:
-        enum Type {Static, Dynamic, Ground, Hole, Trigger, Target, AllyTarget, Max, Null = -1};
+        enum Type {Static, Dynamic, Ground, Spot, Hole, Trigger, Target, AllyTarget, Max, Null = -1};
     public:
         TypeClass() {mValue = Null;}
         TypeClass(const TypeClass& rhs) {operator=(rhs);}
@@ -50,6 +50,8 @@ public:
                 mValue = Dynamic;
             else if(!String::Compare(rhs, "Ground"))
                 mValue = Ground;
+            else if(!String::Compare(rhs, "Spot"))
+                mValue = Spot;
             else if(!String::Compare(rhs, "Hole"))
                 mValue = Hole;
             else if(!String::Compare(rhs, "Trigger"))
@@ -292,6 +294,7 @@ public:
     void Hit() const;
     void Dead() const;
     void Drop() const;
+    void Spot() const;
 
 public:
     inline void AddExtraInfo(chars text) {mExtraInfo.AtAdding() = text;}
@@ -380,6 +383,7 @@ public:
     void Init(const MonsterType* type, sint32 rid, sint32 timesec, float x, float y,
         const SpineRenderer& renderer, const SpineRenderer* toast_renderer = nullptr);
     void ResetCB();
+    bool IsEntranced();
     bool IsKnockBackMode();
     void KnockBack(bool down, const Point& accel, chars skin);
     void KnockBackEnd();
@@ -401,6 +405,7 @@ public:
 public:
     const MonsterType* mType;
     sint32 mRID;
+    bool mEntranced;
     sint32 mEntranceSec;
     sint32 mHPValue;
     uint64 mHPTimeMsec;
@@ -556,7 +561,7 @@ typedef Array<TargetZone> TargetZones;
 ////////////////////////////////////////////////////////////////////////////////
 class F1State
 {
-    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(F1State, mLandscape(landscape()), mStage(stage()))
+    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(F1State, mLandscape(false), mStage("a.json"))
 public:
     F1State();
     ~F1State();
@@ -574,6 +579,10 @@ public:
 
 public:
     virtual void RenderBreathArea(ZayPanel& panel) {}
+
+public: // 상수요소
+    const bool mLandscape;
+    const String mStage;
 
 public: // 기획요소
     Solver mUILeft;
@@ -610,12 +619,6 @@ public: // 기획요소
     PolygonTypes mPolygonTypes;
     MonsterTypes mMonsterTypes;
     SpineRendererMap mAllSpines;
-
-public: // 글로벌요소
-    static bool& landscape() {static bool _ = false; return _;}
-    const bool mLandscape;
-    static String& stage() {static String _; return _;}
-    const String mStage;
 
 public: // UI요소
     sint32 mUIL;
@@ -658,6 +661,7 @@ public: // 맵요소
     TargetZones mTargetsForEnemy;
     TargetZones mTargetsForAlly;
     MapLayers mLayers;
+    Map<MapObject*> mObjectRIDs;
     id_surface mShadowSurface;
     TryWorldZoneMap mAllTryWorldZones;
 };
