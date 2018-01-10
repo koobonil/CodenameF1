@@ -29,7 +29,7 @@ namespace ZAY
 
     public:
         void updateBoundBox(); //bx
-        void renderBoundBox() const; //bx
+        void renderBoundBox(int r, int g, int b, int a) const; //bx
 
     public:
         void setEnabled(bool flag);

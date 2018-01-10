@@ -1,7 +1,7 @@
 ﻿[
 	{
 		"ID":"BreathScale",
-		"Value":50,
+		"Value":70,
 		"IsDev":"TRUE",
 		"Description":"범위 스케일 ",
 		"Unit":"배율, 천분율"
@@ -20,13 +20,13 @@
 	},
 	{
 		"ID":"KnockBackMinDistance",
-		"Value":5,
+		"Value":10,
 		"IsDev":"FALSE",
 		"Description":"최소 넉백 거리"
 	},
 	{
 		"ID":"KnockBackMaxDistance",
-		"Value":50,
+		"Value":70,
 		"IsDev":"FALSE",
 		"Description":"최대 넉백 거리"
 	},
@@ -50,13 +50,13 @@
 	},
 	{
 		"ID":"DragonMouthX",
-		"Value":350,
+		"Value":380,
 		"IsDev":"TRUE",
 		"Description":"드래곤의 입 위치 X"
 	},
 	{
 		"ID":"DragonMouthY",
-		"Value":-100,
+		"Value":-250,
 		"IsDev":"TRUE",
 		"Description":"드래곤의 입 위치 Y"
 	},
@@ -94,7 +94,7 @@
 	},
 	{
 		"ID":"HPbarDeleteTime",
-		"Value":7000,
+		"Value":12000,
 		"IsDev":"TRUE",
 		"Description":"HP바 삭제시간",
 		"Unit":"1000=1초"
@@ -113,44 +113,65 @@
 		"Unit":"가로 최대 1000 기준"
 	},
 	{
+		"ID":"1BoundDamage",
+		"Value":40,
+		"IsDev":"TRUE",
+		"Description":"한번 바운드 됐을때 현재체력에서 감소될 체력량",
+		"Unit":"1000=100%"
+	},
+	{
+		"ID":"2BoundDamage",
+		"Value":80,
+		"IsDev":"TRUE",
+		"Description":"두번 바운드 됐을때 현재체력에서 감소될 체력량",
+		"Unit":"1000=100%"
+	},
+	{
+		"ID":"3BoundDamage",
+		"Value":150,
+		"IsDev":"TRUE",
+		"Description":"세번 바운드 됐을때 현재체력에서 감소될 체력량",
+		"Unit":"1000=100%"
+	},
+	{
 		"ID":"3StarHpRate",
 		"Value":900,
-		"IsDev":"FALSE",
+		"IsDev":"TRUE",
 		"Description":"별 3개 조건"
 	},
 	{
 		"ID":"2StarHpRate",
 		"Value":500,
-		"IsDev":"FALSE",
+		"IsDev":"TRUE",
 		"Description":"별 2개 조건"
 	},
 	{
 		"ID":"1StarHpRate",
 		"Value":300,
-		"IsDev":"FALSE",
+		"IsDev":"TRUE",
 		"Description":"별 1개 조건"
 	},
 	{
 		"ID":"UILeft",
-		"Value":"UIBottom * 0.5",
+		"Value":"UITop * 0.5",
 		"IsDev":"TRUE",
 		"Description":"왼쪽 UI여백"
 	},
 	{
 		"ID":"UIRight",
-		"Value":"UIBottom * 0.5",
+		"Value":"UITop * 0.5",
 		"IsDev":"TRUE",
 		"Description":"오른쪽 UI여백"
 	},
 	{
 		"ID":"UITop",
-		"Value":"UIBottom * 1.0",
+		"Value":"(ScreenWidth * 0.2) [min] (ScreenHeight * 0.15)",
 		"IsDev":"TRUE",
 		"Description":"위 UI여백"
 	},
 	{
 		"ID":"UIBottom",
-		"Value":"(ScreenWidth * 0.2) [min] (ScreenHeight * 0.15)",
+		"Value":"(ScreenWidth * 0.2) [min] (ScreenHeight * 0.5)",
 		"IsDev":"TRUE",
 		"Description":"아래 UI여백"
 	},
@@ -169,6 +190,13 @@
 		"Unit":"1000=1초"
 	},
 	{
+		"ID":"DragonRetryTime",
+		"Value":1000,
+		"IsDev":"TRUE",
+		"Description":"재등장 시간 (출발 지점에서 브레스 발동 지점까지 도착하는 시간) ",
+		"Unit":"1000=1초"
+	},
+	{
 		"ID":"DragonBreathTime",
 		"Value":1500,
 		"IsDev":"TRUE",
@@ -184,7 +212,7 @@
 	},
 	{
 		"ID":"HoleItemGetCount",
-		"Value":3,
+		"Value":1,
 		"IsDev":"TRUE",
 		"Description":"구멍에 몬스터를 넣으면 아이템이 등장하는 횟수",
 		"Unit":"개"
@@ -196,29 +224,9 @@
 		"Description":"한 슬롯에 등록될 수 있는 아이템의 최대 개수"
 	},
 	{
-		"ID":"DefaultHeartCount",
-		"Value":5,
-		"IsDev":"FALSE",
-		"Description":"최초 설치 시 지급하는 기본 하트 개수"
-	},
-	{
-		"ID":"HeartRegenTime",
-		"Value":60000,
-		"IsDev":"FALSE",
-		"Description":"하트가 생성될 시간",
-		"Unit":"1000=1초"
-	},
-	{
-		"ID":"HeartCountMax",
-		"Value":5,
-		"IsDev":"FALSE",
-		"Description":"하트 최대 값"
-	},
-	{
-		"ID":"VideoCoolTime",
-		"Value":60000,
-		"IsDev":"FALSE",
-		"Description":"영상 시청 쿨 타임",
-		"Unit":"1000=1초"
+		"ID":"WallBoundScale",
+		"Value":50,
+		"IsDev":"TRUE",
+		"Description":"몬스터 반동 이펙트 크기"
 	}
 ]

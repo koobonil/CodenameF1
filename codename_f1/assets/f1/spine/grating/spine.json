@@ -1,12 +1,14 @@
 {
-"skeleton": { "hash": "AIliatuXeGxobqSnxQ7fzfHtW2U", "spine": "3.6.48", "width": 134, "height": 253, "images": "./grating/" },
+"skeleton": { "hash": "x7mm+12PKb+5cYZ1mv0a4dzVSeM", "spine": "3.6.50", "width": 142.8, "height": 253, "images": "./grating/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 49.14, "rotation": 90, "x": -0.47, "y": 0.73 },
 	{ "name": "grating_a", "parent": "root", "length": 28.3, "rotation": 90, "y": 223.06 },
-	{ "name": "grating_b", "parent": "root", "length": 89.17, "rotation": 90, "y": 34.6 }
+	{ "name": "grating_b", "parent": "root", "length": 89.17, "rotation": 90, "y": 34.6 },
+	{ "name": "grating_c", "parent": "root", "length": 26.43, "y": 33.38 }
 ],
 "slots": [
+	{ "name": "grating_c", "bone": "grating_c", "attachment": "grating_c" },
 	{ "name": "grating_b", "bone": "grating_b", "attachment": "grating_b" },
 	{ "name": "grating_a", "bone": "grating_a", "attachment": "grating_a" },
 	{ "name": "area", "bone": "area", "attachment": "area" }
@@ -25,8 +27,15 @@
 		},
 		"grating_b": {
 			"grating_b": { "x": 106.41, "y": -1.11, "rotation": -90, "width": 134, "height": 253 }
+		},
+		"grating_c": {
+			"grating_c": { "x": 1.15, "y": 2.31, "scaleX": 0.7, "width": 204, "height": 30 }
 		}
 	}
+},
+"events": {
+	"sound_jail_down": {},
+	"sound_jail_up": {}
 },
 "animations": {
 	"hiding": {
@@ -43,6 +52,12 @@
 					{ "time": 0.2667, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 0.3333, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 0.5, "color": "ffffffff" }
+				]
+			},
+			"grating_c": {
+				"color": [
+					{ "time": 0.1667, "color": "ffffffff" },
+					{ "time": 0.3333, "color": "ffffff00" }
 				]
 			}
 		},
@@ -67,7 +82,10 @@
 					{ "time": 0.5, "x": 0, "y": -190.14 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0.0667, "name": "sound_jail_down" }
+		]
 	},
 	"idle": {
 		"slots": {
@@ -79,6 +97,11 @@
 			"grating_b": {
 				"color": [
 					{ "time": 0, "color": "ffffffff" }
+				]
+			},
+			"grating_c": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
 				]
 			}
 		},
@@ -136,6 +159,13 @@
 					{ "time": 0.1667, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 0.2333, "color": "ffffffff" }
 				]
+			},
+			"grating_c": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.2333, "color": "ffffff00" },
+					{ "time": 0.4, "color": "ffffffff" }
+				]
 			}
 		},
 		"bones": {
@@ -159,7 +189,10 @@
 					{ "time": 0.5, "x": 0, "y": 0.04 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0.0667, "name": "sound_jail_up" }
+		]
 	}
 }
 }

@@ -1,25 +1,25 @@
 {
-"skeleton": { "hash": "//TQWCUznyYlahv7zgPneN+xX3k", "spine": "3.6.48", "width": 9985.26, "height": 1148.12, "images": "./ingame_ui/" },
+"skeleton": { "hash": "qxLHBlEk7aHBnSc+EFNcWH0Sdbs", "spine": "3.6.50", "width": 9985.26, "height": 926.64, "images": "./ingame_ui/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 58.97, "rotation": 90, "x": -0.35, "y": -93.59 },
 	{ "name": "bone3", "parent": "root", "length": 93.8, "rotation": 90, "x": 2.05, "y": 166.68 },
 	{ "name": "background_b", "parent": "bone3", "length": 101.83, "rotation": 90, "x": -83.54, "y": -34.04 },
-	{ "name": "bone", "parent": "root", "length": 128.02 },
-	{ "name": "effect_area", "parent": "root", "length": 57.64, "rotation": 90 },
 	{ "name": "gauge_back", "parent": "bone3", "length": 79.22, "rotation": 90, "x": -179.22, "y": 962.81 },
+	{ "name": "bone", "parent": "gauge_back", "length": 128.02, "rotation": 180, "x": -988.19, "y": -12.54 },
+	{ "name": "effect_area", "parent": "root", "length": 57.64, "rotation": 90 },
 	{ "name": "gauge", "parent": "gauge_back", "length": 45.9, "rotation": 360, "x": 4.17, "y": -29.18, "scaleX": 1.257 },
 	{ "name": "gauge_back2", "parent": "gauge_back", "length": 20.03, "x": -755.08, "y": -10.45, "scaleX": 0.01, "scaleY": 0.996 },
-	{ "name": "gauge_dragon", "parent": "gauge_back", "length": 58.7, "x": 5.31, "y": -56.25, "color": "ff0000ff" }
+	{ "name": "gauge_dragon", "parent": "gauge_back", "length": 58.7, "x": -23.61, "y": -56.25, "color": "ff0000ff" }
 ],
 "slots": [
 	{ "name": "background_b", "bone": "background_b", "attachment": "background_b" },
 	{ "name": "gauge_back", "bone": "gauge_back", "attachment": "gauge_back" },
+	{ "name": "gauge_white", "bone": "bone", "attachment": "gauge_white" },
 	{ "name": "gauge", "bone": "gauge", "attachment": "skin" },
 	{ "name": "gauge_front", "bone": "gauge_back2", "attachment": "gauge_front" },
-	{ "name": "gauge_white", "bone": "bone", "attachment": "gauge_white" },
+	{ "name": "gauge_dragon_white_normal", "bone": "gauge_dragon", "attachment": "skin" },
 	{ "name": "gauge_dragon", "bone": "gauge_dragon", "attachment": "skin" },
-	{ "name": "gauge_dragon_white", "bone": "bone", "attachment": "gauge_dragon_white" },
 	{ "name": "area", "bone": "area", "attachment": "area" },
 	{ "name": "gauge_back2", "bone": "gauge_back", "attachment": "gauge_back_b" },
 	{ "name": "effect_area", "bone": "effect_area", "attachment": "effect_area" }
@@ -30,33 +30,30 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 232.86, 1047.05, 230.83, 163.71, -43.91, 165.74, -41.88, 1049.08 ]
+				"vertices": [ 318.76, 1047.05, 316.73, 163.71, -43.91, 165.74, -41.88, 1049.08 ]
 			}
 		},
 		"background_b": {
-			"background_b": { "x": -2909.29, "y": 262.81, "scaleX": 12.482, "scaleY": 3.122, "rotation": 180, "width": 800, "height": 259 }
+			"background_b": { "x": -2909.29, "y": 262.81, "scaleX": 12.482, "scaleY": 3.122, "rotation": 180, "width": 800, "height": 257 }
 		},
 		"effect_area": {
 			"effect_area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 104.61, 880.26, 55.93, 879.31, 57.1, 824.05, 105.32, 824.99 ]
+				"vertices": [ 173.58, 873.58, 124.9, 872.64, 126.08, 817.37, 174.29, 818.31 ]
 			}
 		},
 		"gauge_back": {
-			"gauge_back": { "x": -381.71, "y": -13.12, "rotation": 180, "width": 820, "height": 314 }
+			"gauge_back": { "x": -307.66, "y": -13.12, "scaleX": 1.2, "rotation": 180, "width": 820, "height": 314 }
 		},
 		"gauge_back2": {
 			"gauge_back_b": { "x": -757.35, "y": -27.72, "scaleY": 1.14, "rotation": 180, "width": 48, "height": 250 }
-		},
-		"gauge_dragon_white": {
-			"gauge_dragon_white": { "x": -1074.39, "y": 99.98, "scaleX": 2.31, "scaleY": 2.31, "rotation": 21.41, "width": 300, "height": 314 }
 		},
 		"gauge_front": {
 			"gauge_front": { "x": 389.5, "y": -35.09, "scaleY": 1.133, "rotation": 180, "width": 768, "height": 151 }
 		},
 		"gauge_white": {
-			"gauge_white": { "x": -630.28, "y": 32.56, "scaleX": 1.06, "scaleY": 0.94, "width": 768, "height": 164 }
+			"gauge_white": { "x": -632.67, "y": 32.56, "scaleX": 0.99, "scaleY": 0.93, "width": 768, "height": 164 }
 		}
 	},
 	"fire": {
@@ -66,12 +63,24 @@
 		"gauge_dragon": {
 			"skin": {
 				"name": "gauge_dragon_fire",
-				"x": 107.99,
-				"y": -55.46,
-				"scaleX": 2.3,
-				"scaleY": 2.3,
-				"rotation": -158.81,
-				"width": 300,
+				"x": 219.54,
+				"y": -22.69,
+				"scaleX": 1.7,
+				"scaleY": 1.7,
+				"rotation": -178.16,
+				"width": 461,
+				"height": 314
+			}
+		},
+		"gauge_dragon_white_normal": {
+			"skin": {
+				"name": "gauge_dragon_white_fire",
+				"x": 219.54,
+				"y": -22.69,
+				"scaleX": 1.7,
+				"scaleY": 1.7,
+				"rotation": -178.16,
+				"width": 461,
 				"height": 314
 			}
 		}
@@ -83,12 +92,24 @@
 		"gauge_dragon": {
 			"skin": {
 				"name": "gauge_dragon_ice",
-				"x": 107.99,
-				"y": -55.46,
-				"scaleX": 2.3,
-				"scaleY": 2.3,
-				"rotation": -158.81,
-				"width": 300,
+				"x": 219.54,
+				"y": -22.69,
+				"scaleX": 1.7,
+				"scaleY": 1.7,
+				"rotation": -178.16,
+				"width": 461,
+				"height": 314
+			}
+		},
+		"gauge_dragon_white_normal": {
+			"skin": {
+				"name": "gauge_dragon_white_ice",
+				"x": 219.54,
+				"y": -22.69,
+				"scaleX": 1.7,
+				"scaleY": 1.7,
+				"rotation": -178.16,
+				"width": 461,
 				"height": 314
 			}
 		}
@@ -109,12 +130,24 @@
 		"gauge_dragon": {
 			"skin": {
 				"name": "gauge_dragon_light",
-				"x": 107.99,
-				"y": -55.46,
-				"scaleX": 2.3,
-				"scaleY": 2.3,
-				"rotation": -158.81,
-				"width": 300,
+				"x": 219.54,
+				"y": -22.69,
+				"scaleX": 1.7,
+				"scaleY": 1.7,
+				"rotation": -178.16,
+				"width": 461,
+				"height": 314
+			}
+		},
+		"gauge_dragon_white_normal": {
+			"skin": {
+				"name": "gauge_dragon_white_lightning",
+				"x": 219.54,
+				"y": -22.69,
+				"scaleX": 1.7,
+				"scaleY": 1.7,
+				"rotation": -178.16,
+				"width": 461,
 				"height": 314
 			}
 		}
@@ -135,12 +168,24 @@
 		"gauge_dragon": {
 			"skin": {
 				"name": "gauge_dragon_normal",
-				"x": 107.99,
-				"y": -55.46,
-				"scaleX": 2.3,
-				"scaleY": 2.3,
-				"rotation": -158.81,
-				"width": 300,
+				"x": 219.54,
+				"y": -22.69,
+				"scaleX": 1.7,
+				"scaleY": 1.7,
+				"rotation": -178.16,
+				"width": 461,
+				"height": 314
+			}
+		},
+		"gauge_dragon_white_normal": {
+			"skin": {
+				"name": "gauge_dragon_white_normal",
+				"x": 219.54,
+				"y": -22.69,
+				"scaleX": 1.7,
+				"scaleY": 1.7,
+				"rotation": -178.16,
+				"width": 461,
 				"height": 314
 			}
 		}
@@ -152,12 +197,24 @@
 		"gauge_dragon": {
 			"skin": {
 				"name": "gauge_dragon_wind",
-				"x": 107.99,
-				"y": -55.46,
-				"scaleX": 2.3,
-				"scaleY": 2.3,
-				"rotation": -158.81,
-				"width": 300,
+				"x": 219.5,
+				"y": -22.68,
+				"scaleX": 1.7,
+				"scaleY": 1.7,
+				"rotation": -178.16,
+				"width": 461,
+				"height": 314
+			}
+		},
+		"gauge_dragon_white_normal": {
+			"skin": {
+				"name": "gauge_dragon_white_wind",
+				"x": 219.54,
+				"y": -22.69,
+				"scaleX": 1.7,
+				"scaleY": 1.7,
+				"rotation": -178.16,
+				"width": 461,
 				"height": 314
 			}
 		}
@@ -166,35 +223,32 @@
 "animations": {
 	"change": {
 		"slots": {
-			"gauge_dragon_white": {
+			"gauge_dragon_white_normal": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" },
-					{ "time": 0.1667, "color": "ffffffd6" },
-					{ "time": 0.4667, "color": "ffffff00" }
+					{ "time": 0.1333, "color": "ffffffff" },
+					{ "time": 0.3667, "color": "ffffff00" }
 				]
 			},
 			"gauge_white": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" },
-					{ "time": 0.1667, "color": "ffffffd6" },
-					{ "time": 0.4667, "color": "ffffff00" }
-				]
-			}
-		}
-	},
-	"charge": {
-		"slots": {
-			"gauge_dragon_white": {
-				"color": [
-					{ "time": 0, "color": "ffffff00" }
-				]
-			},
-			"gauge_white": {
-				"color": [
-					{ "time": 0, "color": "ffffff00" }
+					{ "time": 0.1333, "color": "ffffffff" },
+					{ "time": 0.3667, "color": "ffffff00" }
 				]
 			}
 		},
+		"drawOrder": [
+			{
+				"time": 0,
+				"offsets": [
+					{ "slot": "gauge_white", "offset": 1 },
+					{ "slot": "gauge_dragon_white_normal", "offset": 3 }
+				]
+			}
+		]
+	},
+	"charge": {
 		"bones": {
 			"gauge_back2": {
 				"rotate": [
@@ -211,18 +265,6 @@
 		}
 	},
 	"loading": {
-		"slots": {
-			"gauge_dragon_white": {
-				"color": [
-					{ "time": 0, "color": "ffffff00" }
-				]
-			},
-			"gauge_white": {
-				"color": [
-					{ "time": 0, "color": "ffffff00" }
-				]
-			}
-		},
 		"bones": {
 			"root": {
 				"rotate": [

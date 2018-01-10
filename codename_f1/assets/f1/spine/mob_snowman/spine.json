@@ -1,9 +1,11 @@
 {
-"skeleton": { "hash": "dL5dCaLuMoQYWG8sb6KH6xCqzJc", "spine": "3.6.48", "width": 344, "height": 494, "images": "./snowman/" },
+"skeleton": { "hash": "+Kno/D52Jc4Cxxf1sGgDR1+ZlJg", "spine": "3.6.50", "width": 539.91, "height": 594.8, "images": "./snowman/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 24.71, "rotation": 90 },
 	{ "name": "cap_ice", "parent": "root", "length": 65.58, "rotation": 74.22, "x": 24.08, "y": 372.35 },
+	{ "name": "efect_a", "parent": "root", "length": 49.7, "rotation": 90, "x": -255.74, "y": 0.48 },
+	{ "name": "efect_b", "parent": "root", "length": 49.7, "rotation": 90, "x": -255.74, "y": 0.48 },
 	{ "name": "mom_ice", "parent": "root", "length": 54.19, "rotation": 90 },
 	{ "name": "face_ice", "parent": "mom_ice", "length": 51.47, "x": 242.7 },
 	{ "name": "ko_ice", "parent": "face_ice", "length": 59.78, "rotation": 90, "x": 71.34, "y": 11.59 },
@@ -24,7 +26,9 @@
 	{ "name": "ko_ice", "bone": "ko_ice", "attachment": "ko_ice" },
 	{ "name": "cap_ice", "bone": "cap_ice", "attachment": "cap_ice" },
 	{ "name": "r_par_ice", "bone": "r_par_ice", "attachment": "r_par_ice" },
-	{ "name": "area", "bone": "area", "attachment": "area" }
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "efect_a", "bone": "efect_a", "attachment": "efect_a", "blend": "additive" },
+	{ "name": "efect_b", "bone": "efect_b", "attachment": "efect_b", "blend": "additive" }
 ],
 "skins": {
 	"default": {
@@ -37,6 +41,12 @@
 		},
 		"cap_ice": {
 			"cap_ice": { "x": 46.04, "y": 8.65, "rotation": -74.22, "width": 206, "height": 149 }
+		},
+		"efect_a": {
+			"efect_a": { "x": 4.52, "scaleX": 0.9, "scaleY": 0.9, "rotation": 77.03, "width": 184, "height": 200 }
+		},
+		"efect_b": {
+			"efect_b": { "x": 4.52, "scaleX": 0.9, "scaleY": 0.9, "rotation": 77.03, "width": 184, "height": 200 }
 		},
 		"face_ice": {
 			"face_ice": { "x": 82.31, "y": -12.78, "rotation": -90, "width": 183, "height": 183 }
@@ -69,9 +79,30 @@
 		}
 	}
 },
+"events": {
+	"sound_hole_drop": {},
+	"sound_snowman_attack": {},
+	"sound_snowman_dead": {}
+},
 "animations": {
 	"attack": {
 		"slots": {
+			"efect_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.4333, "color": "5bc1ff00" },
+					{ "time": 0.5, "color": "5bc1ffff" },
+					{ "time": 0.6333, "color": "5bc1ff00" }
+				]
+			},
+			"efect_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.7667, "color": "ffffff00" },
+					{ "time": 0.8333, "color": "5bc0ffff" },
+					{ "time": 0.9667, "color": "5bc0ff00" }
+				]
+			},
 			"l_par_ice": {
 				"attachment": [
 					{ "time": 0.4333, "name": "l_par_attack_ice" },
@@ -259,8 +290,34 @@
 					{ "time": 0.5, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 1, "x": 1, "y": 1 }
 				]
+			},
+			"efect_a": {
+				"translate": [
+					{ "time": 0, "x": -11.74, "y": 264.58, "curve": "stepped" },
+					{ "time": 0.4333, "x": -11.74, "y": 264.58 }
+				],
+				"scale": [
+					{ "time": 0.4333, "x": 0, "y": 0 },
+					{ "time": 0.5, "x": 1.2, "y": 1.2 },
+					{ "time": 0.6, "x": 1.3, "y": 1.3 }
+				]
+			},
+			"efect_b": {
+				"translate": [
+					{ "time": 0, "x": 27.99, "y": 208.59, "curve": "stepped" },
+					{ "time": 0.7667, "x": 27.99, "y": 208.59 }
+				],
+				"scale": [
+					{ "time": 0.7667, "x": 0, "y": 0 },
+					{ "time": 0.8333, "x": 1.2, "y": 1.2 },
+					{ "time": 0.9, "x": 1.3, "y": 1.3 }
+				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0.3333, "name": "sound_snowman_attack" },
+			{ "time": 0.6667, "name": "sound_snowman_attack" }
+		]
 	},
 	"dead": {
 		"slots": {
@@ -268,6 +325,16 @@
 				"color": [
 					{ "time": 0.8333, "color": "ffffffff" },
 					{ "time": 1, "color": "ffffff00" }
+				]
+			},
+			"efect_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"efect_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
 				]
 			},
 			"face_ice": {
@@ -483,9 +550,24 @@
 					{ "time": 0.6667, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0.3333, "name": "sound_snowman_dead" }
+		]
 	},
 	"dead_hole": {
+		"slots": {
+			"efect_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"efect_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
 		"bones": {
 			"mom_ice": {
 				"rotate": [
@@ -677,9 +759,24 @@
 					{ "time": 0, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0.0667, "name": "sound_hole_drop" }
+		]
 	},
 	"flip": {
+		"slots": {
+			"efect_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"efect_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
 		"bones": {
 			"mom_ice": {
 				"rotate": [
@@ -789,6 +886,18 @@
 		}
 	},
 	"hit_down": {
+		"slots": {
+			"efect_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"efect_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
 		"bones": {
 			"l_par_ice": {
 				"rotate": [
@@ -930,6 +1039,18 @@
 		}
 	},
 	"hit_up": {
+		"slots": {
+			"efect_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"efect_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
 		"bones": {
 			"mom_ice": {
 				"rotate": [
@@ -1070,6 +1191,18 @@
 		}
 	},
 	"run": {
+		"slots": {
+			"efect_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"efect_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
 		"bones": {
 			"mom_ice": {
 				"rotate": [

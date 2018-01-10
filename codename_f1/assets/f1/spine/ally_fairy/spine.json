@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "Ovoo7b6HA2I8rf092Lh7hbjK5Kg", "spine": "3.6.48", "width": 195, "height": 296.96, "images": "./fairy/" },
+"skeleton": { "hash": "T6FMxvTUcuvrB/w7dsTxvaLX+RQ", "spine": "3.6.50", "width": 195, "height": 296.96, "images": "./fairy/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 11.55, "rotation": 90 },
@@ -65,7 +65,7 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 0.56, 37.14, 1, -42.34, 62.28, -42.34, 60.5, 37.58 ]
+				"vertices": [ 0.56, 56.67, 1, -59.27, 58.37, -59.27, 60.5, 57.11 ]
 			}
 		},
 		"efect_a": {
@@ -153,6 +153,10 @@
 			"r_wing_b": { "x": 28.94, "y": -43.33, "width": 80, "height": 92 }
 		}
 	}
+},
+"events": {
+	"sound_ally_active3": {},
+	"sound_ally_run": {}
 },
 "animations": {
 	"flip": {
@@ -309,7 +313,10 @@
 					{ "time": 0, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_ally_run" }
+		]
 	},
 	"run": {
 		"slots": {
@@ -518,7 +525,10 @@
 					{ "time": 1, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_ally_run" }
+		]
 	},
 	"touch": {
 		"slots": {
@@ -1843,7 +1853,17 @@
 					{ "time": 3, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_ally_active3" },
+			{ "time": 1, "name": "sound_ally_active3" },
+			{ "time": 2, "name": "sound_ally_active3" },
+			{ "time": 3, "name": "sound_ally_active3" },
+			{ "time": 4, "name": "sound_ally_active3" },
+			{ "time": 5, "name": "sound_ally_active3" },
+			{ "time": 6, "name": "sound_ally_active3" },
+			{ "time": 7, "name": "sound_ally_active3" }
+		]
 	}
 }
 }

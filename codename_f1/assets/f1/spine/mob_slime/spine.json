@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "dfjiZjVaGQkYb2TMIVZr/5JV7Hs", "spine": "3.6.47", "width": 287.77, "height": 271.68, "images": "./mop_slime/" },
+"skeleton": { "hash": "aW2rgEvFZPL5dPdfzH/E/WVDw9M", "spine": "3.6.50", "width": 287.77, "height": 308.77, "images": "./mop_slime/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 33.7, "rotation": 90, "x": -0.82, "y": 0.12 },
@@ -9,6 +9,7 @@
 	{ "name": "kori", "parent": "mom_1", "length": 59.72, "rotation": -0.87, "x": 211.45, "y": -0.79, "color": "87005cff" },
 	{ "name": "left_eye", "parent": "mom_1", "length": 29.86, "rotation": -90.87, "x": 24.77, "y": 90.02, "color": "15a600ff" },
 	{ "name": "mom_2", "parent": "mom_1", "length": 223.54, "rotation": -0.87, "x": -2, "y": 27.47, "color": "010a4aff" },
+	{ "name": "mom_3", "parent": "mom_1", "length": 31.28, "rotation": 89.13, "x": 119.79, "y": 117.39, "color": "ff0000ff" },
 	{ "name": "mouse", "parent": "mom_1", "length": 27.45, "rotation": -2.56, "x": 63.52, "y": 36.97 },
 	{ "name": "right_eye", "parent": "mom_1", "length": 30.03, "rotation": -97.04, "x": 128.06, "y": 88.45, "color": "15a600ff" }
 ],
@@ -22,7 +23,9 @@
 	{ "name": "area", "bone": "area", "attachment": "area" },
 	{ "name": "toast", "bone": "area", "attachment": "toast" },
 	{ "name": "attack_efect_a", "bone": "attack2", "attachment": "attack_efect_a" },
-	{ "name": "attack_efect_b", "bone": "attack", "attachment": "attack_efect_b" }
+	{ "name": "attack_efect_b", "bone": "attack", "attachment": "attack_efect_b" },
+	{ "name": "skin_a", "bone": "mom_3", "attachment": "skin_a" },
+	{ "name": "skin_b", "bone": "mom_3", "attachment": "skin_b" }
 ],
 "skins": {
 	"default": {
@@ -65,6 +68,12 @@
 		},
 		"right_eye": {
 			"skin": { "name": "right_eye_forest", "x": 19.35, "y": -46.57, "rotation": 96.17, "width": 113, "height": 44 }
+		},
+		"skin_a": {
+			"skin_a": { "name": "slime_style_a_forest", "x": -73.25, "y": 37.93, "rotation": -89.13, "width": 181, "height": 19 }
+		},
+		"skin_b": {
+			"skin_b": { "name": "slime_style_b_forest", "x": 54.94, "y": 16.35, "rotation": -89.13, "width": 80, "height": 45 }
 		}
 	},
 	"ice": {
@@ -85,10 +94,47 @@
 		},
 		"right_eye": {
 			"skin": { "name": "right_eye_ice", "x": 19.35, "y": -46.57, "rotation": 96.17, "width": 113, "height": 44 }
+		},
+		"skin_a": {
+			"skin_a": { "name": "slime_style_a_ice", "x": -77.17, "y": 40.55, "rotation": -90, "width": 181, "height": 19 }
+		},
+		"skin_b": {
+			"skin_b": { "name": "slime_style_b_ice", "x": 53.63, "y": 15.04, "rotation": -90, "width": 80, "height": 45 }
 		}
 	}
 },
+"events": {
+	"sound_hole_drop": {},
+	"sound_slime_attack": {},
+	"sound_slime_dead": {}
+},
 "animations": {
+	"_style": {
+		"slots": {
+			"skin_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.6333, "color": "ffffff00" },
+					{ "time": 0.6667, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.3, "color": "ffffffff" },
+					{ "time": 1.3333, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1.9667, "color": "ffffff00" },
+					{ "time": 2, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 2.6667, "color": "ffffffff" }
+				]
+			},
+			"skin_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.6333, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1.3, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.9667, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 2.6667, "color": "ffffffff" }
+				]
+			}
+		}
+	},
 	"attack": {
 		"slots": {
 			"attack_efect_a": {
@@ -343,7 +389,10 @@
 					{ "time": 0.8333, "x": 0.8, "y": 0.8 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0.6667, "name": "sound_slime_attack" }
+		]
 	},
 	"dead": {
 		"slots": {
@@ -525,7 +574,10 @@
 					{ "time": 0.5667, "x": 1.933, "y": 2.097 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0.1667, "name": "sound_slime_dead" }
+		]
 	},
 	"dead_hole": {
 		"slots": {
@@ -719,7 +771,10 @@
 					{ "time": 0.7333, "x": 1.6, "y": 2.056 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0.0667, "name": "sound_hole_drop" }
+		]
 	},
 	"flip": {
 		"slots": {

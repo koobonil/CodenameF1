@@ -1,14 +1,13 @@
 {
-"skeleton": { "hash": "SRGpx/ySHaHx4NUMSJVyTaZ4bh4", "spine": "3.6.47", "width": 225, "height": 510, "images": "./were_wolf/" },
+"skeleton": { "hash": "InKXa8FBHuqH32qEo/nMxEZf2mE", "spine": "3.6.50", "width": 436.39, "height": 580, "images": "./were_wolf/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 42.7, "rotation": 90 },
 	{ "name": "mom", "parent": "root", "length": 130.15, "rotation": -90, "y": 227.05 },
 	{ "name": "head", "parent": "mom", "length": 128.87, "rotation": 180, "x": -10.62, "y": -1.32 },
 	{ "name": "back_ear", "parent": "head", "length": 52.09, "rotation": -13.63, "x": 122.72, "y": 50.62 },
-	{ "name": "bone", "parent": "root", "length": 80.36, "rotation": 90 },
-	{ "name": "bone2", "parent": "bone", "length": 46.09, "rotation": 3.81, "x": -48.76, "y": -61.45 },
 	{ "name": "ear", "parent": "head", "length": 63.51, "rotation": -42.55, "x": 94.34, "y": -46.79 },
+	{ "name": "effect_a", "parent": "root", "length": 45.01, "rotation": 90, "x": -233.14 },
 	{ "name": "eye", "parent": "head", "length": 36.06, "x": 54.46, "y": 42.18 },
 	{ "name": "l_dari_a", "parent": "mom", "length": 38.09, "rotation": 25.02, "x": 139.71, "y": -39.67 },
 	{ "name": "l_dari_b", "parent": "l_dari_a", "length": 44.49, "rotation": -25.02, "x": 38.09 },
@@ -20,6 +19,7 @@
 	{ "name": "r_nunsup", "parent": "head", "length": 28.29, "rotation": 102.53, "x": 106.61, "y": -9.2 },
 	{ "name": "r_par_a", "parent": "mom", "length": 74.46, "rotation": 11.89, "x": -0.65, "y": 44.7 },
 	{ "name": "r_par_b", "parent": "r_par_a", "length": 67.54, "rotation": -9.94, "x": 74.46 },
+	{ "name": "style", "parent": "ear", "length": 26.06, "rotation": 42.55, "x": 6.59, "y": 21.34 },
 	{ "name": "tuc", "parent": "head", "length": 103.8, "rotation": 100.65, "x": 19.94, "y": -37.58 }
 ],
 "slots": [
@@ -43,8 +43,8 @@
 	{ "name": "ear_forest", "bone": "ear", "attachment": "skin" },
 	{ "name": "area", "bone": "area", "attachment": "area" },
 	{ "name": "toast", "bone": "area", "attachment": "toast" },
-	{ "name": "attack_efect_a", "bone": "bone2", "attachment": "attack_efect_a" },
-	{ "name": "attack_efect_b", "bone": "bone", "attachment": "attack_efect_b" }
+	{ "name": "effect_a", "bone": "effect_a", "attachment": "skin", "blend": "additive" },
+	{ "name": "skin", "bone": "style", "attachment": "skin" }
 ],
 "skins": {
 	"default": {
@@ -54,12 +54,6 @@
 				"vertexCount": 4,
 				"vertices": [ 1.42, 63.76, 2.41, -63.22, 52.01, -62.23, 51.02, 65.74 ]
 			}
-		},
-		"attack_efect_a": {
-			"attack_efect_a": { "x": 52.74, "y": 58.07, "rotation": -3.81, "width": 150, "height": 182 }
-		},
-		"attack_efect_b": {
-			"attack_efect_b": { "width": 184, "height": 200 }
 		},
 		"toast": {
 			"toast": {
@@ -75,6 +69,9 @@
 		},
 		"ear_forest": {
 			"skin": { "name": "ear_forest", "x": 20.52, "y": -4.62, "rotation": -47.45, "width": 71, "height": 83 }
+		},
+		"effect_a": {
+			"skin": { "name": "effect_a", "rotation": -90, "width": 180, "height": 324 }
 		},
 		"head_forest": {
 			"skin": { "name": "head_forest", "x": 82.33, "y": 9.93, "rotation": -90, "width": 201, "height": 162 }
@@ -121,6 +118,9 @@
 		"r_par_b_forest": {
 			"skin": { "name": "r_par_b_forest", "x": 38.91, "y": 1.38, "rotation": 88.05, "width": 75, "height": 114 }
 		},
+		"skin": {
+			"skin": { "name": "waerwolf_style_forest", "x": -20.34, "y": -23.51, "rotation": -90.11, "width": 31, "height": 30 }
+		},
 		"tuc_forest": {
 			"skin": { "name": "tuc_forest", "x": 44.11, "y": -3.6, "rotation": 169.35, "width": 158, "height": 58 }
 		}
@@ -131,6 +131,9 @@
 		},
 		"ear_forest": {
 			"skin": { "name": "ear_ice", "x": 20.52, "y": -4.62, "rotation": -47.45, "width": 73, "height": 86 }
+		},
+		"effect_a": {
+			"skin": { "name": "effect_b", "rotation": -90, "width": 180, "height": 324 }
 		},
 		"head_forest": {
 			"skin": { "name": "head_ice", "x": 82.33, "y": 9.93, "rotation": -90, "width": 201, "height": 162 }
@@ -177,28 +180,40 @@
 		"r_par_b_forest": {
 			"skin": { "name": "r_par_b_ice", "x": 38.91, "y": 1.38, "rotation": 88.05, "width": 75, "height": 114 }
 		},
+		"skin": {
+			"skin": { "name": "waerwolf_style_forest", "x": -24.34, "y": -21.63, "rotation": -90, "width": 31, "height": 30 }
+		},
 		"tuc_forest": {
 			"skin": { "name": "tuc_ice", "x": 44.11, "y": -3.6, "rotation": 169.35, "width": 158, "height": 58 }
 		}
 	}
 },
+"events": {
+	"sound_hole_drop": {},
+	"sound_wolfman_attack": {},
+	"sound_wolfman_dead": {}
+},
 "animations": {
+	"_style": {
+		"slots": {
+			"skin": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.6333, "color": "ffffff00" },
+					{ "time": 0.6667, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.3333, "color": "ffffffff" }
+				]
+			}
+		}
+	},
 	"attack": {
 		"slots": {
-			"attack_efect_a": {
+			"effect_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
-					{ "time": 0.4667, "color": "ffffff00" },
-					{ "time": 0.5333, "color": "ff4747dd" },
-					{ "time": 0.6667, "color": "ff474700" }
-				]
-			},
-			"attack_efect_b": {
-				"color": [
-					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
-					{ "time": 0.4667, "color": "ffffff00" },
-					{ "time": 0.5333, "color": "ff4747dd" },
-					{ "time": 0.6667, "color": "ff474700" }
+					{ "time": 0.4333, "color": "ffffff00" },
+					{ "time": 0.5333, "color": "ffffffff" },
+					{ "time": 0.6333, "color": "ffffff00" }
 				]
 			}
 		},
@@ -459,50 +474,23 @@
 					{ "time": 0.6667, "x": 1, "y": 1 }
 				]
 			},
-			"bone": {
+			"effect_a": {
 				"translate": [
-					{ "time": 0.4667, "x": -150.23, "y": 217.69 }
+					{ "time": 0.4333, "x": 55.76, "y": 244.36 }
 				],
 				"scale": [
-					{ "time": 0.4667, "x": 1.2, "y": 1.2 },
-					{ "time": 0.5333, "x": 1.4, "y": 1.4 }
-				]
-			},
-			"bone2": {
-				"rotate": [
-					{ "time": 0.4667, "angle": -113.53 }
-				],
-				"translate": [
-					{ "time": 0.4667, "x": 55.77, "y": 58.27 }
-				],
-				"scale": [
-					{ "time": 0.4667, "x": 0.8, "y": 0.8 },
-					{ "time": 0.5333, "x": 1, "y": 1 }
+					{ "time": 0.4333, "x": 0, "y": 0 },
+					{ "time": 0.5333, "x": 1.3, "y": 1, "curve": "stepped" },
+					{ "time": 0.6333, "x": 1.3, "y": 1 }
 				]
 			}
 		},
-		"drawOrder": [
-			{
-				"time": 0.1667,
-				"offsets": [
-					{ "slot": "r_par_b_forest", "offset": 7 },
-					{ "slot": "r_par_a_forest", "offset": 7 }
-				]
-			}
+		"events": [
+			{ "time": 0.4667, "name": "sound_wolfman_attack" }
 		]
 	},
 	"dead": {
 		"slots": {
-			"attack_efect_a": {
-				"color": [
-					{ "time": 0, "color": "ffffff00" }
-				]
-			},
-			"attack_efect_b": {
-				"color": [
-					{ "time": 0, "color": "ffffff00" }
-				]
-			},
 			"back_ear_forest": {
 				"color": [
 					{ "time": 0, "color": "ffffffff", "curve": "stepped" },
@@ -515,6 +503,11 @@
 					{ "time": 0, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 0.6667, "color": "ffffffff" },
 					{ "time": 1, "color": "ffffff00" }
+				]
+			},
+			"effect_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
 				]
 			},
 			"head_forest": {
@@ -891,20 +884,13 @@
 					{ "time": 0.1667, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0.1667, "name": "sound_wolfman_dead" }
+		]
 	},
 	"dead_hole": {
 		"slots": {
-			"attack_efect_a": {
-				"color": [
-					{ "time": 0, "color": "ffffff00" }
-				]
-			},
-			"attack_efect_b": {
-				"color": [
-					{ "time": 0, "color": "ffffff00" }
-				]
-			},
 			"back_ear_forest": {
 				"color": [
 					{ "time": 0.8333, "color": "ffffffff" },
@@ -915,6 +901,11 @@
 				"color": [
 					{ "time": 0.8333, "color": "ffffffff" },
 					{ "time": 1, "color": "ffffff00" }
+				]
+			},
+			"effect_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
 				]
 			},
 			"head_forest": {
@@ -1277,16 +1268,14 @@
 					{ "time": 0, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0.0667, "name": "sound_hole_drop" }
+		]
 	},
 	"flip": {
 		"slots": {
-			"attack_efect_a": {
-				"color": [
-					{ "time": 0, "color": "ffffff00" }
-				]
-			},
-			"attack_efect_b": {
+			"effect_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
@@ -1311,12 +1300,7 @@
 	},
 	"hit_down": {
 		"slots": {
-			"attack_efect_a": {
-				"color": [
-					{ "time": 0, "color": "ffffff00" }
-				]
-			},
-			"attack_efect_b": {
+			"effect_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
@@ -1572,12 +1556,7 @@
 	},
 	"hit_up": {
 		"slots": {
-			"attack_efect_a": {
-				"color": [
-					{ "time": 0, "color": "ffffff00" }
-				]
-			},
-			"attack_efect_b": {
+			"effect_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
@@ -1833,12 +1812,7 @@
 	},
 	"run": {
 		"slots": {
-			"attack_efect_a": {
-				"color": [
-					{ "time": 0, "color": "ffffff00" }
-				]
-			},
-			"attack_efect_b": {
+			"effect_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]

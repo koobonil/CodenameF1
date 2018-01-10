@@ -1,0 +1,54 @@
+﻿[
+	{
+		"Name":"5슬라임 널널",
+		"Group":"F_Normal/2/F_Normal/2/F_Normal/2/F_Normal/2/F_Normal"
+	},
+	{
+		"Name":"5슬라임 빼곡",
+		"Group":"F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal"
+	},
+	{
+		"Name":"10슬라임 빼곡",
+		"Group":"F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal"
+	},
+	{
+		"Name":"5오크 널널",
+		"Group":"F_Middle/2/F_Middle/2/F_Middle/2/F_Middle/2/F_Middle"
+	},
+	{
+		"Name":"3오크 3슬라임 반복 ",
+		"Group":"F_Normal/2/F_Middle/2/F_Normal/2/F_Middle/2/F_Normal/2/F_Middle"
+	},
+	{
+		"Name":"1강오크 4오크 ",
+		"Group":"F_MiddleBoss/2/F_Middle/2/F_Middle/2/F_Middle/2/F_Middle"
+	},
+	{
+		"Name":"3강오크 3오크 반복",
+		"Group":"F_MiddleBoss/2/F_Middle/2/F_MiddleBoss/2/F_Middle/2/F_MiddleBoss/2/F_Middle"
+	},
+	{
+		"Name":"3강오크 널널",
+		"Group":"F_MiddleBoss/2/F_MiddleBoss/2/F_MiddleBoss"
+	},
+	{
+		"Name":"3늑대 널널",
+		"Group":"F_Fast/2/F_Fast/2/F_Fast/"
+	},
+	{
+		"Name":"5오크 러쉬",
+		"Group":"F_Middle/2/F_Middle_B/2/F_Middle/2/F_Middle_B/2/F_Middle"
+	},
+	{
+		"Name":"5슬라임 러쉬",
+		"Group":"F_Normal/2/F_Normal_B/2/F_Normal/2/F_Normal_B/2/F_Normal/2/F_Normal_B"
+	},
+	{
+		"Name":"5믹스 오크 부대",
+		"Group":"F_Middle_B/2/F_Middle_B/2/F_Middle_B/2/F_Middle_B/2/F_Middle_B"
+	},
+	{
+		"Name":"5슬라&오베리부대",
+		"Group":"F_Normal_B/2/F_Middle_B/2/F_Normal_B/2/F_Middle_B/2/F_Normal_B/2/F_Middle_B"
+	}
+]

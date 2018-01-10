@@ -439,12 +439,10 @@ namespace ZAY
         if (inheritChild)
         {
             //bx1111: 빨간색이면 애니메이션 연산제외
+            const ColourValue& Color = getWorldColor();
             if (USE_EXCLUDED_RED && !colorUpdateOnly)
-            {
-                const ColourValue& Color = getWorldColor();
-                if(Color.r == 1 && Color.g == 0 && Color.b == 0)
-                    inheritChild = false;
-            }
+            if (Color.r == 1 && Color.g == 0 && Color.b == 0)
+                inheritChild = false;
 
             if (inheritChild)
             {
@@ -466,7 +464,8 @@ namespace ZAY
             const SceneInstance* CurSceneInstance = getCurrentSceneInstance();
             const TouchAreaInstance* CurTouchAreaInstance = dynamic_cast<const TouchAreaInstance*>(CurSceneInstance);
             if (CurTouchAreaInstance)
-                CurTouchAreaInstance->renderBoundBox();
+                CurTouchAreaInstance->renderBoundBox(
+                    Color.r * 255, Color.g * 255, Color.b * 255, Color.a * 255);
         }
     }
 

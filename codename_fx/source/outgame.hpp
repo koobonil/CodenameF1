@@ -3,9 +3,56 @@
 #include <element/boss_solver.hpp>
 #include "classes.hpp"
 
-class outgameData : public ZayObject
+class outgameMode
 {
-    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(outgameData, mLandscape(false))
+public:
+    enum Type {Lobby, Result, StaffRoll, Max, Null = -1};
+public:
+    outgameMode() {mValue = Null;}
+    outgameMode(const outgameMode& rhs) {operator=(rhs);}
+    outgameMode(chars rhs) {operator=(rhs);}
+    outgameMode& operator=(const outgameMode& rhs) {mValue = rhs.mValue; return *this;}
+    outgameMode& operator=(Type rhs) {mValue = rhs; return *this;}
+    outgameMode& operator=(chars rhs)
+    {
+        if(!String::Compare(rhs, "Lobby"))
+            mValue = Lobby;
+        else if(!String::Compare(rhs, "Result"))
+            mValue = Result;
+        else if(!String::Compare(rhs, "StaffRoll"))
+            mValue = StaffRoll;
+        else
+        {
+            mValue = Null;
+            if(!String::Compare(rhs, "Null"))
+                BOSS_ASSERT("키워드가 없습니다", false);
+            else BOSS_ASSERT("알 수 없는 키워드입니다", false);
+        }
+        return *this;
+    }
+    bool operator==(Type rhs) const
+    {return (mValue == rhs);}
+    bool operator!=(Type rhs) const
+    {return (mValue != rhs);}
+private:
+    Type mValue;
+};
+
+class outgameCard
+{
+public:
+    outgameCard() {mLocked = true;}
+    ~outgameCard() {}
+
+public:
+    bool mLocked;
+    String mText;
+    MapSpine mSpine;
+};
+
+class outgameData : public ZayObject, public FXState
+{
+    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(outgameData, FXState(""), mLandscape(false))
 
 public:
     outgameData();
@@ -14,17 +61,27 @@ public:
 public:
     void SetSize(sint32 width, sint32 height);
     void InitForSpine();
+    void UpdateHeart(bool idle_only);
+    void UpdateHeartSec(bool animate);
+    void ReloadAllCards(bool create);
+    bool GoStage(sint32 id);
     void Render(ZayPanel& panel);
 
 public: // 상수요소
     const bool mLandscape;
+    const outgameMode mStartMode;
 
 public: // 기획요소
+    String mChain;
     Solver mUILeft;
     Solver mUITop;
     Solver mUIRight;
     Solver mUIBottom;
     float mViewRate; // 뷰비율 = 가로길이 / 세로길이
+    sint32 mDefaultHeartCount;
+    sint32 mHeartRegenSec;
+    sint32 mHeartCountMax;
+    sint32 mVideoCoolSec;
 
 public: // UI요소
     sint32 mUIL;
@@ -40,18 +97,30 @@ public: // UI요소
     sint32 mInGameSize;
 
 public: // 게임상태
-    bool mIsSpineInited;
+    bool mSpineInited;
+    bool mShowingPopup;
+    sint32 mClosing;
+    sint32 mClosingOption;
     sint32 mChapterMax;
     sint32 mCardMax;
     sint32 mCurChapter;
     sint32 mCurCard;
-    Contexts mStageList;
+    sint32 mNextCard;
+    sint32 mHeart;
+    sint32 mHeartUpdatedSec;
+    sint32 mCalcedHeartSec;
+    bool mResultIsWin;
+    bool mNeedUpdateSaveFile;
+    Context mSaveFile;
+    outgameCard mCards[48];
 
 public: // 스파인
-    SpineRendererMap mAllSpines;
     MapSpine mUILobby;
     MapSpine mUILobbyTL;
     MapSpine mUILobbyTR;
     MapSpine mUILobbyBL;
     MapSpine mUILobbyBR;
+    MapSpine mUIResult;
+    MapSpine mUIStaffRoll;
+    MapSpine mUIPopup;
 };

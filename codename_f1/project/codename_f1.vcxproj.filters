@@ -39,12 +39,6 @@
     <ClInclude Include="..\source\codename_f1.hpp">
       <Filter>source</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\maptool.hpp">
-      <Filter>source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\stagetool.hpp">
-      <Filter>source</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\resource.hpp">
       <Filter>source</Filter>
     </ClInclude>
@@ -225,18 +219,18 @@
     <ClInclude Include="..\source\ingame_f1.hpp">
       <Filter>source</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\maptool_f1.hpp">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\stagetool_f1.hpp">
+      <Filter>source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\codename_f1.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\source\main.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\maptool.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\stagetool.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\source\resource.cpp">
@@ -426,6 +420,12 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\source\ingame_f1.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\maptool_f1.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\stagetool_f1.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

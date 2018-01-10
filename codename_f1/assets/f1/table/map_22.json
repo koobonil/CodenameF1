@@ -1,5 +1,6 @@
 {
 	"BGName":"map_forest_a",
+	"BuildNumber":"1",
 	"Layers":
 	[
 		{
@@ -22,6 +23,51 @@
 					"RectL":"-0.04",
 					"RectR":"0.04",
 					"RectT":"0.3",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000138",
+					"RectB":"0.482931",
+					"RectL":"-0.14",
+					"RectR":"-0.06",
+					"RectT":"0.41632",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000139",
+					"RectB":"0.482931",
+					"RectL":"0.06",
+					"RectR":"0.14",
+					"RectT":"0.41632",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000140",
+					"RectB":"-0.399667",
+					"RectL":"-0.18",
+					"RectR":"-0.1",
+					"RectT":"-0.466278",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000141",
+					"RectB":"0.499584",
+					"RectL":"-0.48",
+					"RectR":"-0.4",
+					"RectT":"0.432973",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000142",
+					"RectB":"-0.432973",
+					"RectL":"0.4",
+					"RectR":"0.48",
+					"RectT":"-0.499584",
 					"Visible":"1"
 				}
 			]
@@ -1597,6 +1643,8 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000135",
-	"PolygonLastRID":"82000000"
+	"ObjectLastRID":"81000142",
+	"PolygonLastRID":"82000000",
+	"ToolType":"maptool_f1",
+	"ToolVersion":"2"
 }

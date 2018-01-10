@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "oyrJ1hnIsSB9bYch3rquZ8tqHEs", "spine": "3.6.48", "width": 1944, "height": 526, "images": "" },
+"skeleton": { "hash": "I417sCvJUvivq3CbktlX5/6YtCU", "spine": "3.6.50", "width": 5832, "height": 526, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 140.48, "rotation": 90, "x": 649.35 },
@@ -40,7 +40,7 @@
 			"bottom_adicon": { "x": 54.2, "y": 3.79, "rotation": -90, "width": 205, "height": 243 }
 		},
 		"bottom_bar": {
-			"bottom_bar": { "x": 89.29, "y": 120.33, "rotation": 180, "width": 1944, "height": 171 }
+			"bottom_bar": { "x": -1774.28, "y": 120.33, "scaleX": 3, "rotation": 180, "width": 1944, "height": 171 }
 		},
 		"bottom_slot_a": {
 			"bottom_slot_a": { "x": 2.79, "y": -94.06, "rotation": 180, "width": 257, "height": 349 }
@@ -66,6 +66,9 @@
 			}
 		}
 	}
+},
+"events": {
+	"sound_ui_bottun2": {}
 },
 "animations": {
 	"bottom_ad_waittime_end": {
@@ -127,7 +130,10 @@
 					{ "time": 0.2333, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_ui_bottun2" }
+		]
 	},
 	"idle": {
 		"slots": {

@@ -66,14 +66,16 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
         {
             if(t == GT_InReleased)
             {
-                static String StageName;
-                StageName = String("f1/table/") + m->FirstStage() + ".json";
+                Platform::Option::SetText("StageName", String("f1/table/") + m->FirstStage() + ".json");
+                Platform::Option::SetText("LastStageID", "");
+                Platform::Option::SetText("ParaTalkCount", "0");
+                Platform::Option::SetText("ParaViewCount", "0");
                 Platform::Option::SetFlag("LandscapeMode", false);
-                Platform::Option::SetPayload("StageName", (payload)(chars) StageName);
                 Platform::Option::SetFlag("DirectPlay", false);
                 m->next("ingameView");
 
                 //Platform::Option::SetFlag("LandscapeMode", false);
+                //Platform::Option::SetText("StartMode", "Result");
                 //m->next("outgameView");
             }
         })

@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "2KrTaWLjhep5OkP6hm7tgVX0TPI", "spine": "3.6.48", "width": 402, "height": 403.75, "images": "./egg/" },
+"skeleton": { "hash": "OWPAKKYzkFGV4wEIHmzL99ppXNo", "spine": "3.6.50", "width": 402, "height": 403.75, "images": "./egg/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 76.29, "rotation": 92.77, "x": -1.39, "y": -1.02 },
@@ -140,6 +140,10 @@
 			"skin": { "name": "nest_b_ice", "x": 28.09, "y": -80.62, "width": 396, "height": 104 }
 		}
 	}
+},
+"events": {
+	"sound_egg_heal": {},
+	"sound_wall_hit": {}
 },
 "animations": {
 	"dead": {
@@ -1128,7 +1132,10 @@
 					{ "time": 1.4, "x": 3.1, "y": 3.1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_egg_heal" }
+		]
 	},
 	"hit": {
 		"slots": {
@@ -1274,7 +1281,10 @@
 					{ "time": 0, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_wall_hit" }
+		]
 	},
 	"idle": {
 		"slots": {

@@ -1,9 +1,11 @@
 {
-"skeleton": { "hash": "8dBEIAUiA95+p04SQu5oJlW9owM", "spine": "3.6.47", "width": 148.06, "height": 275.28, "images": "./stone/" },
+"skeleton": { "hash": "LkXidLB/EM38+U3yZF5c1csxLug", "spine": "3.6.50", "width": 146, "height": 275.97, "images": "./stone/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 31.85, "rotation": 90 },
 	{ "name": "stone", "parent": "root", "length": 39.62, "rotation": 90 },
+	{ "name": "stone_state", "parent": "stone", "length": 44.77, "x": 0.28, "y": 0.06 },
+	{ "name": "dead", "parent": "stone_state", "length": 74.29, "rotation": -90, "x": -0.28, "y": -0.06 },
 	{ "name": "stone_effect", "parent": "root", "length": 19.69, "rotation": 90, "x": 0.16, "y": 123.13 },
 	{ "name": "stone_effect_a", "parent": "stone_effect", "length": 20.86, "rotation": 8.99, "x": 33.98, "y": 5.98 },
 	{ "name": "stone_effect_b", "parent": "stone_effect", "length": 18.54, "rotation": 39.08, "x": 28.96, "y": 16.22 },
@@ -17,8 +19,7 @@
 	{ "name": "stone_effect_k", "parent": "stone_effect", "length": 23.11, "rotation": -64.49, "x": 9.54, "y": -18.52 },
 	{ "name": "stone_effect_l", "parent": "stone_effect", "length": 18.97, "rotation": -91.43, "x": 0.06, "y": -19.95 },
 	{ "name": "stone_effect_m", "parent": "stone_effect", "length": 22.28, "rotation": -15.04, "x": 35.61, "y": -7.31 },
-	{ "name": "stone_effect_n", "parent": "stone_effect", "length": 19.35, "rotation": -46.97, "x": 27.89, "y": -17.04 },
-	{ "name": "stone_state", "parent": "stone", "length": 44.77, "x": 0.28, "y": 0.06 }
+	{ "name": "stone_effect_n", "parent": "stone_effect", "length": 19.35, "rotation": -46.97, "x": 27.89, "y": -17.04 }
 ],
 "slots": [
 	{ "name": "forest_stone_b", "bone": "stone", "attachment": "skin" },
@@ -36,7 +37,8 @@
 	{ "name": "forest_stone_effect_b_b", "bone": "stone_effect_f", "attachment": "skin" },
 	{ "name": "forest_stone_effect_b_c", "bone": "stone_effect_i", "attachment": "skin" },
 	{ "name": "forest_stone_effect_b_d", "bone": "stone_effect_k", "attachment": "skin" },
-	{ "name": "forest_stone_effect_b_e", "bone": "stone_effect_m", "attachment": "skin" }
+	{ "name": "forest_stone_effect_b_e", "bone": "stone_effect_m", "attachment": "skin" },
+	{ "name": "skin", "bone": "dead", "attachment": "skin" }
 ],
 "skins": {
 	"default": {
@@ -44,13 +46,13 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 0.84, 73.64, 0.84, -72.66, 138.34, -72.38, 138.62, 73.37 ]
+				"vertices": [ 0.18, 75.63, 0.18, -73.32, 143.65, -73.05, 143.93, 75.36 ]
 			}
 		}
 	},
 	"forest": {
 		"forest_stone_b": {
-			"skin": { "name": "forest_stone_b", "x": 137.5, "y": 0.52, "rotation": -90, "width": 148, "height": 275 }
+			"skin": { "name": "forest_stone_b", "x": 137.5, "y": 0.52, "rotation": -90, "width": 133, "height": 262 }
 		},
 		"forest_stone_effect_a": {
 			"skin": { "name": "forest_stone_effect_a", "rotation": -98.99, "width": 27, "height": 27 }
@@ -92,14 +94,17 @@
 			"skin": { "name": "forest_stone_effect_b", "rotation": -74.96, "width": 27, "height": 27 }
 		},
 		"forest_stone_state_a": {
-			"skin": { "name": "forest_stone_state_a", "x": 137.5, "y": 0.52, "rotation": -90, "width": 148, "height": 275 },
-			"skin2": { "name": "forest_stone_state_b", "x": 137.5, "y": 0.52, "rotation": -90, "width": 148, "height": 275 },
-			"skin3": { "name": "forest_stone_state_c", "x": 137.5, "y": 0.52, "rotation": -90, "width": 148, "height": 275 }
+			"skin": { "name": "forest_stone_state_a", "x": 137.5, "y": 0.52, "rotation": -90, "width": 146, "height": 273 },
+			"skin2": { "name": "forest_stone_state_b", "x": 137.5, "y": 0.52, "rotation": -90, "width": 146, "height": 273 },
+			"skin3": { "name": "forest_stone_state_c", "x": 137.5, "y": 0.52, "rotation": -90, "width": 146, "height": 273 }
+		},
+		"skin": {
+			"skin": { "name": "forest_stone_dead", "y": 56.81, "width": 137, "height": 117 }
 		}
 	},
 	"ice": {
 		"forest_stone_b": {
-			"skin": { "name": "ice_stone_b", "x": 137.5, "y": 0.52, "rotation": -90, "width": 148, "height": 275 }
+			"skin": { "name": "ice_stone_b", "x": 137.5, "y": 0.52, "rotation": -90, "width": 146, "height": 273 }
 		},
 		"forest_stone_effect_a": {
 			"skin": { "name": "ice_stone_effect_a", "rotation": -98.99, "width": 27, "height": 27 }
@@ -141,11 +146,18 @@
 			"skin": { "name": "ice_stone_effect_b", "rotation": -74.96, "width": 27, "height": 27 }
 		},
 		"forest_stone_state_a": {
-			"skin": { "name": "ice_stone_state_a", "x": 137.5, "y": 0.52, "rotation": -90, "width": 148, "height": 275 },
-			"skin2": { "name": "ice_stone_state_b", "x": 137.5, "y": 0.52, "rotation": -90, "width": 148, "height": 275 },
-			"skin3": { "name": "ice_stone_state_c", "x": 137.5, "y": 0.52, "rotation": -90, "width": 148, "height": 275 }
+			"skin": { "name": "ice_stone_state_a", "x": 137.5, "y": 0.52, "rotation": -90, "width": 146, "height": 273 },
+			"skin2": { "name": "ice_stone_state_b", "x": 137.5, "y": 0.52, "rotation": -90, "width": 146, "height": 273 },
+			"skin3": { "name": "ice_stone_state_c", "x": 137.5, "y": 0.52, "rotation": -90, "width": 146, "height": 273 }
+		},
+		"skin": {
+			"skin": { "name": "ice_stone_dead", "y": 55.06, "width": 127, "height": 105 }
 		}
 	}
+},
+"events": {
+	"sound_wall_dreak": {},
+	"sound_wall_hit": {}
 },
 "animations": {
 	"_state": {
@@ -228,6 +240,11 @@
 					{ "time": 0.7, "name": "skin2" },
 					{ "time": 1, "name": "skin2" }
 				]
+			},
+			"skin": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
 			}
 		}
 	},
@@ -236,7 +253,7 @@
 			"forest_stone_b": {
 				"color": [
 					{ "time": 0.4333, "color": "ffffffff" },
-					{ "time": 0.5, "color": "ffffff00" }
+					{ "time": 0.6, "color": "ffffff00" }
 				]
 			},
 			"forest_stone_effect_a": {
@@ -307,7 +324,14 @@
 			"forest_stone_state_a": {
 				"color": [
 					{ "time": 0.4333, "color": "ffffffff" },
-					{ "time": 0.5, "color": "ffffff00" }
+					{ "time": 0.5667, "color": "ffffff00" }
+				]
+			},
+			"skin": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.5, "color": "ffffff00" },
+					{ "time": 0.7333, "color": "ffffffff" }
 				]
 			}
 		},
@@ -330,14 +354,14 @@
 					{ "time": 0.3667, "x": 0, "y": 4.68 },
 					{ "time": 0.4, "x": -4.68, "y": 2.34 },
 					{ "time": 0.4333, "x": 2.92, "y": 8.18 },
-					{ "time": 0.4667, "x": -3.51, "y": 2.34 },
-					{ "time": 0.5, "x": 3.51, "y": 2.34 }
+					{ "time": 0.5, "x": -3.51, "y": 2.34 },
+					{ "time": 0.5667, "x": 3.51, "y": 2.34 }
 				],
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.0667, "x": 1, "y": 1 },
 					{ "time": 0.4333, "x": 0.9, "y": 0.9 },
-					{ "time": 0.5, "x": 1.2, "y": 1.2 }
+					{ "time": 0.5667, "x": 1.2, "y": 1.2 }
 				]
 			},
 			"stone_effect": {
@@ -535,8 +559,19 @@
 				"shear": [
 					{ "time": 0, "x": 0, "y": 0 }
 				]
+			},
+			"dead": {
+				"translate": [
+					{ "time": 0.5, "x": 40.79, "y": 0 },
+					{ "time": 0.5667, "x": 0.94, "y": 0 },
+					{ "time": 0.6333, "x": 20.6, "y": 0 },
+					{ "time": 0.7, "x": -1.98, "y": 0 }
+				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_wall_dreak" }
+		]
 	},
 	"hit": {
 		"slots": {
@@ -629,6 +664,11 @@
 					{ "time": 0, "color": "ffffff00" },
 					{ "time": 0.2333, "color": "ffffffff" },
 					{ "time": 0.3333, "color": "ffffff00" }
+				]
+			},
+			"skin": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
 				]
 			}
 		},
@@ -952,7 +992,10 @@
 					{ "time": 0, "x": 0, "y": 0 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_wall_hit" }
+		]
 	},
 	"idle": {
 		"slots": {
@@ -1017,6 +1060,11 @@
 				]
 			},
 			"forest_stone_effect_b_e": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"skin": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]

@@ -1,5 +1,11 @@
 {
-"skeleton": { "hash": "UlZCXRb/S1X/iZVYtEE/dwymKjo", "spine": "3.6.48", "width": 240, "height": 541.67, "images": "./monster_toast_resores/" },
+"skeleton": {
+	"hash": "gUGGsltDK9n45wlp6itXBFxo7VA",
+	"spine": "3.6.50",
+	"width": 289.6,
+	"height": 540.95,
+	"images": "./monster_toast_resores/"
+},
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 36.03, "rotation": 87.75, "x": 13.45, "y": 9.93 },
@@ -8,7 +14,7 @@
 	{ "name": "breath_hit_lightning", "parent": "root", "length": 39.41, "rotation": 90 },
 	{ "name": "breath_hit_normal", "parent": "root", "length": 23.5, "rotation": 90 },
 	{ "name": "breath_hit_wind", "parent": "root", "length": 34.58, "rotation": 90 },
-	{ "name": "heart", "parent": "root", "length": 55.46, "y": 277.25, "scaleX": 0.4, "scaleY": 0.4 },
+	{ "name": "heart", "parent": "root", "length": 55.46, "y": 218.07, "scaleX": 0.4, "scaleY": 0.4 },
 	{ "name": "monster_fire", "parent": "root", "length": 26.06, "rotation": 90, "y": 17.45, "scaleX": 1.5, "scaleY": 1.5 },
 	{ "name": "monster_hold", "parent": "root", "length": 34.22, "rotation": 90, "y": -86.52 },
 	{ "name": "monster_ice", "parent": "root", "length": 52.78, "rotation": 90, "scaleX": 0.85, "scaleY": 0.75 },
@@ -16,7 +22,8 @@
 	{ "name": "monster_slow2", "parent": "monster_slow", "length": 45.17, "x": 63.81, "y": -52.35 },
 	{ "name": "monster_slow3", "parent": "monster_slow", "length": 38.63, "x": 140.51, "y": -29.5 },
 	{ "name": "monster_slow4", "parent": "monster_slow", "length": 41.89, "x": 98.62, "y": 64.61 },
-	{ "name": "monster_slow5", "parent": "monster_slow", "length": 47.88, "x": 199.82, "y": 30.88 }
+	{ "name": "monster_slow5", "parent": "monster_slow", "length": 47.88, "x": 199.82, "y": 30.88 },
+	{ "name": "paratalk", "parent": "root", "length": 66.15, "rotation": 90, "x": 7.68, "y": 161.99 }
 ],
 "slots": [
 	{ "name": "area", "bone": "area", "attachment": "area" },
@@ -35,7 +42,9 @@
 	{ "name": "ice_c", "bone": "monster_ice", "attachment": "ice_c" },
 	{ "name": "ice_b", "bone": "monster_ice", "attachment": "ice_b" },
 	{ "name": "ice_a", "bone": "monster_ice", "attachment": "ice_a" },
-	{ "name": "heart", "bone": "heart", "attachment": "heart" }
+	{ "name": "heart", "bone": "heart", "attachment": "heart" },
+	{ "name": "paratalk", "bone": "paratalk", "attachment": "paratalk" },
+	{ "name": "paratalk_area", "bone": "paratalk", "attachment": "paratalk_area" }
 ],
 "skins": {
 	"default": {
@@ -186,6 +195,16 @@
 		"ice_c": {
 			"ice_c": { "x": 68.26, "y": -54.99, "rotation": -90, "width": 105, "height": 136 }
 		},
+		"paratalk": {
+			"paratalk": { "x": 85.54, "y": 7.69, "scaleX": 0.8, "scaleY": 0.8, "rotation": -90, "width": 362, "height": 226 }
+		},
+		"paratalk_area": {
+			"paratalk_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 135.15, 141.46, 80.02, 140.74, 81.45, -110.58, 142.31, -109.14 ]
+			}
+		},
 		"slow_a": {
 			"slow_a": { "x": 28.99, "y": -0.22, "rotation": -90, "width": 29, "height": 70 }
 		},
@@ -199,6 +218,15 @@
 			"slow_d": { "x": 27.91, "y": 0.4, "rotation": -90, "width": 29, "height": 70 }
 		}
 	}
+},
+"events": {
+	"sound_breath_fire": {},
+	"sound_breath_ice": {},
+	"sound_breath_lightning": {},
+	"sound_breath_normal": {},
+	"sound_breath_wind": {},
+	"sound_paratalk": {},
+	"sound_skill_ice": {}
 },
 "animations": {
 	"breath_hit_fire": {
@@ -283,6 +311,19 @@
 					{ "time": 0, "color": "ffffff00" }
 				]
 			},
+			"paratalk": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"paratalk_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
 			"slow_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
@@ -311,7 +352,10 @@
 					{ "time": 0.6667, "x": 1.2, "y": 1.2 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_breath_fire" }
+		]
 	},
 	"breath_hit_ice": {
 		"slots": {
@@ -396,6 +440,19 @@
 					{ "time": 0, "color": "ffffff00" }
 				]
 			},
+			"paratalk": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"paratalk_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
 			"slow_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
@@ -425,7 +482,10 @@
 					{ "time": 0.6667, "x": 1.1, "y": 1.1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_breath_ice" }
+		]
 	},
 	"breath_hit_lightning": {
 		"slots": {
@@ -509,6 +569,19 @@
 					{ "time": 0, "color": "ffffff00" }
 				]
 			},
+			"paratalk": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"paratalk_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
 			"slow_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
@@ -537,7 +610,10 @@
 					{ "time": 0.6667, "x": 1.2, "y": 1.2 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_breath_lightning" }
+		]
 	},
 	"breath_hit_normal": {
 		"slots": {
@@ -621,6 +697,19 @@
 					{ "time": 0, "color": "ffffff00" }
 				]
 			},
+			"paratalk": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"paratalk_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
 			"slow_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
@@ -649,7 +738,10 @@
 					{ "time": 0.6667, "x": 1.2, "y": 1.2 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_breath_normal" }
+		]
 	},
 	"breath_hit_wind": {
 		"slots": {
@@ -739,6 +831,19 @@
 					{ "time": 0, "color": "ffffff00" }
 				]
 			},
+			"paratalk": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"paratalk_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
 			"slow_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
@@ -770,7 +875,10 @@
 					{ "time": 0, "x": 0, "y": 0 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_breath_wind" }
+		]
 	},
 	"idle": {
 		"slots": {
@@ -832,6 +940,19 @@
 			"ice_c": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"paratalk": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"paratalk_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
 				]
 			},
 			"slow_a": {
@@ -932,6 +1053,19 @@
 			"ice_c": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"paratalk": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"paratalk_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
 				]
 			},
 			"slow_a": {
@@ -1050,6 +1184,19 @@
 					{ "time": 0, "color": "ffffff00" }
 				]
 			},
+			"paratalk": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"paratalk_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
 			"slow_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
@@ -1145,6 +1292,19 @@
 					{ "time": 0.5, "color": "ffffffff" }
 				]
 			},
+			"paratalk": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"paratalk_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
 			"slow_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
@@ -1165,7 +1325,12 @@
 					{ "time": 0, "color": "ffffff00" }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_skill_ice" },
+			{ "time": 0.1667, "name": "sound_skill_ice" },
+			{ "time": 0.3333, "name": "sound_skill_ice" }
+		]
 	},
 	"monster_slow": {
 		"slots": {
@@ -1227,6 +1392,19 @@
 			"ice_c": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"paratalk": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"paratalk_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
 				]
 			},
 			"slow_a": {
@@ -1373,6 +1551,19 @@
 					{ "time": 0, "color": "ffffff00" }
 				]
 			},
+			"paratalk": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"paratalk_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
 			"slow_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
@@ -1460,6 +1651,19 @@
 					{ "time": 0, "color": "ffffff00" }
 				]
 			},
+			"paratalk": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"paratalk_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
 			"slow_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
@@ -1490,6 +1694,105 @@
 				]
 			}
 		}
+	},
+	"paratalk": {
+		"slots": {
+			"breath_hit_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"breath_hit_ice": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"breath_hit_lightning": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"breath_hit_normal": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"breath_hit_wind_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"breath_hit_wind_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"fire_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"heart": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"hold_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"ice_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"ice_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"ice_c": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"slow_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"slow_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"slow_c": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"slow_d": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"paratalk": {
+				"scale": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.1333, "x": 1.3, "y": 1.3 },
+					{ "time": 0.2667, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 3, "x": 1, "y": 1 },
+					{ "time": 3.1333, "x": 1.3, "y": 1.3 },
+					{ "time": 3.2667, "x": 0, "y": 0 }
+				]
+			}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_paratalk" }
+		]
 	}
 }
 }

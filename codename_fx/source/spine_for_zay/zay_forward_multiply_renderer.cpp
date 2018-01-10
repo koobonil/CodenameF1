@@ -207,7 +207,7 @@ namespace ZAY
             //bx
             _forcedBlendType = BlendType::DEFAULT;
 
-            _verticesCapacity =  16 * 1024;
+            _verticesCapacity = 16 * 1024;
             _vertices = new ZAY_Vertice[_verticesCapacity];
             _verticesCount = 0;
 

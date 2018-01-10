@@ -1,5 +1,6 @@
 {
 	"BGName":"map_forest_a",
+	"BuildNumber":"1",
 	"Layers":
 	[
 		{
@@ -35,7 +36,7 @@
 				},
 				{
 					"ID":"Spot",
-					"RID":"81000066",
+					"RID":"81000099",
 					"RectB":"-0.283333",
 					"RectL":"-0.26",
 					"RectR":"-0.18",
@@ -44,7 +45,7 @@
 				},
 				{
 					"ID":"Spot",
-					"RID":"81000067",
+					"RID":"81000100",
 					"RectB":"-0.283333",
 					"RectL":"0.2",
 					"RectR":"0.28",
@@ -58,6 +59,33 @@
 					"RectL":"-0.5",
 					"RectR":"-0.46",
 					"RectT":"0.466667",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000101",
+					"RectB":"-0.41632",
+					"RectL":"-0.4",
+					"RectR":"-0.32",
+					"RectT":"-0.482931",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000102",
+					"RectB":"-0.199833",
+					"RectL":"0.42",
+					"RectR":"0.5",
+					"RectT":"-0.266445",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000103",
+					"RectB":"-0.11657",
+					"RectL":"-0.34",
+					"RectR":"-0.26",
+					"RectT":"-0.183181",
 					"Visible":"1"
 				}
 			]
@@ -473,15 +501,6 @@
 				},
 				{
 					"ID":"Tree",
-					"RID":"81000097",
-					"RectB":"-0.05",
-					"RectL":"-0.3",
-					"RectR":"-0.26",
-					"RectT":"-0.083333",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
 					"RID":"81000065",
 					"RectB":"-0.016667",
 					"RectL":"0.28",
@@ -505,6 +524,15 @@
 					"RectL":"-0.48",
 					"RectR":"-0.44",
 					"RectT":"-0.416666",
+					"Visible":"1"
+				},
+				{
+					"ID":"Tree",
+					"RID":"81000097",
+					"RectB":"-0.05",
+					"RectL":"-0.28",
+					"RectR":"-0.24",
+					"RectT":"-0.083333",
 					"Visible":"1"
 				}
 			],
@@ -705,6 +733,8 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000098",
-	"PolygonLastRID":"82000000"
+	"ObjectLastRID":"81000103",
+	"PolygonLastRID":"82000000",
+	"ToolType":"maptool_f1",
+	"ToolVersion":"2"
 }

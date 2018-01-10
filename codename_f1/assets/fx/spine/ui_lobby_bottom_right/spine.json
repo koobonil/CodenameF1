@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "V1AkZjZQMOirW2eSmGtDSvNQiXg", "spine": "3.6.48", "width": 437, "height": 537.01, "images": "" },
+"skeleton": { "hash": "ifi+b7Yk5AL/q67qwTSvJP9loiU", "spine": "3.6.50", "width": 437, "height": 537.01, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 140.48, "rotation": 90 },
@@ -49,6 +49,9 @@
 		}
 	}
 },
+"events": {
+	"sound_ui_bottun2": {}
+},
 "animations": {
 	"bottom_shop_touch": {
 		"bones": {
@@ -65,7 +68,10 @@
 					{ "time": 0.2333, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_ui_bottun2" }
+		]
 	},
 	"idle": {
 		"bones": {

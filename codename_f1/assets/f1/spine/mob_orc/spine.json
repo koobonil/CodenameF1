@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "oyyTdVbtsNauxSjkbWpPQFDIa3k", "spine": "3.6.47", "width": 189.36, "height": 398.31, "images": "./mop_orc/" },
+"skeleton": { "hash": "swZdzUR3+dHd8Ww9U3AkyAbgBK0", "spine": "3.6.50", "width": 189.36, "height": 398.31, "images": "./mop_orc/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 26.42, "rotation": 91.27, "x": -0.01, "y": 1.1 },
@@ -16,6 +16,7 @@
 	{ "name": "r_dari", "parent": "pants", "length": 49.05, "x": 32.21, "y": 30.74 },
 	{ "name": "r_eye", "parent": "face", "length": 21.97, "x": 45.38, "y": 10.25 },
 	{ "name": "r_par", "parent": "mom", "length": 133.96, "x": -2.93, "y": 54.9 },
+	{ "name": "style_a", "parent": "face", "length": 27.58, "rotation": -90, "x": 57.88, "y": 32.69 },
 	{ "name": "tuc", "parent": "face", "length": 99.35, "rotation": 95.92, "x": -35.87, "y": -7.32 }
 ],
 "slots": [
@@ -33,7 +34,9 @@
 	{ "name": "toast", "bone": "area", "attachment": "toast" },
 	{ "name": "attack_efect_a", "bone": "attack2", "attachment": "attack_efect_a" },
 	{ "name": "attack_efect_b", "bone": "attack", "attachment": "attack_efect_b" },
-	{ "name": "cap_ice", "bone": "cap", "attachment": "skin" }
+	{ "name": "cap_ice", "bone": "cap", "attachment": "skin" },
+	{ "name": "skin_a", "bone": "style_a", "attachment": "skin_a" },
+	{ "name": "skin_b", "bone": "style_a", "attachment": "skin_b" }
 ],
 "skins": {
 	"default": {
@@ -89,6 +92,12 @@
 		"r_par": {
 			"skin": { "name": "r_par_forest", "x": 66.99, "y": -3.13, "rotation": 90, "width": 41, "height": 155 }
 		},
+		"skin_a": {
+			"skin_a": { "name": "orc_style_a_forest", "x": -27, "y": 13.2, "width": 52, "height": 23 }
+		},
+		"skin_b": {
+			"skin_b": { "name": "orc_style_b_forest", "x": 10.8, "y": 28.8, "width": 93, "height": 25 }
+		},
 		"tuc": {
 			"skin": { "name": "tuc_forest", "x": 49.02, "y": -28.8, "rotation": 174.08, "width": 125, "height": 81 }
 		}
@@ -124,28 +133,48 @@
 		"r_par": {
 			"skin": { "name": "r_par_ice", "x": 66.99, "y": -3.13, "rotation": 90, "width": 41, "height": 155 }
 		},
+		"skin_a": {
+			"skin_a": { "name": "orc_style_a_ice", "x": -28.8, "y": 12, "width": 52, "height": 23 }
+		},
+		"skin_b": {
+			"skin_b": { "name": "orc_style_b_ice", "x": 13.2, "y": 16.8, "width": 94, "height": 42 }
+		},
 		"tuc": {
 			"skin": { "name": "tuc_ice", "x": 49.02, "y": -28.8, "rotation": 174.08, "width": 125, "height": 76 }
 		}
 	}
 },
+"events": {
+	"sound_hole_drop": {},
+	"sound_orc_attac": {},
+	"sound_orc_dead": {}
+},
 "animations": {
 	"_style": {
 		"slots": {
-			"attack_efect_a": {
-				"color": [
-					{ "time": 0, "color": "ffffff00" }
-				]
-			},
-			"attack_efect_b": {
-				"color": [
-					{ "time": 0, "color": "ffffff00" }
-				]
-			},
 			"face": {
 				"color": [
-					{ "time": 0, "color": "ffffffff" },
 					{ "time": 5, "color": "49cbbaff" }
+				]
+			},
+			"skin_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.6333, "color": "ffffff00" },
+					{ "time": 0.6667, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.3, "color": "ffffffff" },
+					{ "time": 1.3333, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1.9667, "color": "ffffff00" },
+					{ "time": 2, "color": "ffffffff" }
+				]
+			},
+			"skin_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.6333, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1.3, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.9667, "color": "ffffffff" }
 				]
 			},
 			"tuc": {
@@ -156,15 +185,10 @@
 		},
 		"bones": {
 			"face_style": {
-				"rotate": [
-					{ "time": 0, "angle": 0 }
-				],
 				"translate": [
-					{ "time": 0, "x": 0, "y": 0 },
 					{ "time": 5, "x": -7.35, "y": 20.39 }
 				],
 				"scale": [
-					{ "time": 0, "x": 1, "y": 1 },
 					{ "time": 5, "x": 1.3, "y": 1.3 }
 				]
 			}
@@ -667,7 +691,10 @@
 					{ "time": 0.8, "x": 0.8, "y": 0.8 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0.7333, "name": "sound_orc_attac" }
+		]
 	},
 	"dead": {
 		"slots": {
@@ -946,7 +973,10 @@
 					{ "time": 0.6667, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0.5, "name": "sound_orc_dead" }
+		]
 	},
 	"dead_hole": {
 		"slots": {
@@ -1245,7 +1275,10 @@
 					{ "time": 0, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0.0667, "name": "sound_hole_drop" }
+		]
 	},
 	"flip": {
 		"slots": {

@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "myvuB/14Z2B0yhe0X7jJj7sroSI", "spine": "3.6.48", "width": 7066.09, "height": 3172.52, "images": "./main_title_ui/" },
+"skeleton": { "hash": "RhNVeYjjqNa1/chiBkXqr6e2p3s", "spine": "3.6.50", "width": 7066.09, "height": 3357.9, "images": "./main_title_ui/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 205.23, "rotation": 90, "x": -0.49, "y": 3.34 },
@@ -12,12 +12,12 @@
 	{ "name": "bone5", "parent": "pont_high", "length": 92.92, "rotation": 1.97, "x": -126.26, "y": -461.46 },
 	{ "name": "bone6", "parent": "pont_high", "length": 84.53, "rotation": 1.97, "x": -108.76, "y": -718.17 },
 	{ "name": "bone7", "parent": "root", "length": 140.48, "x": -7.02, "y": 746.04 },
-	{ "name": "butten_a", "parent": "root", "length": 52.93, "x": 3.16, "y": -745 },
-	{ "name": "butten_a2", "parent": "root", "length": 52.93, "x": 3.16, "y": -1046.21 },
-	{ "name": "butten_b", "parent": "root", "length": 38.3, "x": 503.68, "y": -1509.3 },
-	{ "name": "butten_c", "parent": "root", "length": 45.71, "x": -457.78, "y": -1509.57 },
+	{ "name": "butten_a", "parent": "root", "length": 52.93, "x": 26.6, "y": -1089.61 },
+	{ "name": "butten_a2", "parent": "root", "length": 52.93, "x": 26.6, "y": -1498.72, "scaleX": 0.9, "scaleY": 0.9 },
+	{ "name": "butten_b", "parent": "root", "length": 38.3, "x": 866.22, "y": -1509.3 },
+	{ "name": "butten_c", "parent": "root", "length": 45.71, "x": 624.43, "y": -1509.57 },
 	{ "name": "butten_start", "parent": "butten_a", "length": 33.44, "x": -0.52, "y": 0.63 },
-	{ "name": "butten_start2", "parent": "butten_a2", "length": 33.44, "x": -0.52, "y": 0.63 },
+	{ "name": "butten_start2", "parent": "butten_a2", "length": 33.44, "x": -0.52, "y": 0.63, "scaleX": 0.9, "scaleY": 0.9 },
 	{ "name": "pont_under", "parent": "root", "length": 89.56, "rotation": 90, "x": 22.64, "y": 1318.48 },
 	{ "name": "pont_under2", "parent": "pont_under", "length": 77.45, "x": -411.8, "y": 543.36 },
 	{ "name": "pont_under3", "parent": "pont_under", "length": 73.67, "x": -411.8, "y": 312.9 },
@@ -47,8 +47,8 @@
 	{ "name": "title_r_b", "bone": "pont_under3", "attachment": "title_r_b" },
 	{ "name": "butten_c", "bone": "butten_c", "attachment": "main_facebook" },
 	{ "name": "butten_b", "bone": "butten_b", "attachment": "main_staff" },
-	{ "name": "str_11", "bone": "butten_c", "attachment": "str_11" },
-	{ "name": "str_10", "bone": "butten_b", "attachment": "str_10" },
+	{ "name": "str_11", "bone": "butten_c" },
+	{ "name": "str_10", "bone": "butten_b" },
 	{ "name": "butten_facebook_area", "bone": "butten_c", "attachment": "butten_facebook_area" },
 	{ "name": "butten_staff_area2", "bone": "butten_b", "attachment": "butten_like_area" },
 	{ "name": "main_tap_background", "bone": "butten_a", "attachment": "main_tap_background" },
@@ -65,23 +65,23 @@
 			}
 		},
 		"butten_b": {
-			"main_staff": { "width": 915, "height": 266 }
+			"main_staff": { "scaleX": 0.8, "scaleY": 0.8, "width": 253, "height": 321 }
 		},
 		"butten_c": {
-			"main_facebook": { "width": 915, "height": 266 }
+			"main_facebook": { "scaleX": 0.8, "scaleY": 0.8, "width": 253, "height": 316 }
 		},
 		"butten_facebook_area": {
 			"butten_facebook_area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ -458.06, 131.23, -458.06, -95.98, 456.1, -96.95, 456.1, 132.2 ]
+				"vertices": [ -110.17, 131.23, -110.17, -95.98, 110.04, -96.95, 110.04, 132.2 ]
 			}
 		},
 		"butten_staff_area2": {
 			"butten_like_area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ -455.92, 130.97, -455.92, -96.24, 458.24, -97.22, 458.24, 131.94 ]
+				"vertices": [ -108.03, 130.97, -108.03, -96.24, 108.52, -97.22, 108.52, 131.94 ]
 			}
 		},
 		"butten_start_area": {
@@ -95,47 +95,33 @@
 			"butten_start_area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ -394.72, 136.59, -396.19, -135.86, 372.26, -135.12, 372.26, 137.33 ]
+				"vertices": [ -419.58, 136.59, -421.06, -135.86, 403.91, -135.12, 403.91, 137.33 ]
 			}
 		},
 		"main_tap_background": {
 			"main_tap_background": { "scaleX": 2, "scaleY": 2, "width": 714, "height": 104 }
 		},
 		"main_tap_background2": {
-			"main_tap_background_b": { "x": -8.56, "y": 2.71, "scaleX": 2, "scaleY": 2, "width": 405, "height": 104 }
+			"main_tap_background_b": { "x": -8.56, "y": -13.57, "width": 734, "height": 266 }
 		},
 		"main_underbar": {
-			"main_underbar": { "x": -138.08, "y": 257.88, "scaleX": 8.833, "scaleY": 2, "rotation": -90, "width": 800, "height": 259 }
+			"main_underbar": { "x": -325.45, "y": 257.88, "scaleX": 8.833, "scaleY": 2, "rotation": -90, "width": 800, "height": 257 }
 		},
 		"meteor_under": {
 			"meteor_under": { "x": 45.65, "y": -2.11, "scaleX": 2, "scaleY": 2, "width": 813, "height": 50 }
-		},
-		"str_10": {
-			"str_10": {
-				"type": "boundingbox",
-				"vertexCount": 4,
-				"vertices": [ -194.86, 82.32, -194.86, -36.26, 378.3, -37.91, 378.3, 82.32 ]
-			}
-		},
-		"str_11": {
-			"str_11": {
-				"type": "boundingbox",
-				"vertexCount": 4,
-				"vertices": [ -190.99, 82.59, -190.99, -36, 382.17, -37.64, 382.17, 82.59 ]
-			}
 		},
 		"str_29": {
 			"str_29": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ -242.45, 70.71, -243.92, -69.89, 211.12, -69.15, 211.12, 71.45 ]
+				"vertices": [ -229.59, 53.92, -231.06, -38.3, 223.98, -37.57, 223.98, 54.66 ]
 			}
 		},
 		"str_30": {
 			"str_30": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ -177.36, 70.71, -178.83, -69.89, 144.19, -69.15, 144.19, 71.45 ]
+				"vertices": [ -415.36, 43.62, -416.83, -44.74, 415.09, -44, 415.09, 44.36 ]
 			}
 		},
 		"title_a_a": {
@@ -175,6 +161,9 @@
 			"title_t": { "x": -1.22, "y": -2.22, "rotation": -90, "width": 202, "height": 252 }
 		}
 	}
+},
+"events": {
+	"sound_ui_bottun1": {}
 },
 "animations": {
 	"idle": {
@@ -293,29 +282,6 @@
 					{ "time": 0.3333, "x": 1, "y": 1 }
 				]
 			},
-			"butten_start": {
-				"rotate": [
-					{ "time": 0, "angle": 0, "curve": "stepped" },
-					{ "time": 0.8, "angle": 0, "curve": "stepped" },
-					{ "time": 1.6, "angle": 0, "curve": "stepped" },
-					{ "time": 2.3, "angle": 0, "curve": "stepped" },
-					{ "time": 3, "angle": 0 }
-				],
-				"translate": [
-					{ "time": 0, "x": -17.11, "y": 10.27 }
-				],
-				"scale": [
-					{ "time": 0, "x": 1, "y": 1 },
-					{ "time": 0.4, "x": 1.2, "y": 1.2 },
-					{ "time": 0.8, "x": 1, "y": 1 },
-					{ "time": 1.2333, "x": 1.2, "y": 1.2 },
-					{ "time": 1.6, "x": 1, "y": 1 },
-					{ "time": 1.9333, "x": 1.2, "y": 1.2 },
-					{ "time": 2.3, "x": 1, "y": 1 },
-					{ "time": 2.6333, "x": 1.2, "y": 1.2 },
-					{ "time": 3, "x": 1, "y": 1 }
-				]
-			},
 			"pont_under2": {
 				"translate": [
 					{ "time": 0, "x": 0, "y": 0 },
@@ -392,29 +358,6 @@
 					{ "time": 2.3333, "x": 0, "y": 0 },
 					{ "time": 2.6667, "x": 49.3, "y": 0 },
 					{ "time": 3, "x": 0, "y": 0 }
-				]
-			},
-			"butten_start2": {
-				"rotate": [
-					{ "time": 0, "angle": 0, "curve": "stepped" },
-					{ "time": 0.8, "angle": 0, "curve": "stepped" },
-					{ "time": 1.6, "angle": 0, "curve": "stepped" },
-					{ "time": 2.3, "angle": 0, "curve": "stepped" },
-					{ "time": 3, "angle": 0 }
-				],
-				"translate": [
-					{ "time": 0, "x": -17.11, "y": 10.27 }
-				],
-				"scale": [
-					{ "time": 0, "x": 1, "y": 1 },
-					{ "time": 0.4, "x": 1.2, "y": 1.2 },
-					{ "time": 0.8, "x": 1, "y": 1 },
-					{ "time": 1.2333, "x": 1.2, "y": 1.2 },
-					{ "time": 1.6, "x": 1, "y": 1 },
-					{ "time": 1.9333, "x": 1.2, "y": 1.2 },
-					{ "time": 2.3, "x": 1, "y": 1 },
-					{ "time": 2.6333, "x": 1.2, "y": 1.2 },
-					{ "time": 3, "x": 1, "y": 1 }
 				]
 			}
 		}
@@ -572,9 +515,9 @@
 			},
 			"butten_a2": {
 				"translate": [
-					{ "time": 0, "x": 0, "y": -1566, "curve": "stepped" },
+					{ "time": 0, "x": -4, "y": -1566 },
 					{ "time": 0.4, "x": 0, "y": -1566 },
-					{ "time": 0.5, "x": 0, "y": 0 }
+					{ "time": 0.5333, "x": 0, "y": 0 }
 				]
 			}
 		}
@@ -868,8 +811,7 @@
 					{ "time": 2.7667, "x": 0, "y": 0 }
 				],
 				"scale": [
-					{ "time": 0, "x": 1, "y": 1 },
-					{ "time": 0.1, "x": 1.3, "y": 1.3 },
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.1667, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 2.7667, "x": 1, "y": 1 }
 				]
@@ -887,7 +829,10 @@
 					{ "time": 2.6667, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_ui_bottun1" }
+		]
 	}
 }
 }

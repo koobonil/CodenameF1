@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "rfjXC4diPyGV2ihY7JqPzy6gPE0", "spine": "3.6.47", "width": 124, "height": 139, "images": "./stop/" },
+"skeleton": { "hash": "6CnS98v9lE1GT0iebvtc+wulRC8", "spine": "3.6.48", "width": 124, "height": 139, "images": "./stop/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 16.43, "rotation": 90, "x": -0.29, "y": 6.91, "scaleX": 1.077, "scaleY": 1.06 },
@@ -52,7 +52,33 @@
 			}
 		}
 	},
-	"loding": {
+	"idle": {
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"stop": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"show": {
 		"bones": {
 			"root": {
 				"rotate": [

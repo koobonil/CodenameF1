@@ -11,13 +11,33 @@
 		"AttackSpeed":1000,
 		"AttackRange":300,
 		"Weight":935,
-		"Resistance":800,
+		"Resistance":950,
 		"Asset":"mob_forest_slime",
 		"Spine":"mob_slime:forest",
 		"Polygon":"SmallWall",
 		"GaugePosition":50,
-		"WaistScaleWidth":1500,
-		"WaistScaleHeight":1000
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
+	},
+	{
+		"ID":"F_Normal_B",
+		"Type":"Enemy",
+		"WaveStop":"False",
+		"HP":250,
+		"MoveType":"Straight",
+		"MoveSpeed":210,
+		"TurnDistance":15,
+		"AttackPower":35,
+		"AttackSpeed":1000,
+		"AttackRange":300,
+		"Weight":935,
+		"Resistance":950,
+		"Asset":"mob_forest_slime_b",
+		"Spine":"mob_slime:forest",
+		"Polygon":"SmallWall",
+		"GaugePosition":50,
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
 	},
 	{
 		"ID":"F_Middle",
@@ -31,53 +51,73 @@
 		"AttackSpeed":1600,
 		"AttackRange":300,
 		"Weight":748,
-		"Resistance":510,
+		"Resistance":950,
 		"Asset":"mob_forest_orc",
 		"Spine":"mob_orc:forest",
 		"Polygon":"SmallWall",
 		"GaugePosition":120,
-		"WaistScaleWidth":1500,
-		"WaistScaleHeight":1000
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
+	},
+	{
+		"ID":"F_Middle_B",
+		"Type":"Enemy",
+		"WaveStop":"False",
+		"HP":350,
+		"MoveType":"Straight",
+		"MoveSpeed":215,
+		"TurnDistance":15,
+		"AttackPower":50,
+		"AttackSpeed":1600,
+		"AttackRange":300,
+		"Weight":748,
+		"Resistance":950,
+		"Asset":"mob_forest_orc_b",
+		"Spine":"mob_orc:forest",
+		"Polygon":"SmallWall",
+		"GaugePosition":120,
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
 	},
 	{
 		"ID":"F_Fast",
 		"Type":"Enemy",
 		"WaveStop":"False",
-		"HP":500,
+		"HP":250,
 		"MoveType":"Straight",
-		"MoveSpeed":400,
+		"MoveSpeed":550,
 		"TurnDistance":15,
 		"AttackPower":21,
 		"AttackSpeed":500,
 		"AttackRange":300,
 		"Weight":748,
-		"Resistance":510,
+		"Resistance":950,
 		"Asset":"mob_forest_wolf",
 		"Spine":"mob_wolf:forest",
-		"Polygon":"LargeWall",
-		"GaugePosition":50,
-		"WaistScaleWidth":1500,
-		"WaistScaleHeight":1000
+		"Polygon":"SmallWall",
+		"GaugePosition":80,
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
 	},
 	{
 		"ID":"F_MiddleBoss",
 		"Type":"Enemy",
 		"WaveStop":"False",
-		"HP":300,
+		"HP":400,
 		"MoveType":"Straight",
 		"MoveSpeed":195,
 		"TurnDistance":15,
 		"AttackPower":45,
 		"AttackSpeed":2000,
 		"AttackRange":300,
-		"Weight":935,
-		"Resistance":680,
+		"Weight":600,
+		"Resistance":950,
 		"Asset":"mob_forest_helmetorc",
 		"Spine":"mob_helmetorc:forest",
 		"Polygon":"SmallWall",
 		"GaugePosition":120,
-		"WaistScaleWidth":1500,
-		"WaistScaleHeight":1000
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
 	},
 	{
 		"ID":"F_FinalBoss",
@@ -90,14 +130,14 @@
 		"AttackPower":150,
 		"AttackSpeed":3000,
 		"AttackRange":300,
-		"Weight":280,
-		"Resistance":255,
+		"Weight":400,
+		"Resistance":300,
 		"Asset":"mob_forest_ogre",
 		"Spine":"mob_ogre:forest",
-		"Polygon":"LargeWall",
+		"Polygon":"SmallWall",
 		"GaugePosition":120,
-		"WaistScaleWidth":1500,
-		"WaistScaleHeight":1000
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
 	},
 	{
 		"ID":"I_Slime",
@@ -116,8 +156,8 @@
 		"Spine":"mob_slime:ice",
 		"Polygon":"SmallWall",
 		"GaugePosition":50,
-		"WaistScaleWidth":1500,
-		"WaistScaleHeight":1000
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
 	},
 	{
 		"ID":"I_Orc",
@@ -136,8 +176,8 @@
 		"Spine":"mob_orc:ice",
 		"Polygon":"SmallWall",
 		"GaugePosition":120,
-		"WaistScaleWidth":1500,
-		"WaistScaleHeight":1000
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
 	},
 	{
 		"ID":"I_Helmetorc",
@@ -156,8 +196,8 @@
 		"Spine":"mob_helmetorc:ice",
 		"Polygon":"SmallWall",
 		"GaugePosition":120,
-		"WaistScaleWidth":1500,
-		"WaistScaleHeight":1000
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
 	},
 	{
 		"ID":"I_Wolf",
@@ -174,10 +214,10 @@
 		"Resistance":680,
 		"Asset":"mob_ice_wolf",
 		"Spine":"mob_wolf:ice",
-		"Polygon":"LargeWall",
-		"GaugePosition":50,
-		"WaistScaleWidth":1500,
-		"WaistScaleHeight":1000
+		"Polygon":"SmallWall",
+		"GaugePosition":80,
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
 	},
 	{
 		"ID":"I_VereWolf",
@@ -196,8 +236,8 @@
 		"Spine":"mob_werewolf:ice",
 		"Polygon":"SmallWall",
 		"GaugePosition":120,
-		"WaistScaleWidth":1500,
-		"WaistScaleHeight":1000
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
 	},
 	{
 		"ID":"I_Ogre",
@@ -205,7 +245,7 @@
 		"WaveStop":"False",
 		"HP":1000,
 		"MoveType":"Straight",
-		"MoveSpeed":430,
+		"MoveSpeed":150,
 		"TurnDistance":15,
 		"AttackPower":80,
 		"AttackSpeed":500,
@@ -214,10 +254,10 @@
 		"Resistance":680,
 		"Asset":"mob_ice_ogre",
 		"Spine":"mob_ogre:ice",
-		"Polygon":"LargeWall",
-		"GaugePosition":120,
-		"WaistScaleWidth":1500,
-		"WaistScaleHeight":1000
+		"Polygon":"SmallWall",
+		"GaugePosition":160,
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
 	},
 	{
 		"ID":"I_SnowMan",
@@ -225,7 +265,7 @@
 		"WaveStop":"False",
 		"HP":700,
 		"MoveType":"Straight",
-		"MoveSpeed":300,
+		"MoveSpeed":140,
 		"TurnDistance":15,
 		"AttackPower":50,
 		"AttackSpeed":500,
@@ -234,10 +274,10 @@
 		"Resistance":680,
 		"Asset":"mob_ice_snowman",
 		"Spine":"mob_snowman:ice",
-		"Polygon":"LargeWall",
-		"GaugePosition":120,
-		"WaistScaleWidth":1500,
-		"WaistScaleHeight":1000
+		"Polygon":"SmallWall",
+		"GaugePosition":150,
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
 	},
 	{
 		"ID":"I_Golem",
@@ -245,7 +285,7 @@
 		"WaveStop":"False",
 		"HP":1500,
 		"MoveType":"Straight",
-		"MoveSpeed":200,
+		"MoveSpeed":130,
 		"TurnDistance":15,
 		"AttackPower":200,
 		"AttackSpeed":500,
@@ -254,10 +294,10 @@
 		"Resistance":680,
 		"Asset":"mob_ice_golem",
 		"Spine":"mob_golem:ice",
-		"Polygon":"LargeWall",
-		"GaugePosition":120,
-		"WaistScaleWidth":1500,
-		"WaistScaleHeight":1000
+		"Polygon":"SmallWall",
+		"GaugePosition":190,
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
 	},
 	{
 		"ID":"D_Slime",
@@ -276,8 +316,8 @@
 		"Spine":"mob_slime:ice",
 		"Polygon":"SmallWall",
 		"GaugePosition":50,
-		"WaistScaleWidth":1500,
-		"WaistScaleHeight":1000
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
 	},
 	{
 		"ID":"Unicorn",
@@ -294,10 +334,10 @@
 		"Resistance":150,
 		"Asset":"ally_unicorn",
 		"Spine":"None",
-		"Polygon":"LargeWall",
+		"Polygon":"SmallWall",
 		"GaugePosition":50,
-		"WaistScaleWidth":1500,
-		"WaistScaleHeight":1000
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
 	},
 	{
 		"ID":"Mimic",
@@ -311,8 +351,8 @@
 		"Spine":"None",
 		"Polygon":"SmallWall",
 		"GaugePosition":50,
-		"WaistScaleWidth":1500,
-		"WaistScaleHeight":1000
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
 	},
 	{
 		"ID":"Fairy",
@@ -326,7 +366,7 @@
 		"Spine":"None",
 		"Polygon":"SmallWall",
 		"GaugePosition":50,
-		"WaistScaleWidth":1500,
-		"WaistScaleHeight":1000
+		"WaistScaleWidth":500,
+		"WaistScaleHeight":200
 	}
 ]

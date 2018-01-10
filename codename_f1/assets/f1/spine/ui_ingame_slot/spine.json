@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "Nw6HNRF1RsLg8vzUzMyEoYKf25Y", "spine": "3.6.47", "width": 1023, "height": 275.6, "images": "./ingame_ui/" },
+"skeleton": { "hash": "Tb9H1YS2T4LxE+OXRc3CtjzuM/4", "spine": "3.6.50", "width": 1023, "height": 275.6, "images": "./ingame_ui/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 58.97, "rotation": 90, "x": -0.35, "y": -93.59 },
@@ -28,7 +28,7 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 220.28, 129.92, 218.25, -915.28, -101.66, -913.24, -99.63, 131.95 ]
+				"vertices": [ 290.11, 129.92, 288.07, -915.28, -101.66, -913.24, -99.63, 131.95 ]
 			}
 		},
 		"item_butten_a": {
@@ -74,7 +74,88 @@
 	}
 },
 "animations": {
-	"loading": {
+	"idle": {
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"bone3": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"item_butten_a": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"item_butten_b": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"item_butten_c": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"item_butten_d": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"background_b": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"show": {
 		"bones": {
 			"root": {
 				"rotate": [

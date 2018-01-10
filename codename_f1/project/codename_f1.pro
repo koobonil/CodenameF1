@@ -11,15 +11,15 @@ HEADERS += ../source/classes_f1.hpp
 HEADERS += ../source/codename_f1.hpp
 HEADERS += ../source/resource.hpp
 HEADERS += ../source/ingame_f1.hpp
-HEADERS += ../source/maptool.hpp
-HEADERS += ../source/stagetool.hpp
+HEADERS += ../source/maptool_f1.hpp
+HEADERS += ../source/stagetool_f1.hpp
 SOURCES += ../source/classes_f1.cpp
 SOURCES += ../source/codename_f1.cpp
 SOURCES += ../source/main.cpp
 SOURCES += ../source/resource.cpp
 SOURCES += ../source/ingame_f1.cpp
-SOURCES += ../source/maptool.cpp
-SOURCES += ../source/stagetool.cpp
+SOURCES += ../source/maptool_f1.cpp
+SOURCES += ../source/stagetool_f1.cpp
 
 INCLUDEPATH += ../../codename_fx/source
 HEADERS += ../../codename_fx/source/classes.hpp
@@ -147,6 +147,12 @@ ASSETS_TABLE.files += ../assets/f1/table
 ASSETS_TABLE.path = /assets/f1
 ASSETS_SPINE.files += ../assets/f1/spine
 ASSETS_SPINE.path = /assets/f1
+ASSETS_IMAGE_FX.files += ../../codename_fx/assets/fx/image
+ASSETS_IMAGE_FX.path = /assets/fx
+ASSETS_TABLE_FX.files += ../../codename_fx/assets/fx/table
+ASSETS_TABLE_FX.path = /assets/fx
+ASSETS_SPINE_FX.files += ../../codename_fx/assets/fx/spine
+ASSETS_SPINE_FX.path = /assets/fx
 
 win32{
     RC_ICONS += ../common/windows/main.ico
@@ -156,6 +162,9 @@ android{
     INSTALLS += ASSETS_IMAGE
     INSTALLS += ASSETS_TABLE
     INSTALLS += ASSETS_SPINE
+    INSTALLS += ASSETS_IMAGE_FX
+    INSTALLS += ASSETS_TABLE_FX
+    INSTALLS += ASSETS_SPINE_FX
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../common/android
 }
 
@@ -163,6 +172,9 @@ ios|macx{
     QMAKE_BUNDLE_DATA += ASSETS_IMAGE
     QMAKE_BUNDLE_DATA += ASSETS_TABLE
     QMAKE_BUNDLE_DATA += ASSETS_SPINE
+    QMAKE_BUNDLE_DATA += ASSETS_IMAGE_FX
+    QMAKE_BUNDLE_DATA += ASSETS_TABLE_FX
+    QMAKE_BUNDLE_DATA += ASSETS_SPINE_FX
     QMAKE_BUNDLE_DATA += MAIN_ICON
     QMAKE_INFO_PLIST = $$PWD/../common/ios/Info.plist
     MAIN_ICON.files += $$PWD/../common/ios/res/icon.icns

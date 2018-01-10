@@ -1,7 +1,10 @@
 {
+	"BuildNumber":"2",
 	"MapName":"map_0_dev",
 	"MissionLastRID":"84000003",
 	"MonsterLastRID":"83000085",
+	"ToolType":"stagetool_f1",
+	"ToolVersion":"2",
 	"Waves":
 	[
 		{
@@ -122,21 +125,6 @@
 							"RID":"83000079"
 						}
 					],
-					"Scripts":
-					[
-						{
-							"PosX":"-0.060558",
-							"PosY":"0.051755",
-							"TargetRID":"83000079",
-							"Text":"talk \"Hi~!\""
-						},
-						{
-							"PosX":"-0.013471",
-							"PosY":"-0.082069",
-							"TargetRID":"84000002",
-							"Text":"talk \"See U~!!\""
-						}
-					],
 					"TimeSec":"21"
 				},
 				{
@@ -167,8 +155,8 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.26226",
-							"PosY":"0.1258",
+							"PosX":"0.024554",
+							"PosY":"0.232143",
 							"TargetRID":"81000102",
 							"Text":"animate showing-show"
 						}
@@ -179,37 +167,37 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.206823",
-							"PosY":"0.093817",
+							"PosX":"0.058036",
+							"PosY":"0.241071",
 							"TargetRID":"81000103",
 							"Text":"animate showing-show"
 						}
 					],
-					"TimeSec":"37"
+					"TimeSec":"34"
 				},
 				{
 					"Scripts":
 					[
 						{
-							"PosX":"0.176972",
-							"PosY":"0.1258",
+							"PosX":"0.084821",
+							"PosY":"0.227679",
 							"TargetRID":"81000104",
 							"Text":"animate showing-show"
 						}
 					],
-					"TimeSec":"41"
+					"TimeSec":"35"
 				},
 				{
 					"Scripts":
 					[
 						{
-							"PosX":"0.142857",
-							"PosY":"0.119403",
+							"PosX":"0.049107",
+							"PosY":"0.247768",
 							"TargetRID":"81000105",
 							"Text":"animate showing-show"
 						}
 					],
-					"TimeSec":"45"
+					"TimeSec":"36"
 				},
 				{
 					"Scripts":
@@ -222,6 +210,36 @@
 						}
 					],
 					"TimeSec":"49"
+				},
+				{
+					"Scripts":
+					[
+						{
+							"PosX":"-0.011161",
+							"PosY":"0.21875",
+							"TargetRID":"81000102",
+							"Text":"animate hiding-idle"
+						},
+						{
+							"PosX":"-0.044643",
+							"PosY":"0.292411",
+							"TargetRID":"81000103",
+							"Text":"animate hiding-idle"
+						},
+						{
+							"PosX":"-0.078125",
+							"PosY":"0.361607",
+							"TargetRID":"81000104",
+							"Text":"animate hiding-idle"
+						},
+						{
+							"PosX":"-0.098214",
+							"PosY":"0.419643",
+							"TargetRID":"81000105",
+							"Text":"animate hiding-idle"
+						}
+					],
+					"TimeSec":"52"
 				}
 			],
 			"Title":"Untitled"

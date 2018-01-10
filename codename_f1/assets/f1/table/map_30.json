@@ -1,5 +1,6 @@
 {
 	"BGName":"map_forest_a",
+	"BuildNumber":"1",
 	"Layers":
 	[
 		{
@@ -8,7 +9,7 @@
 			[
 				{
 					"ID":"Spot",
-					"RID":"81000082",
+					"RID":"81000156",
 					"RectB":"-0.266666",
 					"RectL":"0.18",
 					"RectR":"0.26",
@@ -17,7 +18,7 @@
 				},
 				{
 					"ID":"Spot",
-					"RID":"81000080",
+					"RID":"81000157",
 					"RectB":"-0.266666",
 					"RectL":"-0.26",
 					"RectR":"-0.18",
@@ -26,11 +27,29 @@
 				},
 				{
 					"ID":"Spot",
-					"RID":"81000081",
+					"RID":"81000158",
 					"RectB":"-0.266666",
 					"RectL":"-0.04",
 					"RectR":"0.04",
 					"RectT":"-0.333333",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000159",
+					"RectB":"-0.266445",
+					"RectL":"0.38",
+					"RectR":"0.46",
+					"RectT":"-0.333056",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000160",
+					"RectB":"-0.266445",
+					"RectL":"-0.46",
+					"RectR":"-0.38",
+					"RectT":"-0.333056",
 					"Visible":"1"
 				}
 			]
@@ -247,33 +266,6 @@
 					"Visible":"1"
 				},
 				{
-					"ID":"Egg",
-					"RID":"81000037",
-					"RectB":"0.416667",
-					"RectL":"-0.16",
-					"RectR":"-0.08",
-					"RectT":"0.35",
-					"Visible":"1"
-				},
-				{
-					"ID":"Egg",
-					"RID":"81000038",
-					"RectB":"0.416667",
-					"RectL":"-0.04",
-					"RectR":"0.04",
-					"RectT":"0.35",
-					"Visible":"1"
-				},
-				{
-					"ID":"Egg",
-					"RID":"81000039",
-					"RectB":"0.416667",
-					"RectL":"0.08",
-					"RectR":"0.16",
-					"RectT":"0.35",
-					"Visible":"1"
-				},
-				{
 					"ID":"Flower",
 					"RID":"81000121",
 					"RectB":"0.416667",
@@ -379,15 +371,6 @@
 					"RectL":"-0.26",
 					"RectR":"-0.22",
 					"RectT":"0.15",
-					"Visible":"1"
-				},
-				{
-					"ID":"Flower",
-					"RID":"81000128",
-					"RectB":"-0.216667",
-					"RectL":"-0.46",
-					"RectR":"-0.38",
-					"RectT":"-0.283333",
 					"Visible":"1"
 				},
 				{
@@ -641,6 +624,195 @@
 					"RectR":"0.2",
 					"RectT":"-0.183333",
 					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000161",
+					"RectB":"-0.066611",
+					"RectL":"-0.32",
+					"RectR":"-0.28",
+					"RectT":"-0.099917",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000162",
+					"RectB":"-0.083264",
+					"RectL":"-0.26",
+					"RectR":"-0.22",
+					"RectT":"-0.11657",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000163",
+					"RectB":"0",
+					"RectL":"-0.24",
+					"RectR":"-0.2",
+					"RectT":"-0.033306",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000164",
+					"RectB":"-0.049958",
+					"RectL":"0.18",
+					"RectR":"0.22",
+					"RectT":"-0.083264",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000165",
+					"RectB":"-0.133222",
+					"RectL":"0.2",
+					"RectR":"0.24",
+					"RectT":"-0.166528",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000166",
+					"RectB":"0.033306",
+					"RectL":"0.18",
+					"RectR":"0.22",
+					"RectT":"0",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000167",
+					"RectB":"0.083264",
+					"RectL":"0.26",
+					"RectR":"0.3",
+					"RectT":"0.049958",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000168",
+					"RectB":"0.066611",
+					"RectL":"-0.24",
+					"RectR":"-0.2",
+					"RectT":"0.033306",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000169",
+					"RectB":"0.016653",
+					"RectL":"-0.32",
+					"RectR":"-0.28",
+					"RectT":"-0.016653",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000170",
+					"RectB":"-0.083264",
+					"RectL":"0.24",
+					"RectR":"0.28",
+					"RectT":"-0.133222",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000171",
+					"RectB":"-0.11657",
+					"RectL":"0.28",
+					"RectR":"0.32",
+					"RectT":"-0.149875",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000172",
+					"RectB":"-0.016653",
+					"RectL":"0.22",
+					"RectR":"0.26",
+					"RectT":"-0.049958",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000173",
+					"RectB":"-0.133222",
+					"RectL":"-0.3",
+					"RectR":"-0.26",
+					"RectT":"-0.166528",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000174",
+					"RectB":"-0.183181",
+					"RectL":"-0.24",
+					"RectR":"-0.2",
+					"RectT":"-0.216486",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000175",
+					"RectB":"-0.149875",
+					"RectL":"-0.38",
+					"RectR":"-0.34",
+					"RectT":"-0.183181",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000176",
+					"RectB":"-0.049958",
+					"RectL":"-0.42",
+					"RectR":"-0.38",
+					"RectT":"-0.083264",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000177",
+					"RectB":"0.066611",
+					"RectL":"-0.34",
+					"RectR":"-0.3",
+					"RectT":"0.033306",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000178",
+					"RectB":"0.099917",
+					"RectL":"0.2",
+					"RectR":"0.24",
+					"RectT":"0.066611",
+					"Visible":"1"
+				},
+				{
+					"ID":"Egg",
+					"RID":"81000038",
+					"RectB":"0.466625",
+					"RectL":"-0.04",
+					"RectR":"0.04",
+					"RectT":"0.399958",
+					"Visible":"1"
+				},
+				{
+					"ID":"Egg",
+					"RID":"81000039",
+					"RectB":"0.449973",
+					"RectL":"0.32",
+					"RectR":"0.4",
+					"RectT":"0.383306",
+					"Visible":"1"
+				},
+				{
+					"ID":"Egg",
+					"RID":"81000037",
+					"RectB":"0.449973",
+					"RectL":"-0.36",
+					"RectR":"-0.28",
+					"RectT":"0.383306",
+					"Visible":"1"
 				}
 			],
 			"Polygons":
@@ -856,6 +1028,8 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000155",
-	"PolygonLastRID":"82000010"
+	"ObjectLastRID":"81000178",
+	"PolygonLastRID":"82000010",
+	"ToolType":"maptool_f1",
+	"ToolVersion":"2"
 }

@@ -8,7 +8,7 @@ public:
     ~codename_f1Data();
 
 public:
-    inline static String& FirstStage() {static String _ = "stage_0_test"; return _;}
+    inline static String& FirstStage() {static String _ = "stage_test"; return _;}
 
 public:
     bool mIsLandscape;

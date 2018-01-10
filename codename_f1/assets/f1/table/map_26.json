@@ -1,5 +1,6 @@
 {
 	"BGName":"map_forest_a",
+	"BuildNumber":"1",
 	"Layers":
 	[
 		{
@@ -8,7 +9,7 @@
 			[
 				{
 					"ID":"Spot",
-					"RID":"81000157",
+					"RID":"81000226",
 					"RectB":"-0.2",
 					"RectL":"-0.34",
 					"RectR":"-0.26",
@@ -17,7 +18,7 @@
 				},
 				{
 					"ID":"Spot",
-					"RID":"81000158",
+					"RID":"81000227",
 					"RectB":"0.266667",
 					"RectL":"-0.34",
 					"RectR":"-0.26",
@@ -26,7 +27,7 @@
 				},
 				{
 					"ID":"Hole",
-					"RID":"81000192",
+					"RID":"81000228",
 					"RectB":"0.15",
 					"RectL":"-0.34",
 					"RectR":"-0.02",
@@ -1298,24 +1299,6 @@
 				},
 				{
 					"ID":"Tree",
-					"RID":"81000207",
-					"RectB":"-0.416667",
-					"RectL":"-0.48",
-					"RectR":"-0.44",
-					"RectT":"-0.45",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
-					"RID":"81000208",
-					"RectB":"-0.45",
-					"RectL":"-0.42",
-					"RectR":"-0.38",
-					"RectT":"-0.483333",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
 					"RID":"81000209",
 					"RectB":"-0.416667",
 					"RectL":"-0.32",
@@ -1366,15 +1349,6 @@
 					"RectL":"0.36",
 					"RectR":"0.4",
 					"RectT":"0.383333",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
-					"RID":"81000215",
-					"RectB":"0.466667",
-					"RectL":"-0.42",
-					"RectR":"-0.38",
-					"RectT":"0.433333",
 					"Visible":"1"
 				},
 				{
@@ -1465,6 +1439,24 @@
 					"RectL":"0.42",
 					"RectR":"0.5",
 					"RectT":"-0.4",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000229",
+					"RectB":"0.482931",
+					"RectL":"-0.48",
+					"RectR":"-0.4",
+					"RectT":"0.41632",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000230",
+					"RectB":"-0.41632",
+					"RectL":"-0.48",
+					"RectR":"-0.4",
+					"RectT":"-0.482931",
 					"Visible":"1"
 				}
 			],
@@ -1601,6 +1593,8 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000225",
-	"PolygonLastRID":"82000008"
+	"ObjectLastRID":"81000230",
+	"PolygonLastRID":"82000008",
+	"ToolType":"maptool_f1",
+	"ToolVersion":"2"
 }

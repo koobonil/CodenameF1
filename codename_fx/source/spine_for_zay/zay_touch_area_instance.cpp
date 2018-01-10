@@ -122,11 +122,11 @@ namespace ZAY
         }
     }
 
-    void TouchAreaInstance::renderBoundBox() const //bx
+    void TouchAreaInstance::renderBoundBox(int r, int g, int b, int a) const //bx
     {
         if(6 <= _vertciesCount && _bossVerticesValid)
         {
-            SpineBuilder_SetBoundBox(_name.c_str(), 255, 0, 0, 128);
+            SpineBuilder_SetBoundBox(_name.c_str(), r, g, b, a);
             for(int i = 0; i < _vertciesCount; i += 2)
                 SpineBuilder_MergeBoundBox(_bossVertciesXY[i], _bossVertciesXY[i + 1]);
             SpineBuilder_MergeBoundBox(_bossVertciesXY[0], _bossVertciesXY[1]);

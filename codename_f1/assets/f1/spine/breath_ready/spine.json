@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "yVGIx5b+T5qC7qr8B7Ft443thuM", "spine": "3.6.47", "width": 787.5, "height": 787.5, "images": "./meteo_ready/" },
+"skeleton": { "hash": "4PEWz04W0iYCPs7cPF0Saf7FQWU", "spine": "3.6.50", "width": 787.5, "height": 787.5, "images": "./meteo_ready/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 26.42, "rotation": 88.49, "x": 10.62, "y": 0.61 },
@@ -15,8 +15,8 @@
 	{ "name": "background_red_area", "bone": "background_red_area", "attachment": "background_red_area" },
 	{ "name": "background_min_area", "bone": "bone", "attachment": "background_min_area" },
 	{ "name": "background_max_area", "bone": "bone", "attachment": "background_max_area" },
-	{ "name": "meteo_ready_c", "bone": "background_red_b", "color": "ff0000ff", "attachment": "meteo_ready_c", "blend": "additive" },
-	{ "name": "meteo_ready_a", "bone": "background_red_a", "attachment": "meteo_ready_a", "blend": "additive" }
+	{ "name": "meteo_ready_c", "bone": "background_red_b", "attachment": "skin", "blend": "additive" },
+	{ "name": "meteo_ready_a", "bone": "background_red_a", "attachment": "skin", "blend": "additive" }
 ],
 "skins": {
 	"default": {
@@ -47,14 +47,27 @@
 				"vertexCount": 4,
 				"vertices": [ -281.71, -275.53, -260.07, 296.46, 290.41, 265.36, 261.41, -295.03 ]
 			}
-		},
+		}
+	},
+	"first": {
 		"meteo_ready_a": {
-			"meteo_ready_a": { "scaleX": 3.15, "scaleY": 3.15, "rotation": -90, "width": 250, "height": 250 }
+			"skin": { "name": "meteo_ready_a", "scaleX": 3.15, "scaleY": 3.15, "rotation": -90, "width": 250, "height": 250 }
 		},
 		"meteo_ready_c": {
-			"meteo_ready_c": { "scaleX": 3.15, "scaleY": 3.15, "width": 250, "height": 250 }
+			"skin": { "name": "meteo_ready_c", "scaleX": 3.15, "scaleY": 3.15, "width": 250, "height": 250 }
+		}
+	},
+	"second": {
+		"meteo_ready_a": {
+			"skin": { "name": "meteo_ready_d", "scaleX": 3.15, "scaleY": 3.15, "rotation": -90, "width": 250, "height": 250 }
+		},
+		"meteo_ready_c": {
+			"skin": { "name": "meteo_ready_b", "scaleX": 3.15, "scaleY": 3.15, "width": 250, "height": 250 }
 		}
 	}
+},
+"events": {
+	"sound_breath_charge": {}
 },
 "animations": {
 	"meteo_ready": {
@@ -127,7 +140,10 @@
 					{ "time": 2.3333, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_breath_charge" }
+		]
 	}
 }
 }

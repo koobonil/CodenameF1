@@ -1,40 +1,400 @@
 {
-"skeleton": { "hash": "KYvCy+EzOKyznMQtjGlwf2tE+hs", "spine": "3.6.48", "width": 0, "height": 0, "images": "./card/" },
+"skeleton": { "hash": "sw5EdeSAa1VSyF969+ptAY4Vusc", "spine": "3.6.50", "width": 311, "height": 429, "images": "./card/" },
 "bones": [
 	{ "name": "root" },
-	{ "name": "unlock_area", "parent": "root", "length": 75.15, "rotation": 90 }
+	{ "name": "area", "parent": "root", "length": 65.76, "rotation": 90 },
+	{ "name": "blank", "parent": "root", "length": 36.02, "rotation": 90, "x": 3 },
+	{ "name": "egg", "parent": "root", "length": 36.25, "rotation": 90 },
+	{ "name": "unlock_area", "parent": "root", "length": 75.15, "rotation": 90 },
+	{ "name": "mid_unlock_b", "parent": "unlock_area", "length": 25.94, "rotation": -90 },
+	{ "name": "thumbnail_area", "parent": "root", "length": 38.2, "rotation": 90 }
 ],
 "slots": [
-	{ "name": "unlock_area", "bone": "unlock_area", "attachment": "unlock_area" },
-	{ "name": "egg_area", "bone": "unlock_area", "attachment": "egg_area" },
-	{ "name": "stage_number_area", "bone": "unlock_area", "attachment": "stage_number_area" }
+	{ "name": "mid_blank", "bone": "blank", "attachment": "mid_blank" },
+	{ "name": "mid_three_egg", "bone": "egg", "attachment": "mid_three_egg" },
+	{ "name": "mid_two_egg", "bone": "egg", "attachment": "mid_two_egg" },
+	{ "name": "mid_one_egg", "bone": "egg", "attachment": "mid_one_egg" },
+	{ "name": "mid_no_egg", "bone": "egg", "attachment": "mid_no_egg" },
+	{ "name": "mid_unlock", "bone": "unlock_area", "attachment": "mid_unlock" },
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "stage_number_area", "bone": "egg", "color": "000000ff", "attachment": "stage_number_area" },
+	{ "name": "mid_unlock_b", "bone": "mid_unlock_b", "attachment": "mid_unlock_b" }
 ],
 "skins": {
 	"default": {
-		"egg_area": {
-			"egg_area": {
+		"area": {
+			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ -64.41, 142.32, -170.93, 141.43, -169.14, -147.06, -64, -147.06 ]
+				"vertices": [ 212.89, 151.72, -212.24, 151.72, -212.24, -151.73, 212.1, -151.73 ]
 			}
+		},
+		"mid_blank": {
+			"mid_blank": { "rotation": -90, "width": 308, "height": 429 }
+		},
+		"mid_no_egg": {
+			"mid_no_egg": { "x": -118.08, "rotation": -90, "width": 289, "height": 106 }
+		},
+		"mid_one_egg": {
+			"mid_one_egg": { "x": -118.08, "rotation": -90, "width": 289, "height": 106 }
+		},
+		"mid_three_egg": {
+			"mid_three_egg": { "x": -118.08, "rotation": -90, "width": 289, "height": 106 }
+		},
+		"mid_two_egg": {
+			"mid_two_egg": { "x": -118.08, "rotation": -90, "width": 289, "height": 106 }
+		},
+		"mid_unlock": {
+			"mid_unlock": { "rotation": -90, "width": 308, "height": 429 }
+		},
+		"mid_unlock_b": {
+			"mid_unlock_b": { "width": 179, "height": 225 }
 		},
 		"stage_number_area": {
 			"stage_number_area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 114.01, 60.98, -45.94, 60.98, -45.94, -68.27, 113.72, -68.2 ]
-			}
-		},
-		"unlock_area": {
-			"unlock_area": {
-				"type": "boundingbox",
-				"vertexCount": 4,
-				"vertices": [ 222.87, 157.42, -210.36, 157.42, -210.36, -156.6, 222.08, -156.6 ]
+				"vertices": [ 114.01, 60.98, -45.94, 60.98, -45.94, -68.27, 113.72, -68.2 ],
+				"color": "000000ff"
 			}
 		}
 	}
 },
+"events": {
+	"sound_ui_cardopen2": {},
+	"sound_ui_cardopen_1": {}
+},
 "animations": {
-	"idle": {}
+	"blank": {
+		"slots": {
+			"mid_blank": {
+				"color": [
+					{ "time": 0, "color": "ffffffff" }
+				]
+			},
+			"mid_no_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_one_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_three_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_two_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_unlock": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_unlock_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"stage_number_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			}
+		}
+	},
+	"idle": {
+		"slots": {
+			"mid_blank": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_no_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_one_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_three_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_two_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"stage_number_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			}
+		}
+	},
+	"noegg": {
+		"slots": {
+			"mid_blank": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_one_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_three_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_two_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_unlock": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_unlock_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		}
+	},
+	"oneegg": {
+		"slots": {
+			"mid_blank": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_no_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_one_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffffff" }
+				]
+			},
+			"mid_three_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_two_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_unlock": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_unlock_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		}
+	},
+	"threeegg": {
+		"slots": {
+			"mid_blank": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_no_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_one_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_three_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffffff" }
+				]
+			},
+			"mid_two_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_unlock": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_unlock_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		}
+	},
+	"twoegg": {
+		"slots": {
+			"mid_blank": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_no_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_one_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_three_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_two_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffffff" }
+				]
+			},
+			"mid_unlock": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_unlock_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		}
+	},
+	"unlock": {
+		"slots": {
+			"mid_blank": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_no_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_one_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_three_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_two_egg": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"mid_unlock": {
+				"color": [
+					{ "time": 0.9, "color": "ffffffff" },
+					{ "time": 1.0333, "color": "ffffff00" }
+				]
+			},
+			"mid_unlock_b": {
+				"color": [
+					{ "time": 0.9, "color": "ffffffff" },
+					{ "time": 1.0333, "color": "ffffff00" }
+				]
+			},
+			"stage_number_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.9, "color": "ffffff00" },
+					{ "time": 1.0333, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 0.9, "name": null },
+					{ "time": 1.0333, "name": "stage_number_area" }
+				]
+			}
+		},
+		"bones": {
+			"mid_unlock_b": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.0333, "x": 0, "y": -3.27 },
+					{ "time": 0.0667, "x": 6.53, "y": 2.18 },
+					{ "time": 0.1, "x": -8.71, "y": 8.71 },
+					{ "time": 0.1333, "x": 1.09, "y": 4.36 },
+					{ "time": 0.1667, "x": 10.89, "y": -4.36 },
+					{ "time": 0.2, "x": 4.36, "y": 5.45 },
+					{ "time": 0.2333, "x": 4.36, "y": 9.8 },
+					{ "time": 0.2667, "x": 15.25, "y": 9.8 },
+					{ "time": 0.3, "x": 15.25, "y": 4.36 },
+					{ "time": 0.3333, "x": 7.62, "y": 4.36 },
+					{ "time": 0.3667, "x": 7.62, "y": -3.27 },
+					{ "time": 0.4, "x": 23.96, "y": -1.09 },
+					{ "time": 0.4333, "x": 23.96, "y": 4.36 },
+					{ "time": 0.4667, "x": 19.6, "y": 4.36 },
+					{ "time": 0.5, "x": 0, "y": 0 },
+					{ "time": 0.5333, "x": 0, "y": -3.27 },
+					{ "time": 0.5667, "x": 6.53, "y": 2.18 },
+					{ "time": 0.6, "x": -8.71, "y": 8.71 },
+					{ "time": 0.6333, "x": 1.09, "y": 4.36 },
+					{ "time": 0.6667, "x": 10.89, "y": -4.36 },
+					{ "time": 0.7, "x": 4.36, "y": 5.45 },
+					{ "time": 0.7333, "x": 4.36, "y": 9.8 },
+					{ "time": 0.7667, "x": 15.25, "y": 9.8 },
+					{ "time": 0.8, "x": 15.25, "y": 4.36 },
+					{ "time": 0.8333, "x": 7.62, "y": 4.36 },
+					{ "time": 0.8667, "x": 7.62, "y": -3.27 },
+					{ "time": 0.9, "x": 23.96, "y": -1.09 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 0.9, "x": 0.8, "y": 0.8 },
+					{ "time": 0.9667, "x": 1.4, "y": 1.4 }
+				]
+			}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_ui_cardopen2" },
+			{ "time": 0.9, "name": "sound_ui_cardopen_1" }
+		]
+	}
 }
 }

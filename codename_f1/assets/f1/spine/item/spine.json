@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "jZpUjsXa7A7jpb8qjTktu/b3rBw", "spine": "3.6.48", "width": 225, "height": 227, "images": "./item/" },
+"skeleton": { "hash": "tUZVgFmC4YR8UxAQhsL2flCJe2k", "spine": "3.6.50", "width": 225, "height": 227, "images": "./item/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 25.55, "rotation": 90, "y": 5 },
@@ -161,6 +161,10 @@
 		}
 	}
 },
+"events": {
+	"sound_item_get": {},
+	"sound_item_use": {}
+},
 "animations": {
 	"get": {
 		"slots": {
@@ -280,7 +284,10 @@
 					{ "time": 0.1667, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_item_get" }
+		]
 	},
 	"idle": {
 		"slots": {
@@ -648,43 +655,43 @@
 			"effect_ston_a_fire": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" },
-					{ "time": 0.0667, "color": "ffffffff" },
-					{ "time": 0.2333, "color": "ffffff00" }
+					{ "time": 0.1, "color": "ffffffff" },
+					{ "time": 0.4333, "color": "ffffff00" }
 				]
 			},
 			"effect_ston_b_fire": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" },
-					{ "time": 0.0667, "color": "ffffffff" },
-					{ "time": 0.3333, "color": "ffffff00" }
+					{ "time": 0.1, "color": "ffffffff" },
+					{ "time": 0.6667, "color": "ffffff00" }
 				]
 			},
 			"effect_ston_c_fire": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" },
-					{ "time": 0.0667, "color": "ffffffff" },
-					{ "time": 0.3333, "color": "ffffff00" }
+					{ "time": 0.1, "color": "ffffffff" },
+					{ "time": 0.6667, "color": "ffffff00" }
 				]
 			},
 			"effect_ston_d_fire": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" },
-					{ "time": 0.0667, "color": "ffffffff" },
-					{ "time": 0.3333, "color": "ffffff00" }
+					{ "time": 0.1, "color": "ffffffff" },
+					{ "time": 0.6667, "color": "ffffff00" }
 				]
 			},
 			"effect_ston_e_fire": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" },
-					{ "time": 0.0667, "color": "ffffffff" },
-					{ "time": 0.3333, "color": "ffffff00" }
+					{ "time": 0.1, "color": "ffffffff" },
+					{ "time": 0.6667, "color": "ffffff00" }
 				]
 			},
 			"effect_ston_f_fire": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" },
-					{ "time": 0.0667, "color": "ffffffff" },
-					{ "time": 0.3333, "color": "ffffff00" }
+					{ "time": 0.1, "color": "ffffffff" },
+					{ "time": 0.6667, "color": "ffffff00" }
 				]
 			}
 		},
@@ -692,53 +699,56 @@
 			"effect_b": {
 				"scale": [
 					{ "time": 0, "x": 0, "y": 0 },
-					{ "time": 0.2333, "x": 3, "y": 3 }
+					{ "time": 0.4333, "x": 3, "y": 3 }
 				]
 			},
 			"effect_c": {
 				"scale": [
 					{ "time": 0, "x": 0, "y": 0 },
-					{ "time": 0.2333, "x": 3, "y": 3 }
+					{ "time": 0.4333, "x": 3, "y": 3 }
 				]
 			},
 			"effect_c2": {
 				"translate": [
 					{ "time": 0, "x": 0, "y": 0 },
-					{ "time": 0.3333, "x": 32.68, "y": 12.71 }
+					{ "time": 0.6667, "x": 32.68, "y": 12.71 }
 				]
 			},
 			"effect_c3": {
 				"translate": [
 					{ "time": 0, "x": 0, "y": 0 },
-					{ "time": 0.3333, "x": -17.73, "y": 26.6 }
+					{ "time": 0.6667, "x": -17.73, "y": 26.6 }
 				]
 			},
 			"effect_c4": {
 				"translate": [
 					{ "time": 0, "x": 0, "y": 0 },
-					{ "time": 0.3333, "x": -12.44, "y": -31.1 }
+					{ "time": 0.6667, "x": -12.44, "y": -31.1 }
 				]
 			},
 			"effect_c5": {
 				"translate": [
 					{ "time": 0, "x": 0, "y": 0 },
-					{ "time": 0.3333, "x": 7.74, "y": -29.78 }
+					{ "time": 0.6667, "x": 7.74, "y": -29.78 }
 				]
 			},
 			"effect_c6": {
 				"translate": [
 					{ "time": 0, "x": 0, "y": 0 },
-					{ "time": 0.3333, "x": 13.49, "y": -12.8 }
+					{ "time": 0.6667, "x": 13.49, "y": -12.8 }
 				]
 			},
 			"ston": {
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1 },
-					{ "time": 0.0667, "x": 0.7, "y": 0.7 },
-					{ "time": 0.1667, "x": 1, "y": 1 }
+					{ "time": 0.1, "x": 0.7, "y": 0.7 },
+					{ "time": 0.3, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_item_use" }
+		]
 	}
 }
 }

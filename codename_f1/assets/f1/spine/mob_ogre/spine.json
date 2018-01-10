@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "orgbvBELEi74NktmwFNkP4aJWoo", "spine": "3.6.47", "width": 392.5, "height": 598.93, "images": "./mop_ogre/" },
+"skeleton": { "hash": "uirMXlikOUNF0WTKSeKFL7EiTtQ", "spine": "3.6.50", "width": 392.5, "height": 668.93, "images": "./mop_ogre/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 49.49, "rotation": 90, "x": -1.53, "y": -1.07 },
@@ -18,6 +18,7 @@
 	{ "name": "r_eye", "parent": "face", "length": 23.28, "x": 49.91, "y": -18.99 },
 	{ "name": "r_nunsup", "parent": "r_eye", "length": 23.28, "rotation": 90, "x": 26.31, "y": -9.61 },
 	{ "name": "r_par", "parent": "mom", "length": 196.9, "x": 32.1, "y": 80.08 },
+	{ "name": "style", "parent": "face", "length": 18.9, "x": 88.32, "y": 10.33 },
 	{ "name": "tuc", "parent": "face", "length": 122.85, "rotation": 90, "x": -13.01, "y": -43.57 }
 ],
 "slots": [
@@ -37,8 +38,10 @@
 	{ "name": "ko", "bone": "ko", "attachment": "skin" },
 	{ "name": "area", "bone": "area", "attachment": "area" },
 	{ "name": "toast", "bone": "area", "attachment": "toast" },
-	{ "name": "attack_efect_a", "bone": "attack2", "attachment": "attack_efect_a" },
-	{ "name": "attack_efect_b", "bone": "attack", "attachment": "attack_efect_b" }
+	{ "name": "attack_efect_b", "bone": "attack", "attachment": "skin" },
+	{ "name": "effect_a", "bone": "attack2", "attachment": "skin" },
+	{ "name": "skin_a", "bone": "style", "attachment": "skin_a" },
+	{ "name": "skin_b", "bone": "style", "attachment": "skin_b" }
 ],
 "skins": {
 	"default": {
@@ -49,12 +52,6 @@
 				"vertices": [ 0.42, -65.64, 49.07, -65.64, 50.08, 70.48, 1.81, 70.02 ]
 			}
 		},
-		"attack_efect_a": {
-			"attack_efect_a": { "width": 150, "height": 182 }
-		},
-		"attack_efect_b": {
-			"attack_efect_b": { "width": 184, "height": 200 }
-		},
 		"toast": {
 			"toast": {
 				"type": "boundingbox",
@@ -64,6 +61,12 @@
 		}
 	},
 	"forest": {
+		"attack_efect_b": {
+			"skin": { "name": "attack_efect_b", "width": 184, "height": 200 }
+		},
+		"effect_a": {
+			"skin": { "name": "effect_a", "rotation": -90, "width": 180, "height": 324 }
+		},
 		"face": {
 			"skin": { "name": "face_forest", "x": 87.18, "y": 4.56, "rotation": -90, "width": 168, "height": 200 }
 		},
@@ -103,11 +106,23 @@
 		"r_par": {
 			"skin": { "name": "r_par_forest", "x": 94.28, "y": -12.58, "rotation": 90, "width": 92, "height": 216 }
 		},
+		"skin_a": {
+			"skin_a": { "name": "ougu_style_a_forest", "x": 10.74, "y": -5.37, "rotation": -90, "width": 173, "height": 16 }
+		},
+		"skin_b": {
+			"skin_b": { "name": "ougu_style_b_forest", "x": 10.74, "y": -5.37, "rotation": -90, "width": 173, "height": 16 }
+		},
 		"tuc": {
 			"skin": { "name": "tuc_forest", "x": 58.13, "y": -17.19, "rotation": 180, "width": 160, "height": 80 }
 		}
 	},
 	"ice": {
+		"attack_efect_b": {
+			"skin": { "name": "attack_efect_a", "rotation": -90, "width": 184, "height": 200 }
+		},
+		"effect_a": {
+			"skin": { "name": "effect_b", "rotation": -90, "width": 180, "height": 324 }
+		},
 		"face": {
 			"skin": { "name": "face_ice", "x": 87.18, "y": 4.56, "rotation": -90, "width": 168, "height": 199 }
 		},
@@ -147,28 +162,63 @@
 		"r_par": {
 			"skin": { "name": "r_par_ice", "x": 94.28, "y": -12.58, "rotation": 90, "width": 96, "height": 218 }
 		},
+		"skin_a": {
+			"skin_a": { "name": "ougu_style_a_ice", "x": 6.71, "y": -4.7, "rotation": -90, "width": 173, "height": 16 }
+		},
+		"skin_b": {
+			"skin_b": { "name": "ougu_style_b_ice", "x": 6.71, "y": -4.7, "rotation": -90, "width": 173, "height": 16 }
+		},
 		"tuc": {
 			"skin": { "name": "tuc_ice", "x": 58.13, "y": -17.19, "rotation": 180, "width": 160, "height": 72 }
 		}
 	}
 },
+"events": {
+	"sound_hole_drop": {},
+	"sound_ogre_attack": {},
+	"sound_ogre_dead": {}
+},
 "animations": {
-	"attack": {
+	"_style": {
 		"slots": {
-			"attack_efect_a": {
+			"skin_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
-					{ "time": 0.4333, "color": "ffffff00" },
-					{ "time": 0.5, "color": "dd4747ff" },
-					{ "time": 0.6, "color": "dd474700" }
+					{ "time": 0.6333, "color": "ffffff00" },
+					{ "time": 0.6667, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.3, "color": "ffffffff" },
+					{ "time": 1.3333, "color": "ffffff00" }
 				]
 			},
+			"skin_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.6333, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1.3, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffffff" }
+				]
+			}
+		}
+	},
+	"attack": {
+		"slots": {
 			"attack_efect_b": {
 				"color": [
 					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
 					{ "time": 0.4333, "color": "ffffff00" },
-					{ "time": 0.5, "color": "dd4747ff" },
-					{ "time": 0.6, "color": "dd474700" }
+					{ "time": 0.5, "color": "ffffffff" },
+					{ "time": 0.6, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "skin" }
+				]
+			},
+			"effect_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.4333, "color": "ffffff00" },
+					{ "time": 0.5, "color": "ffffffff" },
+					{ "time": 0.6, "color": "ffffff00" }
 				]
 			}
 		},
@@ -435,27 +485,29 @@
 				]
 			},
 			"attack2": {
-				"rotate": [
-					{ "time": 0.4333, "angle": -108.93 }
-				],
 				"translate": [
-					{ "time": 0.4333, "x": 57.61, "y": -78.47 }
+					{ "time": 0, "x": 67.03, "y": 5.6, "curve": "stepped" },
+					{ "time": 0.4333, "x": 67.03, "y": 5.6 }
 				],
 				"scale": [
-					{ "time": 0.4333, "x": 0.5, "y": 0.5 },
-					{ "time": 0.5, "x": 0.9, "y": 0.9 }
+					{ "time": 0.4333, "x": 0, "y": 0 },
+					{ "time": 0.5, "x": 1, "y": 1 },
+					{ "time": 0.6, "x": 1.1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0.4333, "name": "sound_ogre_attack" }
+		]
 	},
 	"dead": {
 		"slots": {
-			"attack_efect_a": {
+			"attack_efect_b": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
 			},
-			"attack_efect_b": {
+			"effect_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
@@ -1275,16 +1327,19 @@
 					{ "time": 0, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0.3667, "name": "sound_ogre_dead" }
+		]
 	},
 	"dead_hole": {
 		"slots": {
-			"attack_efect_a": {
+			"attack_efect_b": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
 			},
-			"attack_efect_b": {
+			"effect_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
@@ -1609,16 +1664,19 @@
 					{ "time": 0, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0.0667, "name": "sound_hole_drop" }
+		]
 	},
 	"flip": {
 		"slots": {
-			"attack_efect_a": {
+			"attack_efect_b": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
 			},
-			"attack_efect_b": {
+			"effect_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
@@ -1921,12 +1979,12 @@
 	},
 	"hit_down": {
 		"slots": {
-			"attack_efect_a": {
+			"attack_efect_b": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
 			},
-			"attack_efect_b": {
+			"effect_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
@@ -2167,12 +2225,12 @@
 	},
 	"hit_up": {
 		"slots": {
-			"attack_efect_a": {
+			"attack_efect_b": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
 			},
-			"attack_efect_b": {
+			"effect_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
@@ -2414,12 +2472,12 @@
 	},
 	"run": {
 		"slots": {
-			"attack_efect_a": {
+			"attack_efect_b": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
 			},
-			"attack_efect_b": {
+			"effect_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]

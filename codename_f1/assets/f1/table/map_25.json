@@ -1,5 +1,6 @@
 {
 	"BGName":"map_forest_a",
+	"BuildNumber":"1",
 	"Layers":
 	[
 		{
@@ -8,7 +9,7 @@
 			[
 				{
 					"ID":"Spot",
-					"RID":"81000042",
+					"RID":"81000116",
 					"RectB":"-0.383333",
 					"RectL":"-0.14",
 					"RectR":"-0.06",
@@ -17,7 +18,7 @@
 				},
 				{
 					"ID":"Spot",
-					"RID":"81000041",
+					"RID":"81000117",
 					"RectB":"-0.35",
 					"RectL":"0.06",
 					"RectR":"0.14",
@@ -26,7 +27,7 @@
 				},
 				{
 					"ID":"Hole",
-					"RID":"81000099",
+					"RID":"81000118",
 					"RectB":"0.116667",
 					"RectL":"-0.48",
 					"RectR":"-0.14",
@@ -34,12 +35,30 @@
 					"Visible":"1"
 				},
 				{
-					"ID":"AllyStart",
+					"ID":"NonHitWall",
 					"RID":"81000100",
 					"RectB":"0.116666",
 					"RectL":"-0.42",
 					"RectR":"-0.32",
 					"RectT":"0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000119",
+					"RectB":"-0.199833",
+					"RectL":"-0.48",
+					"RectR":"-0.4",
+					"RectT":"-0.266445",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000120",
+					"RectB":"-0.266445",
+					"RectL":"-0.48",
+					"RectR":"-0.4",
+					"RectT":"-0.333056",
 					"Visible":"1"
 				}
 			]
@@ -364,7 +383,7 @@
 					"Visible":"1"
 				},
 				{
-					"ID":"AllyEnd",
+					"ID":"NonHitWall",
 					"RID":"81000104",
 					"RectB":"0.116667",
 					"RectL":"-0.08",
@@ -573,6 +592,8 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000115",
-	"PolygonLastRID":"82000001"
+	"ObjectLastRID":"81000120",
+	"PolygonLastRID":"82000001",
+	"ToolType":"maptool_f1",
+	"ToolVersion":"2"
 }

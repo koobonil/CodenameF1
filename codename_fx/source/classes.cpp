@@ -1,6 +1,7 @@
 ﻿#include <boss.hpp>
 #include "classes.hpp"
 
+#include <service/boss_parasource.hpp>
 #include <resource.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -38,14 +39,15 @@ void SpineRenderer::Release()
     mSpine = nullptr;
 }
 
-void SpineRenderer::Render(ZAY::id_spine_instance instance, ZayPanel& panel, sint32 sx, sint32 sy, sint32 sw, sint32 sh, sint32 h, float scale, bool flip, bool outline) const
+void SpineRenderer::Render(ZAY::id_spine_instance instance, ZayPanel& panel,
+    float sx, float sy, float sw, float sh, sint32 h, float scale, bool flip, bool outline) const
 {
     if(!instance) return;
     const Point XY = panel.toview(0, 0);
-    const sint32 X = (sint32) (XY.x * panel.zoom());
-    const sint32 Y = (sint32) ((h - (XY.y + panel.h())) * panel.zoom());
-    const sint32 W = (sint32) (panel.w() * panel.zoom());
-    const sint32 H = (sint32) (panel.h() * panel.zoom());
+    const float X = XY.x * panel.zoom();
+    const float Y = (h - (XY.y + panel.h())) * panel.zoom();
+    const float W = panel.w() * panel.zoom();
+    const float H = panel.h() * panel.zoom();
     const float cx = ((X + W * 0.5f) - sx) / sw;
     const float cy = ((Y + H * 0.5f) - sy) / sh;
 
@@ -53,22 +55,30 @@ void SpineRenderer::Render(ZAY::id_spine_instance instance, ZayPanel& panel, sin
     ZAY::SpineBuilder::Render(panel, instance, flip, cx, cy, scale, 0.0f, sx, sy, sw, sh);
 }
 
-void SpineRenderer::RenderShadow(ZAY::id_spine_instance instance, ZayPanel& panel, sint32 sx, sint32 sy, sint32 sw, sint32 sh, sint32 h, float scale, bool flip) const
+void SpineRenderer::RenderShadow(ZAY::id_spine_instance instance, ZayPanel& panel,
+    float sx, float sy, float sw, float sh, sint32 h, float scale, bool flip) const
 {
     if(!instance) return;
     const Point XY = panel.toview(0, 0);
-    const sint32 X = (sint32) (XY.x * panel.zoom());
-    const sint32 Y = (sint32) ((h - (XY.y + panel.h())) * panel.zoom());
-    const sint32 W = (sint32) (panel.w() * panel.zoom());
-    const sint32 H = (sint32) (panel.h() * panel.zoom());
+    const float X = XY.x * panel.zoom();
+    const float Y = (h - (XY.y + panel.h())) * panel.zoom();
+    const float W = panel.w() * panel.zoom();
+    const float H = panel.h() * panel.zoom();
     const float cx = ((X + W * 0.5f) - sx) / sw;
     const float cy = ((Y + H * 0.5f) - sy) / sh;
 
     ZAY::SpineBuilder::Render(panel, instance, flip, cx, cy, scale, (flip)? 0.2f : 0.8f, sx, sy, sw, sh);
 }
 
-void SpineRenderer::RenderBound(ZAY::id_spine_instance instance, ZayPanel& panel, bool guideline, float ox, float oy, float scale, bool flip,
-    chars uiname, ZayPanel::SubGestureCB cb) const
+void SpineRenderer::RenderPanel(ZAY::id_spine_instance instance, ZayPanel& panel,
+    float ox, float oy, float scale, bool flip, ZayPanel::SubRenderCB cb) const
+{
+    if(!instance) return;
+    ZAY::SpineBuilder::RenderPanel(panel, instance, ox, oy, scale, flip, cb);
+}
+
+void SpineRenderer::RenderBound(ZAY::id_spine_instance instance, ZayPanel& panel,
+    bool guideline, float ox, float oy, float scale, bool flip, chars uiname, ZayPanel::SubGestureCB cb) const
 {
     if(!instance) return;
     ZAY::SpineBuilder::RenderBound(panel, instance, ox, oy, scale, flip, guideline, uiname, cb);
@@ -144,10 +154,10 @@ void MapSpine::SetSkin(chars skin)
     ZAY::SpineBuilder::SetSkin(mSpineInstance, skin);
 }
 
-void MapSpine::PlayMotion(chars motion, bool repeat)
+void MapSpine::PlayMotion(chars motion, bool repeat, float beginsec)
 {
     if(!mSpineInstance) return;
-    ZAY::SpineBuilder::SetMotionOn(mSpineInstance, motion, repeat);
+    ZAY::SpineBuilder::SetMotionOn(mSpineInstance, motion, repeat, beginsec);
 }
 
 void MapSpine::PlayMotionOnce(chars motion)
@@ -174,8 +184,10 @@ void MapSpine::PlayMotionScript(chars script)
     if(!mSpineInstance) return;
     const String Text = script;
     Strings Motions;
-    for(sint32 pos = 0, nextpos = 0; (nextpos = Text.Find(pos, '-')) != -1; pos = nextpos + 1)
-        Motions.AtAdding() = String(((chars) Text) + pos, nextpos - pos);
+    sint32 LastPos = 0;
+    for(sint32 nextpos = 0; (nextpos = Text.Find(LastPos, '-')) != -1; LastPos = nextpos + 1)
+        Motions.AtAdding() = String(((chars) Text) + LastPos, nextpos - LastPos);
+    Motions.AtAdding() = String(((chars) Text) + LastPos, Text.Length() - LastPos);
 
     ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mSpineInstance, true);
     for(sint32 i = 0, iend = Motions.Count(); i < iend; ++i)
@@ -184,6 +196,12 @@ void MapSpine::PlayMotionScript(chars script)
             ZAY::SpineBuilder::SetMotionOn(mSpineInstance, Motions[i], iend == 1);
         else ZAY::SpineBuilder::SetMotionOnAttached(mSpineInstance, Motions[i - 1], Motions[i], i == iend - 1);
     }
+}
+
+void MapSpine::StopMotion(chars motion)
+{
+    if(!mSpineInstance) return;
+    ZAY::SpineBuilder::SetMotionOff(mSpineInstance, motion);
 }
 
 void MapSpine::StopMotionAll()
@@ -214,7 +232,8 @@ void MapSpine::Update() const
     }
 }
 
-void MapSpine::RenderObject(bool needupdate, bool editmode, ZayPanel& panel, bool flip, chars uiname, ZayPanel::SubGestureCB cb) const
+void MapSpine::RenderObject(bool needupdate, bool editmode, ZayPanel& panel, bool flip, chars uiname,
+    ZayPanel::SubGestureCB gcb, ZayPanel::SubRenderCB rcb) const
 {
     if(needupdate)
     {
@@ -246,13 +265,17 @@ void MapSpine::RenderObject(bool needupdate, bool editmode, ZayPanel& panel, boo
             Platform::Graphics::EndGL();
         }
 
+        if(rcb)
+        ZAY_XYRR(panel, SW / 2, SH / 2, 0, 0)
+            renderer()->RenderPanel(mSpineInstance, panel, CX, CY, Rate, flip, rcb);
+
         if(editmode)
-        ZAY_RGBA(panel, 255, 255, 255, 128)
+        ZAY_RGBA(panel, 0, 0, 0, 128)
             panel.fill();
 
         if(editmode || uiname)
         ZAY_XYRR(panel, SW / 2, SH / 2, 0, 0)
-            renderer()->RenderBound(mSpineInstance, panel, editmode, CX, CY, Rate, flip, uiname, cb);
+            renderer()->RenderBound(mSpineInstance, panel, editmode, CX, CY, Rate, flip, uiname, gcb);
 
         if(editmode)
         ZAY_RGBA(panel, 255, 0, 0, 128)
@@ -319,4 +342,102 @@ void MapSpine::Staff_Start()
         ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mSpineInstance, true);
         ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "start", false);
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+FXState::FXState(chars defaultpath) : mData(FXData::ST()), mDefaultPath(defaultpath)
+{
+    mSubRenderer = ZAY_RENDER_PN(p, n, this)
+    {
+        if(!String::Compare(n, "str_", 4))
+        {
+            ZAY_RGB(p, 255, 255, 255)
+            ZAY_FONT(p, p.h() / 14)
+                p.text(GetString(Parser::GetInt(n + 4)), UIFA_CenterMiddle, UIFE_Right);
+        }
+        else if(!String::Compare(n, "panel_", 6))
+            RenderPanel(n + 6, p);
+    };
+}
+
+FXState::~FXState()
+{
+}
+
+const Context& FXState::GetStage(sint32 index) const
+{
+    if(!mData.mStageTable[0].IsValid())
+    {
+        ParaSource Source(ParaSource::IIS);
+        Source.SetContact("www.finalbossbehindthedoor.com", 80);
+        Source.GetJson(mData.mStageTable, "f1/stage_table.txt");
+    }
+    return mData.mStageTable[index];
+}
+
+ZayPanel::SubRenderCB FXState::GetStageThumbnail(sint32 index) const
+{
+    if(auto Result = mData.mAllParaViews.Access(index))
+        return Result->GetRenderer();
+
+    auto& NewParaView = mData.mAllParaViews[index];
+    NewParaView.Init(GetStage(index)("ParaView").GetString());
+    return NewParaView.GetRenderer();
+}
+
+const String& FXState::GetString(sint32 id) const
+{
+    if(auto Result = mData.mAllStrings.Access(id))
+        return *Result;
+
+    if(!mData.mStringTable[0].IsValid())
+    {
+        ParaSource Source(ParaSource::IIS);
+        Source.SetContact("www.finalbossbehindthedoor.com", 80);
+        Source.GetJson(mData.mStringTable, "f1/string_table.txt");
+    }
+    if(mData.mAllStrings.Count() == 0)
+    {
+        for(sint32 i = 0, iend = mData.mStringTable.LengthOfIndexable(); i < iend; ++i)
+        {
+            sint32 CurID = mData.mStringTable[i]("Index").GetInt(0);
+            mData.mAllStrings[CurID] = mData.mStringTable[i]("kor").GetString("-blank-");
+        }
+        if(auto Result = mData.mAllStrings.Access(id))
+            return *Result;
+    }
+    static String Null = "-null-";
+    return Null;
+}
+
+const SpineRenderer* FXState::GetSpine(chars name, chars path) const
+{
+    if(auto Result = mData.mAllSpines.Access(name))
+        return Result;
+
+    const String ResRoot = (path)? String(path) : mDefaultPath;
+    const String SpineJsonPath = String::Format("spine/%s/spine.json", name);
+    const String PathJsonPath = String::Format("spine/%s/path.json", name);
+    if(Asset::Exist(ResRoot + SpineJsonPath) != roottype_null)
+    {
+        mData.mAllSpines(name).Create(ResRoot, SpineJsonPath, PathJsonPath);
+        return &mData.mAllSpines(name);
+    }
+    return nullptr;
+}
+
+void FXState::SetPanel(chars name, FXPanel::InitCB icb, FXPanel::RenderCB rcb)
+{
+    mData.mAllPanels.Remove(name);
+    auto& CurPanel = mData.mAllPanels(name);
+    CurPanel.mCB = rcb;
+    icb(*this, CurPanel.mData);
+}
+
+void FXState::RenderPanel(chars name, ZayPanel& panel)
+{
+    if(auto CurPanel = mData.mAllPanels.Access(name))
+        CurPanel->mCB(panel, CurPanel->mData);
+    else ZAY_RGBA(panel, 255, 0, 0, -128)
+        panel.fill();
 }

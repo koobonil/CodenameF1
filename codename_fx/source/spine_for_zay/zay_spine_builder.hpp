@@ -34,7 +34,7 @@ namespace ZAY
         static void Update(id_spine_instance spine_instance, float delta_sec);
         static void SetSkin(id_spine_instance spine_instance, chars skin);
         static bool SetAttachment(id_spine_instance spine_instance, chars slot, chars attachment);
-        static void SetMotionOn(id_spine_instance spine_instance, chars motion, bool repeat);
+        static void SetMotionOn(id_spine_instance spine_instance, chars motion, bool repeat, float beginsec = 0.0f);
         static void SetMotionOnOnce(id_spine_instance spine_instance, chars motion);
         static void SetMotionOnAttached(id_spine_instance spine_instance, chars target_motion, chars motion, bool repeat);
         static void SetMotionOnOnceAttached(id_spine_instance spine_instance, chars target_motion, chars motion);
@@ -45,9 +45,11 @@ namespace ZAY
         static bool IsMotionEnabled(id_spine_instance spine_instance);
         static Strings GetActiveMotions(id_spine_instance spine_instance);
         static void Render(ZayPanel& panel, id_spine_instance spine_instance,
-            bool flip, float cx, float cy, float scale, float rendermode, sint32 sx, sint32 sy, sint32 sw, sint32 sh);
-        static void RenderBound(ZayPanel& panel, id_spine_instance spine_instance, float ox, float oy, float scale, bool flip, bool guideline,
-            chars uiname = nullptr, ZayPanel::SubGestureCB cb = nullptr);
+            bool flip, float cx, float cy, float scale, float rendermode, float sx, float sy, float sw, float sh);
+        static void RenderPanel(ZayPanel& panel, id_spine_instance spine_instance, float ox, float oy, float scale, bool flip,
+            ZayPanel::SubRenderCB cb);
+        static void RenderBound(ZayPanel& panel, id_spine_instance spine_instance, float ox, float oy, float scale, bool flip,
+            bool guideline, chars uiname = nullptr, ZayPanel::SubGestureCB cb = nullptr);
         static const BOSS::Rect* GetBoundRect(id_spine_instance spine_instance, chars name);
     };
 }

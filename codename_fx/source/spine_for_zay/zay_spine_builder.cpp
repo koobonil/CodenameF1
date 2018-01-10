@@ -187,7 +187,11 @@ namespace ZAY
         {
             BoundBox& NewBoundBox = BoxMap(name);
             NewBoundBox.Name = name;
-            NewBoundBox.Clr = Color(r, g, b, a);
+            NewBoundBox.Clr = Color(
+                BOSS::Math::Clamp(r, 0, 255),
+                BOSS::Math::Clamp(g, 0, 255),
+                BOSS::Math::Clamp(b, 0, 255),
+                BOSS::Math::Clamp(a, 0, 255));
             BoxFocus = &NewBoundBox;
         }
 
@@ -377,7 +381,7 @@ namespace ZAY
             SpineInstance::Current() = nullptr;
         }
 
-        void Render(uint32 fbo, sint32 sx, sint32 sy, sint32 sw, sint32 sh, float cx, float cy, bool flip, float scale, float rendermode)
+        void Render(uint32 fbo, float sx, float sy, float sw, float sh, float cx, float cy, bool flip, float scale, float rendermode)
         {
             // Scissor
             const bool enable_scissor = false;
@@ -399,9 +403,9 @@ namespace ZAY
 
             // MVPMatrix
             const float l = (flip)? +basesize : -basesize;
+            const float t = +basesize;
             const float r = (flip)? -basesize : +basesize;
             const float b = -basesize;
-            const float t = +basesize;
             const float zNear = -basesize;
             const float zFar = +basesize;
             ZAY::Matrix4 projectionMatrix(
@@ -433,63 +437,91 @@ namespace ZAY
             }
         }
 
-        void RenderBound(ZayPanel& panel, float ox, float oy, float scale, bool flip, bool guideline, chars uiname = nullptr, ZayPanel::SubGestureCB cb = nullptr)
+        void RenderPanel(ZayPanel& panel, float ox, float oy, float scale, bool flip, ZayPanel::SubRenderCB cb)
         {
-            const float fv = (flip)? -1 : 1;
             for(sint32 i = 0, iend = BoxMap.Count(); i < iend; ++i)
             {
                 const BoundBox& CurBox = *BoxMap.AccessByOrder(i);
-                ZAY_COLOR_IF(panel, CurBox.Clr, guideline)
+                // UI영역
+                BOSS::Rect NewRect;
+                if(flip)
                 {
-                    // UI영역
-                    BOSS::Rect NewRect;
-                    if(flip)
-                    {
-                        NewRect.l = panel.w() / 2 + (-CurBox.Box.r - ox) * scale;
-                        NewRect.t = panel.h() / 2 + (CurBox.Box.t - oy) * scale;
-                        NewRect.r = panel.w() / 2 + (-CurBox.Box.l - ox) * scale;
-                        NewRect.b = panel.h() / 2 + (CurBox.Box.b - oy) * scale;
-                    }
-                    else
-                    {
-                        NewRect.l = panel.w() / 2 + (CurBox.Box.l - ox) * scale;
-                        NewRect.t = panel.h() / 2 + (CurBox.Box.t - oy) * scale;
-                        NewRect.r = panel.w() / 2 + (CurBox.Box.r - ox) * scale;
-                        NewRect.b = panel.h() / 2 + (CurBox.Box.b - oy) * scale;
-                    }
-                    if(uiname)
-                    {
-                        ZAY_RECT_UI(panel, NewRect, uiname + CurBox.Name, cb)
-                        {
-                            if(guideline)
-                            {
-                                ZAY_RGBA(panel, 128, 128, 128, 64)
-                                    panel.fill();
-                                ZAY_FONT(panel, 0.8f, "Arial")
-                                ZAY_RGBA(panel, 0, 255, 255, 255)
-                                    panel.text(CurBox.Name, UIFA_LeftTop, UIFE_Right);
-                            }
-                        }
-                    }
-                    else if(guideline)
-                    {
-                        ZAY_RECT(panel, NewRect)
-                        ZAY_RGBA(panel, 128, 128, 128, 64)
-                            panel.fill();
-                    }
+                    NewRect.l = panel.w() / 2 + (-CurBox.Box.r - ox) * scale;
+                    NewRect.t = panel.h() / 2 + (CurBox.Box.t - oy) * scale;
+                    NewRect.r = panel.w() / 2 + (-CurBox.Box.l - ox) * scale;
+                    NewRect.b = panel.h() / 2 + (CurBox.Box.b - oy) * scale;
+                }
+                else
+                {
+                    NewRect.l = panel.w() / 2 + (CurBox.Box.l - ox) * scale;
+                    NewRect.t = panel.h() / 2 + (CurBox.Box.t - oy) * scale;
+                    NewRect.r = panel.w() / 2 + (CurBox.Box.r - ox) * scale;
+                    NewRect.b = panel.h() / 2 + (CurBox.Box.b - oy) * scale;
+                }
 
-                    // 외곽폴리곤
-                    if(guideline)
+                ZAY_COLOR(panel, CurBox.Clr)
+                ZAY_RECT(panel, NewRect)
+                    cb(panel, CurBox.Name);
+            }
+        }
+
+        void RenderBound(ZayPanel& panel, float ox, float oy, float scale, bool flip, bool guideline, chars uiname = nullptr, ZayPanel::SubGestureCB cb = nullptr)
+        {
+            for(sint32 i = 0, iend = BoxMap.Count(); i < iend; ++i)
+            {
+                const BoundBox& CurBox = *BoxMap.AccessByOrder(i);
+                // UI영역
+                BOSS::Rect NewRect;
+                if(flip)
+                {
+                    NewRect.l = panel.w() / 2 + (-CurBox.Box.r - ox) * scale;
+                    NewRect.t = panel.h() / 2 + (CurBox.Box.t - oy) * scale;
+                    NewRect.r = panel.w() / 2 + (-CurBox.Box.l - ox) * scale;
+                    NewRect.b = panel.h() / 2 + (CurBox.Box.b - oy) * scale;
+                }
+                else
+                {
+                    NewRect.l = panel.w() / 2 + (CurBox.Box.l - ox) * scale;
+                    NewRect.t = panel.h() / 2 + (CurBox.Box.t - oy) * scale;
+                    NewRect.r = panel.w() / 2 + (CurBox.Box.r - ox) * scale;
+                    NewRect.b = panel.h() / 2 + (CurBox.Box.b - oy) * scale;
+                }
+
+                if(uiname)
+                {
+                    ZAY_COLOR_IF(panel, CurBox.Clr, guideline)
+                    ZAY_RECT_UI(panel, NewRect, uiname + CurBox.Name, cb)
                     {
-                        Points NewPos;
-                        Point* PtrPos = NewPos.AtDumpingAdded(CurBox.Pos.Count());
-                        for(sint32 i = 0, iend = CurBox.Pos.Count(); i < iend; ++i)
+                        if(guideline)
                         {
-                            PtrPos[i].x = panel.w() / 2 + (((flip)? -CurBox.Pos[i].x : CurBox.Pos[i].x) - ox) * scale;
-                            PtrPos[i].y = panel.h() / 2 + (CurBox.Pos[i].y - oy) * scale;
+                            ZAY_RGBA(panel, 128, 128, 128, 48)
+                                panel.fill();
+                            ZAY_FONT(panel, 0.8f, "Arial")
+                            ZAY_RGBA(panel, 0, 255, 255, 255)
+                                panel.text(CurBox.Name, UIFA_LeftTop, UIFE_Right);
                         }
-                        panel.polyline(NewPos, 1);
                     }
+                }
+                else if(guideline)
+                {
+                    ZAY_COLOR(panel, CurBox.Clr)
+                    ZAY_RECT(panel, NewRect)
+                    ZAY_RGBA(panel, 128, 128, 128, 48)
+                        panel.fill();
+                }
+
+                // 외곽폴리곤
+                if(guideline)
+                {
+                    Points NewPos;
+                    Point* PtrPos = NewPos.AtDumpingAdded(CurBox.Pos.Count());
+                    for(sint32 i = 0, iend = CurBox.Pos.Count(); i < iend; ++i)
+                    {
+                        PtrPos[i].x = panel.w() / 2 + (((flip)? -CurBox.Pos[i].x : CurBox.Pos[i].x) - ox) * scale;
+                        PtrPos[i].y = panel.h() / 2 + (CurBox.Pos[i].y - oy) * scale;
+                    }
+                    ZAY_COLOR(panel, CurBox.Clr)
+                        panel.polyline(NewPos, 1);
                 }
             }
         }
@@ -622,10 +654,10 @@ namespace ZAY
         return CurInstance->SetAttachment(slot, attachment);
     }
 
-    void SpineBuilder::SetMotionOn(id_spine_instance spine_instance, chars motion, bool repeat)
+    void SpineBuilder::SetMotionOn(id_spine_instance spine_instance, chars motion, bool repeat, float beginsec)
     {
         SpineInstance* CurInstance = (SpineInstance*) spine_instance;
-        CurInstance->SetMotionOn(motion, 0.0f, repeat? 1 : 0);
+        CurInstance->SetMotionOn(motion, beginsec, repeat? 1 : 0);
     }
 
     void SpineBuilder::SetMotionOnOnce(id_spine_instance spine_instance, chars motion)
@@ -683,7 +715,7 @@ namespace ZAY
     }
 
     void SpineBuilder::Render(ZayPanel& panel, id_spine_instance spine_instance,
-        bool flip, float cx, float cy, float scale, float rendermode, sint32 sx, sint32 sy, sint32 sw, sint32 sh)
+        bool flip, float cx, float cy, float scale, float rendermode, float sx, float sy, float sw, float sh)
     {
         GLint OldArrayBuffer = 0;
         GLint OldElementArrayBuffer = 0;
@@ -722,8 +754,15 @@ namespace ZAY
         BOSS_GL(UseProgram, OldProgram);
     }
 
-    void SpineBuilder::RenderBound(ZayPanel& panel, id_spine_instance spine_instance, float ox, float oy, float scale, bool flip, bool guideline,
-        chars uiname, ZayPanel::SubGestureCB cb)
+    void SpineBuilder::RenderPanel(ZayPanel& panel, id_spine_instance spine_instance, float ox, float oy, float scale, bool flip,
+        ZayPanel::SubRenderCB cb)
+    {
+        SpineInstance* CurInstance = (SpineInstance*) spine_instance;
+        CurInstance->RenderPanel(panel, ox, oy, scale, flip, cb);
+    }
+
+    void SpineBuilder::RenderBound(ZayPanel& panel, id_spine_instance spine_instance, float ox, float oy, float scale, bool flip,
+        bool guideline, chars uiname, ZayPanel::SubGestureCB cb)
     {
         SpineInstance* CurInstance = (SpineInstance*) spine_instance;
         CurInstance->RenderBound(panel, ox, oy, scale, flip, guideline, uiname, cb);

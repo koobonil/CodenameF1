@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "5n1Wqg8XUGyxcIFEyOla3ThyHvM", "spine": "3.6.48", "width": 262, "height": 285.23, "images": "./mimic/" },
+"skeleton": { "hash": "DAVUU6FSX0OWFvLMQLg423F6X0A", "spine": "3.6.50", "width": 262, "height": 285.23, "images": "./mimic/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 7.79, "rotation": 90 },
@@ -35,7 +35,7 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 0.75, 90.88, -0.23, -124.42, 192.23, -129.28, 193.69, 96.71 ]
+				"vertices": [ 0.75, 67.36, -0.23, -88.16, 141.27, -93.02, 142.73, 69.27 ]
 			}
 		},
 		"balck": {
@@ -72,6 +72,10 @@
 			"r_ribon_b": { "x": 21.94, "y": -12.73, "rotation": -72.44, "width": 57, "height": 89 }
 		}
 	}
+},
+"events": {
+	"sound-ally_gift": {},
+	"sound_ally_active": {}
 },
 "animations": {
 	"flip": {
@@ -194,7 +198,10 @@
 					{ "time": 0.5, "angle": 0 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound-ally_gift" }
+		]
 	},
 	"touch": {
 		"slots": {
@@ -521,7 +528,12 @@
 					{ "time": 2.3667, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"events": [
+			{ "time": 0, "name": "sound-ally_gift" },
+			{ "time": 1, "name": "sound-ally_gift" },
+			{ "time": 2, "name": "sound_ally_active" }
+		]
 	}
 }
 }

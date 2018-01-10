@@ -1,770 +1,683 @@
 ﻿[
 	{
 		"ID":1,
-		"NextStage":2,
 		"MapJson":"f1/table/map_1.json",
 		"StageJson":"f1/table/stage_1.json",
 		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/1.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31",
+		"ParaView":"[name] thumbnail_1.png [url] http://www.finalbossbehindthedoor.com/f1/1.png",
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":2,
-		"NextStage":3,
+		"NeedEgg":1,
 		"MapJson":"f1/table/map_2.json",
 		"StageJson":"f1/table/stage_2.json",
 		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/2.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31",
+		"ParaView":"[name] thumbnail_2.png [url] http://www.finalbossbehindthedoor.com/f1/1.png",
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":3,
-		"NextStage":4,
+		"NeedEgg":2,
+		"DefaultItem":"FireStone/1",
 		"MapJson":"f1/table/map_3.json",
 		"StageJson":"f1/table/stage_3.json",
 		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/3.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31",
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":4,
-		"NextStage":5,
+		"NeedEgg":3,
+		"DefaultItem":"LightningStone/2/FireStone/1",
 		"MapJson":"f1/table/map_4.json",
 		"StageJson":"f1/table/stage_4.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/4.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":5,
-		"NextStage":6,
+		"NeedEgg":4,
 		"MapJson":"f1/table/map_5.json",
 		"StageJson":"f1/table/stage_5.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/5.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":6,
-		"NextStage":7,
+		"NeedEgg":5,
 		"MapJson":"f1/table/map_6.json",
 		"StageJson":"f1/table/stage_6.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/6.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":7,
-		"NextStage":8,
+		"NeedEgg":6,
 		"MapJson":"f1/table/map_7.json",
 		"StageJson":"f1/table/stage_7.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/7.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":8,
-		"NextStage":9,
+		"NeedEgg":7,
 		"MapJson":"f1/table/map_8.json",
 		"StageJson":"f1/table/stage_8.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/8.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":9,
-		"NextStage":10,
+		"NeedEgg":8,
 		"MapJson":"f1/table/map_9.json",
 		"StageJson":"f1/table/stage_9.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/9.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":10,
-		"NextStage":11,
+		"NeedEgg":9,
 		"MapJson":"f1/table/map_10.json",
 		"StageJson":"f1/table/stage_10.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/10.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":11,
-		"NextStage":12,
+		"NeedEgg":10,
 		"MapJson":"f1/table/map_11.json",
 		"StageJson":"f1/table/stage_11.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/11.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":12,
-		"NextStage":13,
+		"NeedEgg":11,
 		"MapJson":"f1/table/map_12.json",
 		"StageJson":"f1/table/stage_12.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/12.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":13,
-		"NextStage":14,
+		"NeedEgg":12,
 		"MapJson":"f1/table/map_13.json",
 		"StageJson":"f1/table/stage_13.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/13.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":14,
-		"NextStage":15,
+		"NeedEgg":13,
 		"MapJson":"f1/table/map_14.json",
 		"StageJson":"f1/table/stage_14.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/14.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":15,
-		"NextStage":16,
+		"NeedEgg":14,
 		"MapJson":"f1/table/map_15.json",
 		"StageJson":"f1/table/stage_15.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/15.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":16,
-		"NextStage":17,
+		"NeedEgg":15,
 		"MapJson":"f1/table/map_16.json",
 		"StageJson":"f1/table/stage_16.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/16.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":17,
-		"NextStage":18,
+		"NeedEgg":16,
 		"MapJson":"f1/table/map_17.json",
 		"StageJson":"f1/table/stage_17.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/17.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":18,
-		"NextStage":19,
+		"NeedEgg":17,
 		"MapJson":"f1/table/map_18.json",
 		"StageJson":"f1/table/stage_18.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/18.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":19,
-		"NextStage":20,
+		"NeedEgg":18,
 		"MapJson":"f1/table/map_19.json",
 		"StageJson":"f1/table/stage_19.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/19.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":20,
-		"NextStage":21,
+		"NeedEgg":19,
 		"MapJson":"f1/table/map_20.json",
 		"StageJson":"f1/table/stage_20.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/20.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":21,
-		"NextStage":22,
+		"NeedEgg":20,
 		"MapJson":"f1/table/map_21.json",
 		"StageJson":"f1/table/stage_21.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/21.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":22,
-		"NextStage":23,
+		"NeedEgg":21,
 		"MapJson":"f1/table/map_22.json",
 		"StageJson":"f1/table/stage_22.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/22.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":23,
-		"NextStage":24,
+		"NeedEgg":22,
 		"MapJson":"f1/table/map_23.json",
 		"StageJson":"f1/table/stage_23.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/23.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":24,
-		"NextStage":25,
+		"NeedEgg":23,
 		"MapJson":"f1/table/map_24.json",
 		"StageJson":"f1/table/stage_24.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/24.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":25,
-		"NextStage":26,
+		"NeedEgg":24,
 		"MapJson":"f1/table/map_25.json",
 		"StageJson":"f1/table/stage_25.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/25.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":26,
-		"NextStage":27,
+		"NeedEgg":25,
 		"MapJson":"f1/table/map_26.json",
 		"StageJson":"f1/table/stage_26.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/26.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":27,
-		"NextStage":28,
+		"NeedEgg":26,
 		"MapJson":"f1/table/map_27.json",
 		"StageJson":"f1/table/stage_27.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/27.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":28,
-		"NextStage":29,
+		"NeedEgg":27,
 		"MapJson":"f1/table/map_28.json",
 		"StageJson":"f1/table/stage_28.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/28.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":29,
-		"NextStage":30,
+		"NeedEgg":28,
 		"MapJson":"f1/table/map_29.json",
 		"StageJson":"f1/table/stage_29.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/29.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":30,
-		"NextStage":31,
+		"NeedEgg":29,
 		"MapJson":"f1/table/map_30.json",
 		"StageJson":"f1/table/stage_30.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/30.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":31,
-		"NextStage":32,
+		"NeedEgg":30,
 		"MapJson":"f1/table/map_31.json",
 		"StageJson":"f1/table/stage_31.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/31.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":32,
-		"NextStage":33,
+		"NeedEgg":31,
 		"MapJson":"f1/table/map_32.json",
 		"StageJson":"f1/table/stage_32.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/32.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":33,
-		"NextStage":34,
+		"NeedEgg":32,
 		"MapJson":"f1/table/map_33.json",
 		"StageJson":"f1/table/stage_33.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/33.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":34,
-		"NextStage":35,
+		"NeedEgg":33,
 		"MapJson":"f1/table/map_34.json",
 		"StageJson":"f1/table/stage_34.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/34.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":35,
-		"NextStage":36,
+		"NeedEgg":34,
 		"MapJson":"f1/table/map_35.json",
 		"StageJson":"f1/table/stage_35.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/35.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":36,
-		"NextStage":37,
+		"NeedEgg":35,
 		"MapJson":"f1/table/map_36.json",
 		"StageJson":"f1/table/stage_36.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/36.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":37,
-		"NextStage":38,
+		"NeedEgg":36,
 		"MapJson":"f1/table/map_37.json",
 		"StageJson":"f1/table/stage_37.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/37.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":38,
-		"NextStage":39,
+		"NeedEgg":37,
 		"MapJson":"f1/table/map_38.json",
 		"StageJson":"f1/table/stage_38.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/38.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":39,
-		"NextStage":40,
+		"NeedEgg":38,
 		"MapJson":"f1/table/map_39.json",
 		"StageJson":"f1/table/stage_39.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/39.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":40,
-		"NextStage":41,
+		"NeedEgg":39,
 		"MapJson":"f1/table/map_40.json",
 		"StageJson":"f1/table/stage_40.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/40.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":41,
-		"NextStage":42,
+		"NeedEgg":40,
 		"MapJson":"f1/table/map_41.json",
 		"StageJson":"f1/table/stage_41.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/41.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":42,
-		"NextStage":43,
+		"NeedEgg":41,
 		"MapJson":"f1/table/map_42.json",
 		"StageJson":"f1/table/stage_42.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/42.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":43,
-		"NextStage":44,
+		"NeedEgg":42,
 		"MapJson":"f1/table/map_43.json",
 		"StageJson":"f1/table/stage_43.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/43.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":44,
-		"NextStage":45,
+		"NeedEgg":43,
 		"MapJson":"f1/table/map_44.json",
 		"StageJson":"f1/table/stage_44.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/44.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":45,
-		"NextStage":46,
+		"NeedEgg":44,
 		"MapJson":"f1/table/map_45.json",
 		"StageJson":"f1/table/stage_45.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/45.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":46,
-		"NextStage":47,
+		"NeedEgg":45,
 		"MapJson":"f1/table/map_46.json",
 		"StageJson":"f1/table/stage_46.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/46.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":47,
-		"NextStage":48,
+		"NeedEgg":46,
 		"MapJson":"f1/table/map_47.json",
 		"StageJson":"f1/table/stage_47.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/47.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":48,
-		"NextStage":49,
+		"NeedEgg":47,
 		"MapJson":"f1/table/map_48.json",
 		"StageJson":"f1/table/stage_48.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/48.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":49,
-		"NextStage":50,
+		"NeedEgg":48,
 		"MapJson":"f1/table/map_49.json",
 		"StageJson":"f1/table/stage_49.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/49.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":50,
-		"NextStage":51,
+		"NeedEgg":49,
 		"MapJson":"f1/table/map_50.json",
 		"StageJson":"f1/table/stage_50.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/50.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":51,
-		"NextStage":52,
+		"NeedEgg":50,
 		"MapJson":"f1/table/map_51.json",
 		"StageJson":"f1/table/stage_51.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/51.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":52,
-		"NextStage":53,
+		"NeedEgg":51,
 		"MapJson":"f1/table/map_52.json",
 		"StageJson":"f1/table/stage_52.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/52.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":53,
-		"NextStage":54,
+		"NeedEgg":52,
 		"MapJson":"f1/table/map_53.json",
 		"StageJson":"f1/table/stage_53.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/53.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":54,
-		"NextStage":55,
+		"NeedEgg":53,
 		"MapJson":"f1/table/map_54.json",
 		"StageJson":"f1/table/stage_54.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/54.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":55,
-		"NextStage":56,
+		"NeedEgg":54,
 		"MapJson":"f1/table/map_55.json",
 		"StageJson":"f1/table/stage_55.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/55.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":56,
-		"NextStage":57,
+		"NeedEgg":55,
 		"MapJson":"f1/table/map_56.json",
 		"StageJson":"f1/table/stage_56.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/56.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":57,
-		"NextStage":58,
+		"NeedEgg":56,
 		"MapJson":"f1/table/map_57.json",
 		"StageJson":"f1/table/stage_57.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/57.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":58,
-		"NextStage":59,
+		"NeedEgg":57,
 		"MapJson":"f1/table/map_58.json",
 		"StageJson":"f1/table/stage_58.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/58.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":59,
-		"NextStage":60,
+		"NeedEgg":58,
 		"MapJson":"f1/table/map_59.json",
 		"StageJson":"f1/table/stage_59.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/59.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":60,
-		"NextStage":61,
+		"NeedEgg":59,
 		"MapJson":"f1/table/map_60.json",
 		"StageJson":"f1/table/stage_60.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/60.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":61,
-		"NextStage":62,
+		"NeedEgg":60,
 		"MapJson":"f1/table/map_61.json",
 		"StageJson":"f1/table/stage_61.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/61.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":62,
-		"NextStage":63,
+		"NeedEgg":61,
 		"MapJson":"f1/table/map_62.json",
 		"StageJson":"f1/table/stage_62.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/62.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":63,
-		"NextStage":64,
+		"NeedEgg":62,
 		"MapJson":"f1/table/map_63.json",
 		"StageJson":"f1/table/stage_63.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/63.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":64,
-		"NextStage":65,
+		"NeedEgg":63,
 		"MapJson":"f1/table/map_64.json",
 		"StageJson":"f1/table/stage_64.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/64.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":65,
-		"NextStage":66,
+		"NeedEgg":64,
 		"MapJson":"f1/table/map_65.json",
 		"StageJson":"f1/table/stage_65.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/65.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":66,
-		"NextStage":67,
+		"NeedEgg":65,
 		"MapJson":"f1/table/map_66.json",
 		"StageJson":"f1/table/stage_66.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/66.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":67,
-		"NextStage":68,
+		"NeedEgg":66,
 		"MapJson":"f1/table/map_67.json",
 		"StageJson":"f1/table/stage_67.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/67.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":68,
-		"NextStage":69,
+		"NeedEgg":67,
 		"MapJson":"f1/table/map_68.json",
 		"StageJson":"f1/table/stage_68.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/68.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":69,
-		"NextStage":70,
+		"NeedEgg":68,
 		"MapJson":"f1/table/map_69.json",
 		"StageJson":"f1/table/stage_69.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/69.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":70,
-		"NextStage":71,
+		"NeedEgg":69,
 		"MapJson":"f1/table/map_70.json",
 		"StageJson":"f1/table/stage_70.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/70.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":71,
-		"NextStage":72,
+		"NeedEgg":70,
 		"MapJson":"f1/table/map_71.json",
 		"StageJson":"f1/table/stage_71.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/71.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":72,
-		"NextStage":73,
+		"NeedEgg":71,
 		"MapJson":"f1/table/map_72.json",
 		"StageJson":"f1/table/stage_72.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/72.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":73,
-		"NextStage":74,
+		"NeedEgg":72,
 		"MapJson":"f1/table/map_73.json",
 		"StageJson":"f1/table/stage_73.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/73.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":74,
-		"NextStage":75,
+		"NeedEgg":73,
 		"MapJson":"f1/table/map_74.json",
 		"StageJson":"f1/table/stage_74.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/74.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":75,
-		"NextStage":76,
+		"NeedEgg":74,
 		"MapJson":"f1/table/map_75.json",
 		"StageJson":"f1/table/stage_75.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/75.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":76,
-		"NextStage":77,
+		"NeedEgg":75,
 		"MapJson":"f1/table/map_76.json",
 		"StageJson":"f1/table/stage_76.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/76.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":77,
-		"NextStage":78,
+		"NeedEgg":76,
 		"MapJson":"f1/table/map_77.json",
 		"StageJson":"f1/table/stage_77.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/77.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":78,
-		"NextStage":79,
+		"NeedEgg":77,
 		"MapJson":"f1/table/map_78.json",
 		"StageJson":"f1/table/stage_78.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/78.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":79,
-		"NextStage":80,
+		"NeedEgg":78,
 		"MapJson":"f1/table/map_79.json",
 		"StageJson":"f1/table/stage_79.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/79.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":80,
-		"NextStage":81,
+		"NeedEgg":79,
 		"MapJson":"f1/table/map_80.json",
 		"StageJson":"f1/table/stage_80.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/80.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":81,
-		"NextStage":82,
+		"NeedEgg":80,
 		"MapJson":"f1/table/map_81.json",
 		"StageJson":"f1/table/stage_81.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/81.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":82,
-		"NextStage":83,
+		"NeedEgg":81,
 		"MapJson":"f1/table/map_82.json",
 		"StageJson":"f1/table/stage_82.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/82.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":83,
-		"NextStage":84,
+		"NeedEgg":82,
 		"MapJson":"f1/table/map_83.json",
 		"StageJson":"f1/table/stage_83.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/83.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":84,
-		"NextStage":85,
+		"NeedEgg":83,
 		"MapJson":"f1/table/map_84.json",
 		"StageJson":"f1/table/stage_84.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/84.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":85,
-		"NextStage":86,
+		"NeedEgg":84,
 		"MapJson":"f1/table/map_85.json",
 		"StageJson":"f1/table/stage_85.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/85.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":86,
-		"NextStage":87,
+		"NeedEgg":85,
 		"MapJson":"f1/table/map_86.json",
 		"StageJson":"f1/table/stage_86.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/86.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":87,
-		"NextStage":88,
+		"NeedEgg":86,
 		"MapJson":"f1/table/map_87.json",
 		"StageJson":"f1/table/stage_87.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/87.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":88,
-		"NextStage":89,
+		"NeedEgg":87,
 		"MapJson":"f1/table/map_88.json",
 		"StageJson":"f1/table/stage_88.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/88.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":89,
-		"NextStage":90,
+		"NeedEgg":88,
 		"MapJson":"f1/table/map_89.json",
 		"StageJson":"f1/table/stage_89.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/89.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":90,
-		"NextStage":91,
+		"NeedEgg":89,
 		"MapJson":"f1/table/map_90.json",
 		"StageJson":"f1/table/stage_90.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/90.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":91,
-		"NextStage":92,
+		"NeedEgg":90,
 		"MapJson":"f1/table/map_91.json",
 		"StageJson":"f1/table/stage_91.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/91.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":92,
-		"NextStage":93,
+		"NeedEgg":91,
 		"MapJson":"f1/table/map_92.json",
 		"StageJson":"f1/table/stage_92.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/92.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":93,
-		"NextStage":94,
+		"NeedEgg":92,
 		"MapJson":"f1/table/map_93.json",
 		"StageJson":"f1/table/stage_93.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/93.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":94,
-		"NextStage":95,
+		"NeedEgg":93,
 		"MapJson":"f1/table/map_94.json",
 		"StageJson":"f1/table/stage_94.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/94.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":95,
-		"NextStage":96,
+		"NeedEgg":94,
 		"MapJson":"f1/table/map_95.json",
 		"StageJson":"f1/table/stage_95.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/95.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	},
 	{
 		"ID":96,
-		"NextStage":97,
+		"NeedEgg":95,
 		"MapJson":"f1/table/map_96.json",
 		"StageJson":"f1/table/stage_96.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/96.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31"
+		"BuildNumbers":"1/1"
 	}
 ]

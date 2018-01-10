@@ -89,9 +89,9 @@
     <ClInclude Include="..\source\classes_f1.hpp" />
     <ClInclude Include="..\source\codename_f1.hpp" />
     <ClInclude Include="..\source\ingame_f1.hpp" />
-    <ClInclude Include="..\source\maptool.hpp" />
+    <ClInclude Include="..\source\maptool_f1.hpp" />
     <ClInclude Include="..\source\resource.hpp" />
-    <ClInclude Include="..\source\stagetool.hpp" />
+    <ClInclude Include="..\source\stagetool_f1.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\codename_fx\source\classes.cpp" />
@@ -158,9 +158,9 @@
     <ClCompile Include="..\source\codename_f1.cpp" />
     <ClCompile Include="..\source\ingame_f1.cpp" />
     <ClCompile Include="..\source\main.cpp" />
-    <ClCompile Include="..\source\maptool.cpp" />
+    <ClCompile Include="..\source\maptool_f1.cpp" />
     <ClCompile Include="..\source\resource.cpp" />
-    <ClCompile Include="..\source\stagetool.cpp" />
+    <ClCompile Include="..\source\stagetool_f1.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{818981C0-B21E-4B29-A9DB-524C242226A6}</ProjectGuid>

@@ -1,5 +1,6 @@
 {
 	"BGName":"map_forest_a",
+	"BuildNumber":"3",
 	"Layers":
 	[
 		{
@@ -467,10 +468,21 @@
 					"RectR":"0.18",
 					"RectT":"-0.049958",
 					"Visible":"1"
+				},
+				{
+					"ID":"Board",
+					"RID":"81000035",
+					"RectB":"-0.316931",
+					"RectL":"-0.1",
+					"RectR":"0.1",
+					"RectT":"-0.366972",
+					"Visible":"1"
 				}
 			]
 		}
 	],
-	"ObjectLastRID":"81000033",
-	"PolygonLastRID":"82000001"
+	"ObjectLastRID":"81000035",
+	"PolygonLastRID":"82000001",
+	"ToolType":"maptool_f1",
+	"ToolVersion":"2"
 }

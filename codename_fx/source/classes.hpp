@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <service/boss_zay.hpp>
+#include <service/boss_parasource.hpp>
 #include "spine_for_zay/zay_spine_builder.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -64,10 +65,10 @@ public:
 public:
     void Create(String projcode, chars spinepath, chars imagepath);
     void Release();
-    void Render(ZAY::id_spine_instance instance, ZayPanel& panel, sint32 sx, sint32 sy, sint32 sw, sint32 sh, sint32 h, float scale, bool flip, bool outline) const;
-    void RenderShadow(ZAY::id_spine_instance instance, ZayPanel& panel, sint32 sx, sint32 sy, sint32 sw, sint32 sh, sint32 h, float scale, bool flip) const;
-    void RenderBound(ZAY::id_spine_instance instance, ZayPanel& panel, bool guideline, float ox, float oy, float scale, bool flip,
-        chars uiname, ZayPanel::SubGestureCB cb) const;
+    void Render(ZAY::id_spine_instance instance, ZayPanel& panel, float sx, float sy, float sw, float sh, sint32 h, float scale, bool flip, bool outline) const;
+    void RenderShadow(ZAY::id_spine_instance instance, ZayPanel& panel, float sx, float sy, float sw, float sh, sint32 h, float scale, bool flip) const;
+    void RenderPanel(ZAY::id_spine_instance instance, ZayPanel& panel, float ox, float oy, float scale, bool flip, ZayPanel::SubRenderCB cb) const;
+    void RenderBound(ZAY::id_spine_instance instance, ZayPanel& panel, bool guideline, float ox, float oy, float scale, bool flip, chars uiname, ZayPanel::SubGestureCB cb) const;
 
 public:
     inline ZAY::id_spine spine() const {return mSpine;}
@@ -75,7 +76,6 @@ public:
 private:
     ZAY::id_spine mSpine;
 };
-typedef Map<SpineRenderer> SpineRendererMap;
 
 ////////////////////////////////////////////////////////////////////////////////
 class MapSpine
@@ -95,15 +95,17 @@ public:
     MapSpine& InitSpine(const SpineRenderer* renderer, chars skin = "default",
         ZAY::SpineBuilder::MotionFinishedCB fcb = nullptr, ZAY::SpineBuilder::UserEventCB ecb = nullptr);
     void SetSkin(chars skin);
-    void PlayMotion(chars motion, bool repeat);
+    void PlayMotion(chars motion, bool repeat, float beginsec = 0.0f);
     void PlayMotionOnce(chars motion);
     void PlayMotionAttached(chars first_motion, chars second_motion, bool repeat);
     void PlayMotionSeek(chars seek_motion, bool repeat);
     void PlayMotionScript(chars script);
+    void StopMotion(chars motion);
     void StopMotionAll();
     void Seek() const;
     void Update() const;
-    void RenderObject(bool needupdate, bool editmode, ZayPanel& panel, bool flip, chars uiname = nullptr, ZayPanel::SubGestureCB cb = nullptr) const;
+    void RenderObject(bool needupdate, bool editmode, ZayPanel& panel, bool flip, chars uiname = nullptr,
+        ZayPanel::SubGestureCB gcb = nullptr, ZayPanel::SubRenderCB rcb = nullptr) const;
     void RenderObjectShadow(ZayPanel& panel, bool flip) const;
     const Rect* GetBoundRect(chars name) const;
 
@@ -127,4 +129,72 @@ public:
     mutable float mSeekSecOld;
     bool mStaffIdleMode;
     bool mStaffStartMode;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+class FXState;
+class FXPanel
+{
+public:
+    class Data
+    {
+    public:
+        Map<MapSpine> mSpines;
+    };
+
+public:
+    typedef void (*InitCB)(const FXState& state, FXPanel::Data& data);
+    typedef void (*RenderCB)(ZayPanel& panel, const FXPanel::Data& data);
+
+public:
+    FXPanel() {mCB = nullptr;}
+    ~FXPanel() {}
+
+public:
+    RenderCB mCB;
+    Data mData;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+class FXData
+{
+    BOSS_DECLARE_NONCOPYABLE_CLASS(FXData)
+public:
+    FXData() {}
+    ~FXData() {}
+
+public:
+    static FXData& ST() {static FXData _; return _;}
+
+public:
+    Context mStageTable;
+    Context mStringTable;
+    Map<ParaSource::View> mAllParaViews;
+    Map<String> mAllStrings;
+    Map<SpineRenderer> mAllSpines;
+    Map<FXPanel> mAllPanels;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+class FXState
+{
+    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(FXState, mData(FXData::ST()))
+public:
+    FXState(chars defaultpath);
+    ~FXState();
+
+public:
+    const Context& GetStage(sint32 index) const;
+    ZayPanel::SubRenderCB GetStageThumbnail(sint32 index) const;
+    const String& GetString(sint32 id) const;
+    const SpineRenderer* GetSpine(chars name, chars path = nullptr) const;
+    void SetPanel(chars name, FXPanel::InitCB icb, FXPanel::RenderCB rcb);
+    void RenderPanel(chars name, ZayPanel& panel);
+
+private:
+    FXData& mData;
+    const String mDefaultPath;
+
+public:
+    ZayPanel::SubRenderCB mSubRenderer;
 };

@@ -1,0 +1,119 @@
+{
+"skeleton": { "hash": "UcoPs8Thito/3aycecU8DCFGCGo", "spine": "3.6.48", "width": 786, "height": 167, "images": "./wave/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 59.35, "rotation": 90, "x": 173.81, "y": 24.11 },
+	{ "name": "pont_wave", "parent": "root", "length": 98.15, "rotation": 180, "x": 4.03, "y": 58.72 },
+	{ "name": "pont_wave_b", "parent": "root", "length": 39.22, "rotation": 180, "x": 212.66, "y": 67.6 }
+],
+"slots": [
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "pont_wave_b_area", "bone": "pont_wave_b", "attachment": "pont_area" },
+	{ "name": "pont_wave", "bone": "pont_wave", "attachment": "wave" }
+],
+"skins": {
+	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 161.24, 603, 161.24, -512.05, -251.95, -510.43, -254.38, 602.19 ]
+			}
+		},
+		"pont_wave": {
+			"wave": { "rotation": -180, "width": 786, "height": 167 }
+		},
+		"pont_wave_b_area": {
+			"pont_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 154.68, -37.21, 155.49, 34.73, -158.07, 35.96, -158.91, -37.63 ]
+			}
+		}
+	}
+},
+"animations": {
+	"idle": {
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"pont_wave": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"pont_wave_b": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"show": {
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0.7333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0.7333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0.7333, "x": 1, "y": 1 }
+				]
+			},
+			"pont_wave": {
+				"rotate": [
+					{ "time": 0.1667, "angle": 0, "curve": "stepped" },
+					{ "time": 0.7333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 697.16 },
+					{ "time": 0.1667, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.7333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0.1667, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.7333, "x": 1, "y": 1 }
+				]
+			},
+			"pont_wave_b": {
+				"rotate": [
+					{ "time": 0.2333, "angle": 0, "curve": "stepped" },
+					{ "time": 0.7333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 697.16 },
+					{ "time": 0.2333, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.7333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0.2333, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.7333, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

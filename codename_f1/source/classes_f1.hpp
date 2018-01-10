@@ -36,7 +36,7 @@ public:
     class TypeClass
     {
     public:
-        enum Type {Static, Dynamic, Ground, Spot, Hole, Trigger, Target, AllyTarget, Max, Null = -1};
+        enum Type {Static, Dynamic, Trigger, Target, AllyTarget, View, Ground, Spot, Hole, Max, Null = -1};
     public:
         TypeClass() {mValue = Null;}
         TypeClass(const TypeClass& rhs) {operator=(rhs);}
@@ -48,18 +48,20 @@ public:
                 mValue = Static;
             else if(!String::Compare(rhs, "Dynamic"))
                 mValue = Dynamic;
-            else if(!String::Compare(rhs, "Ground"))
-                mValue = Ground;
-            else if(!String::Compare(rhs, "Spot"))
-                mValue = Spot;
-            else if(!String::Compare(rhs, "Hole"))
-                mValue = Hole;
             else if(!String::Compare(rhs, "Trigger"))
                 mValue = Trigger;
             else if(!String::Compare(rhs, "Target"))
                 mValue = Target;
             else if(!String::Compare(rhs, "AllyTarget"))
                 mValue = AllyTarget;
+            else if(!String::Compare(rhs, "View"))
+                mValue = View;
+            else if(!String::Compare(rhs, "Ground"))
+                mValue = Ground;
+            else if(!String::Compare(rhs, "Spot"))
+                mValue = Spot;
+            else if(!String::Compare(rhs, "Hole"))
+                mValue = Hole;
             else
             {
                 mValue = Null;
@@ -73,6 +75,11 @@ public:
         {return (mValue == rhs);}
         bool operator!=(Type rhs) const
         {return (mValue != rhs);}
+    public:
+        inline bool isWall() const
+        {return (mValue < Ground);}
+        inline bool canBroken() const
+        {return (mValue == Dynamic);}
     private:
         Type mValue;
     };
@@ -290,7 +297,7 @@ public:
 
 public:
     void ResetCB();
-    void SetHP(sint32 hp, sint32 deleteTime);
+    bool SetHP(sint32 hp, sint32 deleteTime);
     void Hit() const;
     void Dead() const;
     void Drop() const;
@@ -305,12 +312,13 @@ public:
 public:
     const ObjectType* mType;
     sint32 mRID;
-    bool mVisible;
+    bool mEnable;
     sint32 mHPValue;
     uint64 mHPTimeMsec;
     mutable float mHPAni;
     Rect mCurrentRect;
     Strings mExtraInfo;
+    ParaSource::View* mParaView;
 };
 typedef Array<MapObject> MapObjects;
 
@@ -331,7 +339,7 @@ public:
 public:
     const PolygonType* mType;
     sint32 mRID;
-    bool mVisible;
+    bool mEnable;
     TryWorld::DotList mDots;
     bool mIsCW;
 };
@@ -361,11 +369,12 @@ public:
     MonsterTarget& operator=(MonsterTarget&& rhs);
 
 public:
-    sint32 mZoneID;
+    enum Type {Target, Wall, Mission, Null = -1};
+    Type mType;
+    sint32 mIndex;
     Point mPos;
     float mSizeR;
     TryWorld::Path* mPath;
-    sint32 mPathScore;
 };
 typedef Array<MonsterTarget> MonsterTargets;
 
@@ -381,21 +390,24 @@ public:
 
 public:
     void Init(const MonsterType* type, sint32 rid, sint32 timesec, float x, float y,
-        const SpineRenderer& renderer, const SpineRenderer* toast_renderer = nullptr);
+        const SpineRenderer* renderer, const SpineRenderer* toast_renderer = nullptr);
     void ResetCB();
     bool IsEntranced();
     bool IsKnockBackMode();
     void KnockBack(bool down, const Point& accel, chars skin);
+    void KnockBackBound(sint32 damage);
     void KnockBackEnd();
     void KnockBackEndByHole(const Point& hole);
     void Turn() const;
-    sint32 TryAttack();
+    sint32 TryAttack(const Point& target);
     void CancelAttack();
     void ClearTargetOnce();
     void ClearAllTargets();
     void TryDeathMove();
+    void TryParaTalk();
     void Ally_Arrived();
     void Ally_Touched();
+    Point CalcBump(const MapObject* object);
 
 public:
     const float mKnockBackAccelMin = 0.001f; // 화면크기비율상수
@@ -419,18 +431,28 @@ public:
     bool mLastFlip;
     Point mLastFlipPos;
     Point mCurrentPos;
-    Point mNextPos;
+    Point mCurrentPosOld;
+    Point mTargetPos;
     MonsterTargets mTargets;
+    uint64 mTargetTimeLimit;
     sint32 mBounceObjectIndex;
     MapSpine mToast;
+    bool mHasParaTalk;
+    String mParaTalk;
+    // 오브젝트충돌처리의 경험기록
+    bool mIsBumpClock;
+    sint32 mBumpObjectRID;
+    Rect mBumpObjectRect;
 
 private:
     bool mKnockBackMode;
     Point mKnockBackAccel;
+    sint32 mKnockBackBoundCount;
 
 public:
     inline const Point& knockbackaccel() const {return mKnockBackAccel;}
     inline void SetKnockBackAccel(const Point& accel) {mKnockBackAccel = accel;}
+    inline sint32 knockbackboundcount() const {return mKnockBackBoundCount;}
 };
 typedef Array<MapMonster> MapMonsters;
 
@@ -445,28 +467,29 @@ public:
     MapDragon& operator=(MapDragon&& rhs);
 
 public:
-    void Init(const SpineRenderer& renderer, float scaleMax, Updater* updater,
+    void Init(const SpineRenderer* renderer, float scaleMax, Updater* updater,
         const Point& homepos, const Point& exitposL, const Point& exitposR);
-    void GoTarget(const Point& pos, bool isExitRight,
+    void ResetCB();
+    void GoTarget(const Point& beginpos, const Point& pos, bool isExitRight,
         sint32 entryMsec, sint32 breathMsec, sint32 exitMsec);
-    Point MoveOnce(float curve, Point mouthpos, sint32 breathdelayMsec);
+    Point MoveOnce(float curve, Point mouthpos, sint32 breathdelayMsec, bool& attackflag);
     float CalcEntryRate(uint64 msec) const;
     float CalcBreathRate(uint64 msec) const;
     float CalcExitRate(uint64 msec) const;
 
 public:
     inline bool flip() const {return mDragonFlipMode;}
-    inline bool breath_flip() const {return mBreathFlipMode;}
     inline float scale() const {return mDragonScale;}
+    inline uint64 endtime() const {return mDragonBreathEndTimeMsec;}
+    inline Point pos() const {return mLastPos;}
 
 private:
-    void Turn() const;
     void Attack() const;
 
 private:
     bool mDragonFlipMode;
-    bool mBreathFlipMode;
     bool mAttackDone;
+    bool mAttackFinished;
     float mDragonScale;
     float mDragonScaleMax;
     Point mBreathPosAdd;
@@ -478,6 +501,7 @@ private:
     Point mSpotPos[3];
     Point mNewPos;
     Point mOldPos;
+    Point mLastPos;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -491,7 +515,7 @@ public:
     MapItem& operator=(MapItem&& rhs);
 
 public:
-    void Init(chars skin, const SpineRenderer& renderer, const MapObject* sender, Updater* updater,
+    void Init(chars skin, const SpineRenderer* renderer, const MapObject* sender, Updater* updater,
         float ypos, sint32 entryMsec, sint32 flyingMsec);
     bool AnimationOnce();
     void MoveToSlot(const Point* pos, sint32 slotMsec);
@@ -549,26 +573,26 @@ public:
     TargetZone& operator=(TargetZone&& rhs);
 
 public:
-    void Init(sint32 layerindex, sint32 objectindex, float r);
+    void Init(sint32 objectindex, float r);
 
 public:
-    sint32 mLayerIndex;
     sint32 mObjectIndex;
     float mSizeR;
 };
 typedef Array<TargetZone> TargetZones;
 
+class F1Tool;
 ////////////////////////////////////////////////////////////////////////////////
-class F1State
+class F1State : public FXState
 {
-    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(F1State, mLandscape(false), mStage("a.json"))
+    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(F1State, FXState(""), mLandscape(false), mStage(""))
 public:
     F1State();
     ~F1State();
 
 public:
-    void LoadMap(chars json);
-    String SaveMap();
+    sint32 LoadMap(chars json, bool toolmode);
+    String SaveMap(const F1Tool* tool);
     void RebuildTryWorld();
     void SetSize(sint32 width, sint32 height);
     void RenderImage(bool editmode, ZayPanel& panel, const Image& image);
@@ -601,8 +625,6 @@ public: // 기획요소
     float mBreathScale;
     sint32 mBreathMinDamage;
     sint32 mBreathMaxDamage;
-    float mKnockBackMinDistance;
-    float mKnockBackMaxDistance;
     sint32 mBreathMaxGauge;
     sint32 mBreathGaugeChargingPerSec;
     sint32 mHPbarDeleteTime; // 투명해지는데 걸리는 시간
@@ -611,14 +633,20 @@ public: // 기획요소
     sint32 m2StarHpRate;
     sint32 m3StarHpRate;
     float mMonsterScale;
+    float mWallBoundScale;
+    float mKnockBackMinDistance;
+    float mKnockBackMaxDistance;
     sint32 mToolGrid;
     sint32 mDragonEntryTime;
+    sint32 mDragonRetryTime;
     sint32 mDragonBreathTime;
     sint32 mDragonExitTime;
+    float m1BoundDamageRate;
+    float m2BoundDamageRate;
+    float m3BoundDamageRate;
     ObjectTypes mObjectTypes;
     PolygonTypes mPolygonTypes;
     MonsterTypes mMonsterTypes;
-    SpineRendererMap mAllSpines;
 
 public: // UI요소
     sint32 mUIL;
@@ -640,6 +668,7 @@ public: // UI요소
     sint32 mItemSizeR;
     sint32 mSlotSizeR;
     sint32 mMonsterSizeR;
+    sint32 mWallBoundSizeR;
     sint32 mKnockBackMinV;
     sint32 mKnockBackMaxV;
     const sint32 mTimelineLength = 60;
@@ -698,6 +727,12 @@ public:
     virtual void OnSelectBoxSizing(sint32 index, float addx, float addy) = 0;
     virtual void OnSelectBoxSized(sint32 index) = 0;
     virtual void OnSelectBoxClone(sint32 index) = 0;
+
+public:
+    // 1: 스크립트 추가
+    // 2: 툴버전/빌드넘버 추가
+    const sint32 ToolVersion = 2;
+    sint32 mBuildNumber;
 
 public:
     const sint32 InnerGap = 10;

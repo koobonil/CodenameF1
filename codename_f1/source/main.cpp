@@ -11,14 +11,27 @@ void PlatformInit()
     Platform::SetViewCreator(ZayView::Creator);
 
     Platform::SetWindowName("Codename F1");
+
+    String SaveString = String::FromFile("save.json");
+    if(0 < SaveString.Length())
+    {
+        Context SaveFile(ST_Json, SO_OnlyReference, SaveString, SaveString.Length());
+        Platform::Option::SetText("StageName", SaveFile("LastStageJson").GetString());
+        Platform::Option::SetText("LastStageID", SaveFile("LastStageID").GetString());
+    }
+    else
+    {
+        Platform::Option::SetText("StageName", "f1/table/stage_1.json");
+        Platform::Option::SetText("LastStageID", "Stage1");
+    }
+    Platform::Option::SetText("ParaTalkCount", "0");
+    Platform::Option::SetText("ParaViewCount", "0");
+    Platform::Option::SetFlag("LandscapeMode", false);
+    Platform::Option::SetFlag("DirectPlay", false);
+
     #if BOSS_WINDOWS | BOSS_LINUX | BOSS_MAC_OSX
         Platform::SetWindowView("codename_f1View");
     #else
-        static String StageName;
-        StageName = "f1/table/stage_1.json";
-        Platform::Option::SetFlag("LandscapeMode", false);
-        Platform::Option::SetPayload("StageName", (payload)(chars) StageName);
-        Platform::Option::SetFlag("DirectPlay", false);
         Platform::SetWindowView("ingameView");
     #endif
 
@@ -29,7 +42,7 @@ void PlatformInit()
         Platform::SetWindowPos(Info("x").GetInt(0), Info("y").GetInt(0));
         Platform::SetWindowSize(Info("w").GetInt(640), Info("h").GetInt(480));
     }
-    else Platform::SetWindowSize(640, 480);
+    else Platform::SetWindowSize(475, 844);
 
     String AtlasInfoString = String::FromFile("atlasinfo.json");
     Context AtlasInfo(ST_Json, SO_OnlyReference, AtlasInfoString, AtlasInfoString.Length());

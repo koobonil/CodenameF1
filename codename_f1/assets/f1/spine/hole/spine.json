@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "sajP+ddGs9Ko3sTjsz4rPpYs1bY", "spine": "3.6.48", "width": 157, "height": 280.78, "images": "./hole/" },
+"skeleton": { "hash": "hPAefdFgnEBztgmOEE7WZC17T2s", "spine": "3.6.50", "width": 157, "height": 280.78, "images": "./hole/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 49.57, "rotation": 90 },
@@ -19,7 +19,7 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 205.14, 129.76, -61.35, 129.76, -60.8, -128.96, 205.31, -128.32 ]
+				"vertices": [ 180.5, 104, -31.11, 104, -30.56, -105.44, 180.67, -104.8 ]
 			}
 		},
 		"hole_effect": {
@@ -87,6 +87,11 @@
 				"color": [
 					{ "time": 0.1, "color": "ffffffff" },
 					{ "time": 0.5, "color": "ffffff00" }
+				]
+			},
+			"hole": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
 				]
 			},
 			"hole_effect": {
@@ -161,6 +166,11 @@
 					{ "time": 0, "color": "ffffff00" }
 				]
 			},
+			"hole": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
 			"hole_effect": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" },
@@ -202,6 +212,11 @@
 	"idle": {
 		"slots": {
 			"effect_hole_fire": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"hole": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]

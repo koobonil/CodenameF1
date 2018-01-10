@@ -1,0 +1,58 @@
+{
+"skeleton": { "hash": "wG8Zi4G5eUUr53lSqTEuspSX7eo", "spine": "3.6.50", "width": 435, "height": 387, "images": "./board/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 40.81, "rotation": 90 },
+	{ "name": "board", "parent": "root", "length": 45.63, "rotation": 90, "y": 190.33 }
+],
+"slots": [
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "skin", "bone": "board", "attachment": "skin" },
+	{ "name": "paraboard_area", "bone": "board", "attachment": "paraboard_area" }
+],
+"skins": {
+	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 1.53, 50.34, 0.73, -49.66, 96.73, -49.66, 96.73, 51.14 ]
+			}
+		},
+		"paraboard_area": {
+			"paraboard_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 103.91, 143.77, 104.24, -146.28, -36.78, -146.28, -37.08, 144.03 ]
+			}
+		}
+	},
+	"forest": {
+		"skin": {
+			"skin": { "name": "board_forest", "x": 3.34, "y": -0.39, "rotation": -90, "width": 435, "height": 387 }
+		}
+	},
+	"ice": {
+		"skin": {
+			"skin": { "name": "board_ice", "x": 4.63, "y": 0.11, "rotation": -90, "width": 442, "height": 391 }
+		}
+	}
+},
+"animations": {
+	"idle": {
+		"bones": {
+			"board": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

@@ -1,5 +1,6 @@
 {
 	"BGName":"map_forest_a",
+	"BuildNumber":"1",
 	"Layers":
 	[
 		{
@@ -8,20 +9,11 @@
 			[
 				{
 					"ID":"Spot",
-					"RID":"81000112",
+					"RID":"81000124",
 					"RectB":"-0.333333",
 					"RectL":"-0.34",
 					"RectR":"-0.26",
 					"RectT":"-0.4",
-					"Visible":"1"
-				},
-				{
-					"ID":"Mud_S",
-					"RID":"81000121",
-					"RectB":"0.3",
-					"RectL":"-0.02",
-					"RectR":"0.26",
-					"RectT":"0.083333",
 					"Visible":"1"
 				},
 				{
@@ -36,10 +28,28 @@
 				{
 					"ID":"Mud_L",
 					"RID":"81000123",
-					"RectB":"0.083333",
-					"RectL":"-0.38",
-					"RectR":"-0.08",
-					"RectT":"-0.166667",
+					"RectB":"0.466347",
+					"RectL":"-0.4",
+					"RectR":"-0.1",
+					"RectT":"0.216347",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000125",
+					"RectB":"-0.366361",
+					"RectL":"-0.14",
+					"RectR":"-0.06",
+					"RectT":"-0.432973",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000126",
+					"RectB":"-0.41632",
+					"RectL":"-0.34",
+					"RectR":"-0.26",
+					"RectT":"-0.482931",
 					"Visible":"1"
 				}
 			]
@@ -424,15 +434,6 @@
 					"RectL":"-0.12",
 					"RectR":"-0.08",
 					"RectT":"0.433333",
-					"Visible":"1"
-				},
-				{
-					"ID":"Flower",
-					"RID":"81000098",
-					"RectB":"0.45",
-					"RectL":"-0.3",
-					"RectR":"-0.22",
-					"RectT":"0.383333",
 					"Visible":"1"
 				},
 				{
@@ -865,6 +866,8 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000123",
-	"PolygonLastRID":"82000002"
+	"ObjectLastRID":"81000126",
+	"PolygonLastRID":"82000002",
+	"ToolType":"maptool_f1",
+	"ToolVersion":"2"
 }
