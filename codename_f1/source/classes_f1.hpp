@@ -296,7 +296,7 @@ public:
     MapObject& operator=(MapObject&& rhs);
 
 public:
-    void ResetCB();
+    void ResetCB(FXState* state);
     bool SetHP(sint32 hp, sint32 deleteTime);
     void Hit() const;
     void Dead() const;
@@ -391,7 +391,7 @@ public:
 public:
     void Init(const MonsterType* type, sint32 rid, sint32 timesec, float x, float y,
         const SpineRenderer* renderer, const SpineRenderer* toast_renderer = nullptr);
-    void ResetCB();
+    void ResetCB(FXState* state);
     bool IsEntranced();
     bool IsKnockBackMode();
     void KnockBack(bool down, const Point& accel, chars skin);
@@ -469,7 +469,7 @@ public:
 public:
     void Init(const SpineRenderer* renderer, float scaleMax, Updater* updater,
         const Point& homepos, const Point& exitposL, const Point& exitposR);
-    void ResetCB();
+    void ResetCB(FXState* state);
     void GoTarget(const Point& beginpos, const Point& pos, bool isExitRight,
         sint32 entryMsec, sint32 breathMsec, sint32 exitMsec);
     Point MoveOnce(float curve, Point mouthpos, sint32 breathdelayMsec, bool& attackflag);

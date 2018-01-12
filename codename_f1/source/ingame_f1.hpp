@@ -95,6 +95,7 @@ public: // 게임상태
     sint32 mWaveSecCurrently;
     sint32 mWaveSecSettled;
     sint32 mWaveSecMax;
+    uint64 mCurTickTimeSec;
     sint32 mCurParaTalk;
     MapMonsters mMonsters;
 

@@ -85,6 +85,7 @@
     <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_vector2.h" />
     <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_vector3.h" />
     <ClInclude Include="..\..\codename_fx\source\spine_for_zay\zay_vector4.h" />
+    <ClInclude Include="..\source-gen\buildtime.h" />
     <ClInclude Include="..\source\boss_config.h" />
     <ClInclude Include="..\source\classes_f1.hpp" />
     <ClInclude Include="..\source\codename_f1.hpp" />

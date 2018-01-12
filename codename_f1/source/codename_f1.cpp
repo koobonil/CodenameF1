@@ -56,7 +56,10 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
             panel.fill();
         ZAY_RGB(panel, 0, 0, 0)
         {
-            panel.text(m->FirstStage(), UIFA_CenterMiddle, UIFE_Right);
+            if(0 < m->FirstStage().Length())
+                panel.text(m->FirstStage(), UIFA_CenterMiddle, UIFE_Right);
+            else ZAY_RGB(panel, 192, 192, 192)
+                panel.text("로컬스테이지\n플레이하기\n(table_etc)", UIFA_CenterMiddle);
             panel.rect(3);
         }
     }
@@ -66,17 +69,15 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
         {
             if(t == GT_InReleased)
             {
-                Platform::Option::SetText("StageName", String("f1/table/") + m->FirstStage() + ".json");
+                // 로컬에서 제작된 스테이지를 플레이할 경우
+                if(0 < m->FirstStage().Length())
+                    Platform::Option::SetText("StageName", String("f1/table_etc/") + m->FirstStage() + ".json");
                 Platform::Option::SetText("LastStageID", "");
                 Platform::Option::SetText("ParaTalkCount", "0");
                 Platform::Option::SetText("ParaViewCount", "0");
                 Platform::Option::SetFlag("LandscapeMode", false);
                 Platform::Option::SetFlag("DirectPlay", false);
                 m->next("ingameView");
-
-                //Platform::Option::SetFlag("LandscapeMode", false);
-                //Platform::Option::SetText("StartMode", "Result");
-                //m->next("outgameView");
             }
         })
     {
@@ -129,6 +130,9 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
             panel.rect(3);
         }
     }
+
+    // 빌드버전
+    FXState::RenderBuildVersion(panel);
 }
 
 codename_f1Data::codename_f1Data()

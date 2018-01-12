@@ -171,7 +171,7 @@
 	},
 	{
 		"ID":"UIBottom",
-		"Value":"(ScreenWidth * 0.2) [min] (ScreenHeight * 0.5)",
+		"Value":"(ScreenWidth * 0.2) [min] (ScreenHeight * 0.1)",
 		"IsDev":"TRUE",
 		"Description":"아래 UI여백"
 	},

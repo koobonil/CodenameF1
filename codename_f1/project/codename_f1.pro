@@ -6,6 +6,7 @@ TEMPLATE = app
 }
 
 INCLUDEPATH += ../source
+HEADERS += ../source-gen/buildtime.h
 HEADERS += ../source/boss_config.h
 HEADERS += ../source/classes_f1.hpp
 HEADERS += ../source/codename_f1.hpp
@@ -147,12 +148,16 @@ ASSETS_TABLE.files += ../assets/f1/table
 ASSETS_TABLE.path = /assets/f1
 ASSETS_SPINE.files += ../assets/f1/spine
 ASSETS_SPINE.path = /assets/f1
+ASSETS_SOUND.files += ../assets/f1/sound
+ASSETS_SOUND.path = /assets/f1
 ASSETS_IMAGE_FX.files += ../../codename_fx/assets/fx/image
 ASSETS_IMAGE_FX.path = /assets/fx
 ASSETS_TABLE_FX.files += ../../codename_fx/assets/fx/table
 ASSETS_TABLE_FX.path = /assets/fx
 ASSETS_SPINE_FX.files += ../../codename_fx/assets/fx/spine
 ASSETS_SPINE_FX.path = /assets/fx
+ASSETS_SOUND_FX.files += ../../codename_fx/assets/fx/sound
+ASSETS_SOUND_FX.path = /assets/fx
 
 win32{
     RC_ICONS += ../common/windows/main.ico
@@ -162,9 +167,11 @@ android{
     INSTALLS += ASSETS_IMAGE
     INSTALLS += ASSETS_TABLE
     INSTALLS += ASSETS_SPINE
+    INSTALLS += ASSETS_SOUND
     INSTALLS += ASSETS_IMAGE_FX
     INSTALLS += ASSETS_TABLE_FX
     INSTALLS += ASSETS_SPINE_FX
+    INSTALLS += ASSETS_SOUND_FX
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../common/android
 }
 
@@ -172,9 +179,11 @@ ios|macx{
     QMAKE_BUNDLE_DATA += ASSETS_IMAGE
     QMAKE_BUNDLE_DATA += ASSETS_TABLE
     QMAKE_BUNDLE_DATA += ASSETS_SPINE
+    QMAKE_BUNDLE_DATA += ASSETS_SOUND
     QMAKE_BUNDLE_DATA += ASSETS_IMAGE_FX
     QMAKE_BUNDLE_DATA += ASSETS_TABLE_FX
     QMAKE_BUNDLE_DATA += ASSETS_SPINE_FX
+    QMAKE_BUNDLE_DATA += ASSETS_SOUND_FX
     QMAKE_BUNDLE_DATA += MAIN_ICON
     QMAKE_INFO_PLIST = $$PWD/../common/ios/Info.plist
     MAIN_ICON.files += $$PWD/../common/ios/res/icon.icns

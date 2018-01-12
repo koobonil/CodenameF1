@@ -297,7 +297,10 @@ void stagetoolData::Load(chars filename)
         NewWave.mEventScripts.AtDumpingAdded(mState.mTimelineLength);
     }
 
-    id_asset_read TextAsset = Asset::OpenForRead("f1/table/" + mMapName + ".json");
+    // 로컬스테이지 플레이인지 체크
+    const String MapJsonPath = (0 <= String(filename).Find(0, "f1/table_etc/"))?
+        "f1/table_etc/" : "f1/table/";
+    id_asset_read TextAsset = Asset::OpenForRead(MapJsonPath + mMapName + ".json");
     if(TextAsset)
     {
         const sint32 TextSize = Asset::Size(TextAsset);

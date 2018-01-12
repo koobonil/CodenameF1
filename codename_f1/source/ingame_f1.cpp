@@ -14,14 +14,14 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
             if(!m->mPaused)
             {
                 // 시간진행
-                const uint64 CurTimeMsec = Platform::Utility::CurrentTimeMsec();
-                static uint64 OldTimeSec = CurTimeMsec / 1000;
-                const uint64 CurTimeSec = CurTimeMsec / 1000;
-                sint32 CurTimeSecSpan = Math::Min((sint32) (CurTimeSec - OldTimeSec), 1);
+                const uint64 CurTimeSec = Platform::Utility::CurrentTimeMsec() / 1000;
+                if(m->mCurTickTimeSec == 0) m->mCurTickTimeSec = CurTimeSec;
+                sint32 CurTimeSecSpan = (sint32) (CurTimeSec - m->mCurTickTimeSec);
                 if(0 < CurTimeSecSpan)
                 {
+                    CurTimeSecSpan = 1; // 1초초과는 인정하지 않음(Pause모드나 디버깅시)
                     m->mWaveSecCurrently += CurTimeSecSpan;
-                    OldTimeSec = CurTimeSec;
+                    m->mCurTickTimeSec = CurTimeSec;
                 }
                 // 애니메이션 진행
                 if(m->mWave != -1)
@@ -140,12 +140,16 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
 ZAY_VIEW_API OnRender(ZayPanel& panel)
 {
     #if BOSS_WINDOWS | BOSS_LINUX | BOSS_MAC_OSX
-        // 출력미비영역 표현용
-        Color TestColor(Platform::Utility::Random() | 0xFF000000);
-        ZAY_COLOR(panel, TestColor)
+        ZAY_RGB(panel, 0, 0, 0)
             panel.fill();
     #endif
+
+    // 인게임
     m->Render(panel);
+
+    // 도어인증
+    if(m->mWave == -1)
+        m->RenderDoor(panel);
 }
 
 ingameData::ingameData()
@@ -160,6 +164,7 @@ ingameData::ingameData()
     mWaveSecCurrently = 0;
     mWaveSecSettled = -1;
     mWaveSecMax = 0;
+    mCurTickTimeSec = 0;
     mCurParaTalk = 0;
     mSlotFlag[0] = mSlotFlag[1] = mSlotFlag[2] = mSlotFlag[3] = false;
     mCurItemSkin = "normal";
@@ -177,10 +182,18 @@ ingameData::ingameData()
     // 브레스게이지
     mBreathGaugeTime = mBreathMaxGauge;
     mBreathGaugeTimeLog = mBreathMaxGauge;
+
+    // 도어인증
+    LoadDoor();
+
+    // 배경사운드시작
+    Platform::Sound::Play(GetSound("bg_forest", true));
 }
 
 ingameData::~ingameData()
 {
+    // 배경사운드끝
+    Platform::Sound::Stop(GetSound("bg_forest", true));
 }
 
 #define PATHFIND_STEP (5)
@@ -394,7 +407,9 @@ void ingameData::InitForSpine()
 {
     // 맵로드
     const String MapName = mWaveData("MapName").GetString();
-    id_asset_read TextAsset = Asset::OpenForRead("f1/table/" + MapName + ".json");
+    // 로컬스테이지 플레이인지 체크
+    const String MapJsonPath = (!String::Compare(mStage, "f1/table_etc/", 13))? "f1/table_etc/" : "f1/table/";
+    id_asset_read TextAsset = Asset::OpenForRead(MapJsonPath + MapName + ".json");
     if(TextAsset)
     {
         const sint32 TextSize = Asset::Size(TextAsset);
@@ -428,7 +443,7 @@ void ingameData::InitForSpine()
     // InGame
     mDragon.Init(GetSpine("dragon"), mDragonScaleMax / mDragonScale, updater(),
         mDragonHome, mDragonExitL, mDragonExitR);
-    mDragon.ResetCB();
+    mDragon.ResetCB(this);
     mBreathReadySpine[0].InitSpine(GetSpine("breath_ready"), "first").PlayMotionSeek("meteo_ready", false);
     mBreathReadySpine[1].InitSpine(GetSpine("breath_ready"), "second").PlayMotionSeek("meteo_ready", false);
     mBreathAttackSpine.InitSpine(GetSpine("breath_attack")).PlayMotion("idle", true);
@@ -606,6 +621,8 @@ void ingameData::AnimationOnce(sint32 sec_span)
         if(!HasAction)
         if(auto CurTryWorldZone = mAllTryWorldZones.Access(CurMonster.mType->mPolygon))
         {
+            // 닿은 오브젝트 초기화
+            CurMonster.mBounceObjectIndex = -1;
             // 다음위치 계산
             Point NextPos = CurMonster.mCurrentPos;
             const float WallDistanceCheck = mInGameSize * 5 / 1000; // 벽에 닿아버린 상황판단
@@ -1046,11 +1063,17 @@ void ingameData::Render(ZayPanel& panel)
                 if(t == GT_Pressed)
                 {
                     if(!String::Compare(n, "Title_butten_start_area") || !String::Compare(n, "Title_str_30"))
-                        mMainTitleSpine.Staff_Start();
+                    {
+                        if(!IsDoorLocked())
+                            mMainTitleSpine.Staff_Start();
+                    }
                     else if(!String::Compare(n, "Title_butten_start_area2") || !String::Compare(n, "Title_str_29"))
                     {
-                        mClosing = 50;
-                        Platform::Option::SetText("StartMode", "Lobby");
+                        if(!IsDoorLocked())
+                        {
+                            mClosing = 50;
+                            Platform::Option::SetText("StartMode", "Lobby");
+                        }
                     }
                     else if(!String::Compare(n, "Title_butten_staff_area2") || !String::Compare(n, "Title_str_10"))
                     {
@@ -1135,7 +1158,7 @@ void ingameData::Render(ZayPanel& panel)
                 const sint32 SlotMaxWidth = panel.w() - GaugeWidth;
                 const sint32 SlotWidth = Math::Min(SlotMaxWidth, mUIB * Area->Width() / Area->Height());
                 const sint32 SlotHeight = SlotWidth * Area->Height() / Area->Width();
-                const Rect GaugeRect(Point(GaugeWidth + (SlotMaxWidth - SlotWidth) / 2, panel.h() - (GaugeHeight + SlotHeight) / 2), Size(SlotWidth, SlotHeight));
+                const Rect GaugeRect(Point(panel.w() - SlotWidth, panel.h() - (GaugeHeight + SlotHeight) / 2), Size(SlotWidth, SlotHeight));
                 // 슬롯위치 저장
                 for(sint32 i = 0; i < 4; ++i)
                 {
@@ -1189,7 +1212,7 @@ void ingameData::Render(ZayPanel& panel)
         ZAY_FONT(panel, 1.2, "Arial Black")
         {
             // 홈버튼
-            ZAY_XYWH(panel, ButtonSize * 3, 0, ButtonSize, ButtonSizeSmall)
+            ZAY_XYWH(panel, panel.w() - ButtonSize * 3, 0, ButtonSize, ButtonSizeSmall)
             ZAY_INNER_UI(panel, InnerGap, "home",
                 ZAY_GESTURE_T(t, this)
                 {
@@ -1209,7 +1232,7 @@ void ingameData::Render(ZayPanel& panel)
             }
 
             // 디버그버튼
-            ZAY_XYWH(panel, ButtonSize * 4, 0, ButtonSize, ButtonSizeSmall)
+            ZAY_XYWH(panel, panel.w() - ButtonSize * 2, 0, ButtonSize, ButtonSizeSmall)
             ZAY_INNER_UI(panel, InnerGap, "debug",
                 ZAY_GESTURE_T(t, this)
                 {
@@ -1427,7 +1450,7 @@ void ingameData::ReadyForNextWave()
             }
         }
         for(sint32 i = 0, iend = mMonsters.Count(); i < iend; ++i)
-            mMonsters.At(i).ResetCB();
+            mMonsters.At(i).ResetCB(this);
     }
     else mWaveTitle = "Stage Over";
 }

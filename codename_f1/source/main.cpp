@@ -5,23 +5,51 @@
 #include <resource.hpp>
 #include "classes.hpp"
 
+// 빌드시간
+#include "../source-gen/buildtime.h"
+void SetBuildTime()
+{
+    // 빌드시간을 빌드버전으로 기록
+    Platform::Option::SetText("BuildVersion", BuildTime);
+    // 빌드시간을 갱신저장
+    if(id_file BuildTimeFile = Platform::File::OpenForWrite("../source-gen/buildtime.h", true))
+    {
+        id_clock BuildTimeClock = Platform::Clock::CreateAsCurrent();
+        sint32 Year = 0, Month = 0, Day = 0, Hour = 0, Min = 0, Sec = 0;
+        Platform::Clock::GetDetail(BuildTimeClock, nullptr, &Sec, &Min, &Hour, &Day, &Month, &Year);
+        Platform::Clock::Release(BuildTimeClock);
+        const String BuildTimeText = String::Format(
+            "static const char* BuildTime = \"%s/ %04d-%02d-%02d/ %02d:%02d:%02d\";\r\n",
+            Platform::Utility::GetOSName(), Year, Month, Day, Hour, Min, Sec);
+        Platform::File::Write(BuildTimeFile, (bytes) "\xef\xbb\xbf", 3); // UTF-8 Bom: EF BB BF
+        Platform::File::Write(BuildTimeFile, (bytes)(chars) BuildTimeText, BuildTimeText.Length());
+        Platform::File::Close(BuildTimeFile);
+    }
+    else BOSS_ASSERT("프로젝트의 빌드시간을 갱신저장할 수 없습니다", false);
+}
+
 void PlatformInit()
 {
+    #if BOSS_WINDOWS || BOSS_LINUX || BOSS_MAC_OSX
+        SetBuildTime();
+    #else
+        Platform::Option::SetText("BuildVersion", String::Format("%s/ %s/ %s", Platform::Utility::GetOSName(), __DATE__, __TIME__));
+    #endif
+
     Platform::InitForGL();
     Platform::SetViewCreator(ZayView::Creator);
-
     Platform::SetWindowName("Codename F1");
 
     String SaveString = String::FromFile("save.json");
     if(0 < SaveString.Length())
     {
         Context SaveFile(ST_Json, SO_OnlyReference, SaveString, SaveString.Length());
-        Platform::Option::SetText("StageName", SaveFile("LastStageJson").GetString());
-        Platform::Option::SetText("LastStageID", SaveFile("LastStageID").GetString());
+        Platform::Option::SetText("StageName", SaveFile("LastStageJson").GetString("f1/table/stage_tutorial.json"));
+        Platform::Option::SetText("LastStageID", SaveFile("LastStageID").GetString("Stage1"));
     }
     else
     {
-        Platform::Option::SetText("StageName", "f1/table/stage_1.json");
+        Platform::Option::SetText("StageName", "f1/table/stage_tutorial.json");
         Platform::Option::SetText("LastStageID", "Stage1");
     }
     Platform::Option::SetText("ParaTalkCount", "0");

@@ -60,7 +60,7 @@ MapObject& MapObject::operator=(MapObject&& rhs)
     return *this;
 }
 
-void MapObject::ResetCB()
+void MapObject::ResetCB(FXState* state)
 {
     if(mSpineInstance)
     {
@@ -69,7 +69,12 @@ void MapObject::ResetCB()
             {
                 if(!String::Compare("dead", motionname))
                     mEnable = false;
-            }, nullptr);
+            },
+            [this, state](chars eventname)
+            {
+                if(!String::Compare("sound_", eventname, 6))
+                    Platform::Sound::Play(state->GetSound(&eventname[6]));
+            });
     }
 }
 
@@ -350,7 +355,7 @@ void MapMonster::Init(const MonsterType* type, sint32 rid, sint32 timesec, float
         mToast.InitSpine(toast_renderer);
 }
 
-void MapMonster::ResetCB()
+void MapMonster::ResetCB(FXState* state)
 {
     if(mSpineInstance)
         ZAY::SpineBuilder::ResetCB(mSpineInstance,
@@ -362,7 +367,12 @@ void MapMonster::ResetCB()
                     mDeathStep = 2;
                 else if(!String::Compare("touch", motionname))
                     mDeathStep = 2;
-            }, nullptr);
+            },
+            [this, state](chars eventname)
+            {
+                if(!String::Compare("sound_", eventname, 6))
+                    Platform::Sound::Play(state->GetSound(&eventname[6]));
+            });
 }
 
 bool MapMonster::IsEntranced()
@@ -623,14 +633,16 @@ void MapDragon::Init(const SpineRenderer* renderer, float scaleMax, Updater* upd
     mNewPos = mOldPos = mLastPos = homepos;
 }
 
-void MapDragon::ResetCB()
+void MapDragon::ResetCB(FXState* state)
 {
     if(mSpineInstance)
         ZAY::SpineBuilder::ResetCB(mSpineInstance, nullptr,
-            [this](chars eventname)
+            [this, state](chars eventname)
             {
                 if(!String::Compare("shot", eventname))
                     mAttackFinished = true;
+                else if(!String::Compare("sound_", eventname, 6))
+                    Platform::Sound::Play(state->GetSound(&eventname[6]));
             });
 }
 
@@ -1271,7 +1283,7 @@ sint32 F1State::LoadMap(chars json, bool toolmode)
             auto& CurObject = CurLayer.mObjects.At(obj);
             if(CurObject.mRID == -1)
                 CurObject.mRID = ++mObjectLastRID;
-            CurObject.ResetCB();
+            CurObject.ResetCB(this);
             mObjectRIDs[CurObject.mRID] = &CurObject;
         }
     }

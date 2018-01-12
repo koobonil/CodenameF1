@@ -1,5 +1,25 @@
 ﻿[
 	{
+		"Name":"5슬라임",
+		"Group":"F_Normal_B/2/F_Normal_B/2/F_Normal_B/2/F_Normal_B/2/F_Normal_B"
+	},
+	{
+		"Name":"5오크",
+		"Group":"F_Middle_B/2/F_Middle_B/2/F_Middle_B/2/F_Middle_B/2/F_Middle_B"
+	},
+	{
+		"Name":"6 강오크 믹스",
+		"Group":"F_MiddleBoss/2/F_Middle_B/2/F_MiddleBoss/2/F_Middle_B/2/F_MiddleBoss/2/F_Middle_B"
+	},
+	{
+		"Name":"5슬라&오베리부대",
+		"Group":"F_Normal_B/2/F_Middle_B/2/F_Normal_B/2/F_Middle_B/2/F_Normal_B/2/F_Middle_B"
+	},
+	{
+		"Name":"6늑대",
+		"Group":"F_Fast/2/F_Fast/2/F_Fast/2/F_Fast/2/F_Fast/2/F_Fast"
+	},
+	{
 		"Name":"5슬라임 널널",
 		"Group":"F_Normal/2/F_Normal/2/F_Normal/2/F_Normal/2/F_Normal"
 	},

@@ -167,11 +167,22 @@ public:
     static FXData& ST() {static FXData _; return _;}
 
 public:
+    class Sound
+    {
+    public:
+        Sound() {mId = nullptr;}
+        ~Sound() {Platform::Sound::Close(mId);}
+    public:
+        id_sound mId;
+    };
+
+public:
     Context mStageTable;
     Context mStringTable;
     Map<ParaSource::View> mAllParaViews;
     Map<String> mAllStrings;
     Map<SpineRenderer> mAllSpines;
+    Map<Sound> mAllSounds;
     Map<FXPanel> mAllPanels;
 };
 
@@ -184,14 +195,27 @@ public:
     ~FXState();
 
 public:
+    bool IsDoorLocked() const;
+    bool LoadDoor();
+    void RenderDoor(ZayPanel& panel);
+    static void RenderBuildVersion(ZayPanel& panel);
+
+public:
     const Context& GetStage(sint32 index) const;
     ZayPanel::SubRenderCB GetStageThumbnail(sint32 index) const;
     const String& GetString(sint32 id) const;
     const SpineRenderer* GetSpine(chars name, chars path = nullptr) const;
+    id_sound GetSound(chars name, bool loop = false) const;
     void SetPanel(chars name, FXPanel::InitCB icb, FXPanel::RenderCB rcb);
     void RenderPanel(chars name, ZayPanel& panel);
 
 private:
+    String mDoorService;
+    String mDoorComment;
+    bool mIsParaAuth;
+    bool mParaAuthSuccess;
+    String mParaAuthCode;
+    String mParaAuthName;
     FXData& mData;
     const String mDefaultPath;
 
