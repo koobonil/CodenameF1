@@ -56,7 +56,9 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
         else m->RebuildTryWorld();
         m->ClearAllPathes(true);
         // 윈도우 타이틀
-        Platform::SetWindowName(String::Format("Codename F1 [%dx%d:%.03f]", Width, Height, Height / (float) Width));
+        if(Platform::Option::GetFlag("DevMode"))
+            Platform::SetWindowName(String::Format("Codename F1 [%dx%d:%.03f]", Width, Height, Height / (float) Width));
+        else Platform::SetWindowName("DragonBreath - MonthlyKoobonil");
     }
 }
 
@@ -149,7 +151,7 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
 
     // 도어인증
     if(m->mWave == -1)
-        m->RenderDoor(panel);
+        m->door().Render(panel);
 }
 
 ingameData::ingameData()
@@ -184,7 +186,7 @@ ingameData::ingameData()
     mBreathGaugeTimeLog = mBreathMaxGauge;
 
     // 도어인증
-    LoadDoor();
+    door().Load();
 
     // 배경사운드시작
     Platform::Sound::Play(GetSound("bg_forest", true));
@@ -434,6 +436,11 @@ void ingameData::InitForSpine()
                 if(!String::Compare("start", motionname))
                     ReadyForNextWave();
             }).PlayMotionAttached("loding", "idle", true);
+        if(door().IsLocked())
+        {
+            mMainTitleSpine.PlayMotion("loby_unlock", false);
+            mMainTitleSpine.PlayMotion("start_unlock", false);
+        }
     }
 
     // Effect
@@ -1064,19 +1071,29 @@ void ingameData::Render(ZayPanel& panel)
                 {
                     if(!String::Compare(n, "Title_butten_start_area") || !String::Compare(n, "Title_str_30"))
                     {
-                        if(!IsDoorLocked())
+                        if(!door().IsLocked())
+                        {
+                            mMainTitleSpine.PlayMotionOnce("start");
                             mMainTitleSpine.Staff_Start();
+                        }
                     }
                     else if(!String::Compare(n, "Title_butten_start_area2") || !String::Compare(n, "Title_str_29"))
                     {
-                        if(!IsDoorLocked())
+                        if(!door().IsLocked())
                         {
+                            mMainTitleSpine.PlayMotionOnce("loby");
                             mClosing = 50;
                             Platform::Option::SetText("StartMode", "Lobby");
                         }
                     }
+                    else if(!String::Compare(n, "Title_butten_facebook_area") || !String::Compare(n, "Title_str_11"))
+                    {
+                        mMainTitleSpine.PlayMotionOnce("facebook");
+                        Platform::Popup::WebBrowserDialog("https://www.facebook.com/Monthlykoobonil/");
+                    }
                     else if(!String::Compare(n, "Title_butten_staff_area2") || !String::Compare(n, "Title_str_10"))
                     {
+                        mMainTitleSpine.PlayMotionOnce("staferoll");
                         mClosing = 50;
                         Platform::Option::SetText("StartMode", "StaffRoll");
                     }
@@ -1193,7 +1210,7 @@ void ingameData::Render(ZayPanel& panel)
                         else if(!String::Compare(n, "Pause_loby_area"))
                             mPausePopup.PlayMotionOnce("click_lobby");
                     }
-                });
+                }, mSubRenderer);
         }
     }
 
@@ -1207,7 +1224,8 @@ void ingameData::Render(ZayPanel& panel)
     ZAY_XYWH(panel, mInGameX, mInGameY, mInGameW, mInGameH)
         F1State::RenderDebug(panel, mMonsters, mWaveSecCurrently);
 
-    #if BOSS_WINDOWS | BOSS_LINUX | BOSS_MAC_OSX
+    if(Platform::Option::GetFlag("DevMode"))
+    {
         const sint32 InnerGap = 10, ButtonSize = 80, ButtonSizeSmall = 50;
         ZAY_FONT(panel, 1.2, "Arial Black")
         {
@@ -1220,15 +1238,13 @@ void ingameData::Render(ZayPanel& panel)
                         next("codename_f1View");
                 })
             {
-                #if !BOSS_WINDOWS
-                    ZAY_RGBA(panel, 255, 255, 128, 192)
-                        panel.fill();
-                    ZAY_RGB(panel, 0, 0, 0)
-                    {
-                        panel.rect(2);
-                        panel.text("Home", UIFA_CenterMiddle);
-                    }
-                #endif
+                ZAY_RGBA(panel, 255, 255, 128, 192)
+                    panel.fill();
+                ZAY_RGB(panel, 0, 0, 0)
+                {
+                    panel.rect(2);
+                    panel.text("Home", UIFA_CenterMiddle);
+                }
             }
 
             // 디버그버튼
@@ -1242,19 +1258,17 @@ void ingameData::Render(ZayPanel& panel)
                     }
                 })
             {
-                #if !BOSS_WINDOWS
-                    ZAY_RGBA_IF(panel, 255, 128, 255, 192, mShowDebug)
-                    ZAY_RGBA_IF(panel, 128, 255, 255, 192, !mShowDebug)
-                        panel.fill();
-                    ZAY_RGB(panel, 0, 0, 0)
-                    {
-                        panel.rect(2);
-                        panel.text("Debug", UIFA_CenterMiddle);
-                    }
-                #endif
+                ZAY_RGBA_IF(panel, 255, 128, 255, 192, mShowDebug)
+                ZAY_RGBA_IF(panel, 128, 255, 255, 192, !mShowDebug)
+                    panel.fill();
+                ZAY_RGB(panel, 0, 0, 0)
+                {
+                    panel.rect(2);
+                    panel.text("Debug", UIFA_CenterMiddle);
+                }
             }
         }
-    #endif
+    }
 }
 
 void ingameData::RenderItems(ZayPanel& panel, bool slot, uint64 msec)

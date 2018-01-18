@@ -1,74 +1,58 @@
 ﻿[
 	{
-		"Name":"5슬라임",
-		"Group":"F_Normal_B/2/F_Normal_B/2/F_Normal_B/2/F_Normal_B/2/F_Normal_B"
+		"Name":"10 슬라임",
+		"Group":"I_Slime/2/I_Slime/2/I_Slime/2/I_Slime/2/I_Slime/2/I_Slime/2/I_Slime/2/I_Slime/2/I_Slime/2/I_Slime"
 	},
 	{
-		"Name":"5오크",
-		"Group":"F_Middle_B/2/F_Middle_B/2/F_Middle_B/2/F_Middle_B/2/F_Middle_B"
+		"Name":"10 빼곡슬라임",
+		"Group":"I_Slime/1/I_Slime/1/I_Slime/1/I_Slime/1/I_Slime/1/I_Slime/1/I_Slime/1/I_Slime/1/I_Slime/1/I_Slime"
 	},
 	{
-		"Name":"6 강오크 믹스",
-		"Group":"F_MiddleBoss/2/F_Middle_B/2/F_MiddleBoss/2/F_Middle_B/2/F_MiddleBoss/2/F_Middle_B"
+		"Name":"10 오크",
+		"Group":"I_Orc/2/I_Orc/2/I_Orc/2/I_Orc/2/I_Orc/2/I_Orc/2/I_Orc/2/I_Orc/2/I_Orc/2/I_Orc"
 	},
 	{
-		"Name":"5슬라&오베리부대",
-		"Group":"F_Normal_B/2/F_Middle_B/2/F_Normal_B/2/F_Middle_B/2/F_Normal_B/2/F_Middle_B"
+		"Name":"10 빼곡 오크",
+		"Group":"I_Orc/1/I_Orc/1/I_Orc/1/I_Orc/1/I_Orc/1/I_Orc/1/I_Orc/1/I_Orc/1/I_Orc/1/I_Orc"
 	},
 	{
-		"Name":"6늑대",
-		"Group":"F_Fast/2/F_Fast/2/F_Fast/2/F_Fast/2/F_Fast/2/F_Fast"
+		"Name":"10강오크",
+		"Group":"I_Helmetorc/2/I_Helmetorc/2/I_Helmetorc/2/I_Helmetorc/2/I_Helmetorc/2/I_Helmetorc/2/I_Helmetorc/2/I_Helmetorc/2/I_Helmetorc/2/I_Helmetorc"
 	},
 	{
-		"Name":"5슬라임 널널",
-		"Group":"F_Normal/2/F_Normal/2/F_Normal/2/F_Normal/2/F_Normal"
+		"Name":"10오크교차",
+		"Group":"I_Orc/2/I_Helmetorc/2/I_Orc/2/I_Helmetorc/2/I_Orc/2/I_Helmetorc/2/I_Orc/2/I_Helmetorc/2/I_Orc/2/I_Helmetorc"
 	},
 	{
-		"Name":"5슬라임 빼곡",
-		"Group":"F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal"
+		"Name":"6오크3교차",
+		"Group":"I_Orc/2/I_Orc_B/2/I_Helmetorc/2/I_Orc/2/I_Orc_B/2/I_Helmetorc"
 	},
 	{
-		"Name":"10슬라임 빼곡",
-		"Group":"F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal"
+		"Name":"10 슬라오크",
+		"Group":"I_Orc/2/I_Slime/2/I_Orc/2/I_Slime/2/I_Orc/2/I_Slime/2/I_Orc/2/I_Slime/2/I_Orc/2/I_Slime"
 	},
 	{
-		"Name":"5오크 널널",
-		"Group":"F_Middle/2/F_Middle/2/F_Middle/2/F_Middle/2/F_Middle"
+		"Name":"10 늑대",
+		"Group":"I_Wolf/2/I_Wolf/2/I_Wolf/2/I_Wolf/2/I_Wolf/2/I_Wolf/2/I_Wolf/2/I_Wolf/2/I_Wolf/2/I_Wolf"
 	},
 	{
-		"Name":"3오크 3슬라임 반복 ",
-		"Group":"F_Normal/2/F_Middle/2/F_Normal/2/F_Middle/2/F_Normal/2/F_Middle"
+		"Name":"10 늑대인간",
+		"Group":"I_VereWolf/2/I_VereWolf/2/I_VereWolf/2/I_VereWolf/2/I_VereWolf/2/I_VereWolf/2/I_VereWolf/2/I_VereWolf/2/I_VereWolf/2/I_VereWolf"
 	},
 	{
-		"Name":"1강오크 4오크 ",
-		"Group":"F_MiddleBoss/2/F_Middle/2/F_Middle/2/F_Middle/2/F_Middle"
+		"Name":"3 눈사람",
+		"Group":"I_SnowMan/2/I_SnowMan/2/I_SnowMan"
 	},
 	{
-		"Name":"3강오크 3오크 반복",
-		"Group":"F_MiddleBoss/2/F_Middle/2/F_MiddleBoss/2/F_Middle/2/F_MiddleBoss/2/F_Middle"
+		"Name":"4눈사람&오우거",
+		"Group":"I_SnowMan/2/I_Ogre/2/I_SnowMan/2/I_Ogre"
 	},
 	{
-		"Name":"3강오크 널널",
-		"Group":"F_MiddleBoss/2/F_MiddleBoss/2/F_MiddleBoss"
+		"Name":"10 슬라임투",
+		"Group":"I_Slime_B/2/I_Slime_B/2/I_Slime_B/2/I_Slime_B/2/I_Slime_B/2/I_Slime_B/2/I_Slime_B/2/I_Slime_B/2/I_Slime_B/2/I_Slime_B"
 	},
 	{
-		"Name":"3늑대 널널",
-		"Group":"F_Fast/2/F_Fast/2/F_Fast/"
-	},
-	{
-		"Name":"5오크 러쉬",
-		"Group":"F_Middle/2/F_Middle_B/2/F_Middle/2/F_Middle_B/2/F_Middle"
-	},
-	{
-		"Name":"5슬라임 러쉬",
-		"Group":"F_Normal/2/F_Normal_B/2/F_Normal/2/F_Normal_B/2/F_Normal/2/F_Normal_B"
-	},
-	{
-		"Name":"5믹스 오크 부대",
-		"Group":"F_Middle_B/2/F_Middle_B/2/F_Middle_B/2/F_Middle_B/2/F_Middle_B"
-	},
-	{
-		"Name":"5슬라&오베리부대",
-		"Group":"F_Normal_B/2/F_Middle_B/2/F_Normal_B/2/F_Middle_B/2/F_Normal_B/2/F_Middle_B"
+		"Name":"10 슬라임투빼곡",
+		"Group":"I_Slime_B/1/I_Slime_B/1/I_Slime_B/1/I_Slime_B/1/I_Slime_B/1/I_Slime_B/1/I_Slime_B/1/I_Slime_B/1/I_Slime_B/1/I_Slime_B"
 	}
 ]

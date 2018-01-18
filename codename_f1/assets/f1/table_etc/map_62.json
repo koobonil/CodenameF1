@@ -1,6 +1,6 @@
 {
 	"BGName":"map_ice_a",
-	"BuildNumber":"1",
+	"BuildNumber":"2",
 	"Layers":
 	[
 		{
@@ -14,24 +14,6 @@
 					"RectL":"0.06",
 					"RectR":"0.2",
 					"RectT":"-0.45",
-					"Visible":"1"
-				},
-				{
-					"ID":"Mud_S",
-					"RID":"81000042",
-					"RectB":"0.016667",
-					"RectL":"-0.26",
-					"RectR":"-0.14",
-					"RectT":"-0.1",
-					"Visible":"1"
-				},
-				{
-					"ID":"Mud_L",
-					"RID":"81000093",
-					"RectB":"0.4",
-					"RectL":"0.14",
-					"RectR":"0.28",
-					"RectT":"0.283333",
 					"Visible":"1"
 				},
 				{
@@ -131,6 +113,24 @@
 					"RectL":"0.42",
 					"RectR":"0.5",
 					"RectT":"0.166667",
+					"Visible":"1"
+				},
+				{
+					"ID":"Mud_L",
+					"RID":"81000093",
+					"RectB":"0.316667",
+					"RectL":"0.16",
+					"RectR":"0.3",
+					"RectT":"0.2",
+					"Visible":"1"
+				},
+				{
+					"ID":"Mud_S",
+					"RID":"81000042",
+					"RectB":"-0.066666",
+					"RectL":"-0.2",
+					"RectR":"-0.08",
+					"RectT":"-0.183333",
 					"Visible":"1"
 				}
 			],

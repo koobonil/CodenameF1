@@ -345,36 +345,29 @@ void MapSpine::Staff_Start()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-FXState::FXState(chars defaultpath) : mData(FXData::ST()), mDefaultPath(defaultpath)
+FXDoor::FXDoor()
 {
+    mLoaded = false;
     mIsParaAuth = false;
     mParaAuthSuccess = false;
-    mSubRenderer = ZAY_RENDER_PN(p, n, this)
-    {
-        if(!String::Compare(n, "str_", 4))
-        {
-            ZAY_RGB(p, 255, 255, 255)
-            ZAY_FONT(p, p.h() / 14)
-                p.text(GetString(Parser::GetInt(n + 4)), UIFA_CenterMiddle, UIFE_Right);
-        }
-        else if(!String::Compare(n, "panel_", 6))
-            RenderPanel(n + 6, p);
-    };
 }
 
-FXState::~FXState()
+FXDoor::~FXDoor()
 {
 }
 
-bool FXState::IsDoorLocked() const
+bool FXDoor::IsLocked() const
 {
     return (mIsParaAuth && !mParaAuthSuccess);
 }
 
-bool FXState::LoadDoor()
+bool FXDoor::Load()
 {
-    mDoorService = "";
-    mDoorComment = "";
+    if(mLoaded)
+        return true;
+
+    mService = "";
+    mComment = "";
     mIsParaAuth = true;
     mParaAuthSuccess = false;
     mParaAuthCode = "";
@@ -395,11 +388,13 @@ bool FXState::LoadDoor()
                 const String Version = Door[i](String::Format("BuildMatching%d_Version", j + 1)).GetString();
                 if(!String::Compare(Version, BuildVersion, Version.Length()))
                 {
-                    mDoorService = Door[i]("Service").GetString();
-                    mDoorComment = Door[i](String::Format("BuildMatching%d_Comment", j + 1)).GetString();
-                    const String AccountCenter = Door[i]("AccountCenter").GetString();
-                    const String AccountManager = Door[i]("AccountManager").GetString();
-                    if(0 < AccountCenter.Length())
+                    mService = Door[i]("Service").GetString();
+                    mComment = Door[i](String::Format("BuildMatching%d_Comment", j + 1)).GetString();
+                    mStagePack.Init(Door[i]("StagePack").GetString());
+                    mLanguagePack.Init(Door[i]("LanguagePack").GetString());
+                    mAccountCenter = Door[i]("AccountCenter").GetString();
+                    mAccountManager = Door[i]("AccountManager").GetString();
+                    if(0 < mAccountCenter.Length())
                     {
                         mIsParaAuth = true;
                         // 인증코드제작
@@ -419,12 +414,12 @@ bool FXState::LoadDoor()
                             AuthFile.SaveJson().ToFile("paraauth.json");
                         }
                         // 인증코드매칭
-                        if(!String::CompareNoCase(AccountCenter, "http://cafe.naver.com/", 22))
+                        if(!String::CompareNoCase(mAccountCenter, "http://cafe.naver.com/", 22))
                         {
                             ParaSource AuthSource(ParaSource::NaverCafe);
                             AuthSource.SetContact("cafe.naver.com", 80);
                             Context Temp;
-                            AuthSource.GetJson(Temp, ((chars) AccountCenter) + 22);
+                            AuthSource.GetJson(Temp, ((chars) mAccountCenter) + 22);
                             Context AuthComment;
                             if(AuthSource.GetLastSpecialJson(AuthComment))
                             {
@@ -433,7 +428,7 @@ bool FXState::LoadDoor()
                                 const Context& List = AuthComment("result")("list");
                                 for(sint32 i = 0, iend = List.LengthOfIndexable(); i < iend && !mParaAuthSuccess; ++i)
                                 {
-                                    if(AccountManager.Length() != 0 && !!AccountManager.Compare(List[i]("writerid").GetString()))
+                                    if(0 < mAccountManager.Length() && !!mAccountManager.Compare(List[i]("writerid").GetString()))
                                         continue;
                                     const String ContentText = List[i]("content").GetString();
                                     sint32 ParaAuthPos = 0;
@@ -456,36 +451,36 @@ bool FXState::LoadDoor()
                             }
                         }
                     }
-                    return true;
+                    return (mLoaded = true);
                 }
             }
         }
     }
-    return false;
+    return (mLoaded = false);
 }
 
-void FXState::RenderDoor(ZayPanel& panel)
+void FXDoor::Render(ZayPanel& panel)
 {
-    if(mDoorService.Length())
+    const float FontSize = Math::MinF(panel.w(), panel.h()) / 240.0f;
+    if(mService.Length())
     {
         // 버전
-        const float FontSize = Math::MinF(panel.w(), panel.h()) / 240.0f;
         ZAY_FONT(panel, FontSize, "Arial Black")
         {
             const sint32 FontHeightA = Platform::Graphics::GetStringHeight();
             ZAY_RGBA(panel, 0, 0, 0, 128)
-                panel.text(panel.w() - 5 + 1, 1 - FontHeightA * 0.1f, mDoorService, UIFA_RightTop);
+                panel.text(panel.w() - 5 + 1, 1 - FontHeightA * 0.1f, mService, UIFA_RightTop);
             ZAY_RGB(panel, 255, 255, 255)
-                panel.text(panel.w() - 5, 0 - FontHeightA * 0.1f, mDoorService, UIFA_RightTop);
+                panel.text(panel.w() - 5, 0 - FontHeightA * 0.1f, mService, UIFA_RightTop);
 
-            if(0 < mDoorComment.Length())
+            if(0 < mComment.Length())
             ZAY_FONT(panel, 0.8)
             {
                 const sint32 FontHeightB = Platform::Graphics::GetStringHeight();
                 ZAY_RGBA(panel, 0, 0, 0, 128)
-                    panel.text(panel.w() - 5 + 1, FontHeightA * 0.7f + 1 - FontHeightB * 0.1f, mDoorComment, UIFA_RightTop);
+                    panel.text(panel.w() - 5 + 1, FontHeightA * 0.7f + 1 - FontHeightB * 0.1f, mComment, UIFA_RightTop);
                 ZAY_RGB(panel, 255, 255, 0)
-                    panel.text(panel.w() - 5, FontHeightA * 0.7f + 0 - FontHeightB * 0.1f, mDoorComment, UIFA_RightTop);
+                    panel.text(panel.w() - 5, FontHeightA * 0.7f + 0 - FontHeightB * 0.1f, mComment, UIFA_RightTop);
             }
         }
 
@@ -526,12 +521,52 @@ void FXState::RenderDoor(ZayPanel& panel)
                     }
                 }
             }
+            if(!mParaAuthSuccess)
+            {
+                ZAY_XYRR_UI(panel, panel.w() / 2, panel.h() / 2 + FontSize * 30, FontSize * 50, FontSize * 10, "go_site",
+                    ZAY_GESTURE_T(t, this)
+                    {
+                        if(t == GT_Pressed)
+                            Platform::Popup::WebBrowserDialog(mAccountCenter);
+                    })
+                {
+                    ZAY_RGBA(panel, 0, 0, 0, 160)
+                        panel.fill();
+                    ZAY_RGB(panel, 0, 0, 0)
+                        panel.rect(2);
+                    ZAY_FONT(panel, FontSize * 0.75f)
+                    ZAY_RGB(panel, 255, 255, 0)
+                        panel.text("인증하기", UIFA_CenterMiddle, UIFE_Right);
+                }
+            }
         }
     }
-    else RenderBuildVersion(panel);
+    else
+    {
+        // 메시지
+        ZAY_XYWH(panel, 0, panel.h() / 2 - FontSize * 15, panel.w(), FontSize * 30)
+        {
+            ZAY_RGBA(panel, 0, 0, 0, 160)
+                panel.fill();
+            ZAY_RGB(panel, 0, 0, 0)
+            {
+                ZAY_LTRB(panel, -2, 0, panel.w() + 2, panel.h())
+                    panel.rect(2);
+                ZAY_FONT(panel, FontSize / 2, "Arial Black")
+                    panel.text(panel.w(), panel.h(), "PARAAUTH ", UIFA_RightBottom);
+            }
+            ZAY_FONT(panel, FontSize * 0.75)
+            ZAY_RGB(panel, 224, 192, 192)
+                panel.text("This program is an unknown version.\r\n"
+                    "Update may be required.", UIFA_CenterMiddle);
+        }
+
+        // 버전표시
+        RenderVersion(panel);
+    }
 }
 
-void FXState::RenderBuildVersion(ZayPanel& panel)
+void FXDoor::RenderVersion(ZayPanel& panel)
 {
     const String BuildVersion = Platform::Option::GetText("BuildVersion");
     ZAY_XYRR(panel, panel.w() / 2, panel.h() / 14 + 10, 120, 20)
@@ -543,49 +578,66 @@ void FXState::RenderBuildVersion(ZayPanel& panel)
     }
 }
 
-const Context& FXState::GetStage(sint32 index) const
+////////////////////////////////////////////////////////////////////////////////
+FXState::FXState(chars defaultpath) : mDoor(FXDoor::ST()), mData(FXData::ST()), mDefaultPath(defaultpath)
 {
-    if(!mData.mStageTable[0].IsValid())
+    mSubRenderer = ZAY_RENDER_PN(p, n, this)
     {
-        ParaSource Source(ParaSource::IIS);
-        Source.SetContact("www.finalbossbehindthedoor.com", 80);
-        Source.GetJson(mData.mStageTable, "f1/stage_table.txt");
-    }
-    return mData.mStageTable[index];
+        if(!String::Compare(n, "str_", 4))
+        {
+            ZAY_RGB(p, 255, 255, 255)
+            ZAY_FONT(p, p.h() / 14)
+                p.text(GetString(Parser::GetInt(n + 4)), UIFA_CenterMiddle, UIFE_Right);
+        }
+        else if(!String::Compare(n, "panel_", 6))
+            RenderPanel(n + 6, p);
+    };
 }
 
-ZayPanel::SubRenderCB FXState::GetStageThumbnail(sint32 index) const
+FXState::~FXState()
+{
+}
+
+const Context& FXState::GetStage(sint32 index)
+{
+    if(auto CurStage = mDoor.stage())
+        return (*CurStage)[index];
+
+    static const Context NullContext;
+    return NullContext;
+}
+
+ZayPanel::SubRenderCB FXState::GetStageThumbnail(sint32 index)
 {
     if(auto Result = mData.mAllParaViews.Access(index))
         return Result->GetRenderer();
 
     auto& NewParaView = mData.mAllParaViews[index];
-    NewParaView.Init(GetStage(index)("ParaView").GetString());
+    NewParaView.Init(GetStage(index)("Thumbnail").GetString());
     return NewParaView.GetRenderer();
 }
 
-const String& FXState::GetString(sint32 id) const
+const String& FXState::GetString(sint32 id)
 {
     if(auto Result = mData.mAllStrings.Access(id))
         return *Result;
 
-    if(!mData.mStringTable[0].IsValid())
+    if(auto CurLanguage = mDoor.language())
     {
-        ParaSource Source(ParaSource::IIS);
-        Source.SetContact("www.finalbossbehindthedoor.com", 80);
-        Source.GetJson(mData.mStringTable, "f1/string_table.txt");
-    }
-    if(mData.mAllStrings.Count() == 0)
-    {
-        for(sint32 i = 0, iend = mData.mStringTable.LengthOfIndexable(); i < iend; ++i)
+        if(mData.mAllStrings.Count() == 0)
         {
-            sint32 CurID = mData.mStringTable[i]("Index").GetInt(0);
-            mData.mAllStrings[CurID] = mData.mStringTable[i]("kor").GetString("-blank-");
+            for(sint32 i = 0, iend = CurLanguage->LengthOfIndexable(); i < iend; ++i)
+            {
+                sint32 CurID = (*CurLanguage)[i]("Index").GetInt(0);
+                mData.mAllStrings[CurID] = (*CurLanguage)[i]("kor").GetString("-blank-");
+            }
+            if(auto Result = mData.mAllStrings.Access(id))
+                return *Result;
         }
-        if(auto Result = mData.mAllStrings.Access(id))
-            return *Result;
+        static String Null = "-null-";
+        return Null;
     }
-    static String Null = "-null-";
+    static String Null = "";
     return Null;
 }
 

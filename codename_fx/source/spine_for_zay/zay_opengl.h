@@ -2,14 +2,20 @@
 
 #include "zay_types.h"
 
-#include <platform/boss_platform.hpp>
 #ifdef BOSS_PLATFORM_QT5
+    #define USE_QT_OPENGL 1
+#else
+    #define USE_QT_OPENGL 0
+#endif
+
+#include <platform/boss_platform.hpp>
+#if USE_QT_OPENGL
     #include <QGLFunctions>
     extern QGLFunctions* g_func;
     #define BOSS_GL(NAME, ...) g_func->gl##NAME(__VA_ARGS__)
 #else
     # if BOSS_WINDOWS
-    #  include <glew-1.12.0/include/GL/glew.h>
+    #  include "glew-1.12.0/include/GL/glew.h"
     # elif BOSS_MAC_OSX
     #  include <OpenGL/gl3.h>
     #  include <OpenGL/gl3ext.h>
@@ -22,7 +28,7 @@
     # elif BOSS_ANDROID
     #  include <EGL/egl.h>
     #  include <android/native_window_jni.h>
-    #  include "platform/android/OpenGLES_Functions-android.cpp"
+    #  include "platform/android/OpenGLES_Functions-android.h"
     # endif
 
     extern dependency* g_func;

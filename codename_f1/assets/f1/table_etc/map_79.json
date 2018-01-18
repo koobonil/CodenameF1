@@ -1,6 +1,6 @@
 {
 	"BGName":"map_ice_a",
-	"BuildNumber":"1",
+	"BuildNumber":"2",
 	"Layers":
 	[
 		{
@@ -32,6 +32,78 @@
 					"RectL":"0.18",
 					"RectR":"0.46",
 					"RectT":"-0.2",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_Spot",
+					"RID":"81000331",
+					"RectB":"0.166667",
+					"RectL":"-0.46",
+					"RectR":"-0.38",
+					"RectT":"0.1",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_Spot",
+					"RID":"81000332",
+					"RectB":"0.316667",
+					"RectL":"-0.28",
+					"RectR":"-0.2",
+					"RectT":"0.25",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_Spot",
+					"RID":"81000333",
+					"RectB":"0.466667",
+					"RectL":"-0.04",
+					"RectR":"0.04",
+					"RectT":"0.4",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_Spot",
+					"RID":"81000334",
+					"RectB":"0.116667",
+					"RectL":"-0.1",
+					"RectR":"-0.02",
+					"RectT":"0.05",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_Spot",
+					"RID":"81000335",
+					"RectB":"0.25",
+					"RectL":"0.14",
+					"RectR":"0.22",
+					"RectT":"0.183333",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_Spot",
+					"RID":"81000336",
+					"RectB":"-0.3",
+					"RectL":"-0.3",
+					"RectR":"-0.22",
+					"RectT":"-0.366667",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_Spot",
+					"RID":"81000337",
+					"RectB":"-0.15",
+					"RectL":"-0.12",
+					"RectR":"-0.04",
+					"RectT":"-0.216667",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_Spot",
+					"RID":"81000338",
+					"RectB":"0.45",
+					"RectL":"0.36",
+					"RectR":"0.44",
+					"RectT":"0.383333",
 					"Visible":"1"
 				}
 			],
@@ -1172,33 +1244,6 @@
 					"Visible":"1"
 				},
 				{
-					"ID":"I_Spot",
-					"RID":"81000264",
-					"RectB":"0.333334",
-					"RectL":"-0.3",
-					"RectR":"-0.22",
-					"RectT":"0.266667",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_Spot",
-					"RID":"81000321",
-					"RectB":"0.166666",
-					"RectL":"-0.46",
-					"RectR":"-0.38",
-					"RectT":"0.099999",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_Spot",
-					"RID":"81000263",
-					"RectB":"0.466666",
-					"RectL":"-0.06",
-					"RectR":"0.02",
-					"RectT":"0.399999",
-					"Visible":"1"
-				},
-				{
 					"ID":"I_Tree",
 					"RID":"81000242",
 					"RectB":"-0.3",
@@ -1403,7 +1448,7 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000325",
+	"ObjectLastRID":"81000338",
 	"PolygonLastRID":"82000016",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"

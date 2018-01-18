@@ -132,7 +132,7 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
     }
 
     // 빌드버전
-    FXState::RenderBuildVersion(panel);
+    FXDoor::RenderVersion(panel);
 }
 
 codename_f1Data::codename_f1Data()

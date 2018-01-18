@@ -1,7 +1,7 @@
 ﻿#include "zay_types.h"
 #include "zay_opengl.h"
 
-#if !defined(BOSS_PLATFORM_QT5)
+#if !USE_QT_OPENGL
     #if BOSS_WINDOWS
         #include <windows.h>
         #include <wingdi.h>
@@ -21,15 +21,15 @@
 
         # if BOSS_X64
         #  if BOSS_NDEBUG
-        #   pragma comment(lib, "glew-1.12.0/lib/Release/x64/glew32.lib")
+        #   pragma comment(lib, "../../codename_fx/source/glew-1.12.0/lib/Release/x64/glew32.lib")
         #  else
-        #   pragma comment(lib, "glew-1.12.0/lib/Release/x64/glew32.lib")
+        #   pragma comment(lib, "../../codename_fx/source/glew-1.12.0/lib/Release/x64/glew32.lib")
         #  endif
         # else
         #  if BOSS_NDEBUG
-        #   pragma comment(lib, "glew-1.12.0/lib/Release/Win32/glew32.lib")
+        #   pragma comment(lib, "../../codename_fx/source/glew-1.12.0/lib/Release/Win32/glew32.lib")
         #  else
-        #   pragma comment(lib, "glew-1.12.0/lib/Release/Win32/glew32.lib")
+        #   pragma comment(lib, "../../codename_fx/source/glew-1.12.0/lib/Release/Win32/glew32.lib")
         #  endif
         # endif
 

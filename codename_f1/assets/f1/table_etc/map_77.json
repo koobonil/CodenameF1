@@ -1,6 +1,6 @@
 {
 	"BGName":"map_ice_a",
-	"BuildNumber":"1",
+	"BuildNumber":"2",
 	"Layers":
 	[
 		{
@@ -80,15 +80,6 @@
 					"Visible":"1"
 				},
 				{
-					"ID":"WindHole",
-					"RID":"81000125",
-					"RectB":"0.15",
-					"RectL":"-0.1",
-					"RectR":"0.1",
-					"RectT":"-0.016667",
-					"Visible":"1"
-				},
-				{
 					"ID":"Hole",
 					"RID":"81000124",
 					"RectB":"-0.066667",
@@ -105,34 +96,28 @@
 					"RectR":"-0.22",
 					"RectT":"-0.4",
 					"Visible":"1"
+				},
+				{
+					"ID":"I_Spot",
+					"RID":"81000138",
+					"RectB":"0.033333",
+					"RectL":"-0.48",
+					"RectR":"-0.4",
+					"RectT":"-0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_Spot",
+					"RID":"81000139",
+					"RectB":"0.033333",
+					"RectL":"0.4",
+					"RectR":"0.48",
+					"RectT":"-0.033333",
+					"Visible":"1"
 				}
 			],
 			"Polygons":
 			[
-				{
-					"ID":"SmallWall",
-					"Points":
-					[
-						{
-							"X":"-0.06",
-							"Y":"0.016667"
-						},
-						{
-							"X":"-0.06",
-							"Y":"0.116667"
-						},
-						{
-							"X":"0.06",
-							"Y":"0.116667"
-						},
-						{
-							"X":"0.06",
-							"Y":"0.016667"
-						}
-					],
-					"RID":"82000002",
-					"Visible":"1"
-				},
 				{
 					"ID":"SmallWall",
 					"Points":
@@ -1879,7 +1864,7 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000137",
+	"ObjectLastRID":"81000139",
 	"PolygonLastRID":"82000015",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"

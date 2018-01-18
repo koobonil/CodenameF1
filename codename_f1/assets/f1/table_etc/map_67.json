@@ -1,6 +1,6 @@
 {
 	"BGName":"map_ice_a",
-	"BuildNumber":"1",
+	"BuildNumber":"2",
 	"Layers":
 	[
 		{
@@ -90,15 +90,6 @@
 				},
 				{
 					"ID":"I_Stone",
-					"RID":"81000203",
-					"RectB":"-0.133333",
-					"RectL":"-0.38",
-					"RectR":"-0.3",
-					"RectT":"-0.2",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_Stone",
 					"RID":"81000204",
 					"RectB":"-0.3",
 					"RectL":"-0.46",
@@ -158,6 +149,42 @@
 					"RectL":"0.2",
 					"RectR":"0.3",
 					"RectT":"-0.216667",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_Spot",
+					"RID":"81000211",
+					"RectB":"-0.116667",
+					"RectL":"-0.36",
+					"RectR":"-0.28",
+					"RectT":"-0.183333",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_Spot",
+					"RID":"81000212",
+					"RectB":"-0.116667",
+					"RectL":"0.32",
+					"RectR":"0.4",
+					"RectT":"-0.183333",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_Spot",
+					"RID":"81000213",
+					"RectB":"0.033333",
+					"RectL":"-0.46",
+					"RectR":"-0.38",
+					"RectT":"-0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_Spot",
+					"RID":"81000214",
+					"RectB":"-0.416667",
+					"RectL":"0.42",
+					"RectR":"0.5",
+					"RectT":"-0.483333",
 					"Visible":"1"
 				}
 			],
@@ -2301,7 +2328,7 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000210",
+	"ObjectLastRID":"81000214",
 	"PolygonLastRID":"82000001",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"

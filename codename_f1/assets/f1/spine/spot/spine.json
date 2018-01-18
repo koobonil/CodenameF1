@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "XlgI7QhJuAJNKP902/goKiAJgWE", "spine": "3.6.50", "width": 303.81, "height": 632.87, "images": "./spot/" },
+"skeleton": { "hash": "HH3MtrbAiyO8QBrGEtKqQ4Fd9Sc", "spine": "3.6.50", "width": 303.81, "height": 632.87, "images": "./spot/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 48.16, "rotation": 91.51, "x": 1.82, "y": -1.99 },
@@ -11,7 +11,7 @@
 "slots": [
 	{ "name": "skin", "bone": "bone", "attachment": "skin" },
 	{ "name": "ring", "bone": "ring", "dark": "000000", "attachment": "ring", "blend": "additive" },
-	{ "name": "count_a", "bone": "count", "color": "ff2f2f73", "attachment": "count_a", "blend": "additive" },
+	{ "name": "count_a", "bone": "count", "color": "ff2e2e9c", "attachment": "count_a" },
 	{ "name": "spot_effect", "bone": "spot_effect", "attachment": "spot_effect", "blend": "additive" },
 	{ "name": "area", "bone": "area", "attachment": "area" }
 ],

@@ -1,0 +1,178 @@
+{
+"skeleton": { "hash": "SyHnH0qz/POapcozpr8gB+GRYOc", "spine": "3.6.50", "width": 1858, "height": 2627.01, "images": "./pop/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 304.38, "rotation": 90 },
+	{ "name": "pop_get", "parent": "root", "length": 284.13, "rotation": 90, "y": 1622.59 },
+	{ "name": "pop_get_butten", "parent": "pop_get", "length": 124.01, "x": -1068.28, "y": -2 },
+	{ "name": "pop_get_effect", "parent": "pop_get", "length": 107.76, "x": 13.63, "y": 41.95 }
+],
+"slots": [
+	{ "name": "pop_get_effect", "bone": "pop_get_effect", "color": "a7fff3ff", "attachment": "pop_get_effect" },
+	{ "name": "pop_get_butten", "bone": "pop_get_butten", "attachment": "pop_get_butten" },
+	{ "name": "pop_get_dragon", "bone": "pop_get", "attachment": "pop_get_dragon" },
+	{ "name": "pop_get_title", "bone": "pop_get", "attachment": "pop_get_title" },
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "pop_get_text", "bone": "pop_get" },
+	{ "name": "pop_get_butten_area", "bone": "pop_get_butten", "attachment": "pop_get_butten_area" },
+	{ "name": "str_27", "bone": "pop_get_butten", "attachment": "str_27" },
+	{ "name": "str_25", "bone": "pop_get", "attachment": "str_25" },
+	{ "name": "str_26", "bone": "pop_get", "attachment": "str_26" }
+],
+"skins": {
+	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 2587.42, 960.48, 2581.78, -976.17, 1087.8, -976.17, 1087.8, 966.12 ]
+			}
+		},
+		"pop_get_butten": {
+			"pop_get_butten": { "x": 142.1, "y": 5.82, "rotation": -90, "width": 1266, "height": 313 }
+		},
+		"pop_get_butten_area": {
+			"pop_get_butten_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 311.95, 655.05, -19.83, 655.05, -24.26, -651.07, 310.27, -646.64 ]
+			}
+		},
+		"pop_get_dragon": {
+			"pop_get_dragon": { "x": 51.56, "y": 3.82, "rotation": -90, "width": 1435, "height": 1040 }
+		},
+		"pop_get_effect": {
+			"pop_get_effect": { "x": 37.93, "y": -38.13, "scaleX": 2, "scaleY": 2, "rotation": -90, "width": 929, "height": 938 }
+		},
+		"pop_get_title": {
+			"pop_get_title": { "x": 1421.33, "y": 3.82, "rotation": -90, "width": 1770, "height": 246 }
+		},
+		"str_25": {
+			"str_25": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 1063.93, 641.78, 926.49, 641.78, 907.84, -642.26, 1052.52, -645.87 ]
+			}
+		},
+		"str_26": {
+			"str_26": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 886.51, 403.18, 749.07, 403.18, 736.54, -409.77, 881.22, -413.39 ]
+			}
+		},
+		"str_27": {
+			"str_27": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 219.62, 72.47, 111.07, 73.94, 108.13, -508.46, 219.62, -506.99 ]
+			}
+		}
+	}
+},
+"events": {
+	"sound_ui_bottun1": {},
+	"sound_ui_bottun2": {},
+	"sound_ui_heart": {},
+	"sound_ui_popup": {}
+},
+"animations": {
+	"pop_get_butten": {
+		"slots": {
+			"pop_get_effect": {
+				"color": [
+					{ "time": 0, "color": "a7fff2cc" }
+				]
+			}
+		},
+		"bones": {
+			"pop_get": {
+				"translate": [
+					{ "time": 0, "x": 30.05, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 0.8, "y": 0.8, "curve": "stepped" },
+					{ "time": 0.2333, "x": 0.8, "y": 0.8 },
+					{ "time": 0.4, "x": 0.981, "y": 0.981 },
+					{ "time": 0.5, "x": 0, "y": 0 }
+				]
+			},
+			"pop_get_butten": {
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 0.1, "x": 1.318, "y": 1.318 },
+					{ "time": 0.1667, "x": 1, "y": 1 }
+				]
+			}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_ui_heart" }
+		]
+	},
+	"pop_get_idle": {
+		"slots": {
+			"pop_get_effect": {
+				"color": [
+					{ "time": 0, "color": "a7fff3cc" },
+					{ "time": 1.5667, "color": "a7fff379" },
+					{ "time": 3.1, "color": "a7fff3cd" },
+					{ "time": 4.6667, "color": "a7fff379" },
+					{ "time": 6.2333, "color": "a7fff3cd", "curve": "stepped" },
+					{ "time": 7.8, "color": "a7fff3cd" },
+					{ "time": 9.3333, "color": "a7fff379" }
+				]
+			}
+		},
+		"bones": {
+			"pop_get": {
+				"translate": [
+					{ "time": 0, "x": 30.05, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 0.8, "y": 0.8 }
+				]
+			},
+			"pop_get_effect": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 4.6667, "angle": -180 },
+					{ "time": 9.3333, "angle": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 1.5667, "x": 1.181, "y": 1.181 },
+					{ "time": 3.1, "x": 1, "y": 1 },
+					{ "time": 4.6667, "x": 1.181, "y": 1.181 },
+					{ "time": 6.2333, "x": 1, "y": 1 },
+					{ "time": 7.8, "x": 1.181, "y": 1.181 },
+					{ "time": 9.3333, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"pop_get_loading": {
+		"slots": {
+			"pop_get_effect": {
+				"color": [
+					{ "time": 0, "color": "a7fff2cc" }
+				]
+			}
+		},
+		"bones": {
+			"pop_get": {
+				"translate": [
+					{ "time": 0, "x": 30.05, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.1667, "x": 1, "y": 1 },
+					{ "time": 0.2667, "x": 0.8, "y": 0.8 }
+				]
+			}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_ui_popup" }
+		]
+	}
+}
+}

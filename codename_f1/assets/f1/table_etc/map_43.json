@@ -1,5 +1,6 @@
 {
 	"BGName":"map_forest_a",
+	"BuildNumber":"1",
 	"Layers":
 	[
 		{
@@ -25,24 +26,6 @@
 					"Visible":"1"
 				},
 				{
-					"ID":"Mud_S",
-					"RID":"81000093",
-					"RectB":"-0.133333",
-					"RectL":"0.1",
-					"RectR":"0.3",
-					"RectT":"-0.3",
-					"Visible":"1"
-				},
-				{
-					"ID":"Mud_S",
-					"RID":"81000079",
-					"RectB":"0.283333",
-					"RectL":"-0.28",
-					"RectR":"-0.08",
-					"RectT":"0.116667",
-					"Visible":"1"
-				},
-				{
 					"ID":"Mud_L",
 					"RID":"81000094",
 					"RectB":"0.316667",
@@ -58,6 +41,42 @@
 					"RectL":"-0.46",
 					"RectR":"-0.2",
 					"RectT":"-0.35",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000117",
+					"RectB":"0.5",
+					"RectL":"-0.02",
+					"RectR":"0.06",
+					"RectT":"0.433333",
+					"Visible":"1"
+				},
+				{
+					"ID":"Spot",
+					"RID":"81000118",
+					"RectB":"-0.433333",
+					"RectL":"-0.06",
+					"RectR":"0.02",
+					"RectT":"-0.5",
+					"Visible":"1"
+				},
+				{
+					"ID":"Hole",
+					"RID":"81000120",
+					"RectB":"0.283333",
+					"RectL":"-0.3",
+					"RectR":"-0.02",
+					"RectT":"0.083333",
+					"Visible":"1"
+				},
+				{
+					"ID":"Hole",
+					"RID":"81000119",
+					"RectB":"-0.116667",
+					"RectL":"0.04",
+					"RectR":"0.32",
+					"RectT":"-0.316667",
 					"Visible":"1"
 				}
 			]
@@ -1207,6 +1226,8 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000116",
-	"PolygonLastRID":"82000000"
+	"ObjectLastRID":"81000120",
+	"PolygonLastRID":"82000000",
+	"ToolType":"maptool_f1",
+	"ToolVersion":"2"
 }

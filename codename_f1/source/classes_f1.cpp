@@ -1265,7 +1265,7 @@ sint32 F1State::LoadMap(chars json, bool toolmode)
                         chars CurParaViewText = Platform::Option::GetText(String::Format("ParaViewText_%d", CurParaView++));
                         if(!NewObject.mParaView)
                         {
-                            NewObject.mParaView = new ParaSource::View();
+                            NewObject.mParaView = new ParaView();
                             NewObject.mParaView->Init(CurParaViewText);
                         }
                     }
@@ -1544,6 +1544,11 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
         {
             Platform::Graphics::RemoveSurface(mShadowSurface);
             mShadowSurface = Platform::Graphics::CreateSurface(mScreenW, mScreenH);
+            ZAY_MAKE_SUB(panel, mShadowSurface)
+            {
+                panel.fill(); // Surface생성후 처음 한번 전체를 칠해줘야 함(차후 개선요망)
+                panel.erase();
+            }
         }
         const Point XY = panel.toview(0, 0);
 		const float SX = XY.x * panel.zoom();
@@ -1552,12 +1557,7 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
         const float SH = panel.h() * panel.zoom();
         ZAY_MAKE_SUB(panel, mShadowSurface)
         {
-            #if BOSS_WINDOWS || BOSS_LINUX //bx: 임시방편, 차후수정요망
-                panel.erase();
-            #else
-                ZAY_RGBA(panel, 160, 160, 160, 255)
-                    panel.fill();
-            #endif
+            panel.erase();
             ZAY_XYWH(panel, SX, SY, SW, SH)
             {
                 OrderUpdater* CurNode = &Head;
@@ -1583,7 +1583,7 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
             }
         }
         ZAY_XYWH(panel, -XY.x, -XY.y, Platform::Graphics::GetSurfaceWidth(mShadowSurface), Platform::Graphics::GetSurfaceHeight(mShadowSurface))
-        ZAY_RGBA(panel, 128, 128, 128, 32)
+        ZAY_RGBA(panel, 0, 0, 0, 48)
             panel.sub("shadow", mShadowSurface);
     }
 

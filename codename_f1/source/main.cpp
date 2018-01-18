@@ -9,59 +9,59 @@
 #include "../source-gen/buildtime.h"
 void SetBuildTime()
 {
-    // 빌드시간을 빌드버전으로 기록
-    Platform::Option::SetText("BuildVersion", BuildTime);
-    // 빌드시간을 갱신저장
-    if(id_file BuildTimeFile = Platform::File::OpenForWrite("../source-gen/buildtime.h", true))
-    {
-        id_clock BuildTimeClock = Platform::Clock::CreateAsCurrent();
-        sint32 Year = 0, Month = 0, Day = 0, Hour = 0, Min = 0, Sec = 0;
-        Platform::Clock::GetDetail(BuildTimeClock, nullptr, &Sec, &Min, &Hour, &Day, &Month, &Year);
-        Platform::Clock::Release(BuildTimeClock);
-        const String BuildTimeText = String::Format(
-            "static const char* BuildTime = \"%s/ %04d-%02d-%02d/ %02d:%02d:%02d\";\r\n",
-            Platform::Utility::GetOSName(), Year, Month, Day, Hour, Min, Sec);
-        Platform::File::Write(BuildTimeFile, (bytes) "\xef\xbb\xbf", 3); // UTF-8 Bom: EF BB BF
-        Platform::File::Write(BuildTimeFile, (bytes)(chars) BuildTimeText, BuildTimeText.Length());
-        Platform::File::Close(BuildTimeFile);
-    }
-    else BOSS_ASSERT("프로젝트의 빌드시간을 갱신저장할 수 없습니다", false);
+    #if BOSS_WINDOWS || BOSS_LINUX || BOSS_MAC_OSX
+        // 빌드시간을 빌드버전으로 기록
+        Platform::Option::SetText("BuildVersion", BuildTime);
+        // 빌드시간을 갱신저장
+        if(id_file BuildTimeFile = Platform::File::OpenForWrite("../source-gen/buildtime.h"))
+        {
+            id_clock BuildTimeClock = Platform::Clock::CreateAsCurrent();
+            sint32 Year = 0, Month = 0, Day = 0, Hour = 0, Min = 0, Sec = 0;
+            Platform::Clock::GetDetail(BuildTimeClock, nullptr, &Sec, &Min, &Hour, &Day, &Month, &Year);
+            Platform::Clock::Release(BuildTimeClock);
+            const String BuildTimeText = String::Format(
+                "static const char* BuildTime = \"%s/ %04d-%02d-%02d/ %02d:%02d:%02d\";\r\n",
+                Platform::Utility::GetOSName(), Year, Month, Day, Hour, Min, Sec);
+            Platform::File::Write(BuildTimeFile, (bytes) "\xef\xbb\xbf", 3); // UTF-8 Bom: EF BB BF
+            Platform::File::Write(BuildTimeFile, (bytes)(chars) BuildTimeText, BuildTimeText.Length());
+            Platform::File::Close(BuildTimeFile);
+        }
+        else BOSS_ASSERT("프로젝트의 빌드시간을 갱신저장할 수 없습니다", false);
+    #else
+        Platform::Option::SetText("BuildVersion",
+            String::Format("%s/ %s/ %s", Platform::Utility::GetOSName(), __DATE__, __TIME__));
+    #endif
 }
 
 void PlatformInit()
 {
-    #if BOSS_WINDOWS || BOSS_LINUX || BOSS_MAC_OSX
-        SetBuildTime();
-    #else
-        Platform::Option::SetText("BuildVersion", String::Format("%s/ %s/ %s", Platform::Utility::GetOSName(), __DATE__, __TIME__));
-    #endif
-
+    SetBuildTime();
     Platform::InitForGL();
     Platform::SetViewCreator(ZayView::Creator);
-    Platform::SetWindowName("Codename F1");
 
+    Context SaveFile;
     String SaveString = String::FromFile("save.json");
     if(0 < SaveString.Length())
-    {
-        Context SaveFile(ST_Json, SO_OnlyReference, SaveString, SaveString.Length());
-        Platform::Option::SetText("StageName", SaveFile("LastStageJson").GetString("f1/table/stage_tutorial.json"));
-        Platform::Option::SetText("LastStageID", SaveFile("LastStageID").GetString("Stage1"));
-    }
+        SaveFile.LoadJson(SO_NeedCopy, SaveString, SaveString.Length());
     else
     {
-        Platform::Option::SetText("StageName", "f1/table/stage_tutorial.json");
-        Platform::Option::SetText("LastStageID", "Stage1");
+        SaveFile.At("DevMode").Set("0");
+        SaveFile.At("LastStageJson").Set("f1/table/stage_tutorial.json");
+        SaveFile.At("LastStageID").Set("");
+        SaveFile.SaveJson().ToFile("save.json");
     }
+
+    Platform::Option::SetFlag("DevMode", SaveFile("DevMode").GetInt());
+    Platform::Option::SetText("StageName", SaveFile("LastStageJson").GetString());
+    Platform::Option::SetText("LastStageID", SaveFile("LastStageID").GetString());
     Platform::Option::SetText("ParaTalkCount", "0");
     Platform::Option::SetText("ParaViewCount", "0");
     Platform::Option::SetFlag("LandscapeMode", false);
     Platform::Option::SetFlag("DirectPlay", false);
 
-    #if BOSS_WINDOWS | BOSS_LINUX | BOSS_MAC_OSX
+    if(Platform::Option::GetFlag("DevMode"))
         Platform::SetWindowView("codename_f1View");
-    #else
-        Platform::SetWindowView("ingameView");
-    #endif
+    else Platform::SetWindowView("ingameView");
 
     String InfoString = String::FromFile("windowinfo.json");
     if(0 < InfoString.Length())
@@ -111,4 +111,7 @@ void PlatformQuit()
     Context AtlasInfo;
     R::SaveAtlas(AtlasInfo);
     AtlasInfo.SaveJson().ToFile("atlasinfo.json");
+
+    // 글로벌 리소스의 제거
+    FXData::ClearAll();
 }

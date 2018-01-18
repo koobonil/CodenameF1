@@ -1,6 +1,6 @@
 {
 	"BGName":"map_ice_a",
-	"BuildNumber":"1",
+	"BuildNumber":"2",
 	"Layers":
 	[
 		{
@@ -68,6 +68,15 @@
 					"RectL":"-0.2",
 					"RectR":"-0.04",
 					"RectT":"0.05",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_Spot",
+					"RID":"81000120",
+					"RectB":"0.383333",
+					"RectL":"-0.48",
+					"RectR":"-0.4",
+					"RectT":"0.316667",
 					"Visible":"1"
 				}
 			],
@@ -1378,7 +1387,7 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000119",
+	"ObjectLastRID":"81000120",
 	"PolygonLastRID":"82000001",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"

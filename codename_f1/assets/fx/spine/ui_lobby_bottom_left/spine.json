@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "I417sCvJUvivq3CbktlX5/6YtCU", "spine": "3.6.50", "width": 5832, "height": 526, "images": "" },
+"skeleton": { "hash": "bof/C9QetC0ZD67yUBMzzagkqD0", "spine": "3.6.50", "width": 5832, "height": 526, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 140.48, "rotation": 90, "x": 649.35 },
@@ -15,8 +15,7 @@
 	{ "name": "bottom_slot_b", "bone": "bottom_slot_b", "attachment": "bottom_slot_b" },
 	{ "name": "bottom_adicon", "bone": "bottom_adicon", "attachment": "bottom_adicon" },
 	{ "name": "bottom_textbar", "bone": "bottom_textbar", "attachment": "bottom_textbar" },
-	{ "name": "slot_a_area", "bone": "bottom_slot_a", "attachment": "slot_a_area" },
-	{ "name": "str_28", "bone": "bottom_textbar", "attachment": "str_28" },
+	{ "name": "touch_area", "bone": "bottom_slot_a", "attachment": "touch_area" },
 	{ "name": "ad_time_area", "bone": "bottom_textbar", "attachment": "ad_time_area" },
 	{ "name": "area", "bone": "area", "attachment": "area" }
 ],
@@ -26,7 +25,7 @@
 			"ad_time_area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 134.01, 148.81, 42.69, 148.81, 42.69, -255.34, 134.01, -257.28 ]
+				"vertices": [ 123.9, 148.81, 53.92, 148.81, 53.92, -245.23, 123.9, -247.18 ]
 			}
 		},
 		"area": {
@@ -51,18 +50,11 @@
 		"bottom_textbar": {
 			"bottom_textbar": { "x": 51.21, "y": -50.99, "scaleX": 1.194, "rotation": -90, "width": 354, "height": 177 }
 		},
-		"slot_a_area": {
-			"slot_a_area": {
+		"touch_area": {
+			"touch_area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
 				"vertices": [ 141.04, -243.09, 140.05, 37.79, -135.88, 37.79, -135.88, -243.09 ]
-			}
-		},
-		"str_28": {
-			"str_28": {
-				"type": "boundingbox",
-				"vertexCount": 4,
-				"vertices": [ 134.01, 148.81, 42.69, 148.81, 42.69, -255.34, 134.01, -257.28 ]
 			}
 		}
 	}
@@ -71,47 +63,42 @@
 	"sound_ui_bottun2": {}
 },
 "animations": {
-	"bottom_ad_waittime_end": {
+	"idle_no": {
 		"slots": {
 			"bottom_adicon": {
 				"color": [
-					{ "time": 0, "color": "ffffff00" },
-					{ "time": 0.2333, "color": "ffffffff" }
-				]
-			}
-		},
-		"bones": {
-			"bottom_textbar": {
-				"rotate": [
-					{ "time": 0, "angle": 0 }
-				],
-				"translate": [
-					{ "time": 0, "x": 0, "y": 0 }
-				],
-				"scale": [
-					{ "time": 0, "x": 1, "y": 1 },
-					{ "time": 0.0667, "x": 1.2, "y": 1.2 },
-					{ "time": 0.2333, "x": 0, "y": 0 }
-				]
-			},
-			"bottom_adicon": {
-				"scale": [
-					{ "time": 0.0667, "x": 1.2, "y": 1.2 },
-					{ "time": 0.2333, "x": 1, "y": 1 }
+					{ "time": 0, "color": "ffffff00" }
 				]
 			}
 		}
 	},
-	"bottom_ad_waittime_touch": {
+	"idle_ok": {
 		"slots": {
-			"ad_time_area": {
+			"bottom_adicon": {
 				"color": [
-					{ "time": 0, "color": "ffffff00" }
+					{ "time": 0, "color": "ffffffff" }
+				]
+			}
+		},
+		"bones": {
+			"bottom_textbar": {
+				"scale": [
+					{ "time": 0, "x": 0, "y": 0 }
 				]
 			},
 			"bottom_adicon": {
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"no_to_ok": {
+		"slots": {
+			"bottom_adicon": {
 				"color": [
-					{ "time": 0, "color": "ffffff00" }
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.3333, "color": "ffffffff" }
 				]
 			}
 		},
@@ -125,34 +112,43 @@
 				],
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1 },
-					{ "time": 0.1, "x": 0, "y": 0 },
-					{ "time": 0.1667, "x": 1.1, "y": 1.1 },
-					{ "time": 0.2333, "x": 1, "y": 1 }
+					{ "time": 0.1, "x": 1.2, "y": 1.2 },
+					{ "time": 0.3333, "x": 0, "y": 0 }
+				]
+			},
+			"bottom_adicon": {
+				"scale": [
+					{ "time": 0.1, "x": 1.2, "y": 1.2 },
+					{ "time": 0.3333, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"touch": {
+		"slots": {
+			"bottom_adicon": {
+				"color": [
+					{ "time": 0, "color": "ffffffff" }
+				]
+			}
+		},
+		"bones": {
+			"bottom_textbar": {
+				"scale": [
+					{ "time": 0, "x": 0, "y": 0 }
+				]
+			},
+			"bottom_adicon": {
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 0.1, "x": 1.3, "y": 1.3 },
+					{ "time": 0.1667, "x": 1, "y": 1 }
 				]
 			}
 		},
 		"events": [
 			{ "time": 0, "name": "sound_ui_bottun2" }
 		]
-	},
-	"idle": {
-		"slots": {
-			"bottom_adicon": {
-				"color": [
-					{ "time": 0, "color": "ffffff00" }
-				]
-			},
-			"bottom_textbar": {
-				"color": [
-					{ "time": 0, "color": "ffffff00" }
-				]
-			},
-			"str_28": {
-				"attachment": [
-					{ "time": 0, "name": null }
-				]
-			}
-		}
 	}
 }
 }

@@ -318,7 +318,7 @@ public:
     mutable float mHPAni;
     Rect mCurrentRect;
     Strings mExtraInfo;
-    ParaSource::View* mParaView;
+    ParaView* mParaView;
 };
 typedef Array<MapObject> MapObjects;
 

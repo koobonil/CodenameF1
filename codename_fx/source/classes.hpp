@@ -156,6 +156,39 @@ public:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+class FXDoor
+{
+    BOSS_DECLARE_NONCOPYABLE_CLASS(FXDoor)
+public:
+    FXDoor();
+    ~FXDoor();
+
+public:
+    bool IsLocked() const;
+    bool Load();
+    void Render(ZayPanel& panel);
+    static void RenderVersion(ZayPanel& panel);
+
+public:
+    static FXDoor& ST() {static FXDoor _; return _;}
+    inline const Context* stage() {return mStagePack.GetContext();}
+    inline const Context* language() {return mLanguagePack.GetContext();}
+
+private:
+    bool mLoaded;
+    String mService;
+    String mComment;
+    ParaJson mStagePack;
+    ParaJson mLanguagePack;
+    String mAccountCenter;
+    String mAccountManager;
+    bool mIsParaAuth;
+    bool mParaAuthSuccess;
+    String mParaAuthCode;
+    String mParaAuthName;
+};
+
+////////////////////////////////////////////////////////////////////////////////
 class FXData
 {
     BOSS_DECLARE_NONCOPYABLE_CLASS(FXData)
@@ -165,6 +198,15 @@ public:
 
 public:
     static FXData& ST() {static FXData _; return _;}
+    static void ClearAll()
+    {
+        auto& Data = ST();
+        Data.mAllParaViews.Reset();
+        Data.mAllStrings.Reset();
+        Data.mAllSpines.Reset();
+        Data.mAllSounds.Reset();
+        Data.mAllPanels.Reset();
+    }
 
 public:
     class Sound
@@ -177,9 +219,7 @@ public:
     };
 
 public:
-    Context mStageTable;
-    Context mStringTable;
-    Map<ParaSource::View> mAllParaViews;
+    Map<ParaView> mAllParaViews;
     Map<String> mAllStrings;
     Map<SpineRenderer> mAllSpines;
     Map<Sound> mAllSounds;
@@ -189,33 +229,25 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 class FXState
 {
-    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(FXState, mData(FXData::ST()))
+    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(FXState, mDoor(FXDoor::ST()), mData(FXData::ST()))
 public:
     FXState(chars defaultpath);
     ~FXState();
 
 public:
-    bool IsDoorLocked() const;
-    bool LoadDoor();
-    void RenderDoor(ZayPanel& panel);
-    static void RenderBuildVersion(ZayPanel& panel);
-
-public:
-    const Context& GetStage(sint32 index) const;
-    ZayPanel::SubRenderCB GetStageThumbnail(sint32 index) const;
-    const String& GetString(sint32 id) const;
+    const Context& GetStage(sint32 index);
+    ZayPanel::SubRenderCB GetStageThumbnail(sint32 index);
+    const String& GetString(sint32 id);
     const SpineRenderer* GetSpine(chars name, chars path = nullptr) const;
     id_sound GetSound(chars name, bool loop = false) const;
     void SetPanel(chars name, FXPanel::InitCB icb, FXPanel::RenderCB rcb);
     void RenderPanel(chars name, ZayPanel& panel);
 
+public:
+    inline FXDoor& door() {return mDoor;}
+
 private:
-    String mDoorService;
-    String mDoorComment;
-    bool mIsParaAuth;
-    bool mParaAuthSuccess;
-    String mParaAuthCode;
-    String mParaAuthName;
+    FXDoor& mDoor;
     FXData& mData;
     const String mDefaultPath;
 

@@ -10,8 +10,8 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
 {
     if(type == CT_Tick)
     {
-        // 하트시간 업데이트
-        m->UpdateHeartSec(true);
+        // 하트/광고 업데이트
+        m->UpdateHeartAdSec(true);
         // 세이브파일 업데이트
         if(m->mNeedUpdateSaveFile)
         {
@@ -48,7 +48,8 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
             m->InitForSpine();
         }
         // 윈도우 타이틀
-        Platform::SetWindowName(String::Format("Codename FX [%dx%d:%.03f]", Width, Height, Height / (float) Width));
+        if(Platform::Option::GetFlag("DevMode"))
+            Platform::SetWindowName(String::Format("Codename FX [%dx%d:%.03f]", Width, Height, Height / (float) Width));
     }
 }
 
@@ -131,7 +132,7 @@ outgameData::outgameData() : FXState("fx/"),
     mInGameSize = 0;
 
     mSpineInited = false;
-    mShowingPopup = false;
+    mShowingPopupId = -1;
     mClosing = -1;
     mClosingOption = 0;
     mChapterMax = 2;
@@ -141,8 +142,11 @@ outgameData::outgameData() : FXState("fx/"),
     mNextCard = -1;
     mResultIsWin = false;
     mHeart = mDefaultHeartCount;
+    mAdEnabled = false;
     mHeartUpdatedSec = (sint32) (Platform::Utility::CurrentTimeMsec() / 1000);
+    mAdUpdatedSec = (sint32) (Platform::Utility::CurrentTimeMsec() / 1000);
     mCalcedHeartSec = 0;
+    mCalcedAdSec = 0;
 
     mNeedUpdateSaveFile = false;
     String SaveString = String::FromFile("save.json");
@@ -154,14 +158,16 @@ outgameData::outgameData() : FXState("fx/"),
     {
         mSaveFile.At("SumHeart").Set(String::FromInteger(mHeart));
         mSaveFile.At("HeartUpdatedSecond").Set(String::FromInteger(mHeartUpdatedSec));
+        mSaveFile.At("AdUpdatedSecond").Set(String::FromInteger(mAdUpdatedSec));
         mNeedUpdateSaveFile = true;
     }
     else
     {
         mHeart = mSaveFile("SumHeart").GetInt(mHeart);
         mHeartUpdatedSec = mSaveFile("HeartUpdatedSecond").GetInt(mHeartUpdatedSec);
+        mAdUpdatedSec = mSaveFile("AdUpdatedSecond").GetInt(mAdUpdatedSec);
     }
-    UpdateHeartSec(false);
+    UpdateHeartAdSec(false);
 
     // 결과정리
     chars LastStageID = Platform::Option::GetText("LastStageID");
@@ -243,19 +249,33 @@ void outgameData::InitForSpine()
         case 1: mUILobby.InitSpine(GetSpine("ui_lobby_mid"), "default", FinishedCB).PlayMotion("mid_ice_idle", true); break;
         }
         mUILobbyTL.InitSpine(GetSpine("ui_lobby_top_left"));
-        UpdateHeart(true);
         mUILobbyTR.InitSpine(GetSpine("ui_lobby_top_right")).PlayMotion("idle", true);
-        mUILobbyBL.InitSpine(GetSpine("ui_lobby_bottom_left")).PlayMotion("idle", true);
+        mUILobbyBL.InitSpine(GetSpine("ui_lobby_bottom_left")).PlayMotion("idle_no", true);
         mUILobbyBR.InitSpine(GetSpine("ui_lobby_bottom_right")).PlayMotion("idle", true);
-        mUIPopup.InitSpine(GetSpine("ui_popup"), "default",
-            [this](chars motionname)
+        UpdateHeartAd(true);
+
+        auto PopupCB = [this](chars motionname)
+        {
+            if(mShowingPopupId != -1)
             {
-                if(!String::Compare("pop_set_close", motionname))
+                chars NameTail = motionname + boss_strlen(motionname) - 6;
+                if(!String::Compare("pop_heart_ad_close", motionname))
                 {
-                    mUIPopup.StopMotionAll();
-                    mShowingPopup = false;
+                    mShowingPopupId = -1;
+                    Popup("heart get");
                 }
-            });
+                else if(!String::Compare("_close", NameTail))
+                    mShowingPopupId = -1;
+                else if(!String::Compare("pop_get_butten", motionname))
+                {
+                    mShowingPopupId = -1;
+                    AdToHeart();
+                }
+            }
+        };
+        mUIPopups[0].InitSpine(GetSpine("ui_popup_heart"), "default", PopupCB);
+        mUIPopups[1].InitSpine(GetSpine("ui_popup_get"), "default", PopupCB);
+        mUIPopups[2].InitSpine(GetSpine("ui_popup_set"), "default", PopupCB);
     }
     else if(mStartMode == outgameMode::Result)
     {
@@ -274,7 +294,7 @@ void outgameData::InitForSpine()
     }
 }
 
-void outgameData::UpdateHeart(bool idle_only)
+void outgameData::UpdateHeartAd(bool idle_only)
 {
     const sint32 HeartCount = Math::Min(5 + 1, mHeart);
     mUILobbyTL.StopMotionAll();
@@ -304,11 +324,25 @@ void outgameData::UpdateHeart(bool idle_only)
         case 6: mUILobbyTL.PlayMotion("moreheart_idle", true); break;
         }
     }
+
+    mUILobbyBL.StopMotionAll();
+    if(idle_only)
+    {
+        if(mAdEnabled) mUILobbyBL.PlayMotion("idle_ok", true);
+        else mUILobbyBL.PlayMotion("idle_no", true);
+    }
+    else
+    {
+        if(mAdEnabled) mUILobbyBL.PlayMotionAttached("no_to_ok", "idle_ok", true);
+        else mUILobbyBL.PlayMotion("idle_no", true);
+    }
 }
 
-void outgameData::UpdateHeartSec(bool animate)
+void outgameData::UpdateHeartAdSec(bool animate)
 {
     const sint32 CurSec = (sint32) (Platform::Utility::CurrentTimeMsec() / 1000);
+
+    bool DoUpdate = false;
     sint32 HeartSec = CurSec - mHeartUpdatedSec;
     while(mHeartRegenSec <= HeartSec)
     {
@@ -316,17 +350,48 @@ void outgameData::UpdateHeartSec(bool animate)
         {
             mHeart++;
             if(animate)
-                UpdateHeart(false);
+                DoUpdate = true;
         }
         mHeartUpdatedSec += mHeartRegenSec;
         HeartSec -= mHeartRegenSec;
         mNeedUpdateSaveFile = true;
     }
+    sint32 AdSec = CurSec - mAdUpdatedSec;
+    if(!mAdEnabled && mVideoCoolSec <= AdSec)
+    {
+        mAdEnabled = true;
+        if(animate)
+            DoUpdate = true;
+        AdSec = 0;
+        mNeedUpdateSaveFile = true;
+    }
+    if(DoUpdate)
+        UpdateHeartAd(false);
+
     mCalcedHeartSec = mHeartRegenSec - 1 - HeartSec;
+    mCalcedAdSec = mVideoCoolSec - 1 - AdSec;
     if(mNeedUpdateSaveFile)
     {
         mSaveFile.At("SumHeart").Set(String::FromInteger(mHeart));
         mSaveFile.At("HeartUpdatedSecond").Set(String::FromInteger(mHeartUpdatedSec));
+        mSaveFile.At("AdUpdatedSecond").Set(String::FromInteger(mAdUpdatedSec));
+    }
+}
+
+void outgameData::AdToHeart()
+{
+    if(mAdEnabled)
+    {
+        mHeart++;
+        mAdEnabled = false;
+        mAdUpdatedSec = (sint32) (Platform::Utility::CurrentTimeMsec() / 1000);
+        mCalcedAdSec = mVideoCoolSec - 1;
+        UpdateHeartAd(true);
+
+        mNeedUpdateSaveFile = true;
+        mSaveFile.At("SumHeart").Set(String::FromInteger(mHeart));
+        mSaveFile.At("HeartUpdatedSecond").Set(String::FromInteger(mHeartUpdatedSec));
+        mSaveFile.At("AdUpdatedSecond").Set(String::FromInteger(mAdUpdatedSec));
     }
 }
 
@@ -341,12 +406,12 @@ void outgameData::ReloadAllCards(bool create)
             const String CurID = String::Format("%d", CurIndex + 1);
             sint32 Egg = mSaveFile("Stage" + CurID)("Egg").GetInt(-1);
 
-            const bool ExistUrlA = (GetStage(CurIndex)("FinalBoss").GetString()[0] != '\0');
-            const bool ExistUrlB = (GetStage(CurIndex)("ParaSource").GetString()[0] != '\0');
-            if(!ExistUrlA && !ExistUrlB) Egg = -3;
+            const Context& CurStage = GetStage(CurIndex);
+            const bool ExistUrl = (CurStage("ParaSource").GetString()[0] != '\0');
+            if(!ExistUrl) Egg = -3;
             else if(Egg == -1)
             {
-                const sint32 NeedEgg = GetStage(CurIndex)("NeedEgg").GetInt(0);
+                const sint32 NeedEgg = CurStage("NeedEgg").GetInt(0);
                 if(NeedEgg <= mSaveFile("SumEgg").GetInt(0))
                 {
                     Egg = (NeedEgg == 0)? 0 : -2;
@@ -356,7 +421,7 @@ void outgameData::ReloadAllCards(bool create)
             }
 
             mCards[i].mLocked = (Egg == -1 || Egg == -3);
-            mCards[i].mText = CurID;
+            mCards[i].mId = CurIndex + 1;
             mCards[i].mSpine.StopMotionAll();
             switch(Egg)
             {
@@ -374,7 +439,14 @@ void outgameData::ReloadAllCards(bool create)
 
 bool outgameData::GoStage(sint32 id)
 {
-    if(0 < mHeart)
+    if(mHeart == 0)
+    {
+        if(mAdEnabled)
+            Popup("no heart");
+        else Popup("no heart no ad");
+        return false;
+    }
+    else
     {
         const Context& CurStage = GetStage(id - 1);
         String URL = CurStage("ParaSource").GetString();
@@ -407,7 +479,7 @@ bool outgameData::GoStage(sint32 id)
                     mSaveFile.At("LastStageID").Set(Platform::Option::GetText("LastStageID"));
                     // 하트감소
                     mSaveFile.At("SumHeart").Set(String::FromInteger(--mHeart));
-                    UpdateHeart(true);
+                    UpdateHeartAd(true);
                     mNeedUpdateSaveFile = true;
 
                     // 파라토크/파라뷰 댓글전달
@@ -569,16 +641,32 @@ void outgameData::Render(ZayPanel& panel)
                         const float CardWidth = p.h() * Area->Width() / Area->Height();
                         ZAY_XYWH(p, (p.w() - CardWidth) / 2, 0, CardWidth, p.h())
                         {
-                            ZAY_COLOR_CLEAR(p)
-                            ZAY_INNER(p, p.w() * 0.15)
-                                GetStageThumbnail(CardID + 48 * mCurChapter)(p, n);
                             mCards[CardID].mSpine.RenderObject(true, false, p, false, nullptr, nullptr,
                                 ZAY_RENDER_PN(p, n, this, CardID)
                                 {
                                     if(!String::Compare(n, "stage_number_area"))
                                     {
-                                        ZAY_FONT(p, p.h() / 12)
-                                            p.text(p.w() / 2, p.h() / 2, mCards[CardID].mText, UIFA_CenterMiddle);
+                                        const sint32 ImageW = R("s_a").w();
+                                        const sint32 ImageH = R("s_a").h();
+                                        const float DestRateR = ((sint32) (10 * p.h() / ImageH)) * 0.1f / 2;
+                                        ZAY_COLOR_CLEAR(p)
+                                        {
+                                            if(mCards[CardID].mId < 10)
+                                            {
+                                                const sint32 Id = mCards[CardID].mId % 10;
+                                                ZAY_XYRR(p, p.w() / 2, p.h() / 2, ImageW * DestRateR, ImageH * DestRateR)
+                                                    p.stretch(R(String::Format("s_%c", 'a' + Id)), true);
+                                            }
+                                            else
+                                            {
+                                                const sint32 IdA = (mCards[CardID].mId / 10) % 10;
+                                                const sint32 IdB = mCards[CardID].mId % 10;
+                                                ZAY_XYRR(p, p.w() / 2 - ImageW * DestRateR, p.h() / 2, ImageW * DestRateR, ImageH * DestRateR)
+                                                    p.stretch(R(String::Format("s_%c", 'a' + IdA)), true);
+                                                ZAY_XYRR(p, p.w() / 2 + ImageW * DestRateR, p.h() / 2, ImageW * DestRateR, ImageH * DestRateR)
+                                                    p.stretch(R(String::Format("s_%c", 'a' + IdB)), true);
+                                            }
+                                        }
                                     }
                                 });
                         }
@@ -625,11 +713,16 @@ void outgameData::Render(ZayPanel& panel)
                         if(!String::Compare(n, "StaffRoll_staff roll_x_area"))
                             mUIStaffRoll.PlayMotion("end", false);
                     }
-                }, mSubRenderer);
+                },
+                ZAY_RENDER_PN(p, n, this)
+                {
+                    if(!String::Compare(n, "str_", 4))
+                    {
+                        ZAY_FONT(p, p.h() / 14)
+                            p.text(GetString(Parser::GetInt(n + 4)), UIFA_CenterMiddle, UIFE_Right);
+                    }
+                });
         }
-
-        //ZAY_RGBA(panel, 255, 0, 0, 128)
-        //    panel.rect(2);
     }
 
     if(mStartMode == outgameMode::Lobby)
@@ -691,9 +784,7 @@ void outgameData::Render(ZayPanel& panel)
                                 if(!String::Compare(n, "Option_set_area"))
                                 {
                                     mUILobbyTR.PlayMotionOnce("top_setbutten");
-                                    mUIPopup.StopMotionAll();
-                                    mUIPopup.PlayMotionAttached("pop_set_loading", "pop_set_idle", true);
-                                    mShowingPopup = true;
+                                    Popup("option");
                                 }
                             }
                         });
@@ -710,7 +801,43 @@ void outgameData::Render(ZayPanel& panel)
                 const sint32 AreaWidth = BaseHeight * Area->Width() / Area->Height();
                 const Rect AreaRect(Point(0, panel.h() - BaseHeight), Size(AreaWidth, BaseHeight));
                 ZAY_RECT(panel, AreaRect)
-                    mUILobbyBL.RenderObject(true, false, panel, false);
+                {
+                    mUILobbyBL.RenderObject(true, false, panel, false, "Ad_",
+                        ZAY_GESTURE_NT(n, t, this)
+                        {
+                            if(t == GT_Pressed)
+                            {
+                                if(!String::Compare(n, "Ad_touch_area"))
+                                {
+                                    if(mAdEnabled)
+                                    {
+                                        if(mHeart < 5)
+                                        {
+                                            mUILobbyBL.PlayMotionOnce("touch");
+                                            Popup("heart get");
+                                        }
+                                        else
+                                        {
+                                            mUILobbyBL.PlayMotionOnce("touch");
+                                            Popup("heart is max");
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        ZAY_RENDER_PN(p, n, this)
+                        {
+                            if(!String::Compare(n, "ad_time_area"))
+                            {
+                                ZAY_FONT(p, p.h() / 14)
+                                {
+                                    const sint32 TotalMin = mCalcedAdSec / 60;
+                                    const sint32 TotalSec = mCalcedAdSec % 60;
+                                    p.text(String::Format("%02d:%02d", TotalMin, TotalSec), UIFA_CenterMiddle, UIFE_Right);
+                                }
+                            }
+                        });
+                }
             }
 
             // 로비: 아이템상점
@@ -724,25 +851,69 @@ void outgameData::Render(ZayPanel& panel)
         }
     }
 
-    // 중지팝업
-    if(mShowingPopup)
+    // 팝업
+    if(mShowingPopupId != -1)
     {
         ZAY_INNER_UI(panel, 0, "Popup")
-        ZAY_RGBA(panel, 22, 40, 42, 25)
+        ZAY_RGBA(panel, 22, 40, 42, 160)
             panel.fill();
-        mUIPopup.RenderObject(true, false, panel, false, "Popup_",
+        mUIPopups[mShowingPopupId].RenderObject(true, false, panel, false, "Popup_",
             ZAY_GESTURE_NT(n, t, this)
             {
                 if(t == GT_Pressed)
                 {
-                    if(!String::Compare(n, "Popup_set_x_area"))
-                        mUIPopup.PlayMotion("pop_set_close", false);
+                    chars NameTail = n + boss_strlen(n) - 6;
+                    if(!String::Compare(NameTail, "x_area")
+                        || !String::Compare(n, "Popup_pop_get_butten_area")
+                        || !String::Compare(n, "Popup_str_27")
+                        || !String::Compare(n, "Popup_watch_area"))
+                        mUIPopups[mShowingPopupId].PlayMotion(mPopupCloseName, false);
                 }
-            });
+            }, mSubRenderer);
     }
 
     // 아웃게임클로징
     if(0 <= mClosing && mClosing < 50)
         ZAY_RGBA(panel, 0, 0, 0, 255 * (50 - mClosing) / 50)
             panel.fill();
+}
+
+void outgameData::Popup(chars name)
+{
+    if(!String::Compare(name, "no heart no ad"))
+    {
+        mShowingPopupId = 0;
+        mUIPopups[mShowingPopupId].StopMotionAll();
+        mUIPopups[mShowingPopupId].PlayMotionAttached("pop_no_heart_ad_loading", "pop_no_heart_ad_idle", true);
+        mPopupCloseName = "pop_no_heart_ad_close";
+    }
+    else if(!String::Compare(name, "no heart"))
+    {
+        mShowingPopupId = 0;
+        mUIPopups[mShowingPopupId].StopMotionAll();
+        mUIPopups[mShowingPopupId].PlayMotionAttached("pop_heart_ad_loading", "pop_heart_ad_idle", true);
+        mPopupCloseName = "pop_heart_ad_close";
+    }
+    else if(!String::Compare(name, "heart is max"))
+    {
+        mShowingPopupId = 0;
+        mUIPopups[mShowingPopupId].StopMotionAll();
+        mUIPopups[mShowingPopupId].PlayMotionAttached("pop_heart_max_loading", "pop_heart_max_idle", true);
+        mPopupCloseName = "pop_heart_max_close";
+    }
+    else if(!String::Compare(name, "heart get"))
+    {
+        mShowingPopupId = 1;
+        mUIPopups[mShowingPopupId].StopMotionAll();
+        mUIPopups[mShowingPopupId].PlayMotionAttached("pop_get_loading", "pop_get_idle", true);
+        mPopupCloseName = "pop_get_butten";
+    }
+    else if(!String::Compare(name, "option"))
+    {
+        mShowingPopupId = 2;
+        mUIPopups[mShowingPopupId].StopMotionAll();
+        mUIPopups[mShowingPopupId].PlayMotionAttached("pop_set_loading", "pop_set_idle", true);
+        mPopupCloseName = "pop_set_close";
+    }
+    else BOSS_ASSERT("Popup의 명칭이 잘못되었습니다", false);
 }

@@ -41,12 +41,12 @@ private:
 class outgameCard
 {
 public:
-    outgameCard() {mLocked = true;}
+    outgameCard() {mLocked = true; mId = 0;}
     ~outgameCard() {}
 
 public:
     bool mLocked;
-    String mText;
+    sint32 mId;
     MapSpine mSpine;
 };
 
@@ -61,11 +61,13 @@ public:
 public:
     void SetSize(sint32 width, sint32 height);
     void InitForSpine();
-    void UpdateHeart(bool idle_only);
-    void UpdateHeartSec(bool animate);
+    void UpdateHeartAd(bool idle_only);
+    void UpdateHeartAdSec(bool animate);
+    void AdToHeart();
     void ReloadAllCards(bool create);
     bool GoStage(sint32 id);
     void Render(ZayPanel& panel);
+    void Popup(chars name);
 
 public: // 상수요소
     const bool mLandscape;
@@ -98,7 +100,8 @@ public: // UI요소
 
 public: // 게임상태
     bool mSpineInited;
-    bool mShowingPopup;
+    sint32 mShowingPopupId;
+    String mPopupCloseName;
     sint32 mClosing;
     sint32 mClosingOption;
     sint32 mChapterMax;
@@ -107,8 +110,11 @@ public: // 게임상태
     sint32 mCurCard;
     sint32 mNextCard;
     sint32 mHeart;
+    bool mAdEnabled;
     sint32 mHeartUpdatedSec;
+    sint32 mAdUpdatedSec;
     sint32 mCalcedHeartSec;
+    sint32 mCalcedAdSec;
     bool mResultIsWin;
     bool mNeedUpdateSaveFile;
     Context mSaveFile;
@@ -122,5 +128,5 @@ public: // 스파인
     MapSpine mUILobbyBR;
     MapSpine mUIResult;
     MapSpine mUIStaffRoll;
-    MapSpine mUIPopup;
+    MapSpine mUIPopups[3];
 };

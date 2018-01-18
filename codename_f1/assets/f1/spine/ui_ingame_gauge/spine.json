@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "qxLHBlEk7aHBnSc+EFNcWH0Sdbs", "spine": "3.6.50", "width": 9985.26, "height": 926.64, "images": "./ingame_ui/" },
+"skeleton": { "hash": "yzzPzAsxF7CdjB1zXgJB88bSafI", "spine": "3.6.50", "width": 12800, "height": 926.64, "images": "./ingame_ui/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 58.97, "rotation": 90, "x": -0.35, "y": -93.59 },
@@ -34,7 +34,7 @@
 			}
 		},
 		"background_b": {
-			"background_b": { "x": -2909.29, "y": 262.81, "scaleX": 12.482, "scaleY": 3.122, "rotation": 180, "width": 800, "height": 257 }
+			"background_b": { "x": -4178.29, "y": 262.81, "scaleX": 16, "scaleY": 3.122, "rotation": 180, "width": 800, "height": 257 }
 		},
 		"effect_area": {
 			"effect_area": {

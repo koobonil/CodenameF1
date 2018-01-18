@@ -1,6 +1,6 @@
 {
 	"BGName":"map_ice_a",
-	"BuildNumber":"1",
+	"BuildNumber":"2",
 	"Layers":
 	[
 		{
@@ -90,29 +90,11 @@
 				},
 				{
 					"ID":"Fire_S",
-					"RID":"81000212",
-					"RectB":"-0.1",
-					"RectL":"-0.36",
-					"RectR":"-0.24",
-					"RectT":"-0.2",
-					"Visible":"1"
-				},
-				{
-					"ID":"Fire_S",
 					"RID":"81000213",
 					"RectB":"-0.25",
 					"RectL":"-0.06",
 					"RectR":"0.02",
 					"RectT":"-0.316667",
-					"Visible":"1"
-				},
-				{
-					"ID":"Fire_L",
-					"RID":"81000214",
-					"RectB":"0.033333",
-					"RectL":"0.26",
-					"RectR":"0.38",
-					"RectT":"-0.066667",
 					"Visible":"1"
 				},
 				{
@@ -122,6 +104,24 @@
 					"RectL":"0.16",
 					"RectR":"0.28",
 					"RectT":"-0.333333",
+					"Visible":"1"
+				},
+				{
+					"ID":"Fire_L",
+					"RID":"81000214",
+					"RectB":"0.366666",
+					"RectL":"0.38",
+					"RectR":"0.5",
+					"RectT":"0.266666",
+					"Visible":"1"
+				},
+				{
+					"ID":"Fire_S",
+					"RID":"81000212",
+					"RectB":"-0.016667",
+					"RectL":"-0.44",
+					"RectR":"-0.32",
+					"RectT":"-0.116667",
 					"Visible":"1"
 				}
 			],

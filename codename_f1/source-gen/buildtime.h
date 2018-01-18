@@ -1,1 +1,1 @@
-﻿static const char* BuildTime = "WINDOWS/ 2018-01-12/ 12:18:02";
+﻿static const char* BuildTime = "WINDOWS/ 2018-01-18/ 16:40:38";

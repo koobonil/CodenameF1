@@ -298,9 +298,7 @@ void stagetoolData::Load(chars filename)
     }
 
     // 로컬스테이지 플레이인지 체크
-    const String MapJsonPath = (0 <= String(filename).Find(0, "f1/table_etc/"))?
-        "f1/table_etc/" : "f1/table/";
-    id_asset_read TextAsset = Asset::OpenForRead(MapJsonPath + mMapName + ".json");
+    id_asset_read TextAsset = Asset::OpenForRead("f1/table_etc/" + mMapName + ".json");
     if(TextAsset)
     {
         const sint32 TextSize = Asset::Size(TextAsset);
@@ -651,7 +649,7 @@ void stagetoolData::Render(ZayPanel& panel)
                     if(Platform::Popup::TextDialog(MapName, "Load Map", "Typing the asset name"))
                     {
                         mMapName = MapName;
-                        id_asset_read TextAsset = Asset::OpenForRead("f1/table/" + mMapName + ".json");
+                        id_asset_read TextAsset = Asset::OpenForRead("f1/table_etc/" + mMapName + ".json");
                         if(TextAsset)
                         {
                             const sint32 TextSize = Asset::Size(TextAsset);
