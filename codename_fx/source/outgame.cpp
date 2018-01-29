@@ -13,11 +13,7 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
         // 하트/광고 업데이트
         m->UpdateHeartAdSec(true);
         // 세이브파일 업데이트
-        if(m->mNeedUpdateSaveFile)
-        {
-            m->mNeedUpdateSaveFile = false;
-            m->mSaveFile.SaveJson().ToFile("save.json");
-        }
+        FXSaver::Update();
         // 아웃게임종료
         if(0 < m->mClosing && --m->mClosing == 0)
         {
@@ -48,7 +44,7 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
             m->InitForSpine();
         }
         // 윈도우 타이틀
-        if(Platform::Option::GetFlag("DevMode"))
+        if(FXSaver::Read("DevMode").GetInt())
             Platform::SetWindowName(String::Format("Codename FX [%dx%d:%.03f]", Width, Height, Height / (float) Width));
     }
 }
@@ -93,7 +89,9 @@ outgameData::outgameData() : FXState("fx/"),
         for(sint32 i = 0, iend = GlobalWeightTable.LengthOfIndexable(); i < iend; ++i)
         {
             chars CurID = GlobalWeightTable[i]("ID").GetString("noname");
-            chars CurValue = GlobalWeightTable[i]("Value").GetString("0");
+            const String DoorGlobalWeight = door().GetGlobalWeight(CurID);
+            chars CurValue = (0 < DoorGlobalWeight.Length())?
+                (chars) DoorGlobalWeight : GlobalWeightTable[i]("Value").GetString("0");
             GlobalWeightMap(CurID) = CurValue;
         }
     }
@@ -148,43 +146,36 @@ outgameData::outgameData() : FXState("fx/"),
     mCalcedHeartSec = 0;
     mCalcedAdSec = 0;
 
-    mNeedUpdateSaveFile = false;
-    String SaveString = String::FromFile("save.json");
-    if(0 < SaveString.Length())
-        mSaveFile.LoadJson(SO_NeedCopy, SaveString, SaveString.Length());
-
     // 하트정리
-    if(!mSaveFile("SumHeart").IsValid())
+    if(!FXSaver::Read("SumHeart").IsValid())
     {
-        mSaveFile.At("SumHeart").Set(String::FromInteger(mHeart));
-        mSaveFile.At("HeartUpdatedSecond").Set(String::FromInteger(mHeartUpdatedSec));
-        mSaveFile.At("AdUpdatedSecond").Set(String::FromInteger(mAdUpdatedSec));
-        mNeedUpdateSaveFile = true;
+        FXSaver::Write("SumHeart").Set(String::FromInteger(mHeart));
+        FXSaver::Write("HeartUpdatedSecond").Set(String::FromInteger(mHeartUpdatedSec));
+        FXSaver::Write("AdUpdatedSecond").Set(String::FromInteger(mAdUpdatedSec));
     }
     else
     {
-        mHeart = mSaveFile("SumHeart").GetInt(mHeart);
-        mHeartUpdatedSec = mSaveFile("HeartUpdatedSecond").GetInt(mHeartUpdatedSec);
-        mAdUpdatedSec = mSaveFile("AdUpdatedSecond").GetInt(mAdUpdatedSec);
+        mHeart = FXSaver::Read("SumHeart").GetInt(mHeart);
+        mHeartUpdatedSec = FXSaver::Read("HeartUpdatedSecond").GetInt(mHeartUpdatedSec);
+        mAdUpdatedSec = FXSaver::Read("AdUpdatedSecond").GetInt(mAdUpdatedSec);
     }
     UpdateHeartAdSec(false);
 
     // 결과정리
-    chars LastStageID = Platform::Option::GetText("LastStageID");
-    if(!*LastStageID) LastStageID = "Stage1";
+    chars LastStageID = FXSaver::Read("LastStageID").GetString();
+    BOSS_ASSERT("LastStageID가 없습니다", *LastStageID);
     chars LastResult = Platform::Option::GetText("LastResult");
     if(!String::Compare(LastResult, "LOSE")) mResultIsWin = false;
     else if(!String::Compare(LastResult, "WIN-", 4))
     {
         mResultIsWin = true;
         const sint32 NewEgg = Math::Min(3, Parser::GetInt(LastResult + 4));
-        const sint32 OldEgg = mSaveFile(LastStageID)("Egg").GetInt(0);
+        const sint32 OldEgg = FXSaver::Read(LastStageID)("Egg").GetInt(0);
         if(OldEgg < NewEgg)
         {
-            mSaveFile.At(LastStageID).At("Egg").Set(String::FromInteger(NewEgg));
-            const sint32 SumEgg = mSaveFile("SumEgg").GetInt(0) + NewEgg - OldEgg;
-            mSaveFile.At("SumEgg").Set(String::FromInteger(SumEgg));
-            mNeedUpdateSaveFile = true;
+            FXSaver::Write(LastStageID).At("Egg").Set(String::FromInteger(NewEgg));
+            const sint32 SumEgg = FXSaver::Read("SumEgg").GetInt(0) + NewEgg - OldEgg;
+            FXSaver::Write("SumEgg").Set(String::FromInteger(SumEgg));
         }
     }
     Platform::Option::SetText("LastResult", "");
@@ -192,12 +183,6 @@ outgameData::outgameData() : FXState("fx/"),
 
 outgameData::~outgameData()
 {
-    // 세이브파일 업데이트
-    if(mNeedUpdateSaveFile)
-    {
-        mNeedUpdateSaveFile = false;
-        mSaveFile.SaveJson().ToFile("save.json");
-    }
 }
 
 void outgameData::SetSize(sint32 width, sint32 height)
@@ -282,6 +267,8 @@ void outgameData::InitForSpine()
         mUIResult.InitSpine(GetSpine("ui_result")).PlayMotionAttached(
             (mResultIsWin)? "result_win_loading" : "result_lose_loading",
             (mResultIsWin)? "result_win_idle" : "result_lose_idle", true);
+        if(FXSaver::Read("SumHeart").IsValid() && FXSaver::Read("SumHeart").GetInt() == 0)
+            mUIResult.PlayMotion("result_noheart_idle", true);
     }
     else if(mStartMode == outgameMode::StaffRoll)
     {
@@ -354,7 +341,8 @@ void outgameData::UpdateHeartAdSec(bool animate)
         }
         mHeartUpdatedSec += mHeartRegenSec;
         HeartSec -= mHeartRegenSec;
-        mNeedUpdateSaveFile = true;
+        FXSaver::Write("SumHeart").Set(String::FromInteger(mHeart));
+        FXSaver::Write("HeartUpdatedSecond").Set(String::FromInteger(mHeartUpdatedSec));
     }
     sint32 AdSec = CurSec - mAdUpdatedSec;
     if(!mAdEnabled && mVideoCoolSec <= AdSec)
@@ -363,19 +351,12 @@ void outgameData::UpdateHeartAdSec(bool animate)
         if(animate)
             DoUpdate = true;
         AdSec = 0;
-        mNeedUpdateSaveFile = true;
     }
     if(DoUpdate)
         UpdateHeartAd(false);
 
     mCalcedHeartSec = mHeartRegenSec - 1 - HeartSec;
     mCalcedAdSec = mVideoCoolSec - 1 - AdSec;
-    if(mNeedUpdateSaveFile)
-    {
-        mSaveFile.At("SumHeart").Set(String::FromInteger(mHeart));
-        mSaveFile.At("HeartUpdatedSecond").Set(String::FromInteger(mHeartUpdatedSec));
-        mSaveFile.At("AdUpdatedSecond").Set(String::FromInteger(mAdUpdatedSec));
-    }
 }
 
 void outgameData::AdToHeart()
@@ -387,11 +368,8 @@ void outgameData::AdToHeart()
         mAdUpdatedSec = (sint32) (Platform::Utility::CurrentTimeMsec() / 1000);
         mCalcedAdSec = mVideoCoolSec - 1;
         UpdateHeartAd(true);
-
-        mNeedUpdateSaveFile = true;
-        mSaveFile.At("SumHeart").Set(String::FromInteger(mHeart));
-        mSaveFile.At("HeartUpdatedSecond").Set(String::FromInteger(mHeartUpdatedSec));
-        mSaveFile.At("AdUpdatedSecond").Set(String::FromInteger(mAdUpdatedSec));
+        FXSaver::Write("SumHeart").Set(String::FromInteger(mHeart));
+        FXSaver::Write("AdUpdatedSecond").Set(String::FromInteger(mAdUpdatedSec));
     }
 }
 
@@ -404,7 +382,7 @@ void outgameData::ReloadAllCards(bool create)
         {
             const sint32 CurIndex = i + 48 * mCurChapter;
             const String CurID = String::Format("%d", CurIndex + 1);
-            sint32 Egg = mSaveFile("Stage" + CurID)("Egg").GetInt(-1);
+            sint32 Egg = FXSaver::Read("Stage" + CurID)("Egg").GetInt(-1);
 
             const Context& CurStage = GetStage(CurIndex);
             const bool ExistUrl = (CurStage("ParaSource").GetString()[0] != '\0');
@@ -412,11 +390,10 @@ void outgameData::ReloadAllCards(bool create)
             else if(Egg == -1)
             {
                 const sint32 NeedEgg = CurStage("NeedEgg").GetInt(0);
-                if(NeedEgg <= mSaveFile("SumEgg").GetInt(0))
+                if(NeedEgg <= FXSaver::Read("SumEgg").GetInt(0))
                 {
                     Egg = (NeedEgg == 0)? 0 : -2;
-                    mSaveFile.At("Stage" + CurID).At("Egg").Set("0");
-                    mNeedUpdateSaveFile = true;
+                    FXSaver::Write("Stage" + CurID).At("Egg").Set("0");
                 }
             }
 
@@ -437,9 +414,9 @@ void outgameData::ReloadAllCards(bool create)
     }
 }
 
-bool outgameData::GoStage(sint32 id)
+bool outgameData::GoStage(sint32 id, bool directly)
 {
-    if(mHeart == 0)
+    if(mHeart == 0 && !directly)
     {
         if(mAdEnabled)
             Popup("no heart");
@@ -456,9 +433,10 @@ bool outgameData::GoStage(sint32 id)
             sint32 SlashPos = URL.Find(0, '/');
             if(SlashPos != -1)
             {
+                const String Domain = URL.Left(SlashPos);
                 mClosing = 50;
-                ParaSource Source(ParaSource::NaverCafe);
-                Source.SetContact(URL.Left(SlashPos), 80);
+                ParaSource Source(Domain);
+                Source.SetContact(Domain, 80);
                 Contexts MapAndStage;
                 Source.GetJsons(MapAndStage, URL.Right(URL.Length() - 1 - SlashPos));
                 if(MapAndStage.Count() == 2)
@@ -471,16 +449,13 @@ bool outgameData::GoStage(sint32 id)
                         Asset::Write(NewAsset, (bytes)(chars) NewJson, NewJson.Length());
                         Asset::Close(NewAsset);
                     }
-                    Platform::Option::SetText("StageName", CurStage("StageJson").GetString());
-                    Platform::Option::SetText("LastStageID", String::Format("Stage%d", id));
 
                     // 어플종료후 재시작을 위한 저장
-                    mSaveFile.At("LastStageJson").Set(Platform::Option::GetText("StageName"));
-                    mSaveFile.At("LastStageID").Set(Platform::Option::GetText("LastStageID"));
+                    FXSaver::Write("LastStageJson").Set(CurStage("StageJson").GetString());
+                    FXSaver::Write("LastStageID").Set(String::Format("Stage%d", id));
                     // 하트감소
-                    mSaveFile.At("SumHeart").Set(String::FromInteger(--mHeart));
+                    FXSaver::Write("SumHeart").Set(String::FromInteger(--mHeart));
                     UpdateHeartAd(true);
-                    mNeedUpdateSaveFile = true;
 
                     // 파라토크/파라뷰 댓글전달
                     Context Comment;
@@ -577,7 +552,7 @@ void outgameData::Render(ZayPanel& panel)
                                 if(!mCards[CardIndex].mLocked)
                                 {
                                     const sint32 StageID = CardIndex + 1 + 16 * mCurCard + 48 * mCurChapter;
-                                    if(0 < StageID) GoStage(StageID);
+                                    if(0 < StageID) GoStage(StageID, false);
                                 }
                             }
                         }
@@ -682,10 +657,25 @@ void outgameData::Render(ZayPanel& panel)
                     {
                         if(!String::Compare(n, "Result_result_replay_area"))
                         {
-                            chars StageID = Platform::Option::GetText("LastStageID");
-                            const sint32 ID = Parser::GetInt(StageID + 5);
-                            GoStage(ID);
-                            mUIResult.PlayMotionOnce("result_replay");
+                            bool GoStart = false;
+                            if(FXSaver::Read("SumHeart").IsValid())
+                            {
+                                const sint32 SumHeart = FXSaver::Read("SumHeart").GetInt();
+                                if(0 < SumHeart)
+                                {
+                                    FXSaver::Write("SumHeart").Set(String::FromInteger(SumHeart - 1));
+                                    GoStart = true;
+                                }
+                            }
+                            else GoStart = true;
+
+                            if(GoStart)
+                            {
+                                chars StageID = FXSaver::Read("LastStageID").GetString();
+                                const sint32 ID = Parser::GetInt(StageID + 5);
+                                GoStage(ID, true);
+                                mUIResult.PlayMotionOnce("result_replay");
+                            }
                         }
                         else if(!String::Compare(n, "Result_result_lobby_area"))
                         {
@@ -695,10 +685,25 @@ void outgameData::Render(ZayPanel& panel)
                         }
                         else if(!String::Compare(n, "Result_result_nextstage_area"))
                         {
-                            chars StageID = Platform::Option::GetText("LastStageID");
-                            const sint32 ID = Parser::GetInt(StageID + 5);
-                            GoStage(ID + 1);
-                            mUIResult.PlayMotionOnce("result_next_stage");
+                            bool GoStart = false;
+                            if(FXSaver::Read("SumHeart").IsValid())
+                            {
+                                const sint32 SumHeart = FXSaver::Read("SumHeart").GetInt();
+                                if(0 < SumHeart)
+                                {
+                                    FXSaver::Write("SumHeart").Set(String::FromInteger(SumHeart - 1));
+                                    GoStart = true;
+                                }
+                            }
+                            else GoStart = true;
+
+                            if(GoStart)
+                            {
+                                chars StageID = FXSaver::Read("LastStageID").GetString();
+                                const sint32 ID = Parser::GetInt(StageID + 5);
+                                GoStage(ID + 1, true);
+                                mUIResult.PlayMotionOnce("result_next_stage");
+                            }
                         }
                     }
                 }, mSubRenderer);
@@ -760,7 +765,7 @@ void outgameData::Render(ZayPanel& panel)
                             }
                             else if(!String::Compare(n, "egg_score_area"))
                             {
-                                const sint32 SumEgg = mSaveFile("SumEgg").GetInt(0);
+                                const sint32 SumEgg = FXSaver::Read("SumEgg").GetInt(0);
                                 ZAY_FONT(p, p.h() / 14)
                                     p.text(String::FromInteger(SumEgg), UIFA_CenterMiddle, UIFE_Right);
                             }

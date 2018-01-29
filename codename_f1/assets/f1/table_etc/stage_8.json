@@ -1,8 +1,8 @@
 {
-	"BuildNumber":"2",
+	"BuildNumber":"3",
 	"MapName":"map_8",
 	"MissionLastRID":"83999999",
-	"MonsterLastRID":"83000096",
+	"MonsterLastRID":"83000111",
 	"ToolType":"stagetool_f1",
 	"ToolVersion":"2",
 	"Waves":
@@ -501,6 +501,66 @@
 						}
 					],
 					"TimeSec":"21"
+				},
+				{
+					"Scripts":
+					[
+						{
+							"PosX":"-0.001669",
+							"PosY":"-0.130217",
+							"TargetRID":"81000133",
+							"Text":"animate count-idle"
+						}
+					],
+					"TimeSec":"23"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Middle",
+							"PosX":"0.36",
+							"PosY":"-0.432612",
+							"RID":"83000108"
+						}
+					],
+					"TimeSec":"28"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Middle",
+							"PosX":"0.36",
+							"PosY":"-0.432612",
+							"RID":"83000109"
+						}
+					],
+					"TimeSec":"30"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Middle",
+							"PosX":"0.36",
+							"PosY":"-0.432612",
+							"RID":"83000110"
+						}
+					],
+					"TimeSec":"32"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Middle",
+							"PosX":"0.36",
+							"PosY":"-0.432612",
+							"RID":"83000111"
+						}
+					],
+					"TimeSec":"34"
 				}
 			],
 			"Title":"Untitled"
@@ -508,6 +568,18 @@
 		{
 			"Events":
 			[
+				{
+					"Scripts":
+					[
+						{
+							"PosX":"-0.055092",
+							"PosY":"-0.135225",
+							"TargetRID":"81000133",
+							"Text":"animate count-idle"
+						}
+					],
+					"TimeSec":"0"
+				},
 				{
 					"Scripts":
 					[
@@ -531,6 +603,42 @@
 					[
 						{
 							"ID":"F_Middle",
+							"PosX":"0.36",
+							"PosY":"-0.432612",
+							"RID":"83000101"
+						}
+					],
+					"TimeSec":"6"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Middle",
+							"PosX":"0.36",
+							"PosY":"-0.432612",
+							"RID":"83000106"
+						}
+					],
+					"TimeSec":"8"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Middle",
+							"PosX":"0.36",
+							"PosY":"-0.432612",
+							"RID":"83000103"
+						}
+					],
+					"TimeSec":"10"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Middle",
 							"PosX":"-0.24",
 							"PosY":"-0.266445",
 							"RID":"83000042"
@@ -543,6 +651,18 @@
 						}
 					],
 					"TimeSec":"11"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Middle",
+							"PosX":"0.36",
+							"PosY":"-0.432612",
+							"RID":"83000107"
+						}
+					],
+					"TimeSec":"12"
 				},
 				{
 					"Monsters":

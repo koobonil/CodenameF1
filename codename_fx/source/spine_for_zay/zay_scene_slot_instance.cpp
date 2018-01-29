@@ -464,7 +464,7 @@ namespace ZAY
             const SceneInstance* CurSceneInstance = getCurrentSceneInstance();
             const TouchAreaInstance* CurTouchAreaInstance = dynamic_cast<const TouchAreaInstance*>(CurSceneInstance);
             if (CurTouchAreaInstance)
-                CurTouchAreaInstance->renderBoundBox(
+                CurTouchAreaInstance->updateAreaBoxOnly(
                     Color.r * 255, Color.g * 255, Color.b * 255, Color.a * 255);
         }
     }

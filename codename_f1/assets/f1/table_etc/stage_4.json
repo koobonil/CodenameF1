@@ -1,8 +1,8 @@
 {
-	"BuildNumber":"2",
+	"BuildNumber":"3",
 	"MapName":"map_4",
 	"MissionLastRID":"83999999",
-	"MonsterLastRID":"83000061",
+	"MonsterLastRID":"83000111",
 	"ToolType":"stagetool_f1",
 	"ToolVersion":"2",
 	"Waves":
@@ -192,6 +192,12 @@
 							"PosY":"-0.205128",
 							"TargetRID":"81000001",
 							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.063439",
+							"PosY":"-0.06177",
+							"TargetRID":"81000118",
+							"Text":"animate count-idle"
 						}
 					],
 					"TimeSec":"4"
@@ -210,6 +216,12 @@
 							"PosX":"0.42",
 							"PosY":"-0.41632",
 							"RID":"83000013"
+						},
+						{
+							"ID":"F_Middle",
+							"PosX":"0.4",
+							"PosY":"0.432612",
+							"RID":"83000062"
 						}
 					],
 					"TimeSec":"9"
@@ -228,6 +240,12 @@
 							"PosX":"0.42",
 							"PosY":"-0.41632",
 							"RID":"83000015"
+						},
+						{
+							"ID":"F_Middle",
+							"PosX":"0.4",
+							"PosY":"0.432612",
+							"RID":"83000063"
 						}
 					],
 					"TimeSec":"11"
@@ -246,6 +264,12 @@
 							"PosX":"0.42",
 							"PosY":"-0.41632",
 							"RID":"83000017"
+						},
+						{
+							"ID":"F_Middle",
+							"PosX":"0.4",
+							"PosY":"0.432612",
+							"RID":"83000064"
 						}
 					],
 					"TimeSec":"13"
@@ -264,6 +288,12 @@
 							"PosX":"0.42",
 							"PosY":"-0.41632",
 							"RID":"83000019"
+						},
+						{
+							"ID":"F_Middle",
+							"PosX":"0.4",
+							"PosY":"0.432612",
+							"RID":"83000065"
 						}
 					],
 					"TimeSec":"15"
@@ -591,6 +621,12 @@
 							"PosY":"-0.225275",
 							"TargetRID":"81000001",
 							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.095159",
+							"PosY":"-0.023372",
+							"TargetRID":"81000118",
+							"Text":"animate count-idle"
 						}
 					],
 					"TimeSec":"0"
@@ -609,6 +645,12 @@
 							"PosX":"0.42",
 							"PosY":"-0.41632",
 							"RID":"83000046"
+						},
+						{
+							"ID":"F_Normal",
+							"PosX":"0.4",
+							"PosY":"0.432612",
+							"RID":"83000106"
 						}
 					],
 					"TimeSec":"5"
@@ -627,6 +669,12 @@
 							"PosX":"0.42",
 							"PosY":"-0.41632",
 							"RID":"83000048"
+						},
+						{
+							"ID":"F_Normal",
+							"PosX":"0.4",
+							"PosY":"0.432612",
+							"RID":"83000107"
 						}
 					],
 					"TimeSec":"7"
@@ -645,6 +693,12 @@
 							"PosX":"0.42",
 							"PosY":"-0.41632",
 							"RID":"83000050"
+						},
+						{
+							"ID":"F_Normal",
+							"PosX":"0.4",
+							"PosY":"0.432612",
+							"RID":"83000108"
 						}
 					],
 					"TimeSec":"9"
@@ -663,6 +717,12 @@
 							"PosX":"0.42",
 							"PosY":"-0.41632",
 							"RID":"83000052"
+						},
+						{
+							"ID":"F_Normal",
+							"PosX":"0.4",
+							"PosY":"0.432612",
+							"RID":"83000109"
 						}
 					],
 					"TimeSec":"11"
@@ -681,6 +741,12 @@
 							"PosX":"0.42",
 							"PosY":"-0.41632",
 							"RID":"83000054"
+						},
+						{
+							"ID":"F_Normal",
+							"PosX":"0.4",
+							"PosY":"0.432612",
+							"RID":"83000110"
 						}
 					],
 					"TimeSec":"13"
@@ -699,6 +765,12 @@
 							"PosX":"0.42",
 							"PosY":"-0.41632",
 							"RID":"83000056"
+						},
+						{
+							"ID":"F_Normal",
+							"PosX":"0.4",
+							"PosY":"0.432612",
+							"RID":"83000111"
 						}
 					],
 					"TimeSec":"15"

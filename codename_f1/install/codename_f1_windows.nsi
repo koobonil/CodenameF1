@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "월간구본일F1"
-!define PRODUCT_VERSION "1.0.0"
+!define PRODUCT_VERSION "0.9.4"
 !define PRODUCT_PUBLISHER "FinalBossBehindTheDoor, Inc."
 !define PRODUCT_WEB_SITE "http://www.finalbossbehindthedoor.com"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\codename_f1.exe"
@@ -53,7 +53,7 @@
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 OutFile "f1_windows_${PRODUCT_VERSION}.exe"
-InstallDir "$PROGRAMFILES64\F1"
+InstallDir "$PROGRAMFILES64\MonthlyKoobonil\F1_${PRODUCT_VERSION}"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
@@ -87,15 +87,15 @@ Section "MainSection" SEC01
   File /a /r "..\bin_Release64\*.*"
 
   CreateDirectory "$SMPROGRAMS\월간구본일"
-  CreateShortCut "$SMPROGRAMS\월간구본일\월간구본일F1.lnk" "$INSTDIR\bin\codename_f1.exe"
-  CreateShortCut "$DESKTOP\월간구본일F1.lnk" "$INSTDIR\bin\codename_f1.exe"
+  CreateShortCut "$SMPROGRAMS\월간구본일\F1 ${PRODUCT_VERSION}.lnk" "$INSTDIR\bin\codename_f1.exe"
+  CreateShortCut "$DESKTOP\월간구본일 F1 ${PRODUCT_VERSION}.lnk" "$INSTDIR\bin\codename_f1.exe"
 SectionEnd
 
 Section -AdditionalIcons
   SetOutPath $INSTDIR
   WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
-  CreateShortCut "$SMPROGRAMS\월간구본일\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
-  CreateShortCut "$SMPROGRAMS\월간구본일\Uninstall.lnk" "$INSTDIR\uninst.exe"
+  CreateShortCut "$SMPROGRAMS\월간구본일\F1 ${PRODUCT_VERSION} Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
+  CreateShortCut "$SMPROGRAMS\월간구본일\F1 ${PRODUCT_VERSION} Uninstall.lnk" "$INSTDIR\uninst.exe"
 SectionEnd
 
 Section -Post
@@ -129,10 +129,10 @@ Section Uninstall
   Delete "$INSTDIR\uninst.exe"
   RMDir "$INSTDIR"
 
-  Delete "$SMPROGRAMS\월간구본일\Uninstall.lnk"
-  Delete "$SMPROGRAMS\월간구본일\Website.lnk"
-  Delete "$DESKTOP\월간구본일F1.lnk"
-  Delete "$SMPROGRAMS\월간구본일\월간구본일F1.lnk"
+  Delete "$DESKTOP\월간구본일 F1 ${PRODUCT_VERSION}.lnk"
+  Delete "$SMPROGRAMS\월간구본일\F1 ${PRODUCT_VERSION} Uninstall.lnk"
+  Delete "$SMPROGRAMS\월간구본일\F1 ${PRODUCT_VERSION} Website.lnk"
+  Delete "$SMPROGRAMS\월간구본일\F1 ${PRODUCT_VERSION}.lnk"
   RMDir "$SMPROGRAMS\월간구본일"  
 
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"

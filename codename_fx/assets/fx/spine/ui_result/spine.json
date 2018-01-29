@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "aBZrgCCIbbFU8dnHRzFQDW9Sskk", "spine": "3.6.48", "width": 1946, "height": 3452, "images": "./result/" },
+"skeleton": { "hash": "UBQwxCLZm5glRm+mxdT9NJpbdvc", "spine": "3.6.50", "width": 1946, "height": 3452, "images": "./result/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 243.39, "rotation": 90 },
@@ -272,6 +272,42 @@
 					{ "time": 0, "x": 1, "y": 1 },
 					{ "time": 0.1, "x": 1.2, "y": 1.2 },
 					{ "time": 0.1667, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"result_noheart_idle": {
+		"slots": {
+			"result_nextstage": {
+				"attachment": [
+					{ "time": 0, "name": "result_nextstage_x" }
+				]
+			},
+			"result_nextstage_area": {
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
+			"result_replay": {
+				"color": [
+					{ "time": 0, "color": "6b6b6bff" }
+				]
+			},
+			"result_replay_area": {
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			}
+		},
+		"bones": {
+			"result_butten_heart_a": {
+				"scale": [
+					{ "time": 0, "x": 1, "y": 0 }
+				]
+			},
+			"result_butten_heart_b": {
+				"scale": [
+					{ "time": 0, "x": 0, "y": 0 }
 				]
 			}
 		}

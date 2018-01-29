@@ -1,5 +1,6 @@
 {
 	"BGName":"map_forest_a",
+	"BuildNumber":"1",
 	"Layers":
 	[
 		{
@@ -31,15 +32,6 @@
 					"RectL":"0.38",
 					"RectR":"0.46",
 					"RectT":"0.216306",
-					"Visible":"1"
-				},
-				{
-					"ID":"Stone",
-					"RID":"81000062",
-					"RectB":"0.066556",
-					"RectL":"-0.24",
-					"RectR":"-0.18",
-					"RectT":"0.016639",
 					"Visible":"1"
 				},
 				{
@@ -94,6 +86,15 @@
 					"RectL":"-0.5",
 					"RectR":"-0.44",
 					"RectT":"-0.499168",
+					"Visible":"1"
+				},
+				{
+					"ID":"Hole",
+					"RID":"81000075",
+					"RectB":"0.166528",
+					"RectL":"-0.44",
+					"RectR":"-0.2",
+					"RectT":"-0.033306",
 					"Visible":"1"
 				}
 			],
@@ -309,6 +310,30 @@
 						}
 					],
 					"RID":"82000001",
+					"Visible":"1"
+				},
+				{
+					"ID":"SmallWall",
+					"Points":
+					[
+						{
+							"X":"-0.4",
+							"Y":"0"
+						},
+						{
+							"X":"-0.4",
+							"Y":"0.133222"
+						},
+						{
+							"X":"-0.24",
+							"Y":"0.133222"
+						},
+						{
+							"X":"-0.24",
+							"Y":"0"
+						}
+					],
+					"RID":"82000002",
 					"Visible":"1"
 				}
 			]
@@ -1210,6 +1235,8 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000074",
-	"PolygonLastRID":"82000001"
+	"ObjectLastRID":"81000075",
+	"PolygonLastRID":"82000002",
+	"ToolType":"maptool_f1",
+	"ToolVersion":"2"
 }

@@ -13,6 +13,7 @@ HEADERS += ../source/codename_f1.hpp
 HEADERS += ../source/resource.hpp
 HEADERS += ../source/ingame_f1.hpp
 HEADERS += ../source/maptool_f1.hpp
+HEADERS += ../source/soundtool_f1.hpp
 HEADERS += ../source/stagetool_f1.hpp
 SOURCES += ../source/classes_f1.cpp
 SOURCES += ../source/codename_f1.cpp
@@ -20,6 +21,7 @@ SOURCES += ../source/main.cpp
 SOURCES += ../source/resource.cpp
 SOURCES += ../source/ingame_f1.cpp
 SOURCES += ../source/maptool_f1.cpp
+SOURCES += ../source/soundtool_f1.cpp
 SOURCES += ../source/stagetool_f1.cpp
 
 INCLUDEPATH += ../../codename_fx/source
@@ -184,10 +186,10 @@ ios|macx{
     QMAKE_BUNDLE_DATA += ASSETS_TABLE_FX
     QMAKE_BUNDLE_DATA += ASSETS_SPINE_FX
     QMAKE_BUNDLE_DATA += ASSETS_SOUND_FX
-    QMAKE_BUNDLE_DATA += MAIN_ICON
+    QMAKE_BUNDLE_DATA += PLIST_RESOURCE
     QMAKE_INFO_PLIST = $$PWD/../common/ios/Info.plist
-    MAIN_ICON.files += $$PWD/../common/ios/res/icon.icns
-    ios: MAIN_ICON.path = /
-    macx: MAIN_ICON.path = /Contents/Resources
+    PLIST_RESOURCE.files += $$PWD/../common/ios/res/icon.icns
+    ios: PLIST_RESOURCE.path = /
+    macx: PLIST_RESOURCE.path = /Contents/Resources
 }
 

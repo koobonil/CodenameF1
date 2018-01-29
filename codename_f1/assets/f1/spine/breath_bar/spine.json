@@ -1,0 +1,78 @@
+{
+"skeleton": { "hash": "DqrGps/pCe3prxlbt+fASBz8S3Q", "spine": "3.6.50", "width": 277.51, "height": 793.8, "images": "./meteo_ready/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 26.42, "rotation": 88.49, "x": 10.62, "y": 0.61 },
+	{ "name": "background", "parent": "root", "length": 46.92, "rotation": 90 },
+	{ "name": "bar_a", "parent": "root", "length": 94.93, "rotation": 90, "y": -640.35 },
+	{ "name": "bar_b", "parent": "root", "length": 94.93, "rotation": 90, "y": -505.72 }
+],
+"slots": [
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "meteo_ready_e", "bone": "bar_a", "color": "ffffffd3", "attachment": "skin" },
+	{ "name": "meteo_ready_f", "bone": "bar_b", "attachment": "skin", "blend": "additive" }
+],
+"skins": {
+	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 60.37, 75.2, -65.77, 72.65, -63.98, -54.28, 64.48, -51.67 ]
+			}
+		}
+	},
+	"first": {
+		"meteo_ready_e": {
+			"skin": { "name": "meteo_ready_e", "x": 270.88, "scaleX": 3.15, "scaleY": 3.15, "rotation": -90, "width": 88, "height": 252 }
+		},
+		"meteo_ready_f": {
+			"skin": { "name": "meteo_ready_f", "scaleX": 3.15, "scaleY": 3.15, "rotation": -90, "width": 88, "height": 12 }
+		}
+	},
+	"second": {
+		"meteo_ready_e": {
+			"skin": { "name": "meteo_ready_g", "x": 272.52, "y": 0.31, "scaleX": 3.15, "scaleY": 3.15, "rotation": -90, "width": 88, "height": 252 }
+		},
+		"meteo_ready_f": {
+			"skin": { "name": "meteo_ready_h", "scaleX": 3.15, "scaleY": 3.15, "rotation": -90, "width": 88, "height": 12 }
+		}
+	}
+},
+"events": {
+	"sound_breath_charge": {}
+},
+"animations": {
+	"idle": {
+		"slots": {
+			"meteo_ready_e": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"meteo_ready_f": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		}
+	},
+	"meteo_bar": {
+		"bones": {
+			"bar_b": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 3, "x": 0, "y": 506.2 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 0.5 },
+					{ "time": 3, "x": 1.2, "y": 1.2 }
+				]
+			}
+		}
+	}
+}
+}

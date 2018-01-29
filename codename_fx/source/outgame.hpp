@@ -65,7 +65,7 @@ public:
     void UpdateHeartAdSec(bool animate);
     void AdToHeart();
     void ReloadAllCards(bool create);
-    bool GoStage(sint32 id);
+    bool GoStage(sint32 id, bool directly);
     void Render(ZayPanel& panel);
     void Popup(chars name);
 
@@ -116,8 +116,6 @@ public: // 게임상태
     sint32 mCalcedHeartSec;
     sint32 mCalcedAdSec;
     bool mResultIsWin;
-    bool mNeedUpdateSaveFile;
-    Context mSaveFile;
     outgameCard mCards[48];
 
 public: // 스파인

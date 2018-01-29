@@ -16,6 +16,7 @@ namespace ZAY
         typedef std::function<void(chars)> UserEventCB;
 
     public:
+        static int& GLScale();
         static void ClearCaches();
 
     public:

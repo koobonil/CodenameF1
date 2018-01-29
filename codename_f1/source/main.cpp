@@ -5,14 +5,15 @@
 #include <resource.hpp>
 #include "classes.hpp"
 
-// 빌드시간
+// 빌드시간 참고용 헤더
 #include "../source-gen/buildtime.h"
-void SetBuildTime()
+
+void PlatformInit()
 {
     #if BOSS_WINDOWS || BOSS_LINUX || BOSS_MAC_OSX
-        // 빌드시간을 빌드버전으로 기록
+        // buildtime.h의 빌드시간을 현재 빌드버전으로 로드
         Platform::Option::SetText("BuildVersion", BuildTime);
-        // 빌드시간을 갱신저장
+        // 다음 빌드를 위해 buildtime.h를 갱신
         if(id_file BuildTimeFile = Platform::File::OpenForWrite("../source-gen/buildtime.h"))
         {
             id_clock BuildTimeClock = Platform::Clock::CreateAsCurrent();
@@ -26,40 +27,34 @@ void SetBuildTime()
             Platform::File::Write(BuildTimeFile, (bytes)(chars) BuildTimeText, BuildTimeText.Length());
             Platform::File::Close(BuildTimeFile);
         }
-        else BOSS_ASSERT("프로젝트의 빌드시간을 갱신저장할 수 없습니다", false);
+        else // buildtime.h가 없으면 개발상황이 아니라 배포된 빌드
+        {
+            // Data폴더를 Asset쓰기용폴더로 지정
+            Platform::File::ResetAssetsRemRoot(Platform::File::RootForData());
+        }
     #else
         Platform::Option::SetText("BuildVersion",
             String::Format("%s/ %s/ %s", Platform::Utility::GetOSName(), __DATE__, __TIME__));
     #endif
-}
 
-void PlatformInit()
-{
-    SetBuildTime();
     Platform::InitForGL();
     Platform::SetViewCreator(ZayView::Creator);
 
-    Context SaveFile;
-    String SaveString = String::FromFile("save.json");
-    if(0 < SaveString.Length())
-        SaveFile.LoadJson(SO_NeedCopy, SaveString, SaveString.Length());
-    else
+    if(auto FirstSaver = FXSaver::Sync("save.json"))
     {
-        SaveFile.At("DevMode").Set("0");
-        SaveFile.At("LastStageJson").Set("f1/table/stage_tutorial.json");
-        SaveFile.At("LastStageID").Set("");
-        SaveFile.SaveJson().ToFile("save.json");
+        FirstSaver->At("DevMode").Set("0");
+        FirstSaver->At("SoundFlag").Set("1");
+        FirstSaver->At("BGMFlag").Set("1");
+        FirstSaver->At("LastStageJson").Set("f1/table/stage_tutorial.json");
+        FirstSaver->At("LastStageID").Set("Stage1");
+        FXSaver::Update();
     }
-
-    Platform::Option::SetFlag("DevMode", SaveFile("DevMode").GetInt());
-    Platform::Option::SetText("StageName", SaveFile("LastStageJson").GetString());
-    Platform::Option::SetText("LastStageID", SaveFile("LastStageID").GetString());
     Platform::Option::SetText("ParaTalkCount", "0");
     Platform::Option::SetText("ParaViewCount", "0");
     Platform::Option::SetFlag("LandscapeMode", false);
     Platform::Option::SetFlag("DirectPlay", false);
 
-    if(Platform::Option::GetFlag("DevMode"))
+    if(FXSaver::Read("DevMode").GetInt())
         Platform::SetWindowView("codename_f1View");
     else Platform::SetWindowView("ingameView");
 

@@ -169,7 +169,7 @@ void MapSpine::PlayMotionOnce(chars motion)
 void MapSpine::PlayMotionAttached(chars first_motion, chars second_motion, bool repeat)
 {
     if(!mSpineInstance) return;
-    ZAY::SpineBuilder::SetMotionOn(mSpineInstance, first_motion, false);
+    ZAY::SpineBuilder::SetMotionOnOnce(mSpineInstance, first_motion);
     ZAY::SpineBuilder::SetMotionOnAttached(mSpineInstance, first_motion, second_motion, repeat);
 }
 
@@ -207,16 +207,15 @@ void MapSpine::StopMotion(chars motion)
 void MapSpine::StopMotionAll()
 {
     if(!mSpineInstance) return;
+    mSpineMsecOld = 0;
     ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mSpineInstance, true);
 }
 
 void MapSpine::Seek() const
 {
-    if(mSpineInstance)
-    {
-        mSeekSecOld = mSeekSec;
-        ZAY::SpineBuilder::Seek(mSpineInstance, mSeekSec);
-    }
+    if(!mSpineInstance) return;
+    mSeekSecOld = mSeekSec;
+    ZAY::SpineBuilder::Seek(mSpineInstance, mSeekSec);
 }
 
 void MapSpine::Update() const
@@ -394,9 +393,9 @@ bool FXDoor::Load()
                     mLanguagePack.Init(Door[i]("LanguagePack").GetString());
                     mAccountCenter = Door[i]("AccountCenter").GetString();
                     mAccountManager = Door[i]("AccountManager").GetString();
+                    mGlobalWeight = Door[i]("GlobalWeight").GetString();
                     if(0 < mAccountCenter.Length())
                     {
-                        mIsParaAuth = true;
                         // 인증코드제작
                         const String AuthString = String::FromFile("paraauth.json");
                         if(0 < AuthString.Length())
@@ -451,12 +450,29 @@ bool FXDoor::Load()
                             }
                         }
                     }
+                    else mIsParaAuth = false;
                     return (mLoaded = true);
                 }
             }
         }
     }
     return (mLoaded = false);
+}
+
+String FXDoor::GetGlobalWeight(chars id) const
+{
+    static const String FindEndCode = ";";
+
+    const String FindKey = id;
+    sint32 Pos = mGlobalWeight.Find(0, FindKey);
+    if(Pos != -1)
+    {
+        Pos += FindKey.Length() + 1; // =기호
+        const sint32 PosEnd = mGlobalWeight.Find(Pos, FindEndCode);
+        if(PosEnd != -1)
+            return String(((chars) mGlobalWeight) + Pos, PosEnd - Pos);
+    }
+    return String("");
 }
 
 void FXDoor::Render(ZayPanel& panel)
@@ -568,11 +584,13 @@ void FXDoor::Render(ZayPanel& panel)
 
 void FXDoor::RenderVersion(ZayPanel& panel)
 {
+    const float FontSize = Math::MinF(panel.w(), panel.h()) / 240.0f;
     const String BuildVersion = Platform::Option::GetText("BuildVersion");
-    ZAY_XYRR(panel, panel.w() / 2, panel.h() / 14 + 10, 120, 20)
+    ZAY_XYRR(panel, panel.w() / 2, panel.h() / 14 + FontSize * 5, FontSize * 80, FontSize * 10)
     {
         ZAY_RGBA(panel, 0, 0, 0, 160)
             panel.fill();
+        ZAY_FONT(panel, FontSize * 0.75f)
         ZAY_RGB(panel, 255, 255, 0)
             panel.text(panel.w() / 2, panel.h() / 2, BuildVersion, UIFA_CenterMiddle);
     }

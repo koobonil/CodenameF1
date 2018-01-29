@@ -111,22 +111,32 @@ namespace ZAY
 
             const Matrix4& worldTransform = getWorldTransform();
 
+            // 바운드박스 추가
+            const ColourValue& Color = getWorldColor();
+            SpineBuilder_SetBoundBox(_name.c_str(), Color.r * 255, Color.g * 255, Color.b * 255, Color.a * 255);
+
             for(int32_t i = 0; i < _vertciesCount; i += 2)
             {
                 const ZAY::Vector2 dst = worldTransform * ZAY::Vector2(_localVertciesXY[i], _localVertciesXY[i + 1]);
                 _bossVertciesXY[i] = dst.x;
                 _bossVertciesXY[i + 1] = dst.y;
+                // 바운드박스 좌표추가
+                SpineBuilder_MergeBoundBox(dst.x, dst.y);
             }
+            // 바운드박스 좌표마감처리
+            SpineBuilder_MergeBoundBox(_bossVertciesXY[0], _bossVertciesXY[1]);
 
             _bossVerticesValid = true;
         }
     }
 
-    void TouchAreaInstance::renderBoundBox(int r, int g, int b, int a) const //bx
+    void TouchAreaInstance::updateAreaBoxOnly(int r, int g, int b, int a) const //bx
     {
+        const char* Name = _name.c_str();
+        if(boss_strcmp(Name, "area") == 0)
         if(6 <= _vertciesCount && _bossVerticesValid)
         {
-            SpineBuilder_SetBoundBox(_name.c_str(), r, g, b, a);
+            SpineBuilder_SetBoundBox(Name, r, g, b, a);
             for(int i = 0; i < _vertciesCount; i += 2)
                 SpineBuilder_MergeBoundBox(_bossVertciesXY[i], _bossVertciesXY[i + 1]);
             SpineBuilder_MergeBoundBox(_bossVertciesXY[0], _bossVertciesXY[1]);

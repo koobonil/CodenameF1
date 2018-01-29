@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "kI+u6xBoFvLqixJJ5HJwe8YkWzc", "spine": "3.6.50", "width": 3000, "height": 4435, "images": "./ingame_pause_ui/" },
+"skeleton": { "hash": "XSj2ESEMl855fJThK8uGN1ndGg8", "spine": "3.6.50", "width": 3000, "height": 4435, "images": "./ingame_pause_ui/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 52.52, "rotation": 45, "x": 13.29, "y": -106.86 },
@@ -888,24 +888,23 @@
 					{ "time": 1, "color": "ffffff74" },
 					{ "time": 2, "color": "ffffffff" }
 				]
+			},
+			"pause_replay_mid": {
+				"color": [
+					{ "time": 0, "color": "858585ff" }
+				]
 			}
 		},
 		"bones": {
 			"bone": {
 				"rotate": [
-					{ "time": 0, "angle": 0 },
-					{ "time": 0.6333, "angle": 4.81 },
-					{ "time": 1.3333, "angle": -5.18 },
-					{ "time": 2, "angle": 0 }
+					{ "time": 0, "angle": 0 }
 				],
 				"translate": [
-					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
-					{ "time": 2, "x": 0, "y": 0 }
+					{ "time": 0, "x": 0, "y": 0 }
 				],
 				"scale": [
-					{ "time": 0, "x": 1, "y": 1 },
-					{ "time": 1, "x": 1.1, "y": 1.1 },
-					{ "time": 2, "x": 1, "y": 1 }
+					{ "time": 0, "x": 0, "y": 0 }
 				]
 			}
 		}
@@ -925,6 +924,46 @@
 			"pause_bgm_x_mid": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		}
+	},
+	"idle_replay": {
+		"slots": {
+			"pause_back_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"pause_bar_mid": {
+				"color": [
+					{ "time": 0, "color": "ffffffff" },
+					{ "time": 1, "color": "ffffff74" },
+					{ "time": 2, "color": "ffffffff" }
+				]
+			},
+			"pause_replay_mid": {
+				"color": [
+					{ "time": 0, "color": "ffffffff" }
+				]
+			}
+		},
+		"bones": {
+			"bone": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.6333, "angle": 4.81 },
+					{ "time": 1.3333, "angle": -5.18 },
+					{ "time": 2, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 2, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 1, "x": 1.1, "y": 1.1 },
+					{ "time": 2, "x": 1, "y": 1 }
 				]
 			}
 		}

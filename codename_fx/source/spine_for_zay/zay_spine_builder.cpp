@@ -1,4 +1,5 @@
 ﻿#include <boss.hpp>
+#include <platform/boss_platform.hpp>
 #include "zay_spine_builder.hpp"
 #include "zay_skeleton_data.h"
 #include "zay_skeleton_instance.h"
@@ -21,6 +22,12 @@ namespace ZAY
 
     template<typename TYPE>
     id_spine LoadSpineCore(const TYPE& prop, chars img_pathname);
+
+    int& SpineBuilder::GLScale()
+    {
+        static int PixelScale = Platform::Utility::GetPixelScale();
+        return PixelScale;
+    }
 
     void SpineBuilder::ClearCaches()
     {
@@ -418,6 +425,8 @@ namespace ZAY
             // RenderMode
             Renderer->setRenderMode(rendermode);
 
+            SpineInstance::Current() = this;
+
             // Render Pipeline
             Node->_updateWorldTransformDescending();
             Node->_updateWorldColorDescending();
@@ -427,6 +436,8 @@ namespace ZAY
             Renderer->update();
             Renderer->render();
             Node->_postRender();
+
+            SpineInstance::Current() = nullptr;
 
             // Viewport And Scissor
             Renderer->setViewport(OldViewport[0], OldViewport[1], OldViewport[2], OldViewport[3]);
@@ -733,12 +744,7 @@ namespace ZAY
         //bx:glGetIntegerv(GL_CURRENT_PROGRAM, &OldProgram);
         //bx:glPushMatrix();
 
-        #if BOSS_IPHONE
-            #define GLSCALE 3
-        #else
-            #define GLSCALE 1
-        #endif
-
+        const int GLSCALE = GLScale();
         SpineInstance* CurInstance = (SpineInstance*) spine_instance;
         CurInstance->Render(panel.fboid(), sx * GLSCALE, sy * GLSCALE, sw * GLSCALE, sh * GLSCALE, cx, cy, flip, scale * GLSCALE, rendermode);
 

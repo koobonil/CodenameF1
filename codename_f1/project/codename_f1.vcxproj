@@ -92,6 +92,7 @@
     <ClInclude Include="..\source\ingame_f1.hpp" />
     <ClInclude Include="..\source\maptool_f1.hpp" />
     <ClInclude Include="..\source\resource.hpp" />
+    <ClInclude Include="..\source\soundtool_f1.hpp" />
     <ClInclude Include="..\source\stagetool_f1.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +162,7 @@
     <ClCompile Include="..\source\main.cpp" />
     <ClCompile Include="..\source\maptool_f1.cpp" />
     <ClCompile Include="..\source\resource.cpp" />
+    <ClCompile Include="..\source\soundtool_f1.cpp" />
     <ClCompile Include="..\source\stagetool_f1.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -274,7 +276,6 @@ xcopy "$(ProjectDir)..\..\dependency\msvc_$(PlatformToolset)\$(PlatformTarget)\*
       <AdditionalLibraryDirectories>$(SolutionDir)..\[boss2d]\bin\$(PlatformTarget)\$(Configuration);$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(OutDir)$(ProjectName).*" "..\bin_$(Configuration)$(PlatformArchitecture)" /F /S /R /Y /I
@@ -341,7 +342,6 @@ xcopy "$(ProjectDir)..\..\dependency\msvc_$(PlatformToolset)\$(PlatformTarget)\*
       <AdditionalLibraryDirectories>$(SolutionDir)..\[boss2d]\bin\$(PlatformTarget)\$(Configuration);$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(OutDir)$(ProjectName).*" "..\bin_$(Configuration)$(PlatformArchitecture)" /F /S /R /Y /I

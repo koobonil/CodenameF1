@@ -73,7 +73,10 @@ void MapObject::ResetCB(FXState* state)
             [this, state](chars eventname)
             {
                 if(!String::Compare("sound_", eventname, 6))
-                    Platform::Sound::Play(state->GetSound(&eventname[6]));
+                {
+                    if(FXSaver::Read("SoundFlag").GetInt())
+                        Platform::Sound::Play(state->GetSound(&eventname[6]));
+                }
             });
     }
 }
@@ -371,7 +374,10 @@ void MapMonster::ResetCB(FXState* state)
             [this, state](chars eventname)
             {
                 if(!String::Compare("sound_", eventname, 6))
-                    Platform::Sound::Play(state->GetSound(&eventname[6]));
+                {
+                    if(FXSaver::Read("SoundFlag").GetInt())
+                        Platform::Sound::Play(state->GetSound(&eventname[6]));
+                }
             });
 }
 
@@ -642,7 +648,10 @@ void MapDragon::ResetCB(FXState* state)
                 if(!String::Compare("shot", eventname))
                     mAttackFinished = true;
                 else if(!String::Compare("sound_", eventname, 6))
-                    Platform::Sound::Play(state->GetSound(&eventname[6]));
+                {
+                    if(FXSaver::Read("SoundFlag").GetInt())
+                        Platform::Sound::Play(state->GetSound(&eventname[6]));
+                }
             });
 }
 
@@ -935,7 +944,7 @@ void TargetZone::Init(sint32 objectindex, float r)
 ////////////////////////////////////////////////////////////////////////////////
 F1State::F1State() : FXState("f1/"),
     mLandscape(Platform::Option::GetFlag("LandscapeMode")),
-    mStage(Platform::Option::GetText("StageName"))
+    mStage(FXSaver::Read("LastStageJson").GetString())
 {
     Map<String> GlobalWeightMap;
     if(auto GlobalWeightTable = Context(ST_Json, SO_NeedCopy, String::FromFile("f1/table/globalweight_table.json")))
@@ -943,7 +952,9 @@ F1State::F1State() : FXState("f1/"),
         for(sint32 i = 0, iend = GlobalWeightTable.LengthOfIndexable(); i < iend; ++i)
         {
             chars CurID = GlobalWeightTable[i]("ID").GetString("noname");
-            chars CurValue = GlobalWeightTable[i]("Value").GetString("0");
+            const String DoorGlobalWeight = door().GetGlobalWeight(CurID);
+            chars CurValue = (0 < DoorGlobalWeight.Length())?
+                (chars) DoorGlobalWeight : GlobalWeightTable[i]("Value").GetString("0");
             GlobalWeightMap(CurID) = CurValue;
         }
     }
@@ -967,6 +978,7 @@ F1State::F1State() : FXState("f1/"),
     mDragonCurve = Parser::GetInt(GlobalWeightMap("DragonCurve")) / 1000.0f;
     mDragonMouthX = Parser::GetInt(GlobalWeightMap("DragonMouthX")) / 1000.0f;
     mDragonMouthY = Parser::GetInt(GlobalWeightMap("DragonMouthY")) / 1000.0f;
+    mFingerScale = Parser::GetInt(GlobalWeightMap("FingerScale")) / 1000.0f;
     mItemScale = Parser::GetInt(GlobalWeightMap("ItemScale")) / 1000.0f;
     mSlotScale = Parser::GetInt(GlobalWeightMap("SlotScale")) / 1000.0f;
     mHoleItemGetCount = Parser::GetInt(GlobalWeightMap("HoleItemGetCount"));
@@ -1066,6 +1078,7 @@ F1State::F1State() : FXState("f1/"),
     mInGameSize = 0;
     mDragonSizeR = 0;
     mBreathSizeR = 0;
+    mFingerSizeR = 0;
     mItemSizeR = 0;
 	mSlotSizeR = 0;
     mMonsterSizeR = 0;
@@ -1428,6 +1441,7 @@ void F1State::SetSize(sint32 width, sint32 height)
     mDragonExitR = Point(mInGameX + mInGameW * 5 / 2, mInGameY - mInGameH);
     mDragonSizeR = mInGameSize * mDragonScale / 2;
     mBreathSizeR = mInGameSize * mBreathScale / 2;
+    mFingerSizeR = mInGameSize * mFingerScale / 2;
     mItemSizeR = mInGameSize * mItemScale / 2;
     mSlotSizeR = mInGameSize * mSlotScale / 2;
     mMonsterSizeR = mInGameSize * mMonsterScale / 2;
@@ -1538,12 +1552,13 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
     // 몬스터가 존재하는 레이어일 경우 그림자랜더링
     if(monsters)
     {
+        static const sint32 PixelScale = Platform::Utility::GetPixelScale();
         if(!mShadowSurface
-            || Platform::Graphics::GetSurfaceWidth(mShadowSurface) != mScreenW
-            || Platform::Graphics::GetSurfaceHeight(mShadowSurface) != mScreenH)
+            || Platform::Graphics::GetSurfaceWidth(mShadowSurface) != mScreenW * PixelScale
+            || Platform::Graphics::GetSurfaceHeight(mShadowSurface) != mScreenH * PixelScale)
         {
             Platform::Graphics::RemoveSurface(mShadowSurface);
-            mShadowSurface = Platform::Graphics::CreateSurface(mScreenW, mScreenH);
+            mShadowSurface = Platform::Graphics::CreateSurface(mScreenW * PixelScale, mScreenH * PixelScale);
             ZAY_MAKE_SUB(panel, mShadowSurface)
             {
                 panel.fill(); // Surface생성후 처음 한번 전체를 칠해줘야 함(차후 개선요망)
@@ -1551,10 +1566,10 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
             }
         }
         const Point XY = panel.toview(0, 0);
-		const float SX = XY.x * panel.zoom();
-        const float SY = XY.y * panel.zoom();
-        const float SW = panel.w() * panel.zoom();
-        const float SH = panel.h() * panel.zoom();
+        const float SX = XY.x * panel.zoom() * PixelScale;
+        const float SY = XY.y * panel.zoom() * PixelScale;
+        const float SW = panel.w() * panel.zoom() * PixelScale;
+        const float SH = panel.h() * panel.zoom() * PixelScale;
         ZAY_MAKE_SUB(panel, mShadowSurface)
         {
             panel.erase();
@@ -1564,13 +1579,18 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
                 while((CurNode = CurNode->Next()) != &Head)
                 {
                     OrderNode* CurOrderNode = (OrderNode*) CurNode;
-                    ZAY_RECT(panel, CurOrderNode->mRect)
+                    ZAY_RECT(panel, CurOrderNode->mRect * PixelScale)
                     {
                         if(CurOrderNode->mIsMonster)
                         {
                             const MapMonster* CurMonster = (const MapMonster*) CurOrderNode->mData;
                             if(CurMonster->renderer())
+                            {
+                                const sint32 OldScale = ZAY::SpineBuilder::GLScale();
+                                ZAY::SpineBuilder::GLScale() = 1;
                                 CurMonster->RenderObjectShadow(panel, CurMonster->mFlipMode);
+                                ZAY::SpineBuilder::GLScale() = OldScale;
+                            }
                         }
                         else
                         {
@@ -1582,7 +1602,7 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
                 }
             }
         }
-        ZAY_XYWH(panel, -XY.x, -XY.y, Platform::Graphics::GetSurfaceWidth(mShadowSurface), Platform::Graphics::GetSurfaceHeight(mShadowSurface))
+        ZAY_XYWH(panel, -XY.x, -XY.y, mScreenW, mScreenH)
         ZAY_RGBA(panel, 0, 0, 0, 48)
             panel.sub("shadow", mShadowSurface);
     }

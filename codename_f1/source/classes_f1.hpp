@@ -619,6 +619,7 @@ public: // 기획요소
     float mDragonCurve;
     float mDragonMouthX;
     float mDragonMouthY;
+    float mFingerScale;
     float mItemScale;
     float mSlotScale;
     sint32 mHoleItemGetCount;
@@ -665,6 +666,7 @@ public: // UI요소
     Point mDragonExitR;
     sint32 mDragonSizeR;
     sint32 mBreathSizeR;
+    sint32 mFingerSizeR;
     sint32 mItemSizeR;
     sint32 mSlotSizeR;
     sint32 mMonsterSizeR;

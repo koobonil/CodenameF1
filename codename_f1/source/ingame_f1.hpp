@@ -89,6 +89,7 @@ public: // 게임상태
     bool mShowDebug;
     bool mPaused;
     sint32 mClosing;
+    sint32 mClosingOption;
     Context mWaveData;
     sint32 mWave; // -1: 게임전, 0~N: 게임중
     String mWaveTitle;
@@ -121,6 +122,7 @@ public: // 게임상태
     MapBreath mBreath[2];
     MapBreathAttack mBreathAttack;
     MapSpine mBreathReadySpine[2];
+    MapSpine mBreathBarSpine;
     MapSpine mBreathAttackSpine;
     MapSpine mBreathEffectSpine;
     sint32 mBreathReadyCount;

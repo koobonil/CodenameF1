@@ -61,6 +61,12 @@
 		"Description":"드래곤의 입 위치 Y"
 	},
 	{
+		"ID":"FingerScale",
+		"Value":665,
+		"IsDev":"TRUE",
+		"Description":"손가락의 크기"
+	},
+	{
 		"ID":"ItemScale",
 		"Value":200,
 		"IsDev":"TRUE",
@@ -101,7 +107,7 @@
 	},
 	{
 		"ID":"EggHPRegenValue",
-		"Value":10,
+		"Value":15,
 		"IsDev":"TRUE",
 		"Description":"HP 초당 재생량"
 	},
@@ -184,21 +190,21 @@
 	},
 	{
 		"ID":"DragonEntryTime",
-		"Value":1800,
+		"Value":1200,
 		"IsDev":"TRUE",
 		"Description":"등장 시간 (출발 지점에서 브레스 발동 지점까지 도착하는 시간) ",
 		"Unit":"1000=1초"
 	},
 	{
 		"ID":"DragonRetryTime",
-		"Value":1000,
+		"Value":700,
 		"IsDev":"TRUE",
 		"Description":"재등장 시간 (출발 지점에서 브레스 발동 지점까지 도착하는 시간) ",
 		"Unit":"1000=1초"
 	},
 	{
 		"ID":"DragonBreathTime",
-		"Value":1500,
+		"Value":1000,
 		"IsDev":"TRUE",
 		"Description":"드래곤이 브레스를 발사하고 지면에서 폭발시키는데 걸리는 연출 시간",
 		"Unit":"1000=1초"
@@ -212,7 +218,7 @@
 	},
 	{
 		"ID":"HoleItemGetCount",
-		"Value":1,
+		"Value":5,
 		"IsDev":"TRUE",
 		"Description":"구멍에 몬스터를 넣으면 아이템이 등장하는 횟수",
 		"Unit":"개"

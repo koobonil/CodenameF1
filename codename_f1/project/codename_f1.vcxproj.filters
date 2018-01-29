@@ -228,6 +228,9 @@
     <ClInclude Include="..\source-gen\buildtime.h">
       <Filter>source</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\soundtool_f1.hpp">
+      <Filter>source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\codename_f1.cpp">
@@ -429,6 +432,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\source\stagetool_f1.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\soundtool_f1.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

@@ -166,11 +166,12 @@ public:
 public:
     bool IsLocked() const;
     bool Load();
+    String GetGlobalWeight(chars id) const;
     void Render(ZayPanel& panel);
     static void RenderVersion(ZayPanel& panel);
 
 public:
-    static FXDoor& ST() {static FXDoor _; return _;}
+    static FXDoor& ST() {return *BOSS_STORAGE(FXDoor);}
     inline const Context* stage() {return mStagePack.GetContext();}
     inline const Context* language() {return mLanguagePack.GetContext();}
 
@@ -182,6 +183,7 @@ private:
     ParaJson mLanguagePack;
     String mAccountCenter;
     String mAccountManager;
+    String mGlobalWeight;
     bool mIsParaAuth;
     bool mParaAuthSuccess;
     String mParaAuthCode;
@@ -224,6 +226,57 @@ public:
     Map<SpineRenderer> mAllSpines;
     Map<Sound> mAllSounds;
     Map<FXPanel> mAllPanels;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+class FXSaver
+{
+    BOSS_DECLARE_NONCOPYABLE_CLASS(FXSaver)
+public:
+    FXSaver() {mUpdated = false;}
+    ~FXSaver() {}
+
+public:
+    static Context* Sync(chars assetname)
+    {
+        FXSaver& Saver = ST();
+        Saver.mAssetName = assetname;
+        String SaveString = String::FromFile(assetname);
+        if(0 < SaveString.Length())
+        {
+            Saver.mContext.LoadJson(SO_NeedCopy, SaveString, SaveString.Length());
+            return nullptr;
+        }
+        return &Saver.mContext;
+    }
+    static const Context& Read(chars name)
+    {
+        FXSaver& Saver = ST();
+        return Saver.mContext(name);
+    }
+    static Context& Write(chars name)
+    {
+        FXSaver& Saver = ST();
+        Saver.mUpdated = true;
+        return Saver.mContext.At(name);
+    }
+    static void Update()
+    {
+        FXSaver& Saver = ST();
+        if(Saver.mUpdated)
+        {
+            Saver.mUpdated = false;
+            Saver.mContext.SaveJson().ToFile(Saver.mAssetName);
+        }
+    }
+
+private:
+    static FXSaver& ST() {return *BOSS_STORAGE(FXSaver);}
+
+private:
+    Context mContext;
+    String mAssetName;
+    bool mUpdated;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

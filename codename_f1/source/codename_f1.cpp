@@ -36,98 +36,119 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
     ZAY_RGB(panel, 255, 255, 255)
         panel.fill();
 
-    const sint32 Gap = panel.h() / 24;
-    ZAY_LTRB_UI(panel, panel.w() * 1 / 4, panel.h() * 1 / 6, panel.w() * 2 / 4 - Gap, panel.h() * 2 / 6, "stage",
-        ZAY_GESTURE_VNT(v, n, t)
-        {
-            if(t == GT_Pressed)
+    const float FontSize = Math::MinF(panel.w(), panel.h()) / 400;
+    ZAY_FONT(panel, FontSize, "Arial Black")
+    {
+        const sint32 Gap = panel.h() / 24;
+        ZAY_LTRB_UI(panel, panel.w() * 0.10f, panel.h() * 0.15f, panel.w() * 0.70f, panel.h() * 0.25f, "stage",
+            ZAY_GESTURE_VNT(v, n, t)
             {
-                String Text = m->FirstStage();
-                const auto& VRect = v->rect(n);
-                if(Platform::Popup::OpenEditTracker(Text, UIET_String, VRect.l, VRect.t, VRect.r, VRect.b))
+                if(t == GT_Pressed)
                 {
-                    m->FirstStage() = Text;
-                    m->invalidate();
+                    String Text = m->FirstStage();
+                    const auto& VRect = v->rect(n);
+                    if(Platform::Popup::OpenEditTracker(Text, UIET_String, VRect.l, VRect.t, VRect.r, VRect.b))
+                    {
+                        m->FirstStage() = Text;
+                        m->invalidate();
+                    }
                 }
-            }
-        })
-    {
-        ZAY_RGBA(panel, 255, 255, 255, 128)
-            panel.fill();
-        ZAY_RGB(panel, 0, 0, 0)
+            })
         {
-            if(0 < m->FirstStage().Length())
-                panel.text(m->FirstStage(), UIFA_CenterMiddle, UIFE_Right);
-            else ZAY_RGB(panel, 192, 192, 192)
-                panel.text("로컬스테이지\n플레이하기\n(table_etc)", UIFA_CenterMiddle);
-            panel.rect(3);
-        }
-    }
-
-    ZAY_LTRB_UI(panel, panel.w() * 2 / 4 + Gap, panel.h() * 1 / 6, panel.w() * 3 / 4, panel.h() * 2 / 6, "run",
-        ZAY_GESTURE_T(t)
-        {
-            if(t == GT_InReleased)
+            ZAY_RGBA(panel, 255, 255, 255, 128)
+                panel.fill();
+            ZAY_RGB(panel, 0, 0, 0)
             {
-                // 로컬에서 제작된 스테이지를 플레이할 경우
                 if(0 < m->FirstStage().Length())
-                    Platform::Option::SetText("StageName", String("f1/table_etc/") + m->FirstStage() + ".json");
-                Platform::Option::SetText("LastStageID", "");
-                Platform::Option::SetText("ParaTalkCount", "0");
-                Platform::Option::SetText("ParaViewCount", "0");
-                Platform::Option::SetFlag("LandscapeMode", false);
-                Platform::Option::SetFlag("DirectPlay", false);
-                m->next("ingameView");
+                    panel.text(m->FirstStage(), UIFA_CenterMiddle, UIFE_Right);
+                else
+                {
+                    ZAY_RGB(panel, 192, 192, 192)
+                    ZAY_FONT(panel, 0.75f, "Arial")
+                        panel.text("로컬스테이지 플레이하기 (table_etc)", UIFA_CenterMiddle);
+                }
+                panel.rect(3);
             }
-        })
-    {
-        ZAY_RGBA(panel, 0, 255, 255, 128)
-            panel.fill();
-        ZAY_RGB(panel, 0, 0, 0)
+        }
+
+        ZAY_LTRB_UI(panel, panel.w() * 0.75f, panel.h() * 0.15f, panel.w() * 0.90f, panel.h() * 0.25f, "run",
+            ZAY_GESTURE_T(t)
+            {
+                if(t == GT_InReleased)
+                {
+                    // 로컬에서 제작된 스테이지를 플레이할 경우
+                    if(0 < m->FirstStage().Length())
+                        FXSaver::Write("LastStageJson").Set(String("f1/table_etc/") + m->FirstStage() + ".json");
+                    FXSaver::Write("LastStageID").Set("Stage1");
+                    Platform::Option::SetText("ParaTalkCount", "0");
+                    Platform::Option::SetText("ParaViewCount", "0");
+                    Platform::Option::SetFlag("LandscapeMode", false);
+                    Platform::Option::SetFlag("DirectPlay", false);
+                    m->next("ingameView");
+                }
+            })
         {
-            ZAY_FONT(panel, 2.0, "Arial Black")
+            ZAY_RGBA(panel, 0, 255, 255, 128)
+                panel.fill();
+            ZAY_RGB(panel, 0, 0, 0)
+            {
                 panel.text((m->mIsLandscape)? "RUN(W)" : "RUN", UIFA_CenterMiddle, UIFE_Right);
-            panel.rect(3);
-        }
-    }
-
-    ZAY_XYRR_UI(panel, panel.w() / 2, panel.h() * 0.50, panel.w() / 4, panel.h() / 12, "maptool",
-        ZAY_GESTURE_T(t)
-        {
-            if(t == GT_InReleased)
-            {
-                Platform::Option::SetFlag("LandscapeMode", false);
-                m->next("maptoolView");
+                panel.rect(3);
             }
-        })
-    {
-        ZAY_RGBA(panel, 255, 0, 255, 128)
-            panel.fill();
-        ZAY_RGB(panel, 0, 0, 0)
+        }
+
+        ZAY_LTRB_UI(panel, panel.w() * 0.10f, panel.h() * 0.30f, panel.w() * 0.90f, panel.h() * 0.40f, "maptool",
+            ZAY_GESTURE_T(t)
+            {
+                if(t == GT_InReleased)
+                {
+                    Platform::Option::SetFlag("LandscapeMode", false);
+                    m->next("maptoolView");
+                }
+            })
         {
-            ZAY_FONT(panel, 2.0, "Arial Black")
+            ZAY_RGBA(panel, 255, 0, 255, 128)
+                panel.fill();
+            ZAY_RGB(panel, 0, 0, 0)
+            {
                 panel.text((m->mIsLandscape)? "MAP TOOL(W)" : "MAP TOOL", UIFA_CenterMiddle, UIFE_Right);
-            panel.rect(3);
-        }
-    }
-
-    ZAY_XYRR_UI(panel, panel.w() / 2, panel.h() * 0.75, panel.w() / 4, panel.h() / 12, "stagetool",
-        ZAY_GESTURE_T(t)
-        {
-            if(t == GT_InReleased)
-            {
-                Platform::Option::SetFlag("LandscapeMode", false);
-                m->next("stagetoolView");
+                panel.rect(3);
             }
-        })
-    {
-        ZAY_RGBA(panel, 255, 0, 255, 128)
-            panel.fill();
-        ZAY_RGB(panel, 0, 0, 0)
+        }
+
+        ZAY_LTRB_UI(panel, panel.w() * 0.10f, panel.h() * 0.45f, panel.w() * 0.90f, panel.h() * 0.55f, "stagetool",
+            ZAY_GESTURE_T(t)
+            {
+                if(t == GT_InReleased)
+                {
+                    Platform::Option::SetFlag("LandscapeMode", false);
+                    m->next("stagetoolView");
+                }
+            })
         {
-            ZAY_FONT(panel, 2.0, "Arial Black")
+            ZAY_RGBA(panel, 255, 0, 255, 128)
+                panel.fill();
+            ZAY_RGB(panel, 0, 0, 0)
+            {
                 panel.text((m->mIsLandscape)? "STAGE TOOL(W)" : "STAGE TOOL", UIFA_CenterMiddle, UIFE_Right);
-            panel.rect(3);
+                panel.rect(3);
+            }
+        }
+
+        ZAY_LTRB_UI(panel, panel.w() * 0.10f, panel.h() * 0.60f, panel.w() * 0.90f, panel.h() * 0.70f, "soundtool",
+            ZAY_GESTURE_T(t)
+            {
+                if(t == GT_InReleased)
+                    m->next("soundtoolView");
+            })
+        {
+            ZAY_RGBA(panel, 255, 0, 255, 128)
+                panel.fill();
+            ZAY_RGB(panel, 0, 0, 0)
+            {
+                panel.text("SOUND TOOL", UIFA_CenterMiddle, UIFE_Right);
+                panel.rect(3);
+            }
         }
     }
 

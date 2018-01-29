@@ -1,8 +1,8 @@
 {
-	"BuildNumber":"5",
+	"BuildNumber":"6",
 	"MapName":"map_3",
 	"MissionLastRID":"83999999",
-	"MonsterLastRID":"83000322",
+	"MonsterLastRID":"83000329",
 	"ToolType":"stagetool_f1",
 	"ToolVersion":"2",
 	"Waves":
@@ -504,6 +504,13 @@
 							"PosY":"-0.194139",
 							"TargetRID":"81000001",
 							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.054313",
+							"PosY":"-0.065495",
+							"TargetRID":"81000098",
+							"Text":"animate count-idle
+"
 						}
 					],
 					"TimeSec":"0"
@@ -522,6 +529,12 @@
 							"PosX":"0.24",
 							"PosY":"-0.433333",
 							"RID":"83000193"
+						},
+						{
+							"ID":"F_Normal",
+							"PosX":"0.44",
+							"PosY":"-0.41632",
+							"RID":"83000323"
 						}
 					],
 					"TimeSec":"6"
@@ -540,6 +553,12 @@
 							"PosX":"0.24",
 							"PosY":"-0.433333",
 							"RID":"83000194"
+						},
+						{
+							"ID":"F_Normal",
+							"PosX":"0.44",
+							"PosY":"-0.41632",
+							"RID":"83000324"
 						}
 					],
 					"TimeSec":"7"
@@ -558,6 +577,12 @@
 							"PosX":"0.24",
 							"PosY":"-0.433333",
 							"RID":"83000195"
+						},
+						{
+							"ID":"F_Normal",
+							"PosX":"0.44",
+							"PosY":"-0.41632",
+							"RID":"83000325"
 						}
 					],
 					"TimeSec":"8"
@@ -576,6 +601,12 @@
 							"PosX":"0.24",
 							"PosY":"-0.433333",
 							"RID":"83000196"
+						},
+						{
+							"ID":"F_Normal",
+							"PosX":"0.44",
+							"PosY":"-0.41632",
+							"RID":"83000326"
 						}
 					],
 					"TimeSec":"9"
@@ -594,6 +625,12 @@
 							"PosX":"0.24",
 							"PosY":"-0.433333",
 							"RID":"83000197"
+						},
+						{
+							"ID":"F_Normal",
+							"PosX":"0.44",
+							"PosY":"-0.41632",
+							"RID":"83000327"
 						}
 					],
 					"TimeSec":"10"
@@ -612,6 +649,12 @@
 							"PosX":"0.24",
 							"PosY":"-0.433333",
 							"RID":"83000198"
+						},
+						{
+							"ID":"F_Normal",
+							"PosX":"0.44",
+							"PosY":"-0.41632",
+							"RID":"83000328"
 						}
 					],
 					"TimeSec":"11"
@@ -630,6 +673,12 @@
 							"PosX":"0.24",
 							"PosY":"-0.433333",
 							"RID":"83000199"
+						},
+						{
+							"ID":"F_Normal",
+							"PosX":"0.44",
+							"PosY":"-0.41632",
+							"RID":"83000329"
 						}
 					],
 					"TimeSec":"12"

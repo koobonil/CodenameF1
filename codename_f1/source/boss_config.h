@@ -29,4 +29,4 @@
 #define BOSS_NEED_MAIN            1
 #define BOSS_NEED_PLATFORM_FILE   1
 #define BOSS_NEED_PROFILE         0
-#define BOSS_NEED_RELEASE_TRACE   1
+#define BOSS_NEED_RELEASE_TRACE   0
