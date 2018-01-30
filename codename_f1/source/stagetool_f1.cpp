@@ -133,8 +133,8 @@ stagetoolData::stagetoolData() :
     NewWave.mEventMissions.AtDumpingAdded(mState.mTimelineLength);
     NewWave.mEventScripts.AtDumpingAdded(mState.mTimelineLength);
 
-    auto MonsterGroupTable = Context(ST_Json, SO_NeedCopy, String::FromFile("f1/table/monstergroup_table.json"));
-    if(MonsterGroupTable.IsValid())
+    Context MonsterGroupTable;
+    if(MonsterGroupTable.LoadJson(SO_NeedCopy, String::FromAsset("f1/table/monstergroup_table.json")))
     {
         for(sint32 i = 0, iend = MonsterGroupTable.LengthOfIndexable(); i < iend; ++i)
         {

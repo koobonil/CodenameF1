@@ -1,6 +1,6 @@
 {
 	"BGName":"map_forest_a",
-	"BuildNumber":"1",
+	"BuildNumber":"2",
 	"Layers":
 	[
 		{
@@ -752,24 +752,6 @@
 					"Visible":"1"
 				},
 				{
-					"ID":"Egg",
-					"RID":"81000098",
-					"RectB":"0.033333",
-					"RectL":"0.36",
-					"RectR":"0.44",
-					"RectT":"-0.033333",
-					"Visible":"1"
-				},
-				{
-					"ID":"Egg",
-					"RID":"81000097",
-					"RectB":"0.033333",
-					"RectL":"-0.44",
-					"RectR":"-0.36",
-					"RectT":"-0.033333",
-					"Visible":"1"
-				},
-				{
 					"ID":"Tree",
 					"RID":"81000118",
 					"RectB":"-0.433333",
@@ -839,15 +821,6 @@
 					"RectL":"0.26",
 					"RectR":"0.3",
 					"RectT":"0.433333",
-					"Visible":"1"
-				},
-				{
-					"ID":"Flower",
-					"RID":"81000127",
-					"RectB":"-0.066667",
-					"RectL":"-0.42",
-					"RectR":"-0.32",
-					"RectT":"-0.133333",
 					"Visible":"1"
 				},
 				{
@@ -1018,6 +991,258 @@
 					"RectB":"0.283333",
 					"RectL":"0.06",
 					"RectR":"0.1",
+					"RectT":"0.25",
+					"Visible":"1"
+				},
+				{
+					"ID":"Egg",
+					"RID":"81000155",
+					"RectB":"0.033333",
+					"RectL":"0.36",
+					"RectR":"0.44",
+					"RectT":"-0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000156",
+					"RectB":"0.066667",
+					"RectL":"0.36",
+					"RectR":"0.4",
+					"RectT":"0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000157",
+					"RectB":"0.066667",
+					"RectL":"0.4",
+					"RectR":"0.44",
+					"RectT":"0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000158",
+					"RectB":"0.066667",
+					"RectL":"0.44",
+					"RectR":"0.48",
+					"RectT":"0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000159",
+					"RectB":"0.066667",
+					"RectL":"0.32",
+					"RectR":"0.36",
+					"RectT":"0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000160",
+					"RectB":"0.033333",
+					"RectL":"0.32",
+					"RectR":"0.36",
+					"RectT":"0",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000161",
+					"RectB":"0",
+					"RectL":"0.32",
+					"RectR":"0.36",
+					"RectT":"-0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000162",
+					"RectB":"-0.033333",
+					"RectL":"0.32",
+					"RectR":"0.36",
+					"RectT":"-0.066667",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000163",
+					"RectB":"-0.033333",
+					"RectL":"0.36",
+					"RectR":"0.4",
+					"RectT":"-0.066667",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000164",
+					"RectB":"-0.033333",
+					"RectL":"0.4",
+					"RectR":"0.44",
+					"RectT":"-0.066667",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000165",
+					"RectB":"-0.033333",
+					"RectL":"0.44",
+					"RectR":"0.48",
+					"RectT":"-0.066667",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000166",
+					"RectB":"0",
+					"RectL":"0.44",
+					"RectR":"0.48",
+					"RectT":"-0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000167",
+					"RectB":"0.033333",
+					"RectL":"0.44",
+					"RectR":"0.48",
+					"RectT":"0",
+					"Visible":"1"
+				},
+				{
+					"ID":"Egg",
+					"RID":"81000098",
+					"RectB":"0.033333",
+					"RectL":"-0.42",
+					"RectR":"-0.34",
+					"RectT":"-0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000143",
+					"RectB":"0.066667",
+					"RectL":"-0.42",
+					"RectR":"-0.38",
+					"RectT":"0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000144",
+					"RectB":"0.066667",
+					"RectL":"-0.38",
+					"RectR":"-0.34",
+					"RectT":"0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000145",
+					"RectB":"0.066667",
+					"RectL":"-0.34",
+					"RectR":"-0.3",
+					"RectT":"0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000146",
+					"RectB":"0.066667",
+					"RectL":"-0.46",
+					"RectR":"-0.42",
+					"RectT":"0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000147",
+					"RectB":"0.033333",
+					"RectL":"-0.46",
+					"RectR":"-0.42",
+					"RectT":"0",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000148",
+					"RectB":"0",
+					"RectL":"-0.46",
+					"RectR":"-0.42",
+					"RectT":"-0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000149",
+					"RectB":"-0.033333",
+					"RectL":"-0.46",
+					"RectR":"-0.42",
+					"RectT":"-0.066667",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000150",
+					"RectB":"-0.033333",
+					"RectL":"-0.42",
+					"RectR":"-0.38",
+					"RectT":"-0.066667",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000151",
+					"RectB":"-0.033333",
+					"RectL":"-0.38",
+					"RectR":"-0.34",
+					"RectT":"-0.066667",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000152",
+					"RectB":"-0.033333",
+					"RectL":"-0.34",
+					"RectR":"-0.3",
+					"RectT":"-0.066667",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000153",
+					"RectB":"0",
+					"RectL":"-0.34",
+					"RectR":"-0.3",
+					"RectT":"-0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000154",
+					"RectB":"0.033333",
+					"RectL":"-0.34",
+					"RectR":"-0.3",
+					"RectT":"0",
+					"Visible":"1"
+				},
+				{
+					"ID":"AllyStart_L",
+					"RID":"81000168",
+					"RectB":"-0.266667",
+					"RectL":"-0.5",
+					"RectR":"-0.42",
+					"RectT":"-0.333333",
+					"Visible":"1"
+				},
+				{
+					"ID":"AllyEnd_R",
+					"RID":"81000169",
+					"RectB":"0.316667",
+					"RectL":"0.42",
+					"RectR":"0.5",
 					"RectT":"0.25",
 					"Visible":"1"
 				}
@@ -1643,7 +1868,7 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000142",
+	"ObjectLastRID":"81000169",
 	"PolygonLastRID":"82000000",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"

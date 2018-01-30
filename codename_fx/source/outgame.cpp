@@ -84,7 +84,8 @@ outgameData::outgameData() : FXState("fx/"),
     mStartMode(Platform::Option::GetText("StartMode"))
 {
     Map<String> GlobalWeightMap;
-    if(auto GlobalWeightTable = Context(ST_Json, SO_NeedCopy, String::FromFile("fx/table/globalweightfx_table.json")))
+    Context GlobalWeightTable;
+    if(GlobalWeightTable.LoadJson(SO_NeedCopy, String::FromAsset("fx/table/globalweightfx_table.json")))
     {
         for(sint32 i = 0, iend = GlobalWeightTable.LengthOfIndexable(); i < iend; ++i)
         {

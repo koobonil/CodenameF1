@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "DqrGps/pCe3prxlbt+fASBz8S3Q", "spine": "3.6.50", "width": 277.51, "height": 793.8, "images": "./meteo_ready/" },
+"skeleton": { "hash": "Kz9e0uN6ovtQ+RhvPxE2YDRAwvs", "spine": "3.6.50", "width": 277.2, "height": 793.8, "images": "./meteo_ready/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 26.42, "rotation": 88.49, "x": 10.62, "y": 0.61 },
@@ -9,7 +9,7 @@
 ],
 "slots": [
 	{ "name": "area", "bone": "area", "attachment": "area" },
-	{ "name": "meteo_ready_e", "bone": "bar_a", "color": "ffffffd3", "attachment": "skin" },
+	{ "name": "meteo_ready_e", "bone": "bar_a", "color": "ffffff55", "attachment": "skin", "blend": "additive" },
 	{ "name": "meteo_ready_f", "bone": "bar_b", "attachment": "skin", "blend": "additive" }
 ],
 "skins": {

@@ -23,7 +23,7 @@ void SpineRenderer::Create(String projcode, chars spinepath, chars imagepath)
 {
     Release();
     // 스파인 불러오기
-    Context Pathes(ST_Json, SO_NeedCopy, String::FromFile(projcode + imagepath));
+    Context Pathes(ST_Json, SO_NeedCopy, String::FromAsset(projcode + imagepath));
     id_assetpath NewPath = Asset::CreatePath();
     for(sint32 i = 0, iend = Pathes.LengthOfIndexable(); i < iend; ++i)
         Asset::AddByPath(NewPath, projcode + Pathes[i].GetString());
@@ -397,7 +397,7 @@ bool FXDoor::Load()
                     if(0 < mAccountCenter.Length())
                     {
                         // 인증코드제작
-                        const String AuthString = String::FromFile("paraauth.json");
+                        const String AuthString = String::FromAsset("paraauth.json");
                         if(0 < AuthString.Length())
                         {
                             Context AuthFile(ST_Json, SO_OnlyReference, AuthString, AuthString.Length());
@@ -410,7 +410,7 @@ bool FXDoor::Load()
                             mParaAuthCode += String::Format("%04d", Platform::Utility::Random() % 10000);
                             Context AuthFile;
                             AuthFile.At("AuthCode").Set(mParaAuthCode);
-                            AuthFile.SaveJson().ToFile("paraauth.json");
+                            AuthFile.SaveJson().ToAsset("paraauth.json");
                         }
                         // 인증코드매칭
                         if(!String::CompareNoCase(mAccountCenter, "http://cafe.naver.com/", 22))

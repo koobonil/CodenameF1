@@ -1,8 +1,8 @@
 {
-	"BuildNumber":"1",
+	"BuildNumber":"2",
 	"MapName":"map_17",
 	"MissionLastRID":"83999999",
-	"MonsterLastRID":"83000449",
+	"MonsterLastRID":"83000456",
 	"ToolType":"stagetool_f1",
 	"ToolVersion":"2",
 	"Waves":
@@ -1311,6 +1311,30 @@
 						}
 					],
 					"TimeSec":"41"
+				},
+				{
+					"Scripts":
+					[
+						{
+							"PosX":"0.098229",
+							"PosY":"-0.033816",
+							"TargetRID":"81000146",
+							"Text":"animate count-idle"
+						}
+					],
+					"TimeSec":"45"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"Mimic",
+							"PosX":"0.44",
+							"PosY":"0",
+							"RID":"83000450"
+						}
+					],
+					"TimeSec":"51"
 				}
 			],
 			"Title":"Untitled"
@@ -2745,6 +2769,78 @@
 						}
 					],
 					"TimeSec":"39"
+				},
+				{
+					"Scripts":
+					[
+						{
+							"PosX":"0.059581",
+							"PosY":"-0.120773",
+							"TargetRID":"81000144",
+							"Text":"animate count-idle"
+						}
+					],
+					"TimeSec":"42"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"-0.38",
+							"PosY":"-0.449625",
+							"RID":"83000451"
+						}
+					],
+					"TimeSec":"49"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"-0.38",
+							"PosY":"-0.449625",
+							"RID":"83000452"
+						}
+					],
+					"TimeSec":"51"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"-0.38",
+							"PosY":"-0.449625",
+							"RID":"83000453"
+						}
+					],
+					"TimeSec":"53"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"-0.38",
+							"PosY":"-0.449625",
+							"RID":"83000454"
+						}
+					],
+					"TimeSec":"55"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"-0.38",
+							"PosY":"-0.449625",
+							"RID":"83000455"
+						}
+					],
+					"TimeSec":"57"
 				}
 			],
 			"Title":"Untitled"
@@ -3593,6 +3689,18 @@
 					"TimeSec":"25"
 				},
 				{
+					"Scripts":
+					[
+						{
+							"PosX":"0.064412",
+							"PosY":"-0.05153",
+							"TargetRID":"81000146",
+							"Text":"animate count-idle"
+						}
+					],
+					"TimeSec":"26"
+				},
+				{
 					"Monsters":
 					[
 						{
@@ -3678,6 +3786,12 @@
 							"PosX":"-0.44",
 							"PosY":"-0.049958",
 							"RID":"83000423"
+						},
+						{
+							"ID":"Fairy",
+							"PosX":"0.46",
+							"PosY":"0",
+							"RID":"83000456"
 						}
 					],
 					"TimeSec":"32"

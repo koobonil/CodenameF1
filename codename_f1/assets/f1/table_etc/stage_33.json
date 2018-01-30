@@ -1,5 +1,5 @@
 {
-	"BuildNumber":"1",
+	"BuildNumber":"3",
 	"MapName":"map_33",
 	"MissionLastRID":"83999999",
 	"MonsterLastRID":"83000425",
@@ -13,6 +13,12 @@
 				{
 					"Scripts":
 					[
+						{
+							"PosX":"0.122779",
+							"PosY":"-0.113086",
+							"TargetRID":"81000276",
+							"Text":"animate count-idle"
+						},
 						{
 							"PosX":"-0.085185",
 							"PosY":"-0.168519",
@@ -331,6 +337,18 @@
 				{
 					"Scripts":
 					[
+						{
+							"PosX":"0.030695",
+							"PosY":"-0.098546",
+							"TargetRID":"81000275",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.035541",
+							"PosY":"-0.080775",
+							"TargetRID":"81000283",
+							"Text":"animate count-idle"
+						},
 						{
 							"PosX":"0.012963",
 							"PosY":"0.090741",
@@ -715,6 +733,18 @@
 				{
 					"Scripts":
 					[
+						{
+							"PosX":"0.101777",
+							"PosY":"-0.087237",
+							"TargetRID":"81000275",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.090468",
+							"PosY":"-0.177706",
+							"TargetRID":"81000285",
+							"Text":"animate count-idle"
+						},
 						{
 							"PosX":"0.048148",
 							"PosY":"0.127778",
@@ -1154,6 +1184,12 @@
 					"Scripts":
 					[
 						{
+							"PosX":"0.067851",
+							"PosY":"-0.054927",
+							"TargetRID":"81000284",
+							"Text":"animate count-idle"
+						},
+						{
 							"PosX":"0.083333",
 							"PosY":"-0.040741",
 							"TargetRID":"81000289",
@@ -1387,6 +1423,18 @@
 				{
 					"Scripts":
 					[
+						{
+							"PosX":"0.053312",
+							"PosY":"-0.109855",
+							"TargetRID":"81000276",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"-0.051696",
+							"PosY":"-0.153473",
+							"TargetRID":"81000284",
+							"Text":"animate count-idle"
+						},
 						{
 							"PosX":"-0.025926",
 							"PosY":"-0.175926",
@@ -1772,6 +1820,18 @@
 					"Scripts":
 					[
 						{
+							"PosX":"-0.035541",
+							"PosY":"-0.109855",
+							"TargetRID":"81000283",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.0937",
+							"PosY":"-0.134087",
+							"TargetRID":"81000285",
+							"Text":"animate count-idle"
+						},
+						{
 							"PosX":"-0.137037",
 							"PosY":"0.024074",
 							"TargetRID":"81000288",
@@ -2101,6 +2161,18 @@
 				{
 					"Scripts":
 					[
+						{
+							"PosX":"0.04685",
+							"PosY":"-0.114701",
+							"TargetRID":"81000276",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.021002",
+							"PosY":"-0.138934",
+							"TargetRID":"81000284",
+							"Text":"animate count-idle"
+						},
 						{
 							"PosX":"-0.033333",
 							"PosY":"-0.168519",
@@ -2521,6 +2593,24 @@
 				{
 					"Scripts":
 					[
+						{
+							"PosX":"-0.029079",
+							"PosY":"-0.075929",
+							"TargetRID":"81000275",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.077544",
+							"PosY":"-0.082391",
+							"TargetRID":"81000283",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"-0.033926",
+							"PosY":"-0.117932",
+							"TargetRID":"81000285",
+							"Text":"animate count-idle"
+						},
 						{
 							"PosX":"0.012963",
 							"PosY":"0.098148",
@@ -3080,6 +3170,18 @@
 					"Scripts":
 					[
 						{
+							"PosX":"-0.038772",
+							"PosY":"-0.109855",
+							"TargetRID":"81000276",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"-0.022617",
+							"PosY":"-0.103393",
+							"TargetRID":"81000284",
+							"Text":"animate count-idle"
+						},
+						{
 							"PosX":"-0.02963",
 							"PosY":"-0.122222",
 							"TargetRID":"81000287",
@@ -3499,6 +3601,24 @@
 				{
 					"Scripts":
 					[
+						{
+							"PosX":"0.121163",
+							"PosY":"0.008078",
+							"TargetRID":"81000275",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.001616",
+							"PosY":"-0.11147",
+							"TargetRID":"81000276",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"-0.021002",
+							"PosY":"-0.122779",
+							"TargetRID":"81000284",
+							"Text":"animate count-idle"
+						},
 						{
 							"PosX":"0.07037",
 							"PosY":"0.090741",

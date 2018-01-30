@@ -947,7 +947,8 @@ F1State::F1State() : FXState("f1/"),
     mStage(FXSaver::Read("LastStageJson").GetString())
 {
     Map<String> GlobalWeightMap;
-    if(auto GlobalWeightTable = Context(ST_Json, SO_NeedCopy, String::FromFile("f1/table/globalweight_table.json")))
+    Context GlobalWeightTable;
+    if(GlobalWeightTable.LoadJson(SO_NeedCopy, String::FromAsset("f1/table/globalweight_table.json")))
     {
         for(sint32 i = 0, iend = GlobalWeightTable.LengthOfIndexable(); i < iend; ++i)
         {
@@ -1005,8 +1006,8 @@ F1State::F1State() : FXState("f1/"),
     m2BoundDamageRate = Parser::GetInt(GlobalWeightMap("2BoundDamage")) / 1000.0f;
     m3BoundDamageRate = Parser::GetInt(GlobalWeightMap("3BoundDamage")) / 1000.0f;
 
-    auto ObjectTable = Context(ST_Json, SO_NeedCopy, String::FromFile("f1/table/object_table.json"));
-    if(ObjectTable.IsValid())
+    Context ObjectTable;
+    if(ObjectTable.LoadJson(SO_NeedCopy, String::FromAsset("f1/table/object_table.json")))
     {
         for(sint32 i = 0, iend = ObjectTable.LengthOfIndexable(); i < iend; ++i)
         {
@@ -1022,8 +1023,8 @@ F1State::F1State() : FXState("f1/"),
     }
     else BOSS_ASSERT("object_table.json의 로딩에 실패하였습니다", false);
 
-    auto PolygonTable = Context(ST_Json, SO_NeedCopy, String::FromFile("f1/table/polygon_table.json"));
-    if(PolygonTable.IsValid())
+    Context PolygonTable;
+    if(PolygonTable.LoadJson(SO_NeedCopy, String::FromAsset("f1/table/polygon_table.json")))
     {
         for(sint32 i = 0, iend = PolygonTable.LengthOfIndexable(); i < iend; ++i)
         {
@@ -1037,8 +1038,8 @@ F1State::F1State() : FXState("f1/"),
     }
     else BOSS_ASSERT("polygon_table.json의 로딩에 실패하였습니다", false);
 
-    auto MonsterTable = Context(ST_Json, SO_NeedCopy, String::FromFile("f1/table/monster_table.json"));
-    if(MonsterTable.IsValid())
+    Context MonsterTable;
+    if(MonsterTable.LoadJson(SO_NeedCopy, String::FromAsset("f1/table/monster_table.json")))
     {
         for(sint32 i = 0, iend = MonsterTable.LengthOfIndexable(); i < iend; ++i)
         {

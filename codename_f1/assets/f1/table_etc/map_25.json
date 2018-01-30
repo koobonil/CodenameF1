@@ -1,6 +1,6 @@
 {
 	"BGName":"map_forest_a",
-	"BuildNumber":"1",
+	"BuildNumber":"2",
 	"Layers":
 	[
 		{
@@ -59,6 +59,42 @@
 					"RectL":"-0.48",
 					"RectR":"-0.4",
 					"RectT":"-0.333056",
+					"Visible":"1"
+				},
+				{
+					"ID":"WindHole",
+					"RID":"81000122",
+					"RectB":"-0.133333",
+					"RectL":"0.26",
+					"RectR":"0.42",
+					"RectT":"-0.266667",
+					"Visible":"1"
+				}
+			],
+			"Polygons":
+			[
+				{
+					"ID":"SmallWall",
+					"Points":
+					[
+						{
+							"X":"0.28",
+							"Y":"-0.233333"
+						},
+						{
+							"X":"0.28",
+							"Y":"-0.15"
+						},
+						{
+							"X":"0.4",
+							"Y":"-0.15"
+						},
+						{
+							"X":"0.4",
+							"Y":"-0.233333"
+						}
+					],
+					"RID":"82000002",
 					"Visible":"1"
 				}
 			]
@@ -411,15 +447,6 @@
 				},
 				{
 					"ID":"Flower",
-					"RID":"81000107",
-					"RectB":"-0.3",
-					"RectL":"0.26",
-					"RectR":"0.34",
-					"RectT":"-0.366667",
-					"Visible":"1"
-				},
-				{
-					"ID":"Flower",
 					"RID":"81000108",
 					"RectB":"-0.383333",
 					"RectL":"-0.3",
@@ -488,6 +515,150 @@
 					"RectL":"0.38",
 					"RectR":"0.42",
 					"RectT":"-0.4",
+					"Visible":"1"
+				},
+				{
+					"ID":"Flower",
+					"RID":"81000107",
+					"RectB":"-0.3",
+					"RectL":"0.26",
+					"RectR":"0.34",
+					"RectT":"-0.366667",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000135",
+					"RectB":"0.016667",
+					"RectL":"0.18",
+					"RectR":"0.24",
+					"RectT":"-0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000136",
+					"RectB":"0.066667",
+					"RectL":"0.24",
+					"RectR":"0.28",
+					"RectT":"0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000137",
+					"RectB":"0.1",
+					"RectL":"0.12",
+					"RectR":"0.18",
+					"RectT":"0.05",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000138",
+					"RectB":"0.116667",
+					"RectL":"0.2",
+					"RectR":"0.24",
+					"RectT":"0.083333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000139",
+					"RectB":"0.016667",
+					"RectL":"0.14",
+					"RectR":"0.18",
+					"RectT":"-0.016667",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000140",
+					"RectB":"0.066667",
+					"RectL":"0.04",
+					"RectR":"0.1",
+					"RectT":"0.016667",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000141",
+					"RectB":"0",
+					"RectL":"0.08",
+					"RectR":"0.12",
+					"RectT":"-0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000142",
+					"RectB":"0.15",
+					"RectL":"0.08",
+					"RectR":"0.12",
+					"RectT":"0.116667",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000143",
+					"RectB":"0.2",
+					"RectL":"0",
+					"RectR":"0.04",
+					"RectT":"0.166667",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000144",
+					"RectB":"0.183333",
+					"RectL":"0.16",
+					"RectR":"0.2",
+					"RectT":"0.15",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000145",
+					"RectB":"0.183333",
+					"RectL":"0.26",
+					"RectR":"0.32",
+					"RectT":"0.133333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000146",
+					"RectB":"0.283333",
+					"RectL":"0.02",
+					"RectR":"0.08",
+					"RectT":"0.233333",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000147",
+					"RectB":"0.233333",
+					"RectL":"0.1",
+					"RectR":"0.14",
+					"RectT":"0.2",
+					"Visible":"1"
+				},
+				{
+					"ID":"AllyStart_L",
+					"RID":"81000148",
+					"RectB":"0.233333",
+					"RectL":"-0.5",
+					"RectR":"-0.42",
+					"RectT":"0.166667",
+					"Visible":"1"
+				},
+				{
+					"ID":"AllyEnd_R",
+					"RID":"81000150",
+					"RectB":"-0.3",
+					"RectL":"0.42",
+					"RectR":"0.5",
+					"RectT":"-0.366667",
 					"Visible":"1"
 				}
 			],
@@ -592,8 +763,8 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000120",
-	"PolygonLastRID":"82000001",
+	"ObjectLastRID":"81000150",
+	"PolygonLastRID":"82000002",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"
 }

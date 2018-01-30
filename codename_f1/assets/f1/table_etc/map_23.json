@@ -1,5 +1,6 @@
 {
 	"BGName":"map_forest_a",
+	"BuildNumber":"1",
 	"Layers":
 	[
 		{
@@ -40,6 +41,75 @@
 					"RectL":"0.28",
 					"RectR":"0.36",
 					"RectT":"-0.316667",
+					"Visible":"1"
+				},
+				{
+					"ID":"LightningHole",
+					"RID":"81000251",
+					"RectB":"0.283333",
+					"RectL":"-0.1",
+					"RectR":"0.1",
+					"RectT":"0.116667",
+					"Visible":"1"
+				},
+				{
+					"ID":"FireHole",
+					"RID":"81000250",
+					"RectB":"-0.116667",
+					"RectL":"-0.1",
+					"RectR":"0.1",
+					"RectT":"-0.283333",
+					"Visible":"1"
+				}
+			],
+			"Polygons":
+			[
+				{
+					"ID":"SmallWall",
+					"Points":
+					[
+						{
+							"X":"-0.06",
+							"Y":"-0.25"
+						},
+						{
+							"X":"-0.06",
+							"Y":"-0.15"
+						},
+						{
+							"X":"0.06",
+							"Y":"-0.15"
+						},
+						{
+							"X":"0.06",
+							"Y":"-0.25"
+						}
+					],
+					"RID":"82000005",
+					"Visible":"1"
+				},
+				{
+					"ID":"SmallWall",
+					"Points":
+					[
+						{
+							"X":"-0.06",
+							"Y":"0.15"
+						},
+						{
+							"X":"-0.06",
+							"Y":"0.266667"
+						},
+						{
+							"X":"0.06",
+							"Y":"0.266667"
+						},
+						{
+							"X":"0.06",
+							"Y":"0.15"
+						}
+					],
+					"RID":"82000006",
 					"Visible":"1"
 				}
 			]
@@ -1538,6 +1608,8 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000249",
-	"PolygonLastRID":"82000004"
+	"ObjectLastRID":"81000251",
+	"PolygonLastRID":"82000006",
+	"ToolType":"maptool_f1",
+	"ToolVersion":"2"
 }

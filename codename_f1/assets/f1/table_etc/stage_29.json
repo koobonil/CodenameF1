@@ -1,8 +1,8 @@
 {
-	"BuildNumber":"1",
+	"BuildNumber":"3",
 	"MapName":"map_29",
 	"MissionLastRID":"83999999",
-	"MonsterLastRID":"83000367",
+	"MonsterLastRID":"83000375",
 	"ToolType":"stagetool_f1",
 	"ToolVersion":"2",
 	"Waves":
@@ -14,9 +14,9 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.07963",
-							"PosY":"-0.122222",
-							"TargetRID":"81000129",
+							"PosX":"0.066236",
+							"PosY":"-0.061389",
+							"TargetRID":"81000126",
 							"Text":"animate count-idle"
 						}
 					],
@@ -284,6 +284,12 @@
 					"Scripts":
 					[
 						{
+							"PosX":"0.035541",
+							"PosY":"0.084006",
+							"TargetRID":"81000124",
+							"Text":"animate count-idle"
+						},
+						{
 							"PosX":"-0.272222",
 							"PosY":"0.003704",
 							"TargetRID":"81000127",
@@ -300,6 +306,12 @@
 							"PosX":"-0.3",
 							"PosY":"-0.366361",
 							"RID":"83000021"
+						},
+						{
+							"ID":"F_Normal_B",
+							"PosX":"-0.4",
+							"PosY":"0.433333",
+							"RID":"83000368"
 						}
 					],
 					"TimeSec":"6"
@@ -312,6 +324,12 @@
 							"PosX":"-0.3",
 							"PosY":"-0.366361",
 							"RID":"83000022"
+						},
+						{
+							"ID":"F_Normal_B",
+							"PosX":"-0.4",
+							"PosY":"0.433333",
+							"RID":"83000369"
 						}
 					],
 					"TimeSec":"8"
@@ -324,6 +342,12 @@
 							"PosX":"-0.3",
 							"PosY":"-0.366361",
 							"RID":"83000023"
+						},
+						{
+							"ID":"F_Normal_B",
+							"PosX":"-0.4",
+							"PosY":"0.433333",
+							"RID":"83000370"
 						}
 					],
 					"TimeSec":"10"
@@ -506,9 +530,9 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.133333",
-							"PosY":"-0.159259",
-							"TargetRID":"81000128",
+							"PosX":"-0.050081",
+							"PosY":"0.127625",
+							"TargetRID":"81000125",
 							"Text":"animate count-idle"
 						}
 					],
@@ -776,15 +800,15 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.237037",
-							"PosY":"-0.203704",
-							"TargetRID":"81000128",
+							"PosX":"0.19063",
+							"PosY":"-0.071082",
+							"TargetRID":"81000125",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"-0.012963",
-							"PosY":"-0.142593",
-							"TargetRID":"81000129",
+							"PosX":"0.037157",
+							"PosY":"-0.119548",
+							"TargetRID":"81000126",
 							"Text":"animate count-idle"
 						}
 					],
@@ -1178,15 +1202,21 @@
 					"Scripts":
 					[
 						{
-							"PosX":"-0.25",
-							"PosY":"-0.035185",
-							"TargetRID":"81000127",
+							"PosX":"0.059774",
+							"PosY":"0.117932",
+							"TargetRID":"81000124",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"-0.109259",
-							"PosY":"-0.198148",
-							"TargetRID":"81000129",
+							"PosX":"0.027464",
+							"PosY":"-0.137318",
+							"TargetRID":"81000126",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"-0.25",
+							"PosY":"-0.035185",
+							"TargetRID":"81000127",
 							"Text":"animate count-idle"
 						}
 					],
@@ -1479,6 +1509,54 @@
 						}
 					],
 					"TimeSec":"37"
+				},
+				{
+					"Scripts":
+					[
+						{
+							"PosX":"-0.108239",
+							"PosY":"-0.108239",
+							"TargetRID":"81000127",
+							"Text":"animate count-idle"
+						}
+					],
+					"TimeSec":"43"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Middle_B",
+							"PosX":"-0.4",
+							"PosY":"0.433333",
+							"RID":"83000371"
+						}
+					],
+					"TimeSec":"49"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Middle_B",
+							"PosX":"-0.4",
+							"PosY":"0.433333",
+							"RID":"83000372"
+						}
+					],
+					"TimeSec":"51"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Middle_B",
+							"PosX":"-0.4",
+							"PosY":"0.433333",
+							"RID":"83000373"
+						}
+					],
+					"TimeSec":"53"
 				}
 			],
 			"Title":"Untitled"
@@ -1490,15 +1568,15 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.22037",
-							"PosY":"-0.138889",
-							"TargetRID":"81000128",
+							"PosX":"0.137318",
+							"PosY":"-0.080775",
+							"TargetRID":"81000125",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"0",
-							"PosY":"-0.133333",
-							"TargetRID":"81000129",
+							"PosX":"0.017771",
+							"PosY":"-0.109855",
+							"TargetRID":"81000126",
 							"Text":"animate count-idle"
 						}
 					],
@@ -1971,6 +2049,30 @@
 						}
 					],
 					"TimeSec":"51"
+				},
+				{
+					"Scripts":
+					[
+						{
+							"PosX":"0",
+							"PosY":"-0.080775",
+							"TargetRID":"81000130",
+							"Text":"animate count-idle"
+						}
+					],
+					"TimeSec":"52"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"Unicorn",
+							"PosX":"0.08",
+							"PosY":"-0.45",
+							"RID":"83000374"
+						}
+					],
+					"TimeSec":"57"
 				}
 			],
 			"Title":"Untitled"
@@ -1982,15 +2084,15 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.188889",
-							"PosY":"-0.172222",
-							"TargetRID":"81000128",
+							"PosX":"0.085622",
+							"PosY":"-0.11147",
+							"TargetRID":"81000125",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"-0.033333",
-							"PosY":"-0.114815",
-							"TargetRID":"81000129",
+							"PosX":"0",
+							"PosY":"-0.114701",
+							"TargetRID":"81000126",
 							"Text":"animate count-idle"
 						}
 					],
@@ -2474,15 +2576,21 @@
 					"Scripts":
 					[
 						{
-							"PosX":"-0.211111",
-							"PosY":"-0.02963",
-							"TargetRID":"81000127",
+							"PosX":"0.085622",
+							"PosY":"0.132472",
+							"TargetRID":"81000124",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"-0.035185",
-							"PosY":"-0.127778",
-							"TargetRID":"81000129",
+							"PosX":"0.042003",
+							"PosY":"-0.140549",
+							"TargetRID":"81000126",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"-0.211111",
+							"PosY":"-0.02963",
+							"TargetRID":"81000127",
 							"Text":"animate count-idle"
 						}
 					],
@@ -2804,15 +2912,15 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.201852",
-							"PosY":"-0.159259",
-							"TargetRID":"81000128",
+							"PosX":"0.092084",
+							"PosY":"-0.119548",
+							"TargetRID":"81000125",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"0",
-							"PosY":"-0.17037",
-							"TargetRID":"81000129",
+							"PosX":"0.01454",
+							"PosY":"-0.14378",
+							"TargetRID":"81000126",
 							"Text":"animate count-idle"
 						}
 					],
@@ -3134,21 +3242,27 @@
 					"Scripts":
 					[
 						{
-							"PosX":"-0.061111",
-							"PosY":"-0.22037",
-							"TargetRID":"81000127",
+							"PosX":"0.03231",
+							"PosY":"0.15832",
+							"TargetRID":"81000124",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"0.372222",
-							"PosY":"-0.224074",
-							"TargetRID":"81000128",
+							"PosX":"0.193861",
+							"PosY":"0.030695",
+							"TargetRID":"81000125",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"0.325926",
-							"PosY":"-0.15",
-							"TargetRID":"81000129",
+							"PosX":"0.066236",
+							"PosY":"-0.135703",
+							"TargetRID":"81000126",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.011309",
+							"PosY":"-0.100162",
+							"TargetRID":"81000130",
 							"Text":"animate count-idle"
 						}
 					],
@@ -3174,6 +3288,12 @@
 							"PosX":"-0.1",
 							"PosY":"-0.399667",
 							"RID":"83000311"
+						},
+						{
+							"ID":"Mimic",
+							"PosX":"0.08",
+							"PosY":"-0.45",
+							"RID":"83000375"
 						}
 					],
 					"TimeSec":"6"

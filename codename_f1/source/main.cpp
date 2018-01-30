@@ -58,7 +58,7 @@ void PlatformInit()
         Platform::SetWindowView("codename_f1View");
     else Platform::SetWindowView("ingameView");
 
-    String InfoString = String::FromFile("windowinfo.json");
+    String InfoString = String::FromAsset("windowinfo.json");
     if(0 < InfoString.Length())
     {
         Context Info(ST_Json, SO_OnlyReference, InfoString, InfoString.Length());
@@ -67,7 +67,7 @@ void PlatformInit()
     }
     else Platform::SetWindowSize(475, 844);
 
-    String AtlasInfoString = String::FromFile("atlasinfo.json");
+    String AtlasInfoString = String::FromAsset("atlasinfo.json");
     Context AtlasInfo(ST_Json, SO_OnlyReference, AtlasInfoString, AtlasInfoString.Length());
     R::SetAtlasDir("f1/image");
     R::AddAtlas("ui_atlaskey.png", "atlas_latest.png", AtlasInfo);
@@ -101,11 +101,11 @@ void PlatformQuit()
     Info.At("y").Set(String::FromInteger(WindowRect.t));
     Info.At("w").Set(String::FromInteger(WindowRect.r - WindowRect.l));
     Info.At("h").Set(String::FromInteger(WindowRect.b - WindowRect.t));
-    Info.SaveJson().ToFile("windowinfo.json");
+    Info.SaveJson().ToAsset("windowinfo.json");
 
     Context AtlasInfo;
     R::SaveAtlas(AtlasInfo);
-    AtlasInfo.SaveJson().ToFile("atlasinfo.json");
+    AtlasInfo.SaveJson().ToAsset("atlasinfo.json");
 
     // 글로벌 리소스의 제거
     FXData::ClearAll();

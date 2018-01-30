@@ -1,5 +1,6 @@
 {
 	"BGName":"map_forest_a",
+	"BuildNumber":"1",
 	"Layers":
 	[
 		{
@@ -1452,10 +1453,30 @@
 					"RectR":"0.5",
 					"RectT":"-0.499168",
 					"Visible":"1"
+				},
+				{
+					"ID":"AllyStart_L",
+					"RID":"81000160",
+					"RectB":"0.15",
+					"RectL":"-0.5",
+					"RectR":"-0.42",
+					"RectT":"0.083333",
+					"Visible":"1"
+				},
+				{
+					"ID":"AllyEnd_R",
+					"RID":"81000161",
+					"RectB":"-0.15",
+					"RectL":"0.42",
+					"RectR":"0.5",
+					"RectT":"-0.216667",
+					"Visible":"1"
 				}
 			]
 		}
 	],
-	"ObjectLastRID":"81000159",
-	"PolygonLastRID":"82000000"
+	"ObjectLastRID":"81000161",
+	"PolygonLastRID":"82000000",
+	"ToolType":"maptool_f1",
+	"ToolVersion":"2"
 }

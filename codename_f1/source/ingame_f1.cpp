@@ -181,7 +181,7 @@ ingameData::ingameData()
     mPaused = false;
     mClosing = -1;
     mClosingOption = 0;
-    mWaveData = Context(ST_Json, SO_NeedCopy, String::FromFile(mStage));
+    mWaveData.LoadJson(SO_NeedCopy, String::FromAsset(mStage));
     mWave = -1;
     mWaveTitle = "";
     mWaveSecCurrently = 0;

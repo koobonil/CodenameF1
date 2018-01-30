@@ -1,8 +1,8 @@
 {
-	"BuildNumber":"1",
+	"BuildNumber":"2",
 	"MapName":"map_25",
 	"MissionLastRID":"83999999",
-	"MonsterLastRID":"83000417",
+	"MonsterLastRID":"83000422",
 	"ToolType":"stagetool_f1",
 	"ToolVersion":"2",
 	"Waves":
@@ -870,6 +870,12 @@
 							"PosY":"-0.125926",
 							"TargetRID":"81000122",
 							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.156704",
+							"PosY":"0.009693",
+							"TargetRID":"81000148",
+							"Text":"animate count-idle"
 						}
 					],
 					"TimeSec":"0"
@@ -888,6 +894,12 @@
 							"PosX":"0.1",
 							"PosY":"-0.383014",
 							"RID":"83000083"
+						},
+						{
+							"ID":"Fairy",
+							"PosX":"-0.46",
+							"PosY":"0.2",
+							"RID":"83000418"
 						}
 					],
 					"TimeSec":"6"
@@ -1542,6 +1554,12 @@
 							"PosY":"-0.2",
 							"TargetRID":"81000122",
 							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.056543",
+							"PosY":"0.038772",
+							"TargetRID":"81000148",
+							"Text":"animate count-idle"
 						}
 					],
 					"TimeSec":"0"
@@ -1560,6 +1578,12 @@
 							"PosX":"0.1",
 							"PosY":"-0.383014",
 							"RID":"83000159"
+						},
+						{
+							"ID":"Fairy",
+							"PosX":"-0.46",
+							"PosY":"0.2",
+							"RID":"83000419"
 						}
 					],
 					"TimeSec":"6"
@@ -2441,6 +2465,18 @@
 					"TimeSec":"22"
 				},
 				{
+					"Scripts":
+					[
+						{
+							"PosX":"0.096931",
+							"PosY":"0.030695",
+							"TargetRID":"81000148",
+							"Text":"animate count-idle"
+						}
+					],
+					"TimeSec":"23"
+				},
+				{
 					"Monsters":
 					[
 						{
@@ -2544,6 +2580,12 @@
 							"PosX":"-0.44",
 							"PosY":"-0.233139",
 							"RID":"83000271"
+						},
+						{
+							"ID":"Unicorn",
+							"PosX":"-0.46",
+							"PosY":"0.2",
+							"RID":"83000421"
 						}
 					],
 					"TimeSec":"29"
@@ -3288,6 +3330,12 @@
 							"PosY":"-0.07963",
 							"TargetRID":"81000125",
 							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.169628",
+							"PosY":"0.035541",
+							"TargetRID":"81000148",
+							"Text":"animate count-idle"
 						}
 					],
 					"TimeSec":"0"
@@ -3318,6 +3366,12 @@
 							"PosX":"0.1",
 							"PosY":"-0.383014",
 							"RID":"83000361"
+						},
+						{
+							"ID":"Fairy",
+							"PosX":"-0.46",
+							"PosY":"0.2",
+							"RID":"83000422"
 						}
 					],
 					"TimeSec":"6"

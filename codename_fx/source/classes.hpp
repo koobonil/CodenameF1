@@ -241,7 +241,7 @@ public:
     {
         FXSaver& Saver = ST();
         Saver.mAssetName = assetname;
-        String SaveString = String::FromFile(assetname);
+        String SaveString = String::FromAsset(assetname);
         if(0 < SaveString.Length())
         {
             Saver.mContext.LoadJson(SO_NeedCopy, SaveString, SaveString.Length());
@@ -266,7 +266,7 @@ public:
         if(Saver.mUpdated)
         {
             Saver.mUpdated = false;
-            Saver.mContext.SaveJson().ToFile(Saver.mAssetName);
+            Saver.mContext.SaveJson().ToAsset(Saver.mAssetName);
         }
     }
 

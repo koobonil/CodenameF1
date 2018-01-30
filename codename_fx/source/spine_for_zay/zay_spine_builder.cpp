@@ -81,7 +81,7 @@ namespace ZAY
         if(!IsCacheLoaded)
         {
             Profile::Lap("LoadingJson");
-            NewJson = String::FromFile(json_filename, (id_assetpath) ZAY::MeshData::s_assetpath);
+            NewJson = String::FromAsset(json_filename, (id_assetpath) ZAY::MeshData::s_assetpath);
             NewContext.Clear();
             NewContext.LoadJson(SO_OnlyReference, NewJson);
 

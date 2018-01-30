@@ -1,10 +1,15 @@
 {
-"skeleton": { "hash": "b063Uemf8jTBPWjq+fHvAZsLD5s", "spine": "3.6.50", "width": 787.5, "height": 787.5, "images": "./meteo_ready/" },
+"skeleton": { "hash": "oCqQbsCqQBwU8q1uMlUajpBW108", "spine": "3.6.50", "width": 790.26, "height": 789.65, "images": "./meteo_ready/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 26.42, "rotation": 88.49, "x": 10.62, "y": 0.61 },
 	{ "name": "background", "parent": "root", "length": 46.92, "rotation": 90 },
 	{ "name": "background_red_a", "parent": "background", "length": 44.88 },
+	{ "name": "background_a", "parent": "background_red_a", "length": 51.24, "x": 345.5, "y": 0.18 },
+	{ "name": "background_a3", "parent": "background_red_a", "length": 51.24, "x": 111.05, "y": 331.02 },
+	{ "name": "background_a4", "parent": "background_red_a", "length": 51.24, "x": 111.78, "y": -328.01 },
+	{ "name": "background_a5", "parent": "background_red_a", "length": 51.24, "x": -280.83, "y": 206.3 },
+	{ "name": "background_a6", "parent": "background_red_a", "length": 51.24, "x": -280.83, "y": -204.76 },
 	{ "name": "background_red_area", "parent": "root", "length": 30.1, "rotation": -87.88 },
 	{ "name": "background_red_b", "parent": "background", "length": 44.42 },
 	{ "name": "bone", "parent": "root", "length": 20.83, "rotation": 90 }
@@ -15,7 +20,12 @@
 	{ "name": "background_min_area", "bone": "bone", "attachment": "background_min_area" },
 	{ "name": "background_max_area", "bone": "bone", "attachment": "background_max_area" },
 	{ "name": "meteo_ready_c", "bone": "background_red_b", "attachment": "skin", "blend": "additive" },
-	{ "name": "meteo_ready_a", "bone": "background_red_a", "attachment": "skin", "blend": "additive" }
+	{ "name": "meteo_ready_a", "bone": "background_red_a", "attachment": "skin", "blend": "additive" },
+	{ "name": "meteo_ready_e", "bone": "background_a", "attachment": "skin", "blend": "additive" },
+	{ "name": "meteo_ready_e3", "bone": "background_a3", "attachment": "skin", "blend": "additive" },
+	{ "name": "meteo_ready_e5", "bone": "background_a5", "attachment": "skin", "blend": "additive" },
+	{ "name": "meteo_ready_e6", "bone": "background_a6", "attachment": "skin", "blend": "additive" },
+	{ "name": "meteo_ready_e4", "bone": "background_a4", "attachment": "skin", "blend": "additive" }
 ],
 "skins": {
 	"default": {
@@ -54,6 +64,21 @@
 		},
 		"meteo_ready_c": {
 			"skin": { "name": "meteo_ready_c", "scaleX": 3.15, "scaleY": 3.15, "width": 250, "height": 250 }
+		},
+		"meteo_ready_e": {
+			"skin": { "name": "meteo_ready_e", "y": -0.18, "scaleX": 3.15, "scaleY": 3.15, "rotation": -90, "width": 32, "height": 32 }
+		},
+		"meteo_ready_e3": {
+			"skin": { "name": "meteo_ready_e", "scaleX": 3.15, "scaleY": 3.15, "rotation": -21.74, "width": 32, "height": 32 }
+		},
+		"meteo_ready_e4": {
+			"skin": { "name": "meteo_ready_e", "scaleX": 3.15, "scaleY": 3.15, "rotation": -161.2, "width": 32, "height": 32 }
+		},
+		"meteo_ready_e5": {
+			"skin": { "name": "meteo_ready_e", "scaleX": 3.15, "scaleY": 3.15, "rotation": -67.15, "width": 32, "height": 32 }
+		},
+		"meteo_ready_e6": {
+			"skin": { "name": "meteo_ready_e", "scaleX": 3.15, "scaleY": 3.15, "rotation": -90, "width": 32, "height": 32 }
 		}
 	},
 	"second": {
@@ -62,6 +87,21 @@
 		},
 		"meteo_ready_c": {
 			"skin": { "name": "meteo_ready_b", "scaleX": 3.15, "scaleY": 3.15, "width": 250, "height": 250 }
+		},
+		"meteo_ready_e": {
+			"skin": { "name": "meteo_ready_f", "x": -0.09, "scaleX": 3.15, "scaleY": 3.15, "rotation": 28, "width": 32, "height": 32 }
+		},
+		"meteo_ready_e3": {
+			"skin": { "name": "meteo_ready_f", "x": -0.09, "scaleX": 3.15, "scaleY": 3.15, "rotation": -20.32, "width": 32, "height": 32 }
+		},
+		"meteo_ready_e4": {
+			"skin": { "name": "meteo_ready_f", "x": -0.09, "scaleX": 3.15, "scaleY": 3.15, "rotation": -37.55, "width": 32, "height": 32 }
+		},
+		"meteo_ready_e5": {
+			"skin": { "name": "meteo_ready_f", "x": -0.09, "scaleX": 3.15, "scaleY": 3.15, "rotation": 53.7, "width": 32, "height": 32 }
+		},
+		"meteo_ready_e6": {
+			"skin": { "name": "meteo_ready_f", "x": -0.09, "scaleX": 3.15, "scaleY": 3.15, "rotation": 127.6, "width": 32, "height": 32 }
 		}
 	}
 },
@@ -85,6 +125,9 @@
 		},
 		"bones": {
 			"background_red_a": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
 				"translate": [
 					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
 					{ "time": 3, "x": 0, "y": 0 }
@@ -137,6 +180,69 @@
 					{ "time": 1.3333, "x": 0.75, "y": 0.75 },
 					{ "time": 1.4333, "x": 0, "y": 0 },
 					{ "time": 2.3333, "x": 1, "y": 1 }
+				]
+			},
+			"background_a": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.3333, "angle": -177.55 },
+					{ "time": 1, "angle": 6.3 },
+					{ "time": 1.0333, "angle": 0 },
+					{ "time": 2, "angle": -177.55 },
+					{ "time": 2.9667, "angle": 6 },
+					{ "time": 3, "angle": 0 }
+				]
+			},
+			"background_a3": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.3333, "angle": -177.55 },
+					{ "time": 1, "angle": 6.3 },
+					{ "time": 1.0333, "angle": 0 },
+					{ "time": 2, "angle": -177.55 },
+					{ "time": 2.9667, "angle": 6 },
+					{ "time": 3, "angle": 0 }
+				]
+			},
+			"background_a4": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.3333, "angle": -177.55 },
+					{ "time": 1, "angle": 6.3 },
+					{ "time": 1.0333, "angle": 0 },
+					{ "time": 2, "angle": -177.55 },
+					{ "time": 2.9667, "angle": 6 },
+					{ "time": 3, "angle": 0 }
+				]
+			},
+			"background_a5": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.3333, "angle": -177.55 },
+					{ "time": 1, "angle": 6.3 },
+					{ "time": 1.0333, "angle": 0 },
+					{ "time": 2, "angle": -177.55 },
+					{ "time": 2.9667, "angle": 6 },
+					{ "time": 3, "angle": 0 }
+				]
+			},
+			"background_a6": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.3333, "angle": -177.55 },
+					{ "time": 1, "angle": 6.3 },
+					{ "time": 1.0333, "angle": 0 },
+					{ "time": 2, "angle": -177.55 },
+					{ "time": 2.9667, "angle": 6 },
+					{ "time": 3, "angle": 0 }
+				]
+			},
+			"background": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 1.5, "angle": -179.87 },
+					{ "time": 2.9667, "angle": 0.3 },
+					{ "time": 3, "angle": 0 }
 				]
 			}
 		}

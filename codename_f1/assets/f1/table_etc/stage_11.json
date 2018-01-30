@@ -1,5 +1,5 @@
 {
-	"BuildNumber":"1",
+	"BuildNumber":"2",
 	"MapName":"map_11",
 	"MissionLastRID":"83999999",
 	"MonsterLastRID":"83000219",
@@ -11,64 +11,16 @@
 			"Events":
 			[
 				{
-					"Monsters":
+					"Scripts":
 					[
 						{
-							"ID":"F_Normal",
-							"PosX":"0.42",
-							"PosY":"-0.45",
-							"RID":"83000000"
+							"PosX":"-0.00165",
+							"PosY":"-0.138614",
+							"TargetRID":"81000000",
+							"Text":"animate count-idle"
 						}
 					],
 					"TimeSec":"0"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.42",
-							"PosY":"-0.45",
-							"RID":"83000001"
-						}
-					],
-					"TimeSec":"1"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.42",
-							"PosY":"-0.45",
-							"RID":"83000002"
-						}
-					],
-					"TimeSec":"2"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.42",
-							"PosY":"-0.45",
-							"RID":"83000003"
-						}
-					],
-					"TimeSec":"3"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.42",
-							"PosY":"-0.45",
-							"RID":"83000004"
-						}
-					],
-					"TimeSec":"4"
 				},
 				{
 					"Monsters":
@@ -578,9 +530,9 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.124113",
-							"PosY":"-0.152482",
-							"TargetRID":"81000001",
+							"PosX":"-0.00495",
+							"PosY":"-0.112211",
+							"TargetRID":"81000000",
 							"Text":"animate count-idle"
 						}
 					],

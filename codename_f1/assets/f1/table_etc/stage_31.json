@@ -1,5 +1,5 @@
 {
-	"BuildNumber":"2",
+	"BuildNumber":"3",
 	"MapName":"map_31",
 	"MissionLastRID":"83999999",
 	"MonsterLastRID":"83000424",
@@ -14,9 +14,9 @@
 					"Scripts":
 					[
 						{
-							"PosX":"-0.027778",
-							"PosY":"-0.125926",
-							"TargetRID":"81000106",
+							"PosX":"0.189015",
+							"PosY":"-0.06462",
+							"TargetRID":"81000101",
 							"Text":"animate count-idle"
 						}
 					],
@@ -248,9 +248,9 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.066667",
-							"PosY":"-0.198148",
-							"TargetRID":"81000104",
+							"PosX":"0.075929",
+							"PosY":"0.017771",
+							"TargetRID":"81000099",
 							"Text":"animate count-idle"
 						}
 					],
@@ -566,15 +566,15 @@
 					"Scripts":
 					[
 						{
-							"PosX":"-0.018519",
-							"PosY":"-0.248148",
-							"TargetRID":"81000105",
+							"PosX":"-0.092084",
+							"PosY":"0.003231",
+							"TargetRID":"81000100",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"0.087037",
-							"PosY":"-0.148148",
-							"TargetRID":"81000107",
+							"PosX":"-0.024233",
+							"PosY":"0.11147",
+							"TargetRID":"81000102",
 							"Text":"animate count-idle"
 						}
 					],

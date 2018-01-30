@@ -1,8 +1,8 @@
 {
-	"BuildNumber":"1",
+	"BuildNumber":"2",
 	"MapName":"map_16",
 	"MissionLastRID":"83999999",
-	"MonsterLastRID":"83000456",
+	"MonsterLastRID":"83000457",
 	"ToolType":"stagetool_f1",
 	"ToolVersion":"2",
 	"Waves":
@@ -2541,6 +2541,30 @@
 						}
 					],
 					"TimeSec":"44"
+				},
+				{
+					"Scripts":
+					[
+						{
+							"PosX":"0.173913",
+							"PosY":"-0.041868",
+							"TargetRID":"81000139",
+							"Text":"animate count-idle"
+						}
+					],
+					"TimeSec":"46"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"Unicorn",
+							"PosX":"-0.46",
+							"PosY":"-0.349709",
+							"RID":"83000457"
+						}
+					],
+					"TimeSec":"52"
 				}
 			],
 			"Title":"Untitled"
