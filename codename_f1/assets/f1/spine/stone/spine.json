@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "LkXidLB/EM38+U3yZF5c1csxLug", "spine": "3.6.50", "width": 146, "height": 275.97, "images": "./stone/" },
+"skeleton": { "hash": "Q0/R49LOzTL9h7Q20PyDr2Tu7o4", "spine": "3.6.50", "width": 146.59, "height": 280.97, "images": "./stone/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 31.85, "rotation": 90 },
@@ -99,7 +99,7 @@
 			"skin3": { "name": "forest_stone_state_c", "x": 137.5, "y": 0.52, "rotation": -90, "width": 146, "height": 273 }
 		},
 		"skin": {
-			"skin": { "name": "forest_stone_dead", "y": 56.81, "width": 137, "height": 117 }
+			"skin": { "name": "forest_stone_dead", "y": 56.81, "width": 146, "height": 127 }
 		}
 	},
 	"ice": {
@@ -151,12 +151,12 @@
 			"skin3": { "name": "ice_stone_state_c", "x": 137.5, "y": 0.52, "rotation": -90, "width": 146, "height": 273 }
 		},
 		"skin": {
-			"skin": { "name": "ice_stone_dead", "y": 55.06, "width": 127, "height": 105 }
+			"skin": { "name": "ice_stone_dead", "y": 55.06, "width": 140, "height": 117 }
 		}
 	}
 },
 "events": {
-	"sound_wall_dreak": {},
+	"sound_wall_break": {},
 	"sound_wall_hit": {}
 },
 "animations": {
@@ -570,7 +570,7 @@
 			}
 		},
 		"events": [
-			{ "time": 0, "name": "sound_wall_dreak" }
+			{ "time": 0, "name": "sound_wall_break" }
 		]
 	},
 	"hit": {

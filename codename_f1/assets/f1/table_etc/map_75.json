@@ -1,6 +1,6 @@
 {
 	"BGName":"map_ice_a",
-	"BuildNumber":"2",
+	"BuildNumber":"3",
 	"Layers":
 	[
 		{
@@ -1414,11 +1414,38 @@
 					"RectT":"0.4",
 					"Visible":"1"
 				}
+			],
+			"Polygons":
+			[
+				{
+					"ID":"DynamicArea",
+					"Points":
+					[
+						{
+							"X":"0.02",
+							"Y":"-0.316667"
+						},
+						{
+							"X":"0.02",
+							"Y":"-0.283333"
+						},
+						{
+							"X":"0.18",
+							"Y":"-0.283333"
+						},
+						{
+							"X":"0.18",
+							"Y":"-0.316667"
+						}
+					],
+					"RID":"82000005",
+					"Visible":"1"
+				}
 			]
 		}
 	],
 	"ObjectLastRID":"81000119",
-	"PolygonLastRID":"82000004",
+	"PolygonLastRID":"82000005",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"
 }

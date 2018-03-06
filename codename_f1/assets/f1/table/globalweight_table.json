@@ -14,7 +14,7 @@
 	},
 	{
 		"ID":"BreathMaxDamage",
-		"Value":500,
+		"Value":300,
 		"IsDev":"TRUE",
 		"Description":"최대 대미지"
 	},
@@ -59,12 +59,6 @@
 		"Value":-250,
 		"IsDev":"TRUE",
 		"Description":"드래곤의 입 위치 Y"
-	},
-	{
-		"ID":"FingerScale",
-		"Value":665,
-		"IsDev":"TRUE",
-		"Description":"손가락의 크기"
 	},
 	{
 		"ID":"ItemScale",
@@ -177,7 +171,7 @@
 	},
 	{
 		"ID":"UIBottom",
-		"Value":"(ScreenWidth * 0.2) [min] (ScreenHeight * 0.1)",
+		"Value":"(ScreenWidth * 0.3) [min] (ScreenHeight * 0.15)",
 		"IsDev":"TRUE",
 		"Description":"아래 UI여백"
 	},
@@ -224,15 +218,119 @@
 		"Unit":"개"
 	},
 	{
-		"ID":"ItemSlotStack",
-		"Value":9,
-		"IsDev":"FALSE",
-		"Description":"한 슬롯에 등록될 수 있는 아이템의 최대 개수"
+		"ID":"HeartHoleCreatCount",
+		"Value":15,
+		"IsDev":"TRUE",
+		"Description":"하트구멍에 몬스터를 넣었을 경우 하트가 생성될 최소 몬스터 마리수",
+		"Unit":"개"
+	},
+	{
+		"ID":"HeartHoleCreatRate",
+		"Value":30,
+		"IsDev":"TRUE",
+		"Description":"하트구멍에 몬스터를 넣었을 경우 하트가 생성될 확률 (마리수가 만족할때마다 체크)",
+		"Unit":"천분율"
+	},
+	{
+		"ID":"InfinityPlusValue",
+		"Value":1,
+		"IsDev":"TRUE",
+		"Description":"무한모드가 1웨이브 지날때마다 몬스터에게 추가될 점수",
+		"Unit":"점"
+	},
+	{
+		"ID":"InfinityMoveSpeedRate",
+		"Value":50,
+		"IsDev":"TRUE",
+		"Description":"무한모드가 1웨이브 지날때마다 몬스터에게 증가될 이동속도 비율",
+		"Unit":"천분율"
+	},
+	{
+		"ID":"InfinityHPRate",
+		"Value":40,
+		"IsDev":"TRUE",
+		"Description":"무한모드가 1웨이브 지날때마다 몬스터에게 증가될 체력 비율",
+		"Unit":"천분율"
 	},
 	{
 		"ID":"WallBoundScale",
 		"Value":50,
 		"IsDev":"TRUE",
 		"Description":"몬스터 반동 이펙트 크기"
+	},
+	{
+		"ID":"DefaultLanguage",
+		"Value":"eng",
+		"IsDev":"TRUE",
+		"Description":"기본언어"
+	},
+	{
+		"ID":"FingerScale",
+		"Value":665,
+		"IsDev":"TRUE",
+		"Description":"손가락크기"
+	},
+	{
+		"ID":"FireStoneDropRate",
+		"Value":250,
+		"IsDev":"TRUE",
+		"Description":"랜덤상자&미믹이 파이어스톤을 드랍할 확률 ",
+		"Unit":"천분율"
+	},
+	{
+		"ID":"IceStoneDropRate",
+		"Value":250,
+		"IsDev":"TRUE",
+		"Description":"랜덤상자&미믹이 아이스스톤을 드랍할 확률 ",
+		"Unit":"천분율"
+	},
+	{
+		"ID":"WindStoneDropRate",
+		"Value":250,
+		"IsDev":"TRUE",
+		"Description":"랜덤상자&미믹이 윈드스톤을 드랍할 확률 ",
+		"Unit":"천분율"
+	},
+	{
+		"ID":"LightningStoneDropRate",
+		"Value":250,
+		"IsDev":"TRUE",
+		"Description":"랜덤상자&미믹이 라이트닝스톤을 드랍할 확률 ",
+		"Unit":"천분율"
+	},
+	{
+		"ID":"UnicornEggHealValue",
+		"Value":1000,
+		"IsDev":"TRUE",
+		"Description":"유니콘을 터치했을 때 알의 체력이 차오르는 양",
+		"Unit":"천분율"
+	},
+	{
+		"ID":"UnicornGageUpValue",
+		"Value":1000,
+		"IsDev":"TRUE",
+		"Description":"유니콘을 터치했을 때 브레스 게이지가 차오르는 양",
+		"Unit":"천분율"
+	},
+	{
+		"ID":"ShoveCoolTime",
+		"Value":2000,
+		"IsDev":"TRUE",
+		"Description":"몬스터들끼리 밀어내는 주기를 체크하는 시간",
+		"Unit":"ms"
+	},
+	{
+		"ID":"ShoveCheckDistance",
+		"Value":10,
+		"IsDev":"TRUE",
+		"Description":"몬스터들끼리 밀어내는 규칙이 발동될 거리",
+		"Unit":"가로 최대 1000 기준"
+	},
+	{
+		"ID":"ShovePower",
+		"Value":5,
+		"IsDev":"TRUE",
+		"Description":"몬스터들끼리 밀어낼때 얼만큼 거리를 밀어낼지",
+		"Unit":"가로 최대 1000 기준"
 	}
 ]

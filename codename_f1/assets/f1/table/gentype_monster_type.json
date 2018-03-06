@@ -1,0 +1,10 @@
+﻿[
+	{
+		"Name":"Enemy",
+		"Description":"브레스에 죽는 일반 몬스터 타입"
+	},
+	{
+		"Name":"Ally",
+		"Description":"터치하면 효과를 발휘하는 아군 타입"
+	}
+]

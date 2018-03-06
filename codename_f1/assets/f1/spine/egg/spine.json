@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "OWPAKKYzkFGV4wEIHmzL99ppXNo", "spine": "3.6.50", "width": 402, "height": 403.75, "images": "./egg/" },
+"skeleton": { "hash": "pOBA0WEx/zSp4q/yEbGLJW9loI4", "spine": "3.6.52", "width": 402, "height": 403.75, "images": "./egg/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 76.29, "rotation": 92.77, "x": -1.39, "y": -1.02 },
@@ -1149,6 +1149,12 @@
 					{ "time": 0, "color": "ffffff00" }
 				]
 			},
+			"egg": {
+				"color": [
+					{ "time": 0.0333, "color": "ff8d8dff" },
+					{ "time": 0.5667, "color": "ffffffff" }
+				]
+			},
 			"pice_a": {
 				"color": [
 					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
@@ -1259,7 +1265,7 @@
 				],
 				"translate": [
 					{ "time": 0, "x": 0, "y": 0 },
-					{ "time": 0.0333, "x": 0, "y": 40.94 },
+					{ "time": 0.0333, "x": 0, "y": 69.18 },
 					{ "time": 0.5667, "x": 0, "y": -2.64 }
 				],
 				"scale": [

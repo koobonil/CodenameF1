@@ -1,6 +1,6 @@
 {
 	"BGName":"map_forest_a",
-	"BuildNumber":"1",
+	"BuildNumber":"2",
 	"Layers":
 	[
 		{
@@ -1352,11 +1352,65 @@
 					"RectR":"0.02",
 					"RectT":"-0.016666",
 					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000147",
+					"RectB":"-0.417014",
+					"RectL":"-0.1",
+					"RectR":"-0.06",
+					"RectT":"-0.450375",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000148",
+					"RectB":"-0.383653",
+					"RectL":"-0.1",
+					"RectR":"-0.06",
+					"RectT":"-0.417014",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000149",
+					"RectB":"-0.350292",
+					"RectL":"-0.1",
+					"RectR":"-0.06",
+					"RectT":"-0.383653",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000150",
+					"RectB":"-0.417014",
+					"RectL":"0.06",
+					"RectR":"0.1",
+					"RectT":"-0.450375",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000151",
+					"RectB":"-0.383653",
+					"RectL":"0.06",
+					"RectR":"0.1",
+					"RectT":"-0.417014",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000152",
+					"RectB":"-0.350292",
+					"RectL":"0.06",
+					"RectR":"0.1",
+					"RectT":"-0.383653",
+					"Visible":"1"
 				}
 			]
 		}
 	],
-	"ObjectLastRID":"81000146",
+	"ObjectLastRID":"81000152",
 	"PolygonLastRID":"82000007",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"

@@ -1,0 +1,46 @@
+﻿[
+	{
+		"Name":"Static",
+		"Description":"길찾기에 영향을 주고 고정되어 있는 타입"
+	},
+	{
+		"Name":"Wall",
+		"Description":"벽타입"
+	},
+	{
+		"Name":"Dynamic",
+		"Description":"Static'과 동일하지만 파괴되는 타입"
+	},
+	{
+		"Name":"Trigger",
+		"Description":"타임라인 이벤트의 오브젝트"
+	},
+	{
+		"Name":"Target",
+		"Description":"몬스터가 길찾기의 '목표'가 될 타입"
+	},
+	{
+		"Name":"AllyTarget",
+		"Description":"아군몬스터가 타겟이 될 타입"
+	},
+	{
+		"Name":"View",
+		"Description":"광고판"
+	},
+	{
+		"Name":"Ground",
+		"Description":"길찾기에 영향을 받지 않는 바닥에 깔리는 타입"
+	},
+	{
+		"Name":"Spot",
+		"Description":"몬스터가 출현하는 오브젝트 타입"
+	},
+	{
+		"Name":"Hole",
+		"Description":"길찾기에 영향을 받고 몬스터가 닿게 되면 떨어지는 타입"
+	},
+	{
+		"Name":"RandomBox",
+		"Description":"다이나믹과 동일하며, 파괴되면 아이템이 등장하는 타입"
+	}
+]

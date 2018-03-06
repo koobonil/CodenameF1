@@ -1,0 +1,88 @@
+{
+"skeleton": { "hash": "v8BYoRtAIN13SajxBd0ljbuJ5Qw", "spine": "3.6.52", "width": 1411.3, "height": 276.1, "images": "./캠페인/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 59.35, "rotation": 90 },
+	{ "name": "bone", "parent": "root", "length": 70.83, "rotation": 90 }
+],
+"slots": [
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "start", "bone": "bone", "color": "ffb9b9ff", "attachment": "start" }
+],
+"skins": {
+	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 859.32, 795.34, 859.32, -793.61, -810.86, -791.99, -813.29, 794.53 ]
+			}
+		},
+		"start": {
+			"start": { "x": -0.63, "y": 3.99, "scaleX": 1.1, "scaleY": 1.1, "rotation": -90, "width": 1283, "height": 251 }
+		}
+	}
+},
+"events": {
+	"sound_start": {}
+},
+"animations": {
+	"idle": {
+		"slots": {
+			"start": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"start_show": {
+		"slots": {
+			"start": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.0667, "color": "ffffff00" },
+					{ "time": 0.1333, "color": "ffb9b9ff", "curve": "stepped" },
+					{ "time": 0.8333, "color": "ffb9b9ff" },
+					{ "time": 1, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0.7333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0.7333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0.7333, "x": 1, "y": 1 }
+				]
+			},
+			"bone": {
+				"scale": [
+					{ "time": 0, "x": 1.5, "y": 1.5 },
+					{ "time": 0.0667, "x": 2, "y": 2 },
+					{ "time": 0.1333, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.8333, "x": 1, "y": 1 },
+					{ "time": 0.9, "x": 0, "y": 1.6 }
+				]
+			}
+		}
+	}
+}
+}

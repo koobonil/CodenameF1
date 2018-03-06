@@ -65,7 +65,8 @@ public:
     void UpdateHeartAdSec(bool animate);
     void AdToHeart();
     void ReloadAllCards(bool create);
-    bool GoStage(sint32 id, bool directly);
+    bool GoStage(chars id, bool nopopup, bool paratalk);
+    void SaveOption(const Context& stage);
     void Render(ZayPanel& panel);
     void Popup(chars name);
 
@@ -79,7 +80,6 @@ public: // 기획요소
     Solver mUITop;
     Solver mUIRight;
     Solver mUIBottom;
-    float mViewRate; // 뷰비율 = 가로길이 / 세로길이
     sint32 mDefaultHeartCount;
     sint32 mHeartRegenSec;
     sint32 mHeartCountMax;

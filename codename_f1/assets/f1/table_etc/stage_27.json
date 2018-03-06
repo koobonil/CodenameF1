@@ -1,5 +1,5 @@
 {
-	"BuildNumber":"1",
+	"BuildNumber":"2",
 	"MapName":"map_27",
 	"MissionLastRID":"83999999",
 	"MonsterLastRID":"83000375",
@@ -14,9 +14,9 @@
 					"Scripts":
 					[
 						{
-							"PosX":"-0.381482",
-							"PosY":"0.062963",
-							"TargetRID":"81000322",
+							"PosX":"0.041534",
+							"PosY":"-0.097444",
+							"TargetRID":"81000059",
 							"Text":"animate count-idle"
 						}
 					],
@@ -248,6 +248,12 @@
 					"Scripts":
 					[
 						{
+							"PosX":"-0.015974",
+							"PosY":"-0.121406",
+							"TargetRID":"81000062",
+							"Text":"animate count-idle"
+						},
+						{
 							"PosX":"0.124074",
 							"PosY":"0.057407",
 							"TargetRID":"81000321",
@@ -457,6 +463,12 @@
 				{
 					"Scripts":
 					[
+						{
+							"PosX":"0.049521",
+							"PosY":"0.08147",
+							"TargetRID":"81000315",
+							"Text":"animate count-idle"
+						},
 						{
 							"PosX":"0.046296",
 							"PosY":"-0.162963",
@@ -746,9 +758,9 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.07963",
-							"PosY":"-0.227778",
-							"TargetRID":"81000323",
+							"PosX":"0.059105",
+							"PosY":"0.059105",
+							"TargetRID":"81000239",
 							"Text":"animate count-idle"
 						}
 					],
@@ -1064,15 +1076,21 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.203704",
-							"PosY":"-0.055556",
-							"TargetRID":"81000321",
+							"PosX":"0.054313",
+							"PosY":"-0.103834",
+							"TargetRID":"81000059",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"-0.17963",
-							"PosY":"-0.05",
-							"TargetRID":"81000322",
+							"PosX":"0.01278",
+							"PosY":"-0.118211",
+							"TargetRID":"81000062",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.203704",
+							"PosY":"-0.055556",
+							"TargetRID":"81000321",
 							"Text":"animate count-idle"
 						}
 					],
@@ -1526,9 +1544,15 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.053704",
-							"PosY":"-0.194444",
-							"TargetRID":"81000323",
+							"PosX":"-0.027157",
+							"PosY":"0.111821",
+							"TargetRID":"81000239",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.030351",
+							"PosY":"0.089457",
+							"TargetRID":"81000315",
 							"Text":"animate count-idle"
 						},
 						{
@@ -1838,15 +1862,15 @@
 					"Scripts":
 					[
 						{
-							"PosX":"-0.272222",
-							"PosY":"-0.061111",
-							"TargetRID":"81000322",
+							"PosX":"0.153355",
+							"PosY":"-0.00639",
+							"TargetRID":"81000059",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"-0.255556",
-							"PosY":"-0.007407",
-							"TargetRID":"81000323",
+							"PosX":"0.097444",
+							"PosY":"0",
+							"TargetRID":"81000239",
 							"Text":"animate count-idle"
 						}
 					],
@@ -2149,6 +2173,18 @@
 				{
 					"Scripts":
 					[
+						{
+							"PosX":"0.001597",
+							"PosY":"-0.161342",
+							"TargetRID":"81000062",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"-0.00639",
+							"PosY":"0.178914",
+							"TargetRID":"81000315",
+							"Text":"animate count-idle"
+						},
 						{
 							"PosX":"0.207407",
 							"PosY":"0.001852",
@@ -2612,9 +2648,15 @@
 					"Scripts":
 					[
 						{
-							"PosX":"-0.112963",
-							"PosY":"-0.12037",
-							"TargetRID":"81000322",
+							"PosX":"-0.004792",
+							"PosY":"-0.142173",
+							"TargetRID":"81000059",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.051118",
+							"PosY":"0.099042",
+							"TargetRID":"81000315",
 							"Text":"animate count-idle"
 						},
 						{
@@ -2960,21 +3002,33 @@
 					"Scripts":
 					[
 						{
+							"PosX":"-0.023962",
+							"PosY":"-0.097444",
+							"TargetRID":"81000059",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.001597",
+							"PosY":"-0.13738",
+							"TargetRID":"81000062",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"-0.049521",
+							"PosY":"0.138978",
+							"TargetRID":"81000239",
+							"Text":"animate count-idle"
+						},
+						{
+							"PosX":"0.014377",
+							"PosY":"0.127796",
+							"TargetRID":"81000315",
+							"Text":"animate count-idle"
+						},
+						{
 							"PosX":"0.205556",
 							"PosY":"-0.024074",
 							"TargetRID":"81000321",
-							"Text":"animate count-idle"
-						},
-						{
-							"PosX":"-0.233333",
-							"PosY":"-0.133333",
-							"TargetRID":"81000322",
-							"Text":"animate count-idle"
-						},
-						{
-							"PosX":"0.048148",
-							"PosY":"-0.17963",
-							"TargetRID":"81000323",
 							"Text":"animate count-idle"
 						},
 						{

@@ -1,6 +1,6 @@
 {
 	"BGName":"map_forest_a",
-	"BuildNumber":"1",
+	"BuildNumber":"2",
 	"Layers":
 	[
 		{
@@ -90,20 +90,20 @@
 				},
 				{
 					"ID":"LightningHole",
-					"RID":"81000435",
-					"RectB":"0.116667",
-					"RectL":"-0.44",
-					"RectR":"-0.3",
-					"RectT":"0",
-					"Visible":"1"
-				},
-				{
-					"ID":"LightningHole",
 					"RID":"81000437",
 					"RectB":"-0.133333",
 					"RectL":"0.34",
 					"RectR":"0.48",
 					"RectT":"-0.25",
+					"Visible":"1"
+				},
+				{
+					"ID":"LightningHole",
+					"RID":"81000435",
+					"RectB":"0.116667",
+					"RectL":"-0.44",
+					"RectR":"-0.3",
+					"RectT":"0",
 					"Visible":"1"
 				}
 			],
@@ -1456,15 +1456,6 @@
 				},
 				{
 					"ID":"MobHitWall",
-					"RID":"81000397",
-					"RectB":"0.05",
-					"RectL":"-0.28",
-					"RectR":"-0.24",
-					"RectT":"0.016667",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
 					"RID":"81000398",
 					"RectB":"0.05",
 					"RectL":"-0.24",
@@ -1496,15 +1487,6 @@
 					"RectB":"0.016667",
 					"RectL":"-0.16",
 					"RectR":"-0.12",
-					"RectT":"-0.016667",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000402",
-					"RectB":"0.016667",
-					"RectL":"-0.28",
-					"RectR":"-0.24",
 					"RectT":"-0.016667",
 					"Visible":"1"
 				},
@@ -1578,6 +1560,24 @@
 					"RectL":"-0.5",
 					"RectR":"-0.42",
 					"RectT":"0.15",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000397",
+					"RectB":"0.05",
+					"RectL":"-0.28",
+					"RectR":"-0.24",
+					"RectT":"0.016667",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000402",
+					"RectB":"0.016667",
+					"RectL":"-0.28",
+					"RectR":"-0.24",
+					"RectT":"-0.016667",
 					"Visible":"1"
 				}
 			],
@@ -1686,12 +1686,84 @@
 					],
 					"RID":"82000010",
 					"Visible":"1"
+				},
+				{
+					"ID":"DynamicArea",
+					"Points":
+					[
+						{
+							"X":"-0.08",
+							"Y":"-0.083333"
+						},
+						{
+							"X":"-0.08",
+							"Y":"0.05"
+						},
+						{
+							"X":"0.08",
+							"Y":"0.05"
+						},
+						{
+							"X":"0.08",
+							"Y":"-0.083333"
+						}
+					],
+					"RID":"82000014",
+					"Visible":"1"
+				},
+				{
+					"ID":"DynamicArea",
+					"Points":
+					[
+						{
+							"X":"0.12",
+							"Y":"-0.083333"
+						},
+						{
+							"X":"0.12",
+							"Y":"0.05"
+						},
+						{
+							"X":"0.28",
+							"Y":"0.05"
+						},
+						{
+							"X":"0.28",
+							"Y":"-0.083333"
+						}
+					],
+					"RID":"82000015",
+					"Visible":"1"
+				},
+				{
+					"ID":"DynamicArea",
+					"Points":
+					[
+						{
+							"X":"-0.12",
+							"Y":"0.05"
+						},
+						{
+							"X":"-0.12",
+							"Y":"-0.083333"
+						},
+						{
+							"X":"-0.28",
+							"Y":"-0.083333"
+						},
+						{
+							"X":"-0.28",
+							"Y":"0.05"
+						}
+					],
+					"RID":"82000013",
+					"Visible":"1"
 				}
 			]
 		}
 	],
 	"ObjectLastRID":"81000439",
-	"PolygonLastRID":"82000012",
+	"PolygonLastRID":"82000015",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"
 }

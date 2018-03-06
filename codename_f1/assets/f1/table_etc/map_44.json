@@ -1,6 +1,6 @@
 {
 	"BGName":"map_forest_a",
-	"BuildNumber":"1",
+	"BuildNumber":"2",
 	"Layers":
 	[
 		{
@@ -50,15 +50,6 @@
 					"RectL":"-0.22",
 					"RectR":"-0.06",
 					"RectT":"-0.05",
-					"Visible":"1"
-				},
-				{
-					"ID":"Hole",
-					"RID":"81000112",
-					"RectB":"-0.25",
-					"RectL":"0",
-					"RectR":"0.16",
-					"RectT":"-0.383333",
 					"Visible":"1"
 				},
 				{
@@ -930,6 +921,42 @@
 					"RectR":"-0.26",
 					"RectT":"0.3",
 					"Visible":"1"
+				},
+				{
+					"ID":"IceHole",
+					"RID":"81000114",
+					"RectB":"-0.249792",
+					"RectL":"0.02",
+					"RectR":"0.18",
+					"RectT":"-0.399667",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000116",
+					"RectB":"0.166528",
+					"RectL":"-0.02",
+					"RectR":"0.02",
+					"RectT":"0.133222",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000117",
+					"RectB":"0.199833",
+					"RectL":"-0.02",
+					"RectR":"0.02",
+					"RectT":"0.166528",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000118",
+					"RectB":"0.233139",
+					"RectL":"-0.02",
+					"RectR":"0.02",
+					"RectT":"0.199833",
+					"Visible":"1"
 				}
 			],
 			"Polygons":
@@ -1357,7 +1384,7 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000113",
+	"ObjectLastRID":"81000118",
 	"PolygonLastRID":"82000000",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"

@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "swZdzUR3+dHd8Ww9U3AkyAbgBK0", "spine": "3.6.50", "width": 189.36, "height": 398.31, "images": "./mop_orc/" },
+"skeleton": { "hash": "LP6ALGvX9LxsuzAOEwnreaIrV0c", "spine": "3.6.50", "width": 189.36, "height": 398.31, "images": "./mop_orc/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 26.42, "rotation": 91.27, "x": -0.01, "y": 1.1 },
@@ -146,7 +146,7 @@
 },
 "events": {
 	"sound_hole_drop": {},
-	"sound_orc_attac": {},
+	"sound_orc_attack": {},
 	"sound_orc_dead": {}
 },
 "animations": {
@@ -693,7 +693,7 @@
 			}
 		},
 		"events": [
-			{ "time": 0.7333, "name": "sound_orc_attac" }
+			{ "time": 0.7333, "name": "sound_orc_attack" }
 		]
 	},
 	"dead": {
@@ -975,7 +975,7 @@
 			}
 		},
 		"events": [
-			{ "time": 0.5, "name": "sound_orc_dead" }
+			{ "time": 0, "name": "sound_orc_dead" }
 		]
 	},
 	"dead_hole": {

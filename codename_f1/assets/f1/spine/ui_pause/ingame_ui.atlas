@@ -1,0 +1,118 @@
+
+ingame_ui.png
+size: 4096,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+pause_back_b
+  rotate: true
+  xy: 2, 9
+  size: 500, 887
+  orig: 500, 887
+  offset: 0, 0
+  index: -1
+pause_bar_mid
+  rotate: false
+  xy: 3203, 358
+  size: 714, 151
+  orig: 714, 151
+  offset: 0, 0
+  index: -1
+pause_bgm_mid
+  rotate: true
+  xy: 1250, 194
+  size: 315, 137
+  orig: 315, 137
+  offset: 0, 0
+  index: -1
+pause_bgm_x_mid
+  rotate: true
+  xy: 994, 194
+  size: 315, 254
+  orig: 315, 254
+  offset: 0, 0
+  index: -1
+pause_butten_a_mid
+  rotate: false
+  xy: 3009, 2
+  size: 789, 248
+  orig: 789, 248
+  offset: 0, 0
+  index: -1
+pause_butten_b_mid
+  rotate: false
+  xy: 1650, 219
+  size: 789, 290
+  orig: 789, 290
+  offset: 0, 0
+  index: -1
+pause_facebook_mid
+  rotate: false
+  xy: 2132, 55
+  size: 628, 162
+  orig: 628, 162
+  offset: 0, 0
+  index: -1
+pause_heart_mid
+  rotate: false
+  xy: 1234, 19
+  size: 266, 173
+  orig: 266, 173
+  offset: 0, 0
+  index: -1
+pause_lobby_mid
+  rotate: false
+  xy: 2712, 247
+  size: 233, 262
+  orig: 233, 262
+  offset: 0, 0
+  index: -1
+pause_mulumpo_mid
+  rotate: true
+  xy: 994, 13
+  size: 179, 238
+  orig: 179, 238
+  offset: 0, 0
+  index: -1
+pause_play_mid
+  rotate: false
+  xy: 1389, 210
+  size: 259, 299
+  orig: 259, 299
+  offset: 0, 0
+  index: -1
+pause_replay_mid
+  rotate: false
+  xy: 2441, 235
+  size: 269, 274
+  orig: 269, 274
+  offset: 0, 0
+  index: -1
+pause_sound_mid
+  rotate: true
+  xy: 2762, 4
+  size: 241, 245
+  orig: 241, 245
+  offset: 0, 0
+  index: -1
+pause_sound_x_mid
+  rotate: true
+  xy: 2947, 252
+  size: 257, 254
+  orig: 257, 254
+  offset: 0, 0
+  index: -1
+pause_star_mid
+  rotate: false
+  xy: 1502, 45
+  size: 628, 163
+  orig: 628, 163
+  offset: 0, 0
+  index: -1
+pause_title_mid
+  rotate: true
+  xy: 891, 59
+  size: 450, 101
+  orig: 450, 101
+  offset: 0, 0
+  index: -1

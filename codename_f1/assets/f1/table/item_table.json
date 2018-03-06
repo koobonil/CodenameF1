@@ -2,45 +2,44 @@
 	{
 		"ID":"FireStone",
 		"GetType":"Drop",
-		"Name":"NONE",
-		"Description":"NONE",
-		"Price":"NONE",
 		"RemoveTime":90000,
-		"SkillID":"BreathDamageUp",
-		"SkillDuration":10000,
-		"SortIndex":1
+		"SkillID":"NoSkill",
+		"SkillDuration":25000,
+		"AddGauge":350,
+		"AddDamage":1700,
+		"SkinName":"fire"
 	},
 	{
 		"ID":"IceStone",
 		"GetType":"Drop",
-		"Name":"NONE",
-		"Description":"NONE",
-		"Price":"NONE",
 		"RemoveTime":90000,
 		"SkillID":"BreathSlow",
-		"SkillDuration":10000,
-		"SortIndex":2
+		"SkillDuration":25000,
+		"SkillParameter":"MoveSpeed=300;SlowTime=10000;",
+		"AddGauge":400,
+		"AddDamage":1200,
+		"SkinName":"ice"
 	},
 	{
 		"ID":"WindStone",
 		"GetType":"Drop",
-		"Name":"NONE",
-		"Description":"NONE",
-		"Price":"NONE",
 		"RemoveTime":90000,
-		"SkillID":"BreathKnockBackUP",
-		"SkillDuration":10000,
-		"SortIndex":3
+		"SkillID":"BreathKnockBackUp",
+		"SkillDuration":25000,
+		"SkillParameter":"KnockbackRange=2000;",
+		"AddGauge":700,
+		"AddDamage":1300,
+		"SkinName":"wind"
 	},
 	{
 		"ID":"LightningStone",
 		"GetType":"Drop",
-		"Name":"NONE",
-		"Description":"NONE",
-		"Price":"NONE",
 		"RemoveTime":90000,
 		"SkillID":"BreathStun",
-		"SkillDuration":10000,
-		"SortIndex":4
+		"SkillDuration":25000,
+		"SkillParameter":"StunTime=7000;",
+		"AddGauge":500,
+		"AddDamage":1250,
+		"SkinName":"lightning"
 	}
 ]

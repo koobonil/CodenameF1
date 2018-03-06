@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "b/hNr2EcLhw+c4aKLDytsldmvyI", "spine": "3.6.50", "width": 991.42, "height": 951.96, "fps": 60, "images": "./breath/" },
+"skeleton": { "hash": "QYJ7v+jLg2lRNUvGZoTupQqUy6c", "spine": "3.6.52", "width": 991.42, "height": 951.96, "fps": 60, "images": "./breath/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 100.17, "rotation": 90 },
@@ -31,7 +31,7 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ -212.11, 221.43, 257.82, 220.84, 262.41, -243.87, -206.75, -242.73 ]
+				"vertices": [ -273.74, 297.84, 304.66, 297.25, 309.25, -280.84, -268.37, -279.71 ]
 			}
 		},
 		"b_fire_effect_a": {

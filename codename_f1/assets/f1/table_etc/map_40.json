@@ -1,6 +1,6 @@
 {
 	"BGName":"map_forest_a",
-	"BuildNumber":"1",
+	"BuildNumber":"2",
 	"Layers":
 	[
 		{
@@ -939,6 +939,123 @@
 					"RectR":"0.46",
 					"RectT":"0.033333",
 					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000177",
+					"RectB":"0.016653",
+					"RectL":"-0.1",
+					"RectR":"-0.06",
+					"RectT":"-0.016653",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000178",
+					"RectB":"0.016653",
+					"RectL":"-0.06",
+					"RectR":"-0.02",
+					"RectT":"-0.016653",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000179",
+					"RectB":"0.016653",
+					"RectL":"-0.02",
+					"RectR":"0.02",
+					"RectT":"-0.016653",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000180",
+					"RectB":"0.016653",
+					"RectL":"0.02",
+					"RectR":"0.06",
+					"RectT":"-0.016653",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000181",
+					"RectB":"0.016653",
+					"RectL":"0.06",
+					"RectR":"0.1",
+					"RectT":"-0.016653",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000182",
+					"RectB":"-0.233139",
+					"RectL":"0.28",
+					"RectR":"0.32",
+					"RectT":"-0.266445",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000183",
+					"RectB":"-0.199833",
+					"RectL":"0.3",
+					"RectR":"0.34",
+					"RectT":"-0.233139",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000184",
+					"RectB":"-0.183181",
+					"RectL":"0.34",
+					"RectR":"0.38",
+					"RectT":"-0.216486",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000185",
+					"RectB":"-0.183181",
+					"RectL":"0.38",
+					"RectR":"0.42",
+					"RectT":"-0.216486",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000186",
+					"RectB":"-0.216486",
+					"RectL":"-0.46",
+					"RectR":"-0.42",
+					"RectT":"-0.249792",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000187",
+					"RectB":"-0.216486",
+					"RectL":"-0.42",
+					"RectR":"-0.38",
+					"RectT":"-0.249792",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000188",
+					"RectB":"-0.216486",
+					"RectL":"-0.38",
+					"RectR":"-0.34",
+					"RectT":"-0.249792",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000189",
+					"RectB":"-0.233139",
+					"RectL":"-0.34",
+					"RectR":"-0.3",
+					"RectT":"-0.266445",
+					"Visible":"1"
 				}
 			],
 			"Polygons":
@@ -1234,7 +1351,7 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000176",
+	"ObjectLastRID":"81000189",
 	"PolygonLastRID":"82000001",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"

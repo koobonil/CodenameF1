@@ -78,6 +78,9 @@ private:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+enum class DebugMode {None, Weak, Strong};
+
+////////////////////////////////////////////////////////////////////////////////
 class MapSpine
 {
 public:
@@ -99,12 +102,12 @@ public:
     void PlayMotionOnce(chars motion);
     void PlayMotionAttached(chars first_motion, chars second_motion, bool repeat);
     void PlayMotionSeek(chars seek_motion, bool repeat);
-    void PlayMotionScript(chars script);
+    String PlayMotionScript(chars script);
     void StopMotion(chars motion);
     void StopMotionAll();
     void Seek() const;
     void Update() const;
-    void RenderObject(bool needupdate, bool editmode, ZayPanel& panel, bool flip, chars uiname = nullptr,
+    void RenderObject(DebugMode debug, bool needupdate, ZayPanel& panel, bool flip, chars uiname = nullptr,
         ZayPanel::SubGestureCB gcb = nullptr, ZayPanel::SubRenderCB rcb = nullptr) const;
     void RenderObjectShadow(ZayPanel& panel, bool flip) const;
     const Rect* GetBoundRect(chars name) const;
@@ -183,7 +186,7 @@ private:
     ParaJson mLanguagePack;
     String mAccountCenter;
     String mAccountManager;
-    String mGlobalWeight;
+    Context mGlobalWeight;
     bool mIsParaAuth;
     bool mParaAuthSuccess;
     String mParaAuthCode;
@@ -221,6 +224,7 @@ public:
     };
 
 public:
+    String mLanguage;
     Map<ParaView> mAllParaViews;
     Map<String> mAllStrings;
     Map<SpineRenderer> mAllSpines;
@@ -288,8 +292,9 @@ public:
     ~FXState();
 
 public:
-    const Context& GetStage(sint32 index);
-    ZayPanel::SubRenderCB GetStageThumbnail(sint32 index);
+    void SetLanguage(chars language);
+    const Context& GetStage(chars id);
+    ZayPanel::SubRenderCB GetStageThumbnail(chars id);
     const String& GetString(sint32 id);
     const SpineRenderer* GetSpine(chars name, chars path = nullptr) const;
     id_sound GetSound(chars name, bool loop = false) const;

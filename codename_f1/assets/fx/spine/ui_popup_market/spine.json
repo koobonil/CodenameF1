@@ -1,0 +1,176 @@
+{
+"skeleton": { "hash": "I3ArQCbU7ThPwUGONX1bpoFaow4", "spine": "3.6.52", "width": 1858, "height": 2919.41, "images": "./pop/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 304.38, "rotation": 90 },
+	{ "name": "pop_market", "parent": "root", "length": 171.31, "rotation": 90, "y": 1340 },
+	{ "name": "market_heart", "parent": "pop_market", "length": 150.82, "x": 415.73 },
+	{ "name": "market_item", "parent": "pop_market", "length": 141.53, "x": 214.64 },
+	{ "name": "market_x", "parent": "pop_market", "length": 78.85, "rotation": 0.18, "x": 1097.71, "y": -796.65 },
+	{ "name": "orc", "parent": "pop_market", "length": 254.65, "x": 847.33, "y": 395.28 }
+],
+"slots": [
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "orc", "bone": "orc", "attachment": "orc" },
+	{ "name": "market_back", "bone": "pop_market", "attachment": "market_back" },
+	{ "name": "market_itemback", "bone": "market_item", "attachment": "market_itemback" },
+	{ "name": "market_heartback", "bone": "market_heart", "attachment": "market_heartback" },
+	{ "name": "market_x", "bone": "market_x", "attachment": "market_x" },
+	{ "name": "market_heart", "bone": "market_heart", "attachment": "market_heart" },
+	{ "name": "market_heart_x", "bone": "market_heart", "attachment": "market_heart_x" },
+	{ "name": "market_item", "bone": "market_item", "attachment": "market_item" },
+	{ "name": "market_item_x", "bone": "market_item", "attachment": "market_item_x" },
+	{ "name": "market_x_area", "bone": "market_x", "attachment": "market_x_area" },
+	{ "name": "market_butten_area", "bone": "pop_market", "attachment": "market_butten_area" }
+],
+"skins": {
+	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 2587.42, 960.48, 2581.78, -976.17, 1087.8, -976.17, 1087.8, 966.12 ]
+			}
+		},
+		"market_back": {
+			"market_back": { "x": 88.77, "y": 9.47, "rotation": -90, "width": 1754, "height": 2164 }
+		},
+		"market_butten_area": {
+			"market_butten_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 773.06, 712.26, 767.78, -697.5, -795.1, -697.5, -800.38, 706.98 ]
+			}
+		},
+		"market_heart": {
+			"market_heart": { "x": 525.04, "y": 392.97, "rotation": -90, "width": 561, "height": 106 }
+		},
+		"market_heart_x": {
+			"market_heart_x": { "x": 525.04, "y": 392.97, "rotation": -90, "width": 561, "height": 106 }
+		},
+		"market_heartback": {
+			"market_heartback": { "x": -305.46, "y": 8.47, "rotation": -90, "width": 1518, "height": 1889 }
+		},
+		"market_item": {
+			"market_item": { "x": 724.13, "y": -374.53, "rotation": -90, "width": 446, "height": 110 }
+		},
+		"market_item_x": {
+			"market_item_x": { "x": 724.13, "y": -374.53, "rotation": -90, "width": 446, "height": 110 }
+		},
+		"market_itemback": {
+			"market_itemback": { "x": -103.69, "y": 6.57, "rotation": -90, "width": 1516, "height": 1887 }
+		},
+		"market_x": {
+			"market_x": { "x": 2.05, "y": -0.39, "rotation": -90.18, "width": 91, "height": 102 }
+		},
+		"market_x_area": {
+			"market_x_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -85.63, 79.86, -85.63, -96.09, 96.6, -99.24, 99.74, 79.86 ]
+			}
+		},
+		"orc": {
+			"orc": { "x": 489.85, "y": 32.77, "rotation": -90, "width": 665, "height": 1178 }
+		}
+	}
+},
+"events": {
+	"sound_ui_bottun1": {},
+	"sound_ui_bottun2": {},
+	"sound_ui_heart": {},
+	"sound_ui_popup": {}
+},
+"animations": {
+	"pop_market_close": {
+		"slots": {
+			"area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"market_heart_x": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"market_itemback": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"market_x": {
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 0.1333, "x": 1.8, "y": 1.8 },
+					{ "time": 0.2333, "x": 1, "y": 1 }
+				]
+			},
+			"pop_market": {
+				"scale": [
+					{ "time": 0.3, "x": 1, "y": 1 },
+					{ "time": 0.4, "x": 1.1, "y": 1.1 },
+					{ "time": 0.5667, "x": 0, "y": 0 }
+				]
+			}
+		}
+	},
+	"pop_market_idle": {
+		"slots": {
+			"area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"market_heart_x": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"market_itemback": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		}
+	},
+	"pop_market_loding": {
+		"slots": {
+			"area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"market_heart_x": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"market_itemback": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"pop_market": {
+				"scale": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.1333, "x": 1.1, "y": 1.1 },
+					{ "time": 0.2333, "x": 1, "y": 1 }
+				]
+			},
+			"orc": {
+				"scale": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.2333, "x": 0, "y": 0 },
+					{ "time": 0.4, "x": 1.2, "y": 1.2 },
+					{ "time": 0.4667, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

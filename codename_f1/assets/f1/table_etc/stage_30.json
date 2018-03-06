@@ -1,5 +1,5 @@
 {
-	"BuildNumber":"2",
+	"BuildNumber":"3",
 	"MapName":"map_30",
 	"MissionLastRID":"83999999",
 	"MonsterLastRID":"83000464",
@@ -461,12 +461,6 @@
 							"PosX":"0.075926",
 							"PosY":"-0.140741",
 							"TargetRID":"81000179",
-							"Text":"animate count-idle"
-						},
-						{
-							"PosX":"0.003704",
-							"PosY":"-0.153704",
-							"TargetRID":"81000180",
 							"Text":"animate count-idle"
 						}
 					],
@@ -1488,12 +1482,6 @@
 							"PosY":"-0.17963",
 							"TargetRID":"81000179",
 							"Text":"animate count-idle"
-						},
-						{
-							"PosX":"0.005556",
-							"PosY":"-0.190741",
-							"TargetRID":"81000180",
-							"Text":"animate count-idle"
 						}
 					],
 					"TimeSec":"0"
@@ -1961,12 +1949,6 @@
 							"PosX":"0.051852",
 							"PosY":"-0.164815",
 							"TargetRID":"81000179",
-							"Text":"animate count-idle"
-						},
-						{
-							"PosX":"0.101852",
-							"PosY":"-0.205556",
-							"TargetRID":"81000180",
 							"Text":"animate count-idle"
 						},
 						{
@@ -3110,12 +3092,6 @@
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"0.001852",
-							"PosY":"-0.105556",
-							"TargetRID":"81000180",
-							"Text":"animate count-idle"
-						},
-						{
 							"PosX":"-0.122222",
 							"PosY":"-0.061111",
 							"TargetRID":"81000183",
@@ -4022,6 +3998,12 @@
 					"Scripts":
 					[
 						{
+							"PosX":"0.065495",
+							"PosY":"-0.095847",
+							"TargetRID":"81000158",
+							"Text":"animate count-idle"
+						},
+						{
 							"PosX":"0.1",
 							"PosY":"-0.164286",
 							"TargetRID":"81000159",
@@ -4031,12 +4013,6 @@
 							"PosX":"-0.067857",
 							"PosY":"-0.192857",
 							"TargetRID":"81000160",
-							"Text":"animate count-idle"
-						},
-						{
-							"PosX":"0.018519",
-							"PosY":"-0.124074",
-							"TargetRID":"81000181",
 							"Text":"animate count-idle"
 						},
 						{

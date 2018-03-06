@@ -1,15 +1,20 @@
 {
-"skeleton": { "hash": "UcoPs8Thito/3aycecU8DCFGCGo", "spine": "3.6.48", "width": 786, "height": 167, "images": "./wave/" },
+"skeleton": { "hash": "NE3OP703E2dwfyIWLBUzF+UubME", "spine": "3.6.52", "width": 1711.69, "height": 116.03, "images": "./wave/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 59.35, "rotation": 90, "x": 173.81, "y": 24.11 },
 	{ "name": "pont_wave", "parent": "root", "length": 98.15, "rotation": 180, "x": 4.03, "y": 58.72 },
-	{ "name": "pont_wave_b", "parent": "root", "length": 39.22, "rotation": 180, "x": 212.66, "y": 67.6 }
+	{ "name": "score", "parent": "root", "length": 50.91, "x": 1101.22, "y": 57.69 },
+	{ "name": "time", "parent": "root", "length": 34.78, "x": 515.86, "y": 58.54 }
 ],
 "slots": [
 	{ "name": "area", "bone": "area", "attachment": "area" },
-	{ "name": "pont_wave_b_area", "bone": "pont_wave_b", "attachment": "pont_area" },
-	{ "name": "pont_wave", "bone": "pont_wave", "attachment": "wave" }
+	{ "name": "pont_wave_b_area", "bone": "pont_wave", "attachment": "pont_area" },
+	{ "name": "pont_wave", "bone": "pont_wave", "attachment": "wave" },
+	{ "name": "time", "bone": "time", "attachment": "time" },
+	{ "name": "score", "bone": "score", "attachment": "score" },
+	{ "name": "time_area", "bone": "time", "attachment": "time_area" },
+	{ "name": "score_area", "bone": "score", "attachment": "score_area" }
 ],
 "skins": {
 	"default": {
@@ -17,23 +22,65 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 161.24, 603, 161.24, -512.05, -251.95, -510.43, -254.38, 602.19 ]
+				"vertices": [ 152.29, 500.06, 152.29, -465.05, -245.23, -463.43, -247.66, 499.25 ]
 			}
 		},
 		"pont_wave": {
-			"wave": { "rotation": -180, "width": 786, "height": 167 }
+			"wave": { "rotation": -180, "width": 537, "height": 115 }
 		},
 		"pont_wave_b_area": {
 			"pont_area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 154.68, -37.21, 155.49, 34.73, -158.07, 35.96, -158.91, -37.63 ]
+				"vertices": [ -46.84, -30.55, -46.54, 17.15, -239.71, 16.61, -240.03, -30.97 ]
+			}
+		},
+		"score": {
+			"score": { "width": 692, "height": 115 }
+		},
+		"score_area": {
+			"score_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 2.23, 31.45, 2.23, -19.1, 319.1, -18.52, 319.1, 30.87 ]
+			}
+		},
+		"time": {
+			"time": { "width": 360, "height": 115 }
+		},
+		"time_area": {
+			"time_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -156.23, 30.94, -156.23, -17.76, 155.55, -17.76, 155.55, 30.94 ]
 			}
 		}
 	}
 },
 "animations": {
 	"idle": {
+		"slots": {
+			"score": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"score_area": {
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
+			"time": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"time_area": {
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			}
+		},
 		"bones": {
 			"root": {
 				"rotate": [
@@ -57,7 +104,32 @@
 					{ "time": 0, "x": 1, "y": 1 }
 				]
 			},
-			"pont_wave_b": {
+			"time": {
+				"translate": [
+					{ "time": 0, "x": -19.3, "y": 0 }
+				]
+			},
+			"score": {
+				"translate": [
+					{ "time": 0, "x": -19.3, "y": 0 }
+				]
+			}
+		}
+	},
+	"idle_infinity": {
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"pont_wave": {
 				"rotate": [
 					{ "time": 0, "angle": 0 }
 				],
@@ -71,6 +143,18 @@
 		}
 	},
 	"show": {
+		"slots": {
+			"score": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"time": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
 		"bones": {
 			"root": {
 				"rotate": [
@@ -98,19 +182,59 @@
 					{ "time": 0.7333, "x": 1, "y": 1 }
 				]
 			},
-			"pont_wave_b": {
+			"time": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 696.17 }
+				]
+			},
+			"score": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 696.17 }
+				]
+			}
+		}
+	},
+	"show_infinity": {
+		"bones": {
+			"root": {
 				"rotate": [
-					{ "time": 0.2333, "angle": 0, "curve": "stepped" },
+					{ "time": 0.7333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0.7333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0.7333, "x": 1, "y": 1 }
+				]
+			},
+			"pont_wave": {
+				"rotate": [
+					{ "time": 0.1667, "angle": 0, "curve": "stepped" },
 					{ "time": 0.7333, "angle": 0 }
 				],
 				"translate": [
 					{ "time": 0, "x": 0, "y": 697.16 },
-					{ "time": 0.2333, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.1667, "x": 0, "y": 0, "curve": "stepped" },
 					{ "time": 0.7333, "x": 0, "y": 0 }
 				],
 				"scale": [
-					{ "time": 0.2333, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.1667, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.7333, "x": 1, "y": 1 }
+				]
+			},
+			"time": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 696.17, "curve": "stepped" },
+					{ "time": 0.1667, "x": 0, "y": 696.17 },
+					{ "time": 0.3333, "x": 0, "y": 0.18 }
+				]
+			},
+			"score": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 696.17, "curve": "stepped" },
+					{ "time": 0.1667, "x": 0, "y": 696.17, "curve": "stepped" },
+					{ "time": 0.3333, "x": 0, "y": 696.17 },
+					{ "time": 0.5, "x": 0, "y": 1.03 }
 				]
 			}
 		}

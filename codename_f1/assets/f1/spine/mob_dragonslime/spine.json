@@ -1,11 +1,21 @@
 {
-"skeleton": { "hash": "xVR54ikQPgmDd/HBnLgGW6uVjL0", "spine": "3.6.50", "width": 297.95, "height": 377.86, "images": "./dragon_slime/" },
+"skeleton": { "hash": "sDeyCnkY8Nn5xVfg1UJzLAB9jqQ", "spine": "3.6.52", "width": 476.72, "height": 551.28, "images": "./dragon_slime/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 33.7, "rotation": 90, "x": -0.82, "y": 0.12 },
 	{ "name": "attack", "parent": "root", "length": 68.78, "rotation": 90 },
 	{ "name": "attack2", "parent": "attack", "length": 68.78 },
-	{ "name": "mom_1", "parent": "root", "length": 212.27, "rotation": 0.87, "x": -117.99, "y": 19.53, "color": "ff0000ff" },
+	{
+		"name": "mom_1",
+		"parent": "root",
+		"length": 212.27,
+		"rotation": 0.87,
+		"x": -188.36,
+		"y": 33.15,
+		"scaleX": 1.6,
+		"scaleY": 1.6,
+		"color": "ff0000ff"
+	},
 	{ "name": "ear_a_nodeath", "parent": "mom_1", "length": 21.17, "x": 160.86, "y": 139.7, "color": "ff0000ff" },
 	{ "name": "helmet_nodeath", "parent": "mom_1", "length": 20.64, "rotation": -1, "x": 126.65, "y": 126.68, "color": "ff0000ff" },
 	{ "name": "kori", "parent": "mom_1", "length": 59.72, "rotation": -0.87, "x": 211.45, "y": -0.79, "color": "87005cff" },
@@ -81,7 +91,7 @@
 			"toast": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ -2.03, 134.01, -1.26, -156.68, 179.45, -158.98, 180.22, 134.78 ]
+				"vertices": [ -2.03, 212.32, -1.26, -244.07, 332.67, -246.38, 333.44, 213.09 ]
 			}
 		}
 	}

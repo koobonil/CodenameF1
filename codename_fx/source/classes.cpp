@@ -179,9 +179,9 @@ void MapSpine::PlayMotionSeek(chars seek_motion, bool repeat)
     ZAY::SpineBuilder::SetMotionOnSeek(mSpineInstance, seek_motion, false);
 }
 
-void MapSpine::PlayMotionScript(chars script)
+String MapSpine::PlayMotionScript(chars script)
 {
-    if(!mSpineInstance) return;
+    if(!mSpineInstance) return "";
     const String Text = script;
     Strings Motions;
     sint32 LastPos = 0;
@@ -196,6 +196,7 @@ void MapSpine::PlayMotionScript(chars script)
             ZAY::SpineBuilder::SetMotionOn(mSpineInstance, Motions[i], iend == 1);
         else ZAY::SpineBuilder::SetMotionOnAttached(mSpineInstance, Motions[i - 1], Motions[i], i == iend - 1);
     }
+    return Motions[-1];
 }
 
 void MapSpine::StopMotion(chars motion)
@@ -231,7 +232,7 @@ void MapSpine::Update() const
     }
 }
 
-void MapSpine::RenderObject(bool needupdate, bool editmode, ZayPanel& panel, bool flip, chars uiname,
+void MapSpine::RenderObject(DebugMode debug, bool needupdate, ZayPanel& panel, bool flip, chars uiname,
     ZayPanel::SubGestureCB gcb, ZayPanel::SubRenderCB rcb) const
 {
     if(needupdate)
@@ -260,7 +261,7 @@ void MapSpine::RenderObject(bool needupdate, bool editmode, ZayPanel& panel, boo
         {
             Platform::Graphics::BeginGL();
             renderer()->Render(mSpineInstance, panel, SX, panel.screen_h() - (SY + SH), SW, SH, panel.screen_h(),
-                Rate, flip, mSpineType == ST_Monster || mSpineType == ST_Dragon);
+                Rate, flip, false); // 외곽선제거: mSpineType == ST_Monster || mSpineType == ST_Dragon);
             Platform::Graphics::EndGL();
         }
 
@@ -268,15 +269,15 @@ void MapSpine::RenderObject(bool needupdate, bool editmode, ZayPanel& panel, boo
         ZAY_XYRR(panel, SW / 2, SH / 2, 0, 0)
             renderer()->RenderPanel(mSpineInstance, panel, CX, CY, Rate, flip, rcb);
 
-        if(editmode)
+        if(debug != DebugMode::None)
         ZAY_RGBA(panel, 0, 0, 0, 128)
             panel.fill();
 
-        if(editmode || uiname)
+        if(debug != DebugMode::None || uiname)
         ZAY_XYRR(panel, SW / 2, SH / 2, 0, 0)
-            renderer()->RenderBound(mSpineInstance, panel, editmode, CX, CY, Rate, flip, uiname, gcb);
+            renderer()->RenderBound(mSpineInstance, panel, debug != DebugMode::None, CX, CY, Rate, flip, uiname, gcb);
 
-        if(editmode)
+        if(debug != DebugMode::None)
         ZAY_RGBA(panel, 255, 0, 0, 128)
             panel.rect(1);
     }
@@ -393,7 +394,7 @@ bool FXDoor::Load()
                     mLanguagePack.Init(Door[i]("LanguagePack").GetString());
                     mAccountCenter = Door[i]("AccountCenter").GetString();
                     mAccountManager = Door[i]("AccountManager").GetString();
-                    mGlobalWeight = Door[i]("GlobalWeight").GetString();
+                    mGlobalWeight.LoadPrm(Door[i]("GlobalWeight").GetString());
                     if(0 < mAccountCenter.Length())
                     {
                         // 인증코드제작
@@ -461,18 +462,7 @@ bool FXDoor::Load()
 
 String FXDoor::GetGlobalWeight(chars id) const
 {
-    static const String FindEndCode = ";";
-
-    const String FindKey = id;
-    sint32 Pos = mGlobalWeight.Find(0, FindKey);
-    if(Pos != -1)
-    {
-        Pos += FindKey.Length() + 1; // =기호
-        const sint32 PosEnd = mGlobalWeight.Find(Pos, FindEndCode);
-        if(PosEnd != -1)
-            return String(((chars) mGlobalWeight) + Pos, PosEnd - Pos);
-    }
-    return String("");
+    return mGlobalWeight(id).GetString("");
 }
 
 void FXDoor::Render(ZayPanel& panel)
@@ -616,22 +606,32 @@ FXState::~FXState()
 {
 }
 
-const Context& FXState::GetStage(sint32 index)
+void FXState::SetLanguage(chars language)
+{
+    mData.mLanguage = language;
+    mData.mAllStrings.Reset();
+}
+
+const Context& FXState::GetStage(chars id)
 {
     if(auto CurStage = mDoor.stage())
-        return (*CurStage)[index];
+    for(sint32 i = 0, iend = CurStage->LengthOfIndexable(); i < iend; ++i)
+    {
+        if(!String::Compare(id, (*CurStage)[i]("ID").GetString()))
+            return (*CurStage)[i];
+    }
 
     static const Context NullContext;
     return NullContext;
 }
 
-ZayPanel::SubRenderCB FXState::GetStageThumbnail(sint32 index)
+ZayPanel::SubRenderCB FXState::GetStageThumbnail(chars id)
 {
-    if(auto Result = mData.mAllParaViews.Access(index))
+    if(auto Result = mData.mAllParaViews.Access(id))
         return Result->GetRenderer();
 
-    auto& NewParaView = mData.mAllParaViews[index];
-    NewParaView.Init(GetStage(index)("Thumbnail").GetString());
+    auto& NewParaView = mData.mAllParaViews(id);
+    NewParaView.Init(GetStage(id)("Thumbnail").GetString());
     return NewParaView.GetRenderer();
 }
 
@@ -647,7 +647,10 @@ const String& FXState::GetString(sint32 id)
             for(sint32 i = 0, iend = CurLanguage->LengthOfIndexable(); i < iend; ++i)
             {
                 sint32 CurID = (*CurLanguage)[i]("Index").GetInt(0);
-                mData.mAllStrings[CurID] = (*CurLanguage)[i]("kor").GetString("-blank-");
+                auto& CurString = (*CurLanguage)[i](mData.mLanguage);
+                if(CurString.IsValid())
+                    mData.mAllStrings[CurID] = CurString.GetString("-blank-");
+                else mData.mAllStrings[CurID] = "-unknown language-";
             }
             if(auto Result = mData.mAllStrings.Access(id))
                 return *Result;
@@ -681,7 +684,7 @@ id_sound FXState::GetSound(chars name, bool loop) const
         return Result->mId;
 
     mData.mAllSounds(name).mId = Platform::Sound::Open(Platform::File::RootForAssets()
-        + mDefaultPath + String::Format("sound/%s.wav", name), loop);
+        + mDefaultPath + String::Format("sound_ogg/%s.ogg", name), loop);
     return mData.mAllSounds(name).mId;
 }
 

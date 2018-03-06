@@ -1,23 +1,35 @@
 {
-"skeleton": { "hash": "bof/C9QetC0ZD67yUBMzzagkqD0", "spine": "3.6.50", "width": 5832, "height": 526, "images": "" },
+"skeleton": { "hash": "7U6Ig0+beqsHynHWQZzfpiMMbfQ", "spine": "3.6.52", "width": 5832, "height": 482.13, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 140.48, "rotation": 90, "x": 649.35 },
 	{ "name": "bottom_slot_a", "parent": "root", "length": 71.83, "rotation": 180, "x": -159.33, "y": 81.44 },
 	{ "name": "bottom_adicon", "parent": "bottom_slot_a", "length": 75.34, "rotation": -90, "x": -1, "y": -92.86 },
 	{ "name": "bottom_bar", "parent": "root", "length": 162.95, "rotation": 180, "x": 709.66, "y": 205.83 },
-	{ "name": "bottom_slot_b", "parent": "root", "length": 71.92, "rotation": 180, "x": 187.57, "y": 81.44 },
-	{ "name": "bottom_textbar", "parent": "bottom_slot_a", "length": 92.92, "rotation": 270, "x": 2.51, "y": -304.85 }
+	{ "name": "market_touch_area", "parent": "root", "length": 79.15, "rotation": -180, "x": 242.22, "y": 89.3 },
+	{ "name": "bottom_market", "parent": "market_touch_area", "length": 96.36, "rotation": -90, "x": 34.05, "y": -92.86 },
+	{
+		"name": "bottom_textbar",
+		"parent": "bottom_slot_a",
+		"length": 92.92,
+		"rotation": 270,
+		"x": 2.51,
+		"y": -288.92,
+		"scaleX": 0.8,
+		"scaleY": 0.8
+	}
 ],
 "slots": [
 	{ "name": "bottom_bar", "bone": "bottom_bar", "attachment": "bottom_bar" },
 	{ "name": "bottom_slot_a", "bone": "bottom_slot_a", "attachment": "bottom_slot_a" },
-	{ "name": "bottom_slot_b", "bone": "bottom_slot_b", "attachment": "bottom_slot_b" },
 	{ "name": "bottom_adicon", "bone": "bottom_adicon", "attachment": "bottom_adicon" },
 	{ "name": "bottom_textbar", "bone": "bottom_textbar", "attachment": "bottom_textbar" },
 	{ "name": "touch_area", "bone": "bottom_slot_a", "attachment": "touch_area" },
 	{ "name": "ad_time_area", "bone": "bottom_textbar", "attachment": "ad_time_area" },
-	{ "name": "area", "bone": "area", "attachment": "area" }
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "bottom_slot_c", "bone": "market_touch_area", "attachment": "bottom_slot_c" },
+	{ "name": "bottom_market", "bone": "bottom_market", "attachment": "bottom_market" },
+	{ "name": "market_touch_area", "bone": "market_touch_area", "attachment": "market_touch_area" }
 ],
 "skins": {
 	"default": {
@@ -32,29 +44,39 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ -0.94, 1003.81, 333.75, 1001.71, 335.85, 309.26, 1.16, 305.05 ]
+				"vertices": [ 25.77, 992.11, 300.78, 990, 302.89, 350.77, 27.87, 346.56 ]
 			}
 		},
 		"bottom_adicon": {
-			"bottom_adicon": { "x": 54.2, "y": 3.79, "rotation": -90, "width": 205, "height": 243 }
+			"bottom_adicon": { "x": 45.83, "y": 2.5, "rotation": -90, "width": 222, "height": 190 }
 		},
 		"bottom_bar": {
 			"bottom_bar": { "x": -1774.28, "y": 120.33, "scaleX": 3, "rotation": 180, "width": 1944, "height": 171 }
 		},
-		"bottom_slot_a": {
-			"bottom_slot_a": { "x": 2.79, "y": -94.06, "rotation": 180, "width": 257, "height": 349 }
+		"bottom_market": {
+			"bottom_market": { "x": 65.21, "y": 2.33, "rotation": -90, "width": 229, "height": 255 }
 		},
-		"bottom_slot_b": {
-			"bottom_slot_b": { "x": 21.69, "y": -78.56, "rotation": 180, "width": 257, "height": 318 }
+		"bottom_slot_a": {
+			"bottom_slot_a": { "x": 2.79, "y": -94.06, "rotation": 180, "width": 255, "height": 316 }
+		},
+		"bottom_slot_c": {
+			"bottom_slot_c": { "x": 38.38, "y": -85.57, "rotation": -180, "width": 257, "height": 318 }
 		},
 		"bottom_textbar": {
 			"bottom_textbar": { "x": 51.21, "y": -50.99, "scaleX": 1.194, "rotation": -90, "width": 354, "height": 177 }
+		},
+		"market_touch_area": {
+			"market_touch_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 185.55, -255.83, 188.52, 41.98, -114.27, 39.59, -114.28, -255.13 ]
+			}
 		},
 		"touch_area": {
 			"touch_area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 141.04, -243.09, 140.05, 37.79, -135.88, 37.79, -135.88, -243.09 ]
+				"vertices": [ 141.04, -263.35, 140.05, 33.14, -146.5, 33.14, -146.5, -263.35 ]
 			}
 		}
 	}
@@ -63,6 +85,7 @@
 	"sound_ui_bottun2": {}
 },
 "animations": {
+	"idle": {},
 	"idle_no": {
 		"slots": {
 			"bottom_adicon": {
@@ -141,7 +164,21 @@
 			"bottom_adicon": {
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1 },
-					{ "time": 0.1, "x": 1.3, "y": 1.3 },
+					{ "time": 0.1, "x": 1.4, "y": 1.4 },
+					{ "time": 0.1667, "x": 1, "y": 1 }
+				]
+			}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_ui_bottun2" }
+		]
+	},
+	"touch_market": {
+		"bones": {
+			"bottom_market": {
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 0.1, "x": 1.4, "y": 1.4 },
 					{ "time": 0.1667, "x": 1, "y": 1 }
 				]
 			}

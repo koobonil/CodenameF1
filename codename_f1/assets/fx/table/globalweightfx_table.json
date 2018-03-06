@@ -48,5 +48,11 @@
 		"IsDev":"FALSE",
 		"Description":"영상 시청 쿨 타임",
 		"Unit":"1000=1초"
+	},
+	{
+		"ID":"DefaultLanguage",
+		"Value":"eng",
+		"IsDev":"TRUE",
+		"Description":"기본언어"
 	}
 ]

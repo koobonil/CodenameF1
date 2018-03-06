@@ -1,11 +1,11 @@
 {
-"skeleton": { "hash": "wu0ek8A0/SaZeIu1RRLMB7eyPoY", "spine": "3.6.50", "width": 282.22, "height": 604, "images": "./orc_b/" },
+"skeleton": { "hash": "6Sbt4EQqW17/I+uBH01tE7YmzJc", "spine": "3.6.52", "width": 276, "height": 521.81, "images": "./orc_b/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 26.42, "rotation": 91.27, "x": -0.01, "y": 1.1 },
 	{ "name": "attack", "parent": "root", "length": 36.4, "rotation": 90, "scaleX": 1.5, "scaleY": 1.5 },
 	{ "name": "attack2", "parent": "attack", "length": 30.9, "rotation": -2.73 },
-	{ "name": "mom", "parent": "root", "length": 90.77, "rotation": -90, "x": -3.63, "y": 279.89, "scaleX": 1.5, "scaleY": 1.5 },
+	{ "name": "mom", "parent": "root", "length": 90.77, "rotation": -90, "x": -5.17, "y": 233.69, "scaleX": 1.25, "scaleY": 1.25 },
 	{ "name": "face_style", "parent": "mom", "length": 21.97, "rotation": -86.91, "x": 19.81, "y": 10.21 },
 	{ "name": "face", "parent": "face_style", "length": 109.07, "rotation": -93.09, "x": -3.56, "y": -10.85 },
 	{ "name": "cap", "parent": "face", "length": 34.45, "rotation": -38.88, "x": 95.98, "y": -9.75 },
@@ -146,7 +146,7 @@
 },
 "events": {
 	"sound_hole_drop": {},
-	"sound_orc_attac": {},
+	"sound_orc_attack": {},
 	"sound_orc_dead": {}
 },
 "animations": {
@@ -693,7 +693,7 @@
 			}
 		},
 		"events": [
-			{ "time": 0.7333, "name": "sound_orc_attac" }
+			{ "time": 0.7333, "name": "sound_orc_attack" }
 		]
 	},
 	"dead": {

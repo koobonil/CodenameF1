@@ -1,6 +1,6 @@
 {
 	"BGName":"map_ice_a",
-	"BuildNumber":"2",
+	"BuildNumber":"3",
 	"Layers":
 	[
 		{
@@ -321,33 +321,6 @@
 					"RectL":"-0.14",
 					"RectR":"-0.1",
 					"RectT":"0.2",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_MobHitWall",
-					"RID":"81000030",
-					"RectB":"0.25",
-					"RectL":"-0.1",
-					"RectR":"-0.06",
-					"RectT":"0.216666",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_MobHitWall",
-					"RID":"81000031",
-					"RectB":"0.266666",
-					"RectL":"-0.06",
-					"RectR":"-0.02",
-					"RectT":"0.233333",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_MobHitWall",
-					"RID":"81000032",
-					"RectB":"0.283333",
-					"RectL":"-0.02",
-					"RectR":"0.02",
-					"RectT":"0.25",
 					"Visible":"1"
 				},
 				{
@@ -946,15 +919,6 @@
 				},
 				{
 					"ID":"I_MobHitWall",
-					"RID":"81000199",
-					"RectB":"0.25",
-					"RectL":"-0.02",
-					"RectR":"0.02",
-					"RectT":"0.216667",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_MobHitWall",
 					"RID":"81000200",
 					"RectB":"0.216667",
 					"RectL":"-0.02",
@@ -996,6 +960,42 @@
 					"RectL":"-0.02",
 					"RectR":"0.02",
 					"RectT":"0.05",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_MobHitWall",
+					"RID":"81000030",
+					"RectB":"0.25",
+					"RectL":"-0.1",
+					"RectR":"-0.06",
+					"RectT":"0.216666",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_MobHitWall",
+					"RID":"81000031",
+					"RectB":"0.266666",
+					"RectL":"-0.06",
+					"RectR":"-0.02",
+					"RectT":"0.233333",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_MobHitWall",
+					"RID":"81000032",
+					"RectB":"0.283333",
+					"RectL":"-0.02",
+					"RectR":"0.02",
+					"RectT":"0.25",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_MobHitWall",
+					"RID":"81000199",
+					"RectB":"0.25",
+					"RectL":"-0.02",
+					"RectR":"0.02",
+					"RectT":"0.216667",
 					"Visible":"1"
 				}
 			],
@@ -1120,12 +1120,60 @@
 					],
 					"RID":"82000008",
 					"Visible":"1"
+				},
+				{
+					"ID":"DynamicArea",
+					"Points":
+					[
+						{
+							"X":"-0.18",
+							"Y":"0.183333"
+						},
+						{
+							"X":"-0.18",
+							"Y":"0.216667"
+						},
+						{
+							"X":"-0.02",
+							"Y":"0.283333"
+						},
+						{
+							"X":"0.02",
+							"Y":"0.283333"
+						},
+						{
+							"X":"0.18",
+							"Y":"0.216667"
+						},
+						{
+							"X":"0.18",
+							"Y":"0.183333"
+						},
+						{
+							"X":"0.14",
+							"Y":"0.183333"
+						},
+						{
+							"X":"0.02",
+							"Y":"0.233333"
+						},
+						{
+							"X":"-0.02",
+							"Y":"0.233333"
+						},
+						{
+							"X":"-0.14",
+							"Y":"0.183333"
+						}
+					],
+					"RID":"82000016",
+					"Visible":"1"
 				}
 			]
 		}
 	],
 	"ObjectLastRID":"81000207",
-	"PolygonLastRID":"82000015",
+	"PolygonLastRID":"82000016",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"
 }

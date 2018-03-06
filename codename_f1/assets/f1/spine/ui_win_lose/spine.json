@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "Feb1CcFxCmbmDxx/9+TyNNlC03c", "spine": "3.6.50", "width": 1946, "height": 2291.16, "images": "./win_lose/" },
+"skeleton": { "hash": "SlxjsoIa5ThbjbTB3BJ/L7rZLmM", "spine": "3.6.50", "width": 1946, "height": 2291.16, "images": "./win_lose/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 221.11, "rotation": 90 },
@@ -18,7 +18,8 @@
 	{ "name": "result_win_egg_a", "parent": "win", "length": 102.7, "rotation": 0.76, "x": 735.03, "y": 538.08 },
 	{ "name": "result_win_egg_b", "parent": "win", "length": 105.99, "rotation": 0.76, "x": 417.61, "y": -35.02 },
 	{ "name": "result_win_egg_d", "parent": "win", "length": 106.05, "rotation": 0.76, "x": 732.21, "y": -574.95 },
-	{ "name": "result_win_title", "parent": "win", "length": 85.07, "x": 2121.58, "y": -14.26 }
+	{ "name": "result_win_title", "parent": "win", "length": 85.07, "x": 2121.58, "y": -14.26 },
+	{ "name": "score", "parent": "bone", "length": 158.72, "rotation": -89.24, "x": 1308.04, "y": 17.44 }
 ],
 "slots": [
 	{ "name": "result_egg_back", "bone": "bone", "attachment": "result_egg_back" },
@@ -40,7 +41,9 @@
 	{ "name": "result_win_title", "bone": "result_win_title", "attachment": "result_win_title" },
 	{ "name": "area", "bone": "area", "attachment": "area" },
 	{ "name": "dragon_win_area", "bone": "win", "attachment": "dragon_win_area" },
-	{ "name": "dragon_lose_area", "bone": "lose", "attachment": "dragon_lose_area" }
+	{ "name": "dragon_lose_area", "bone": "lose", "attachment": "dragon_lose_area" },
+	{ "name": "result_score_title", "bone": "score", "attachment": "result_score_title" },
+	{ "name": "score_area", "bone": "score", "attachment": "score_area" }
 ],
 "skins": {
 	"default": {
@@ -92,6 +95,9 @@
 		"result_lose_title": {
 			"result_lose_title": { "x": 8.49, "y": -0.57, "rotation": -89.24, "width": 1430, "height": 409 }
 		},
+		"result_score_title": {
+			"result_score_title": { "y": 1.81, "width": 1430, "height": 409 }
+		},
 		"result_win_effect": {
 			"result_win_effect": { "x": 412.65, "y": -7.58, "rotation": -90, "width": 1614, "height": 1415 }
 		},
@@ -115,6 +121,13 @@
 		},
 		"result_win_title": {
 			"result_win_title": { "x": 15.62, "y": 6.92, "rotation": -89.24, "width": 1430, "height": 409 }
+		},
+		"score_area": {
+			"score_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -438.63, -33.04, 430.07, -31.85, 430.07, -140.14, -441.01, -141.33 ]
+			}
 		}
 	}
 },
@@ -132,6 +145,11 @@
 				],
 				"attachment": [
 					{ "time": 0, "name": null }
+				]
+			},
+			"result_score_title": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
 				]
 			},
 			"result_win_effect": {
@@ -191,6 +209,14 @@
 				]
 			},
 			"result_win_title": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
+			"score_area": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				],
@@ -243,6 +269,11 @@
 					{ "time": 2, "color": "ffffffff" }
 				]
 			},
+			"result_score_title": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
 			"result_win_effect": {
 				"attachment": [
 					{ "time": 0, "name": null }
@@ -279,6 +310,14 @@
 				]
 			},
 			"result_win_title": {
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
+			"score_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
 				"attachment": [
 					{ "time": 0, "name": null }
 				]
@@ -427,11 +466,299 @@
 				]
 			}
 		},
+		"deform": {
+			"default": {
+				"score_area": {
+					"score_area": [
+						{ "time": 0 }
+					]
+				}
+			}
+		},
 		"events": [
 			{ "time": 0, "name": "sound_ui_lose" },
 			{ "time": 0.5667, "name": "sound_ui_lose_egg" },
 			{ "time": 1.0333, "name": "sound_ui_lose_egg" },
 			{ "time": 1.5333, "name": "sound_ui_lose_egg" }
+		]
+	},
+	"score_loading": {
+		"slots": {
+			"dragon_lose_area": {
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
+			"result_egg_back": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_lose_effect": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
+			"result_lose_egg_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
+			"result_lose_egg_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
+			"result_lose_egg_c": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
+			"result_lose_egg_d": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
+			"result_lose_egg_e": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
+			"result_lose_egg_f": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
+			"result_lose_title": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
+			"result_win_egg_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_win_egg_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_win_egg_d": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_win_egg_effect_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_win_egg_effect_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_win_egg_effect_c": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_win_title": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"bone": {
+				"scale": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.1667, "x": 1.2, "y": 1.2 },
+					{ "time": 0.2667, "x": 1, "y": 1 }
+				]
+			},
+			"result_win_title": {
+				"scale": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.2667, "x": 0, "y": 0 },
+					{ "time": 0.3667, "x": 1.2, "y": 1.2 },
+					{ "time": 0.5, "x": 1, "y": 1 }
+				]
+			},
+			"result_win_effect": {
+				"scale": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.1667, "x": 0, "y": 0 },
+					{ "time": 0.4333, "x": 1, "y": 1 }
+				]
+			},
+			"score": {
+				"scale": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.2667, "x": 0, "y": 0 },
+					{ "time": 0.4, "x": 1.2, "y": 1.2 },
+					{ "time": 0.5, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"score_result": {
+		"slots": {
+			"dragon_lose_area": {
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
+			"result_egg_back": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_lose_effect": {
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
+			"result_lose_egg_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_lose_egg_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_lose_egg_c": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_lose_egg_d": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_lose_egg_e": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_lose_egg_f": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_lose_title": {
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			},
+			"result_score_title": {
+				"color": [
+					{ "time": 0, "color": "ffffffff" }
+				]
+			},
+			"result_win_effect": {
+				"color": [
+					{ "time": 0, "color": "ffffffff" },
+					{ "time": 0.3667, "color": "ffffff8b" },
+					{ "time": 0.8333, "color": "ffffffff" },
+					{ "time": 1.3333, "color": "ffffff8b" },
+					{ "time": 1.8333, "color": "ffffffff" },
+					{ "time": 2.3333, "color": "ffffff8b" },
+					{ "time": 2.8333, "color": "ffffffff" },
+					{ "time": 3.3333, "color": "ffffff8b" },
+					{ "time": 3.8333, "color": "ffffffff" },
+					{ "time": 4.3333, "color": "ffffff8b" },
+					{ "time": 4.8333, "color": "ffffffff" }
+				]
+			},
+			"result_win_egg_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_win_egg_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_win_egg_d": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_win_egg_effect_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_win_egg_effect_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_win_egg_effect_c": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"result_win_title": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"score_area": {
+				"color": [
+					{ "time": 0, "color": "ffffffff" }
+				]
+			}
+		},
+		"bones": {
+			"result_win_egg_a": {
+				"rotate": [
+					{ "time": 0.0333, "angle": -123.25 },
+					{ "time": 0.1, "angle": 105.66 },
+					{ "time": 0.1667, "angle": -0.76 }
+				],
+				"translate": [
+					{ "time": 0, "x": 323.41, "y": 374.35 },
+					{ "time": 0.1667, "x": 0, "y": 0 },
+					{ "time": 0.2333, "x": 23.12, "y": 0 },
+					{ "time": 0.3, "x": 0, "y": 0 },
+					{ "time": 0.3333, "x": 13.87, "y": 0 },
+					{ "time": 0.3667, "x": 0, "y": 0 }
+				]
+			}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_ui_win" }
 		]
 	},
 	"win_loading": {
@@ -504,6 +831,19 @@
 				"attachment": [
 					{ "time": 0, "name": null }
 				]
+			},
+			"result_score_title": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"score_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
 			}
 		},
 		"bones": {
@@ -546,6 +886,11 @@
 			"result_lose_title": {
 				"attachment": [
 					{ "time": 0, "name": null }
+				]
+			},
+			"result_score_title": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
 				]
 			},
 			"result_win_effect": {
@@ -603,6 +948,14 @@
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
+			},
+			"score_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
 			}
 		},
 		"bones": {
@@ -641,6 +994,11 @@
 			"result_lose_title": {
 				"attachment": [
 					{ "time": 0, "name": null }
+				]
+			},
+			"result_score_title": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
 				]
 			},
 			"result_win_effect": {
@@ -722,6 +1080,14 @@
 					{ "time": 4.3333, "color": "ffffff00" },
 					{ "time": 4.8333, "color": "ffffffff" }
 				]
+			},
+			"score_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
 			}
 		},
 		"bones": {
@@ -794,6 +1160,11 @@
 					{ "time": 0, "name": null }
 				]
 			},
+			"result_score_title": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
 			"result_win_effect": {
 				"color": [
 					{ "time": 0, "color": "ffffffff" },
@@ -860,6 +1231,14 @@
 			"result_win_egg_effect_c": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"score_area": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
 				]
 			}
 		},

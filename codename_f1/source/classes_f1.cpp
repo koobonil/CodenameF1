@@ -8,10 +8,11 @@ MapObject::MapObject() : MapSpine(ST_Object)
 {
     mType = nullptr;
     mRID = 0;
-    mEnable = true;
+    mVisible = true;
     mHPValue = 0;
     mHPTimeMsec = 0;
     mHPAni = 0;
+    mTriggerOpened = true;
     mParaView = nullptr;
 }
 
@@ -30,11 +31,13 @@ MapObject& MapObject::operator=(const MapObject& rhs)
     MapSpine::operator=(rhs);
     mType = rhs.mType;
     mRID = rhs.mRID;
-    mEnable = rhs.mEnable;
+    mVisible = rhs.mVisible;
     mHPValue = rhs.mHPValue;
     mHPTimeMsec = rhs.mHPTimeMsec;
     mHPAni = rhs.mHPAni;
     mCurrentRect = rhs.mCurrentRect;
+    mDynamicChainID = rhs.mDynamicChainID;
+    mTriggerOpened = rhs.mTriggerOpened;
     return *this;
 }
 
@@ -48,12 +51,14 @@ MapObject& MapObject::operator=(MapObject&& rhs)
     MapSpine::operator=(ToReference(rhs));
     mType = rhs.mType;
     mRID = rhs.mRID;
-    mEnable = rhs.mEnable;
+    mVisible = rhs.mVisible;
     mHPValue = rhs.mHPValue;
     mHPTimeMsec = rhs.mHPTimeMsec;
     mHPAni = rhs.mHPAni;
     mCurrentRect = rhs.mCurrentRect;
-
+    mDynamicChainID = ToReference(rhs.mDynamicChainID);
+    mTriggerOpened = rhs.mTriggerOpened;
+    mExtraInfo = ToReference(rhs.mExtraInfo);
     delete mParaView;
     mParaView = rhs.mParaView;
     rhs.mParaView = nullptr;
@@ -68,7 +73,7 @@ void MapObject::ResetCB(FXState* state)
             [this](chars motionname)
             {
                 if(!String::Compare("dead", motionname))
-                    mEnable = false;
+                    mVisible = false;
             },
             [this, state](chars eventname)
             {
@@ -86,7 +91,7 @@ bool MapObject::SetHP(sint32 hp, sint32 deleteTime)
     mHPValue = Math::Max(0, hp);
     mHPTimeMsec = Platform::Utility::CurrentTimeMsec() + deleteTime;
     // 파괴되는 모습
-    if(mType->mType == ObjectType::TypeClass::Dynamic)
+    if(mType->mType == object_type::Dynamic)
         SetSeekSec(1 - mHPValue / (float) mType->mHP);
     if(0 < mHPValue)
     {
@@ -141,8 +146,8 @@ MapPolygon::MapPolygon()
 {
     mType = nullptr;
     mRID = 0;
-    mEnable = true;
-    mIsCW = false;
+    mVisible = true;
+    mIsCCW = false;
 }
 
 MapPolygon::~MapPolygon()
@@ -158,9 +163,9 @@ MapPolygon& MapPolygon::operator=(const MapPolygon& rhs)
 {
     mType = rhs.mType;
     mRID = rhs.mRID;
-    mEnable = rhs.mEnable;
+    mVisible = rhs.mVisible;
     mDots = rhs.mDots;
-    mIsCW = rhs.mIsCW;
+    mIsCCW = rhs.mIsCCW;
     return *this;
 }
 
@@ -173,15 +178,15 @@ MapPolygon& MapPolygon::operator=(MapPolygon&& rhs)
 {
     mType = rhs.mType;
     mRID = rhs.mRID;
-    mEnable = rhs.mEnable;
+    mVisible = rhs.mVisible;
     mDots = ToReference(rhs.mDots);
-    mIsCW = rhs.mIsCW;
+    mIsCCW = rhs.mIsCCW;
     return *this;
 }
 
-void MapPolygon::UpdateCW()
+void MapPolygon::UpdateCCW()
 {
-    mIsCW = false;
+    mIsCCW = false;
     if(2 < mDots.Count())
     {
         Rect BoundRect(Point(mDots[0].x, mDots[0].y), Size(0, 0));
@@ -193,7 +198,7 @@ void MapPolygon::UpdateCW()
             BoundRect.r = Math::MaxF(BoundRect.r, CurPoint.x);
             BoundRect.b = Math::MaxF(BoundRect.b, CurPoint.y);
         }
-        bool ResultCW = mIsCW;
+        bool ResultCCW = mIsCCW;
         float ResultDistance = -1;
         const TryWorld::Dot TestLine[2] = {
             TryWorld::Dot(BoundRect.l - BoundRect.Width(), BoundRect.CenterY()),
@@ -207,12 +212,12 @@ void MapPolygon::UpdateCW()
                 const float CurDistance = Math::Distance(TestLine[0].x, TestLine[0].y, CurPos->x, CurPos->y);
                 if(ResultDistance < 0 || CurDistance < ResultDistance)
                 {
-                    ResultCW = (TryWorld::Util::GetClockwiseValue(LineBegin, LineEnd, TestLine[0]) < 0);
+                    ResultCCW = (TryWorld::Util::GetClockwiseValue(LineBegin, LineEnd, TestLine[0]) < 0);
                     ResultDistance = CurDistance;
                 }
             }
         }
-        mIsCW = ResultCW;
+        mIsCCW = ResultCCW;
     }
 }
 
@@ -255,6 +260,8 @@ MapMonster::MapMonster() : MapSpine(ST_Monster), mToast(ST_MonsterToast)
     mRID = 0;
     mEntranced = false;
     mEntranceSec = 0;
+    mImmortal = false;
+    mHPValueMax = 0;
     mHPValue = 0;
     mHPTimeMsec = 0;
     mHPAni = 0;
@@ -267,15 +274,18 @@ MapMonster::MapMonster() : MapSpine(ST_Monster), mToast(ST_MonsterToast)
     mLastFlip = false;
     mLastFlipPos = Point(0, 0);
     mTargetTimeLimit = 0;
+    mShoveTimeMsec = 0;
     mBounceObjectIndex = -1;
     mHasParaTalk = false;
-    mIsBumpClock = false;
-    mBumpObjectRID = -1;
-    mBumpObjectRect = Rect(0, 0, 0, 0);
 
     mKnockBackMode = false;
     mKnockBackAccel = Point(0, 0);
+    mKnockResistance = 0;
     mKnockBackBoundCount = 0;
+    mSkillSkin = "";
+    mSkillSpeed = 1;
+    mSkillTime = 0;
+    mSkillTimeLimit = 0;
 }
 
 MapMonster::~MapMonster()
@@ -294,6 +304,8 @@ MapMonster& MapMonster::operator=(MapMonster&& rhs)
     mRID = rhs.mRID;
     mEntranced = rhs.mEntranced;
     mEntranceSec = rhs.mEntranceSec;
+    mImmortal = rhs.mImmortal;
+    mHPValueMax = rhs.mHPValueMax;
     mHPValue = rhs.mHPValue;
     mHPTimeMsec = rhs.mHPTimeMsec;
     mHPAni = rhs.mHPAni;
@@ -307,33 +319,39 @@ MapMonster& MapMonster::operator=(MapMonster&& rhs)
     mLastFlipPos = rhs.mLastFlipPos;
     mCurrentPos = rhs.mCurrentPos;
     mCurrentPosOld = rhs.mCurrentPosOld;
+    mCurrentVec = rhs.mCurrentVec;
     mTargetPos = rhs.mTargetPos;
     mTargets = ToReference(rhs.mTargets);
     mTargetTimeLimit = rhs.mTargetTimeLimit;
+    mShoveTimeMsec = rhs.mShoveTimeMsec;
     mBounceObjectIndex = rhs.mBounceObjectIndex;
     mToast = ToReference(rhs.mToast);
     mHasParaTalk = rhs.mHasParaTalk;
     mParaTalk = ToReference(rhs.mParaTalk);
-    mIsBumpClock = ToReference(rhs.mIsBumpClock);
-    mBumpObjectRID = ToReference(rhs.mBumpObjectRID);
-    mBumpObjectRect = ToReference(rhs.mBumpObjectRect);
 
     mKnockBackMode = rhs.mKnockBackMode;
     mKnockBackAccel = rhs.mKnockBackAccel;
+    mKnockResistance = rhs.mKnockResistance;
     mKnockBackBoundCount = rhs.mKnockBackBoundCount;
+    mSkillSkin = ToReference(rhs.mSkillSkin);
+    mSkillSpeed = rhs.mSkillSpeed;
+    mSkillTime = rhs.mSkillTime;
+    mSkillTimeLimit = rhs.mSkillTimeLimit;
     return *this;
 }
 
-void MapMonster::Init(const MonsterType* type, sint32 rid, sint32 timesec, float x, float y,
+void MapMonster::Init(const MonsterType* type, sint32 rid, sint32 timesec, float hprate, float x, float y,
     const SpineRenderer* renderer, const SpineRenderer* toast_renderer)
 {
     mType = type;
     mRID = rid;
     mEntranced = true;
     mEntranceSec = timesec;
-    mHPValue = type->mHP;
+    mImmortal = (type->mHP == -1);
+    mHPValueMax = Math::Max(0, type->mHP) * hprate;
+    mHPValue = mHPValueMax;
     mHPTimeMsec = 0;
-    mHPAni = type->mHP;
+    mHPAni = mHPValueMax;
     mMode = Mode_Run;
     mDeathStep = 0;
     mDeathPos = Point(-1, -1);
@@ -343,11 +361,10 @@ void MapMonster::Init(const MonsterType* type, sint32 rid, sint32 timesec, float
     mLastFlip = mFlipMode;
     mCurrentPos = Point(x, y);
     mCurrentPosOld = Point(x, y);
+    mCurrentVec = Point(0, 0);
+    mShoveTimeMsec = timesec + (Platform::Utility::Random() % 1000); // 1초간격 난수
     mTargetPos = Point(x, y);
     mHasParaTalk = false;
-    mIsBumpClock = false;
-    mBumpObjectRID = -1;
-    mBumpObjectRect = Rect(0, 0, 0, 0);
 
     InitSpine(renderer, type->spineSkinName()).PlayMotion("run", true,
         (Platform::Utility::Random() % 500) * 0.001f);
@@ -393,22 +410,26 @@ bool MapMonster::IsKnockBackMode()
     return mKnockBackMode;
 }
 
-void MapMonster::KnockBack(bool down, const Point& accel, chars skin)
+void MapMonster::KnockBack(bool down, const Point& accel, float knockbackup, chars skillskin, float skillspeed, sint32 skilltime, chars skin)
 {
     if(mSpineInstance)
     {
         mKnockBackMode = true;
         mKnockBackAccel = accel;
+        mKnockResistance = (mType->mResistance / 1000.0f + knockbackup - 1) / knockbackup;
         mKnockBackBoundCount = 0;
-        if(mHPValue == 0) mMode = Mode_Dying;
+        mSkillSkin = skillskin;
+        mSkillSpeed = skillspeed;
+        mSkillTime = skilltime;
+        if(mSkillTime)
+            mSkillTimeLimit = Platform::Utility::CurrentTimeMsec() + skilltime;
+        else mSkillTimeLimit = 0;
+        if(!mImmortal && mHPValue == 0)
+            mMode = Mode_Dying;
+
         ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mSpineInstance, true);
         ZAY::SpineBuilder::SetMotionOn(mSpineInstance, (down)? "hit_down" : "hit_up", false);
-        if(mToast.renderer())
-        {
-            mToast.mSpineMsecOld = 0;
-            ZAY::SpineBuilder::SetMotionOnOnce(mToast.mSpineInstance,
-                String::Format("breath_hit_%s", skin));
-        }
+        PlayToast(String::Format("breath_hit_%s", skin), false);
     }
 }
 
@@ -417,33 +438,41 @@ void MapMonster::KnockBackBound(sint32 damage)
     if(mSpineInstance)
     {
         mHPValue = Math::Max(0, mHPValue - damage);
-        if(mHPValue == 0) mMode = Mode_Dying;
+        if(!mImmortal && mHPValue == 0)
+            mMode = Mode_Dying;
         mKnockBackBoundCount++;
     }
 }
 
-void MapMonster::KnockBackEnd()
+bool MapMonster::KnockBackEnd()
 {
     if(mSpineInstance)
     {
         mKnockBackMode = false;
         mKnockBackAccel = Point(0, 0);
+        mKnockResistance = 0;
         mKnockBackBoundCount = 0;
+        if(mSkillTime)
+            mSkillTimeLimit = Platform::Utility::CurrentTimeMsec() + mSkillTime;
         ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mSpineInstance, true);
         if(mMode == Mode_Dying)
         {
             mDeathStep = 1;
             ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "dead", false);
+            return true;
         }
         else
         {
             mMode = Mode_Run;
             ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "run", true);
+            if(0 < mSkillSkin.Length() && mToast.renderer())
+                PlayToast(mSkillSkin, true);
         }
     }
+    return false;
 }
 
-void MapMonster::KnockBackEndByHole(const Point& hole)
+bool MapMonster::KnockBackEndByHole(const Point& hole)
 {
     if(mSpineInstance)
     {
@@ -454,6 +483,7 @@ void MapMonster::KnockBackEndByHole(const Point& hole)
         ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mSpineInstance, true);
         ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "dead_hole", false);
     }
+    return true;
 }
 
 void MapMonster::Turn() const
@@ -527,7 +557,7 @@ void MapMonster::TryParaTalk()
     {
         mHasParaTalk = true;
         if(0 < mParaTalk.Length())
-            ZAY::SpineBuilder::SetMotionOnOnce(mToast.mSpineInstance, "paratalk");
+            PlayToast("paratalk", false);
     }
 }
 
@@ -551,28 +581,43 @@ void MapMonster::Ally_Touched()
     }
 }
 
-Point MapMonster::CalcBump(const MapObject* object)
+float MapMonster::CalcedSpeed(uint64 msec) const
 {
-    const float MonsterOX = mCurrentPos.x - object->mCurrentRect.CenterX();
-    const float MonsterOY = mCurrentPos.y - object->mCurrentRect.CenterY();
-    const bool IsXBig = (Math::AbsF(MonsterOY) - object->mCurrentRect.Height() / 2
-        < Math::AbsF(MonsterOX) - object->mCurrentRect.Width() / 2);
-    // 오브젝트 연속성과 방향성조사
-    if(mBumpObjectRID != object->mRID)
+    const float SpeedDelay = 10;
+    const float Speed = mType->mMoveSpeed / (1000 * SpeedDelay);
+    if(msec < mSkillTimeLimit)
+        return Speed * mSkillSpeed;
+    return Speed;
+}
+
+float MapMonster::CalcedVector() const
+{
+    const float SpeedDelay = 20;
+    return mType->mMoveVector / (1000 * SpeedDelay);
+}
+
+void MapMonster::ToastTest(uint64 msec)
+{
+    if(mSkillTimeLimit && mSkillTimeLimit < msec)
     {
-        if(mBumpObjectRID == -1 || !mBumpObjectRect.ContactTest(object->mCurrentRect))
+        mSkillTimeLimit = 0;
+        if(mToast.renderer())
         {
-            if(IsXBig) mIsBumpClock = (mCurrentPos.y < mCurrentPosOld.y) ^ (0 < MonsterOX);
-            else mIsBumpClock = (mCurrentPos.x > mCurrentPosOld.x) ^ (0 < MonsterOY);
+            mSpineMsecOld = 0;
+            ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mToast.mSpineInstance, true);
         }
-        mBumpObjectRID = object->mRID;
-        mBumpObjectRect = object->mCurrentRect;
-        const float SizeMin = 0.1f * Math::MinF(mBumpObjectRect.Width(), mBumpObjectRect.Height());
-        mBumpObjectRect.Inflate(SizeMin, SizeMin);
-    }    
-    if(IsXBig)
-        return Point(0, ((0 < MonsterOX) ^ mIsBumpClock)? -1 : 1);
-    return Point(((0 < MonsterOY) ^ mIsBumpClock)? 1 : -1, 0);
+    }
+}
+
+void MapMonster::PlayToast(chars motion, bool repeat)
+{
+    if(mToast.renderer())
+    {
+        mSpineMsecOld = 0;
+        ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mToast.mSpineInstance, true);
+        if(repeat) ZAY::SpineBuilder::SetMotionOn(mToast.mSpineInstance, motion, repeat);
+        else ZAY::SpineBuilder::SetMotionOnOnce(mToast.mSpineInstance, motion);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -764,12 +809,14 @@ void MapDragon::Attack() const
 ////////////////////////////////////////////////////////////////////////////////
 MapItem::MapItem() : MapSpine(ST_Item)
 {
+    mType = nullptr;
     mSender = nullptr;
     mTween = nullptr;
     mFlyingBeginTimeMsec = 0;
     mFlyingEndTimeMsec = 0;
     mSlotBeginTimeMsec = 0;
     mSlotEndTimeMsec = 0;
+    mSlotIndex = 0;
     mSlotPos = nullptr;
     mMode = ItemMode::Wait;
 }
@@ -787,6 +834,7 @@ MapItem::MapItem(MapItem&& rhs)
 MapItem& MapItem::operator=(MapItem&& rhs)
 {
     MapSpine::operator=(ToReference(rhs));
+    mType = rhs.mType;
     mSender = rhs.mSender;
     rhs.mSender = nullptr;
     delete mTween;
@@ -796,17 +844,18 @@ MapItem& MapItem::operator=(MapItem&& rhs)
     mFlyingEndTimeMsec = rhs.mFlyingEndTimeMsec;
     mSlotBeginTimeMsec = rhs.mSlotBeginTimeMsec;
     mSlotEndTimeMsec = rhs.mSlotEndTimeMsec;
+    mSlotIndex = rhs.mSlotIndex;
     mSlotPos = rhs.mSlotPos;
     rhs.mSlotPos = nullptr;
     mMode = rhs.mMode;
     return *this;
 }
 
-void MapItem::Init(chars skin, const SpineRenderer* renderer, const MapObject* sender, Updater* updater,
+void MapItem::Init(const ItemType* type, const SpineRenderer* renderer, const MapObject* sender, Updater* updater,
     float ypos, sint32 entryMsec, sint32 flyingMsec)
 {
-    mSkin = skin;
-    InitSpine(renderer, skin).PlayMotion("idle", true);
+    mType = type;
+    InitSpine(renderer, (mType)? mType->mSkinName : "heart").PlayMotion("idle", true);
     mSender = sender;
     mTween = new Tween2D(updater);
     auto& Pos = sender->mCurrentRect.Center();
@@ -815,6 +864,25 @@ void MapItem::Init(chars skin, const SpineRenderer* renderer, const MapObject* s
     mTween->MoveTo(Pos.x, Pos.y + ypos, flyingMsec / 1000.0f);
     mFlyingBeginTimeMsec = Platform::Utility::CurrentTimeMsec() + entryMsec;
     mFlyingEndTimeMsec = mFlyingBeginTimeMsec + flyingMsec;
+
+    if(mSpineInstance)
+        ZAY::SpineBuilder::ResetCB(mSpineInstance,
+            [this](chars motionname)
+            {
+                if(!String::Compare("use", motionname))
+                    mMode = ItemMode::Destroy;
+            }, nullptr);
+}
+
+void MapItem::InitForSlot(const ItemType* type, const SpineRenderer* renderer, Updater* updater, const Point& pos)
+{
+    mType = type;
+    InitSpine(renderer, mType->mSkinName).PlayMotion("idle", true);
+    mTween = new Tween2D(updater);
+    mTween->Reset(pos.x, pos.y);
+    mFlyingBeginTimeMsec = Platform::Utility::CurrentTimeMsec() - 2;
+    mFlyingEndTimeMsec = mFlyingBeginTimeMsec + 1;
+    mMode = ItemMode::Show;
 
     if(mSpineInstance)
         ZAY::SpineBuilder::ResetCB(mSpineInstance,
@@ -837,10 +905,12 @@ bool MapItem::AnimationOnce()
         }
         return true;
     }
+    else if(mMode == ItemMode::Out)
+        return !mTween->IsArrived();
     return (mMode != ItemMode::Destroy);
 }
 
-void MapItem::MoveToSlot(const Point* pos, sint32 slotMsec)
+void MapItem::MoveToSlot(sint32 i, const Point* pos, sint32 slotMsec)
 {
     if(mSpineInstance && mMode == ItemMode::Show)
     {
@@ -849,6 +919,7 @@ void MapItem::MoveToSlot(const Point* pos, sint32 slotMsec)
         mTween->MoveTo(pos->x, pos->y, slotMsec / 1000.0f);
         mSlotBeginTimeMsec = Platform::Utility::CurrentTimeMsec();
         mSlotEndTimeMsec = mSlotBeginTimeMsec + slotMsec;
+        mSlotIndex = i;
         mSlotPos = pos;
         ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mSpineInstance, true);
         ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "get", false);
@@ -856,15 +927,29 @@ void MapItem::MoveToSlot(const Point* pos, sint32 slotMsec)
     }
 }
 
-const Point* MapItem::Use()
+void MapItem::MoveToOut(Point pos, sint32 outMsec)
+{
+    if(mSpineInstance && mMode == ItemMode::Show)
+    {
+        mMode = ItemMode::Out;
+        mTween->ResetPathes();
+        mTween->MoveTo(pos.x, pos.y, outMsec / 1000.0f);
+        ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mSpineInstance, true);
+        ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "get", false);
+        ZAY::SpineBuilder::SetMotionOnAttached(mSpineInstance, "get", "use", false);
+    }
+}
+
+bool MapItem::UseOnce()
 {
     if(mSpineInstance && mMode == ItemMode::Slot)
     {
         mMode = ItemMode::Used;
         ZAY::SpineBuilder::SetMotionOffAllWithoutSeek(mSpineInstance, true);
         ZAY::SpineBuilder::SetMotionOn(mSpineInstance, "use", false);
+        return true;
     }
-    return mSlotPos;
+    return false;
 }
 
 Point MapItem::CalcPos(uint64 msec) const
@@ -902,7 +987,8 @@ void MapItem::Show() const
 ////////////////////////////////////////////////////////////////////////////////
 TryWorldZone::TryWorldZone()
 {
-    mHurdle = nullptr;
+    mType = nullptr;
+    mHurdle = TryWorld::Hurdle::Create();
     mMap = nullptr;
 }
 
@@ -942,10 +1028,13 @@ void TargetZone::Init(sint32 objectindex, float r)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-F1State::F1State() : FXState("f1/"),
+F1State::F1State(bool needdoor) : FXState("f1/"),
     mLandscape(Platform::Option::GetFlag("LandscapeMode")),
     mStage(FXSaver::Read("LastStageJson").GetString())
 {
+    // 도어인증
+    if(needdoor) door().Load();
+
     Map<String> GlobalWeightMap;
     Context GlobalWeightTable;
     if(GlobalWeightTable.LoadJson(SO_NeedCopy, String::FromAsset("f1/table/globalweight_table.json")))
@@ -974,6 +1063,7 @@ F1State::F1State() : FXState("f1/"),
     mUIRight.Execute();
     mUIBottom.Execute();
 
+    SetLanguage(GlobalWeightMap("DefaultLanguage"));
     mDragonScale = Parser::GetInt(GlobalWeightMap("DragonScale")) / 1000.0f;
     mDragonScaleMax = Parser::GetInt(GlobalWeightMap("DragonScaleMax")) / 1000.0f;
     mDragonCurve = Parser::GetInt(GlobalWeightMap("DragonCurve")) / 1000.0f;
@@ -983,6 +1073,12 @@ F1State::F1State() : FXState("f1/"),
     mItemScale = Parser::GetInt(GlobalWeightMap("ItemScale")) / 1000.0f;
     mSlotScale = Parser::GetInt(GlobalWeightMap("SlotScale")) / 1000.0f;
     mHoleItemGetCount = Parser::GetInt(GlobalWeightMap("HoleItemGetCount"));
+    mHeartHoleCreatCount = Parser::GetInt(GlobalWeightMap("HeartHoleCreatCount"));
+    mHeartHoleCreatRate = Parser::GetInt(GlobalWeightMap("HeartHoleCreatRate")) / 1000.0f;
+    mInfinityPlusValue = Parser::GetInt(GlobalWeightMap("InfinityPlusValue"));
+    mInfinityMoveSpeedRate = Parser::GetInt(GlobalWeightMap("InfinityMoveSpeedRate")) / 1000.0f;
+    mInfinityHPRate = Parser::GetInt(GlobalWeightMap("InfinityHPRate")) / 1000.0f;
+    mItemSlotStack = Parser::GetInt(GlobalWeightMap("ItemSlotStack"));
     mBreathScale = Parser::GetInt(GlobalWeightMap("BreathScale")) / 1000.0f;
     mBreathMinDamage = Parser::GetInt(GlobalWeightMap("BreathMinDamage"));
     mBreathMaxDamage = Parser::GetInt(GlobalWeightMap("BreathMaxDamage"));
@@ -1005,6 +1101,15 @@ F1State::F1State() : FXState("f1/"),
     m1BoundDamageRate = Parser::GetInt(GlobalWeightMap("1BoundDamage")) / 1000.0f;
     m2BoundDamageRate = Parser::GetInt(GlobalWeightMap("2BoundDamage")) / 1000.0f;
     m3BoundDamageRate = Parser::GetInt(GlobalWeightMap("3BoundDamage")) / 1000.0f;
+    mFireStoneDropRate = Parser::GetInt(GlobalWeightMap("FireStoneDropRate")) / 1000.0f;
+    mIceStoneDropRate = Parser::GetInt(GlobalWeightMap("IceStoneDropRate")) / 1000.0f;
+    mWindStoneDropRate = Parser::GetInt(GlobalWeightMap("WindStoneDropRate")) / 1000.0f;
+    mLightningStoneDropRate = Parser::GetInt(GlobalWeightMap("LightningStoneDropRate")) / 1000.0f;
+    mUnicornEggHealValue = Parser::GetInt(GlobalWeightMap("UnicornEggHealValue")) / 1000.0f;
+    mUnicornGageUpValue = Parser::GetInt(GlobalWeightMap("UnicornGageUpValue")) / 1000.0f;
+    mShoveCoolTime = Parser::GetInt(GlobalWeightMap("ShoveCoolTime"));
+    mShoveCheckDistance = Parser::GetInt(GlobalWeightMap("ShoveCheckDistance")) / 1000.0f;
+    mShovePower = Parser::GetInt(GlobalWeightMap("ShovePower")) / 1000.0f;
 
     Context ObjectTable;
     if(ObjectTable.LoadJson(SO_NeedCopy, String::FromAsset("f1/table/object_table.json")))
@@ -1034,9 +1139,30 @@ F1State::F1State() : FXState("f1/"),
             NewPolygonType.mColorR = PolygonTable[i]("Color_R").GetInt(0);
             NewPolygonType.mColorG = PolygonTable[i]("Color_G").GetInt(0);
             NewPolygonType.mColorB = PolygonTable[i]("Color_B").GetInt(0);
+            NewPolygonType.mWaistScaleWidth = PolygonTable[i]("WaistScaleWidth").GetInt(1000);
+            NewPolygonType.mWaistScaleHeight = PolygonTable[i]("WaistScaleHeight").GetInt(1000);
         }
     }
     else BOSS_ASSERT("polygon_table.json의 로딩에 실패하였습니다", false);
+
+    Context ItemTable;
+    if(ItemTable.LoadJson(SO_NeedCopy, String::FromAsset("f1/table/item_table.json")))
+    {
+        for(sint32 i = 0, iend = ItemTable.LengthOfIndexable(); i < iend; ++i)
+        {
+            auto& NewItemType = mItemTypes.AtAdding();
+            NewItemType.mID = ItemTable[i]("ID").GetString("");
+            NewItemType.mGetType = ItemTable[i]("GetType").GetString("Null");
+            NewItemType.mRemoveTime = ItemTable[i]("RemoveTime").GetInt(0);
+            NewItemType.mSkillID = ItemTable[i]("SkillID").GetString("Null");
+            NewItemType.mSkillDuration = ItemTable[i]("SkillDuration").GetInt(0);
+            NewItemType.mSkillParameter = ItemTable[i]("SkillParameter").GetString("");
+            NewItemType.mAddGauge = ItemTable[i]("AddGauge").GetInt(0);
+            NewItemType.mAddDamage = ItemTable[i]("AddDamage").GetInt(0);
+            NewItemType.mSkinName = ItemTable[i]("SkinName").GetString("");
+        }
+    }
+    else BOSS_ASSERT("item_table.json의 로딩에 실패하였습니다", false);
 
     Context MonsterTable;
     if(MonsterTable.LoadJson(SO_NeedCopy, String::FromAsset("f1/table/monster_table.json")))
@@ -1049,18 +1175,18 @@ F1State::F1State() : FXState("f1/"),
             NewMonsterType.mHP = MonsterTable[i]("HP").GetInt(100);
             NewMonsterType.mMoveType = MonsterTable[i]("MoveType").GetString("Null");
             NewMonsterType.mMoveSpeed = MonsterTable[i]("MoveSpeed").GetInt(1000);
+            NewMonsterType.mMoveVector = MonsterTable[i]("MoveVector").GetInt(1000);
             NewMonsterType.mTurnDistance = MonsterTable[i]("TurnDistance").GetInt(10);
             NewMonsterType.mAttackPower = MonsterTable[i]("AttackPower").GetInt(100);
             NewMonsterType.mAttackSpeed = MonsterTable[i]("AttackSpeed").GetInt(1000);
             NewMonsterType.mAttackRange = MonsterTable[i]("AttackRange").GetInt(100);
-            NewMonsterType.mWaistScaleWidth = MonsterTable[i]("WaistScaleWidth").GetInt(1000);
-            NewMonsterType.mWaistScaleHeight = MonsterTable[i]("WaistScaleHeight").GetInt(1000);
             NewMonsterType.mGaugePosition = MonsterTable[i]("GaugePosition").GetInt(50);
             NewMonsterType.SetAsset(MonsterTable[i]("Asset").GetString(""));
             NewMonsterType.SetSpine(MonsterTable[i]("Spine").GetString(""));
             NewMonsterType.mPolygon = MonsterTable[i]("Polygon").GetString("");
             NewMonsterType.mWeight = MonsterTable[i]("Weight").GetInt(1000);
             NewMonsterType.mResistance = MonsterTable[i]("Resistance").GetInt(900);
+            NewMonsterType.mInfinityPoint = MonsterTable[i]("InfinityPoint").GetInt(0);
             NewMonsterType.mWaveStop = !String::Compare("True", MonsterTable[i]("WaveStop").GetString("False"));
         }
     }
@@ -1091,8 +1217,10 @@ F1State::F1State() : FXState("f1/"),
     mMonsterLastRID = mMonsterRIDBegin;
     mMissionLastRID = mMissionRIDBegin;
 
-    mBGNameA = "";
-    mBGNameB = "";
+    mBGName = "";
+    mBGImageB = "";
+    mBGMusic = "";
+    mBGWeather = "";
     mLayers.AtDumpingAdded(mLayerLength);
     mShadowSurface = nullptr;
 }
@@ -1104,8 +1232,10 @@ F1State::~F1State()
 
 sint32 F1State::LoadMap(chars json, bool toolmode)
 {
-    mBGNameA = "";
-    mBGNameB = "";
+    mBGName = "";
+    mBGImageB = "";
+    mBGMusic = "";
+    mBGWeather = "";
     mTargetsForEnemy.SubtractionAll();
     mTargetsForAlly.SubtractionAll();
     mLayers.SubtractionAll();
@@ -1114,14 +1244,19 @@ sint32 F1State::LoadMap(chars json, bool toolmode)
 
     Context JsonLayer(ST_Json, SO_OnlyReference, json);
     const sint32 Result = JsonLayer("BuildNumber").GetInt(0);
-    mBGNameA = JsonLayer("BGName").GetString();
-    mBGNameB = mBGNameA;
-    mBGNameB.Sub(2) += "_b";
+    mBGName = JsonLayer("BGName").GetString(); // map_forest_a, map_ice_a, map_forest_infinity_a
+    const sint32 UnderBarPos = mBGName.Find(4, "_");
+    BOSS_ASSERT("BGName이 잘못되었습니다", UnderBarPos != -1);
+    const String BGCode(((chars) mBGName) + 4, Math::Max(0, UnderBarPos - 4)); // forest, ice
+    mBGImageB = String::Format("map_%s_b", (chars) BGCode);
+    mBGMusic = String::Format("bg_%s", (chars) BGCode);
+    mBGWeather = String::Format("%s_weather", (chars) BGCode);
 
     mObjectLastRID = JsonLayer("ObjectLastRID").GetInt(mObjectRIDBegin);
     mPolygonLastRID = JsonLayer("PolygonLastRID").GetInt(mPolygonRIDBegin);
 
     // Polygons
+    MapPolygons DynamicAreaCollectors;
     for(sint32 layer = 0, layer_end = JsonLayer("Layers").LengthOfIndexable(); layer < layer_end; ++layer)
     {
         auto& CurJsonLayer = JsonLayer("Layers")[layer];
@@ -1143,7 +1278,7 @@ sint32 F1State::LoadMap(chars json, bool toolmode)
                 }
             if(!(NewPolygon.mRID = CurJsonPolygon("RID").GetInt(0)))
                 NewPolygon.mRID = ++mPolygonLastRID;
-            NewPolygon.mEnable = (CurJsonPolygon("Visible").GetInt(1) != 0)? true : false;
+            NewPolygon.mVisible = (CurJsonPolygon("Visible").GetInt(1) != 0)? true : false;
             NewPolygon.mDots.AtDumpingAdded(CurJsonPolygon("Points").LengthOfIndexable());
             for(sint32 i = 0, iend = NewPolygon.mDots.Count(); i < iend; ++i)
             {
@@ -1159,7 +1294,10 @@ sint32 F1State::LoadMap(chars json, bool toolmode)
                     CurPoint.y = CurJsonPolygon("Points")[i]("Y").GetFloat();
                 }
             }
-            NewPolygon.UpdateCW();
+            NewPolygon.UpdateCCW();
+            // DynamicArea 수집
+            if(NewPolygon.mType->mType == polygon_type::DynamicChain && !toolmode)
+                DynamicAreaCollectors.AtAdding() = NewPolygon;
         }
     }
 
@@ -1177,14 +1315,14 @@ sint32 F1State::LoadMap(chars json, bool toolmode)
 
         bool Remaked = false;
         if(remake_spot_hole)
-        if(object.mType->mType == ObjectType::TypeClass::Spot || object.mType->mType == ObjectType::TypeClass::Hole)
+        if(object.mType->mType == object_type::Spot || object.mType->mType == object_type::Hole)
             Remaked = true;
 
         if(Remaked && !toolmode) object.mRID = -1;
         else if(!(object.mRID = context("RID").GetInt(0)))
             object.mRID = ++mObjectLastRID;
 
-        object.mEnable = (context("Visible").GetInt(1) != 0)? true : false;
+        object.mVisible = (context("Visible").GetInt(1) != 0)? true : false;
         object.mHPValue = object.mType->mHP; // HP저장
         object.mHPAni = object.mType->mHP; // HP저장
         if(mLandscape)
@@ -1206,7 +1344,7 @@ sint32 F1State::LoadMap(chars json, bool toolmode)
         if(auto CurSpine = GetSpine(object.mType->spineName()))
         {
             object.InitSpine(CurSpine, object.mType->spineSkinName()).PlayMotion("idle", true);
-            if(object.mType->mType == ObjectType::TypeClass::Dynamic)
+            if(object.mType->mType == object_type::Dynamic)
             {
                 object.PlayMotionSeek("_state", false);
                 object.SetSeekSec(0);
@@ -1230,7 +1368,7 @@ sint32 F1State::LoadMap(chars json, bool toolmode)
             MapObject* NewObject1F = nullptr;
             sint32 NewObject1FIndex = 0;
             auto& CurJsonObject = CurJsonLayer("Objects")[obj];
-            if(ObjectCreator(NewObject, CurJsonObject, true, toolmode))
+            if(ObjectCreator(NewObject, CurJsonObject, true, toolmode) && LayerID < 2)
             {
                 // toolmode가 아닌 경우 Spot과 Hole은 1F에 다시 한번 복사함
                 NewObject1F = &mLayers.At(2).mObjects.AtAdding();
@@ -1240,7 +1378,7 @@ sint32 F1State::LoadMap(chars json, bool toolmode)
 
             // 개별후처리
             if(toolmode) continue;
-            else if(NewObject.mType->mType == ObjectType::TypeClass::Hole && NewObject1F)
+            else if(NewObject.mType->mType == object_type::Hole && NewObject1F)
             {
                 const Rect HoleTestRect = NewObject1F->mCurrentRect.Inflate(0.001f, 0.001f);
                 const sint32 ObjectPayload = ((2 & 0xFFFF) << 16) | (NewObject1FIndex & 0xFFFF);
@@ -1261,17 +1399,17 @@ sint32 F1State::LoadMap(chars json, bool toolmode)
             }
             else
             {
-                if(LayerID == 2 && NewObject.mType->mType == ObjectType::TypeClass::Target)
+                if(LayerID == 2 && NewObject.mType->mType == object_type::Target)
                 {
                     auto& NewTarget = mTargetsForEnemy.AtAdding();
                     NewTarget.Init(NewObjectIndex, Math::Sqrt(Math::Pow(NewObject.mCurrentRect.Width()) * 2) / 2);
                 }
-                else if(LayerID == 2 && NewObject.mType->mType == ObjectType::TypeClass::AllyTarget)
+                else if(LayerID == 2 && NewObject.mType->mType == object_type::AllyTarget)
                 {
                     auto& NewTarget = mTargetsForAlly.AtAdding();
                     NewTarget.Init(NewObjectIndex, Math::Sqrt(Math::Pow(NewObject.mCurrentRect.Width()) * 2) / 2);
                 }
-                else if(NewObject.mType->mType == ObjectType::TypeClass::View)
+                else if(NewObject.mType->mType == object_type::View)
                 {
                     // 파라뷰 댓글매칭
                     if(CurParaView < Parser::GetInt(Platform::Option::GetText("ParaViewCount")))
@@ -1299,6 +1437,35 @@ sint32 F1State::LoadMap(chars json, bool toolmode)
                 CurObject.mRID = ++mObjectLastRID;
             CurObject.ResetCB(this);
             mObjectRIDs[CurObject.mRID] = &CurObject;
+
+            // 다이나믹처리
+            if(CurObject.mType->mType == object_type::Dynamic)
+            {
+                // DynamicAreaCollectors와의 매칭
+                sint32 FindedDynamicChainID = -1;
+                const float ObjectX = mInGameW * (CurObject.mCurrentRect.CenterX() + 0.5f);
+                const float ObjectY = mInGameH * (CurObject.mCurrentRect.CenterY() + 0.5f);
+                const TryWorld::Dot ObjectPos(ObjectX, ObjectY);
+                for(sint32 i = 0, iend = DynamicAreaCollectors.Count(); i < iend; ++i)
+                {
+                    TryWorld::DotList NewPoints;
+                    NewPoints.AtDumpingAdded(DynamicAreaCollectors[i].mDots.Count());
+                    for(sint32 k = 0, kend = DynamicAreaCollectors[i].mDots.Count(); k < kend; ++k)
+                    {
+                        const float x = mInGameW * (DynamicAreaCollectors[i].mDots[k].x + 0.5f);
+                        const float y = mInGameH * (DynamicAreaCollectors[i].mDots[k].y + 0.5f);
+                        NewPoints.At(k) = TryWorld::Dot(x, y);
+                    }
+                    if(TryWorld::Util::PtInPolygon(NewPoints, ObjectPos))
+                    {
+                        FindedDynamicChainID = i;
+                        break;
+                    }
+                }
+                for(sint32 p = 0, pend = mPolygonTypes.Count(); p < pend; ++p)
+                    if(mPolygonTypes[p].mType == polygon_type::Wall)
+                        CurObject.mDynamicChainID(mPolygonTypes[p].mID) = FindedDynamicChainID;
+            }
         }
     }
     return Result;
@@ -1310,7 +1477,7 @@ String F1State::SaveMap(const F1Tool* tool)
     JsonLayer.At("ToolType").Set("maptool_f1");
     JsonLayer.At("ToolVersion").Set(String::FromInteger(tool->ToolVersion));
     JsonLayer.At("BuildNumber").Set(String::FromInteger(tool->mBuildNumber + 1));
-    JsonLayer.At("BGName").Set(mBGNameA);
+    JsonLayer.At("BGName").Set(mBGName);
     JsonLayer.At("ObjectLastRID").Set(String::FromInteger(mObjectLastRID));
     JsonLayer.At("PolygonLastRID").Set(String::FromInteger(mPolygonLastRID));
     for(sint32 layer = 0; layer < mLayerLength; ++layer)
@@ -1330,7 +1497,7 @@ String F1State::SaveMap(const F1Tool* tool)
 
             NewJsonPolygon.At("ID").Set(CurPolygon.mType->mID);
             NewJsonPolygon.At("RID").Set(String::FromInteger(CurPolygon.mRID));
-            NewJsonPolygon.At("Visible").Set((CurPolygon.mEnable)? "1" : "0");
+            NewJsonPolygon.At("Visible").Set((CurPolygon.mVisible)? "1" : "0");
             for(sint32 i = 0, iend = CurPolygon.mDots.Count(); i < iend; ++i)
             {
                 auto& NewJsonPoint = NewJsonPolygon.At("Points").At(i);
@@ -1355,7 +1522,7 @@ String F1State::SaveMap(const F1Tool* tool)
 
             NewJsonObject.At("ID").Set(CurObject.mType->mID);
             NewJsonObject.At("RID").Set(String::FromInteger(CurObject.mRID));
-            NewJsonObject.At("Visible").Set((CurObject.mEnable)? "1" : "0");
+            NewJsonObject.At("Visible").Set((CurObject.mVisible)? "1" : "0");
             if(mLandscape)
             {
                 NewJsonObject.At("RectL").Set(String::FromFloat(CurObject.mCurrentRect.t));
@@ -1375,20 +1542,26 @@ String F1State::SaveMap(const F1Tool* tool)
     return JsonLayer.SaveJson();
 }
 
-void F1State::RebuildTryWorld()
+void F1State::BuildTryWorld(bool error_test, chars polygon_name)
 {
-    mAllTryWorldZones.Reset();
-    for(sint32 i = 0, iend = mPolygonTypes.Count(); i < iend; ++i)
-        mAllTryWorldZones(mPolygonTypes[i].mID).mHurdle = TryWorld::Hurdle::Create();
+    if(polygon_name)
+        mAllTryWorldZones.Remove(polygon_name);
+    else mAllTryWorldZones.Reset();
 
+    // 폴리곤 붙임
     for(sint32 i = 0; i < mLayerLength; ++i)
     {
         auto& CurPolygons = mLayers[i].mPolygons;
         for(sint32 j = 0, jend = CurPolygons.Count(); j < jend; ++j)
         {
-            if(CurPolygons[j].mType->mType != PolygonType::TypeClass::Wall)
+            if(CurPolygons[j].mType->mType != polygon_type::Wall)
                 continue;
-            if(auto* CurTryWorldZone = mAllTryWorldZones.Access(CurPolygons[j].mType->mID))
+            if(polygon_name && CurPolygons[j].mType->mID.Compare(polygon_name))
+                continue;
+            auto& CurTryWorldZone = mAllTryWorldZones(CurPolygons[j].mType->mID);
+            if(!CurTryWorldZone.mType)
+                CurTryWorldZone.mType = CurPolygons[j].mType;
+            if(CurTryWorldZone.mHurdle)
             {
                 auto& CurPoints = CurPolygons[j].mDots;
                 TryWorld::DotList NewPoints;
@@ -1399,15 +1572,133 @@ void F1State::RebuildTryWorld()
                     const float y = mInGameH * (CurPoints[k].y + 0.5f);
                     NewPoints.At(k) = TryWorld::Dot(x, y, CurPoints[k].Payload);
                 }
-                CurTryWorldZone->mHurdle->Add(NewPoints);
+                if(!CurTryWorldZone.mHurdle->Add(NewPoints, error_test))
+                {
+                    TryWorld::Hurdle::Release(CurTryWorldZone.mHurdle);
+                    CurTryWorldZone.mHurdle = nullptr;
+                }
             }
         }
     }
 
-    for(sint32 i = 0, iend = mAllTryWorldZones.Count(); i < iend; ++i)
-        if(auto* CurTryWorldZone = mAllTryWorldZones.AccessByOrder(i))
-            CurTryWorldZone->mMap = CurTryWorldZone->mHurdle->
-                BuildMap(Rect(0, 0, mScreenW, mScreenH) - Point(mInGameX, mInGameY));
+    for(sint32 z = 0, zend = mAllTryWorldZones.Count(); z < zend; ++z)
+    {
+        chararray PolygonName;
+        if(auto* CurTryWorldZone = mAllTryWorldZones.AccessByOrder(z, &PolygonName))
+        {
+            if(polygon_name && String::Compare(&PolygonName[0], polygon_name))
+                continue;
+            if(CurTryWorldZone->mHurdle)
+            {
+                // 벽형 오브젝트 붙임
+                const float BaseWaistSizeRW = mMonsterSizeR * CurTryWorldZone->mType->mWaistScaleWidth / 1000;
+                const float BaseWaistSizeRH = mMonsterSizeR * CurTryWorldZone->mType->mWaistScaleHeight / 1000;
+                for(sint32 i = 0; i < mLayerLength && CurTryWorldZone->mHurdle; ++i)
+                {
+                    auto& CurObjects = mLayers[i].mObjects;
+                    for(sint32 j = 0, jend = CurObjects.Count(); j < jend; ++j)
+                    {
+                        if(!CurObjects[j].mVisible || !CurObjects[j].mType->mType.isWall())
+                            continue;
+                        if(auto CurChainID = CurObjects[j].mDynamicChainID.Access(&PolygonName[0]))
+                        if(*CurChainID != -1)
+                            continue;
+                        if(CurObjects[j].mType->mType.isDynamic() && CurObjects[j].mHPValue == 0) // 부서지는 애니메이션이 시작되는 순간
+                            continue;
+                        const Rect Area(
+                            mInGameW * (CurObjects[j].mCurrentRect.l + 0.5f) - BaseWaistSizeRW,
+                            mInGameH * (CurObjects[j].mCurrentRect.t + 0.5f) - BaseWaistSizeRH,
+                            mInGameW * (CurObjects[j].mCurrentRect.r + 0.5f) + BaseWaistSizeRW,
+                            mInGameH * (CurObjects[j].mCurrentRect.b + 0.5f) + BaseWaistSizeRH);
+                        TryWorld::DotList NewPoints;
+                        NewPoints.AtDumpingAdded(4);
+                        NewPoints.At(0) = TryWorld::Dot(Area.l, Area.t);
+                        NewPoints.At(1) = TryWorld::Dot(Area.l, Area.b);
+                        NewPoints.At(2) = TryWorld::Dot(Area.r, Area.b);
+                        NewPoints.At(3) = TryWorld::Dot(Area.r, Area.t);
+                        if(!CurTryWorldZone->mHurdle->Add(NewPoints, false))
+                        {
+                            TryWorld::Hurdle::Release(CurTryWorldZone->mHurdle);
+                            CurTryWorldZone->mHurdle = nullptr;
+                            break;
+                        }
+                    }
+                }
+                // 빌드
+                if(CurTryWorldZone->mHurdle)
+                {
+                    CurTryWorldZone->mMap = CurTryWorldZone->mHurdle->
+                        BuildMap(Rect(0, 0, mScreenW, mScreenH) - Point(mInGameX, mInGameY));
+                }
+            }
+        }
+    }
+}
+
+void F1State::RebuildTryWorld(sint32 dynamic_chain_id, chars polygon_name)
+{
+    if(dynamic_chain_id != -1)
+    for(sint32 z = 0, zend = mAllTryWorldZones.Count(); z < zend; ++z)
+    {
+        chararray PolygonName;
+        if(auto* CurTryWorldZone = mAllTryWorldZones.AccessByOrder(z, &PolygonName))
+        {
+            if(polygon_name && String::Compare(&PolygonName[0], polygon_name))
+                continue;
+            TryWorld::Hurdle* NewHurdle = TryWorld::Hurdle::Create(CurTryWorldZone->mHurdle);
+            // 유효한 다이나믹 오브젝트 붙여봄
+            const float BaseWaistSizeRW = mMonsterSizeR * CurTryWorldZone->mType->mWaistScaleWidth / 1000;
+            const float BaseWaistSizeRH = mMonsterSizeR * CurTryWorldZone->mType->mWaistScaleHeight / 1000;
+            for(sint32 i = 0; i < mLayerLength && NewHurdle; ++i)
+            {
+                auto& CurObjects = mLayers[i].mObjects;
+                for(sint32 j = 0, jend = CurObjects.Count(); j < jend; ++j)
+                {
+                    if(!CurObjects[j].CanBroken(&PolygonName[0]) || CurObjects[j].mHPValue == 0)
+                        continue;
+                    if(auto CurChainID = CurObjects[j].mDynamicChainID.Access(&PolygonName[0]))
+                    if(*CurChainID == dynamic_chain_id)
+                    {
+                        const Rect Area(
+                            mInGameW * (CurObjects[j].mCurrentRect.l + 0.5f) - BaseWaistSizeRW,
+                            mInGameH * (CurObjects[j].mCurrentRect.t + 0.5f) - BaseWaistSizeRH,
+                            mInGameW * (CurObjects[j].mCurrentRect.r + 0.5f) + BaseWaistSizeRW,
+                            mInGameH * (CurObjects[j].mCurrentRect.b + 0.5f) + BaseWaistSizeRH);
+                        TryWorld::DotList NewPoints;
+                        NewPoints.AtDumpingAdded(4);
+                        NewPoints.At(0) = TryWorld::Dot(Area.l, Area.t);
+                        NewPoints.At(1) = TryWorld::Dot(Area.l, Area.b);
+                        NewPoints.At(2) = TryWorld::Dot(Area.r, Area.b);
+                        NewPoints.At(3) = TryWorld::Dot(Area.r, Area.t);
+                        if(!NewHurdle->Add(NewPoints, true))
+                        {
+                            TryWorld::Hurdle::Release(NewHurdle);
+                            NewHurdle = nullptr;
+                            break;
+                        }
+                    }
+                }
+            }
+            if(NewHurdle)
+            {
+                // 다이나믹 오브젝트 무효화
+                for(sint32 i = 0; i < mLayerLength; ++i)
+                {
+                    auto& CurObjects = mLayers.At(i).mObjects;
+                    for(sint32 j = 0, jend = CurObjects.Count(); j < jend; ++j)
+                        if(auto CurChainID = CurObjects[j].mDynamicChainID.Access(&PolygonName[0]))
+                        if(*CurChainID == dynamic_chain_id)
+                            CurObjects.At(j).mDynamicChainID(&PolygonName[0]) = -1;
+                }
+                // 리빌드
+                TryWorld::Hurdle::Release(CurTryWorldZone->mHurdle);
+                TryWorld::Map::Release(CurTryWorldZone->mMap);
+                CurTryWorldZone->mHurdle = NewHurdle;
+                CurTryWorldZone->mMap = CurTryWorldZone->mHurdle->
+                    BuildMap(Rect(0, 0, mScreenW, mScreenH) - Point(mInGameX, mInGameY));
+            }
+        }
+    }
 }
 
 void F1State::SetSize(sint32 width, sint32 height)
@@ -1451,7 +1742,7 @@ void F1State::SetSize(sint32 width, sint32 height)
     mKnockBackMaxV = mInGameSize * mKnockBackMaxDistance;
 }
 
-void F1State::RenderImage(bool editmode, ZayPanel& panel, const Image& image)
+void F1State::RenderImage(DebugMode debug, ZayPanel& panel, const Image& image)
 {
     const sint32 Width = image.GetWidth();
     const sint32 Height = image.GetHeight();
@@ -1459,17 +1750,17 @@ void F1State::RenderImage(bool editmode, ZayPanel& panel, const Image& image)
     ZAY_XYRR(panel, panel.w() / 2, panel.h() / 2, Width * RateR, Height * RateR)
     {
         panel.stretch(image, true);
-        if(editmode)
+        if(debug != DebugMode::None)
         ZAY_RGBA(panel, 255, 0, 0, 64)
             panel.fill();
     }
 
-    if(editmode)
+    if(debug != DebugMode::None)
     ZAY_RGBA(panel, 255, 0, 0, 128)
         panel.rect(1);
 }
 
-void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer, const MapMonsters* monsters, const sint32 wavesec)
+void F1State::RenderLayer(DebugMode debug, ZayPanel& panel, const MapLayer& layer, const MapMonsters* monsters, const sint32 wavesec)
 {
     class OrderNode : public OrderUpdater
     {
@@ -1596,8 +1887,8 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
                         else
                         {
                             const MapObject* CurObject = (const MapObject*) CurOrderNode->mData;
-                            if(CurObject->mEnable && 0 < CurObject->mType->mAssetShadow.Length())
-                                RenderImage(editmode, panel, R(CurObject->mType->mAssetShadow));
+                            if(CurObject->mVisible && 0 < CurObject->mType->mAssetShadow.Length())
+                                RenderImage(debug, panel, R(CurObject->mType->mAssetShadow));
                         }
                     }
                 }
@@ -1615,12 +1906,45 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
         OrderNode* CurOrderNode = (OrderNode*) CurNode;
         ZAY_RECT(panel, CurOrderNode->mRect)
         {
-            if(CurOrderNode->mIsMonster)
+            if(debug == DebugMode::Strong)
+            {
+                if(CurOrderNode->mIsMonster)
+                {
+                    const MapMonster* CurMonster = (const MapMonster*) CurOrderNode->mData;
+                    ZAY_RGBA(panel, 255, 128, 0, 128)
+                    {
+                        panel.circle();
+                        ZAY_FONT(panel, 0.6)
+                        ZAY_RGB(panel, 0, 0, 0)
+                            panel.text(panel.w() / 2, panel.h() / 2, CurMonster->mType->mID, UIFA_CenterMiddle);
+                    }
+                }
+                else
+                {
+                    const MapObject* CurObject = (const MapObject*) CurOrderNode->mData;
+                    if(CurObject->mVisible)
+                    ZAY_RGBA(panel, 0, 0, 255, 128)
+                    ZAY_RGBA_IF(panel, 192, 0, 96, 128, CurObject->mType->mType == object_type::Dynamic)
+                    {
+                        panel.rect(2);
+                        ZAY_FONT(panel, 0.6)
+                        {
+                            if(0 < CurObject->mDynamicChainID.Count())
+                            {
+                                panel.text(panel.w() / 2, panel.h() / 2,
+                                    String::Format("<%d>", *CurObject->mDynamicChainID.AccessByOrder(0)), UIFA_CenterMiddle);
+                            }
+                            else panel.text(panel.w() / 2, panel.h() / 2, CurObject->mType->mID, UIFA_CenterMiddle);
+                        }
+                    }
+                }
+            }
+            else if(CurOrderNode->mIsMonster)
             {
                 const MapMonster* CurMonster = (const MapMonster*) CurOrderNode->mData;
                 if(CurMonster->renderer())
                 {
-                    CurMonster->RenderObject(false, editmode, panel, CurMonster->mFlipMode);
+                    CurMonster->RenderObject(debug, false, panel, CurMonster->mFlipMode);
                     // 몬스터 토스트
                     if(CurMonster->mToast.renderer() && CurMonster->mToast.enabled())
                     if(const Rect* AreaRect = CurMonster->GetBoundRect("area"))
@@ -1647,7 +1971,7 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
                             NewRect.b = panel.h() / 2 + (ToastRect->b - CY) * Rate;
                         }
                         ZAY_RECT(panel, NewRect)
-                            CurMonster->mToast.RenderObject(true, false, panel, false, nullptr, nullptr,
+                            CurMonster->mToast.RenderObject(DebugMode::None, true, panel, false, nullptr, nullptr,
                                 ZAY_RENDER_PN(p, n, CurMonster)
                                 {
                                     if(!String::Compare(n, "paratalk_area"))
@@ -1659,15 +1983,15 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
                                 });
                     }
                 }
-                else RenderImage(editmode, panel, R(CurMonster->mType->imageName()));
+                else RenderImage(debug, panel, R(CurMonster->mType->imageName()));
             }
             else
             {
                 const MapObject* CurObject = (const MapObject*) CurOrderNode->mData;
                 if(CurObject->renderer())
                 {
-                    if(CurObject->mType->mType == ObjectType::TypeClass::View)
-                        CurObject->RenderObject(true, editmode, panel, false, nullptr, nullptr,
+                    if(CurObject->mType->mType == object_type::View)
+                        CurObject->RenderObject(debug, true, panel, false, nullptr, nullptr,
                             ZAY_RENDER_PN(p, n, CurObject)
                             {
                                 if(CurObject->mParaView)
@@ -1677,16 +2001,17 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
                                         CurObject->mParaView->GetRenderer()(p, nullptr);
                                 }
                             });
-                    else CurObject->RenderObject(true, editmode, panel, false);
+                    else CurObject->RenderObject(debug, true, panel, false);
                 }
-                else if(CurObject->mEnable)
-                    RenderImage(editmode, panel, R(CurObject->mType->imageName()));
+                else if(CurObject->mVisible)
+                    RenderImage(debug, panel, R(CurObject->mType->imageName()));
             }
         }
     }
 
     // 몬스터와 오브젝트의 게이지
     CurNode = &Head;
+    if(debug == DebugMode::None)
     while((CurNode = CurNode->Next()) != &Head)
     {
         OrderNode* CurOrderNode = (OrderNode*) CurNode;
@@ -1699,17 +2024,20 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
                 if(CurMonster->mDeathStep < 2 && Platform::Utility::CurrentTimeMsec() < CurMonster->mHPTimeMsec)
                 {
                     const sint32 GaugePos = mInGameSize * CurMonster->mType->mGaugePosition / 1000;
-                    const sint32 GaugeSizeWR = Math::Max(10, mInGameSize * (30 + CurMonster->mType->mHP / 15) / 1000);
+                    const sint32 GaugeSizeWR = Math::Max(10, mInGameSize * (30 + CurMonster->mHPValueMax / 15) / 1000);
                     const sint32 GaugeSizeHR = Math::Max(4, mInGameSize * 12 / 1000);
                     ZAY_XYRR(panel, panel.w() / 2, panel.h() / 2 - GaugePos, GaugeSizeWR, GaugeSizeHR)
                     {
-                        if(panel.ninepatch(R("mob_gauge_body")) == haschild_ok)
-                        ZAY_CHILD(panel)
+                        if(!CurMonster->mImmortal)
                         {
-                            ZAY_XYWH(panel, 0, 0, panel.w() * CurMonster->mHPAni / CurMonster->mType->mHP, panel.h())
-                                panel.ninepatch(R("mob_gauge_log"));
-                            ZAY_XYWH(panel, 0, 0, panel.w() * CurMonster->mHPValue / CurMonster->mType->mHP, panel.h())
-                                panel.ninepatch(R("mob_gauge_phy"));
+                            if(panel.ninepatch(R("mob_gauge_body")) == haschild_ok)
+                            ZAY_CHILD(panel)
+                            {
+                                ZAY_XYWH(panel, 0, 0, panel.w() * CurMonster->mHPAni / CurMonster->mHPValueMax, panel.h())
+                                    panel.ninepatch(R("mob_gauge_log"));
+                                ZAY_XYWH(panel, 0, 0, panel.w() * CurMonster->mHPValue / CurMonster->mHPValueMax, panel.h())
+                                    panel.ninepatch(R("mob_gauge_phy"));
+                            }
                         }
                     }
                     // 게이지 애니메이션
@@ -1720,11 +2048,11 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
             else
             {
                 const MapObject* CurObject = (const MapObject*) CurOrderNode->mData;
-                if(CurObject->mEnable)
+                if(CurObject->mVisible)
                 {
                     // 오브젝트 게이지
-                    if((CurObject->mType->mType == ObjectType::TypeClass::Dynamic
-                        || (CurObject->mType->mType == ObjectType::TypeClass::Target && 0 < CurObject->mHPValue))
+                    if((CurObject->mType->mType == object_type::Dynamic
+                        || (CurObject->mType->mType == object_type::Target && 0 < CurObject->mHPValue))
                         && Platform::Utility::CurrentTimeMsec() < CurObject->mHPTimeMsec)
                     {
                         const sint32 GaugePos = mInGameSize * CurObject->mType->mGaugePosition / 1000;
@@ -1751,7 +2079,7 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
     }
 
     // 폴리곤
-    if(editmode)
+    if(debug != DebugMode::None)
     {
         auto& CurPolygons = layer.mPolygons;
         for(sint32 i = 0, iend = CurPolygons.Count(); i < iend; ++i)
@@ -1759,7 +2087,7 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
             auto& CurPoints = CurPolygons[i].mDots;
             Points NewPoints;
             sint32s NewPayloads;
-            NewPoints.AtDumpingAdded(CurPoints.Count() + (!CurPolygons[i].mIsCW));
+            NewPoints.AtDumpingAdded(CurPoints.Count() + (!CurPolygons[i].mIsCCW));
             NewPayloads.AtDumpingAdded(CurPoints.Count());
             for(sint32 j = 0, jend = CurPoints.Count(); j < jend; ++j)
             {
@@ -1768,27 +2096,27 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
                 NewPoints.At(j) = Point(x, y);
                 NewPayloads.At(j) = CurPoints[j].Payload;
             }
-            if(!CurPolygons[i].mIsCW)
+            if(!CurPolygons[i].mIsCCW)
                 NewPoints.At(-1) = NewPoints.At(0);
 
-            if(CurPolygons[i].mEnable)
+            if(CurPolygons[i].mVisible)
             {
                 const sint32 ColorR = CurPolygons[i].mType->mColorR;
                 const sint32 ColorG = CurPolygons[i].mType->mColorG;
                 const sint32 ColorB = CurPolygons[i].mType->mColorB;
                 ZAY_RGBA(panel, ColorR, ColorG, ColorB, 128)
                 {
-                    if(CurPolygons[i].mIsCW)
+                    if(CurPolygons[i].mIsCCW)
                         panel.polygon(NewPoints);
                     else ZAY_RGBA_IF(panel, 64, 192, 64, 128, CurPolygons[i].mDots.Count() < 3)
-                        panel.polyline(NewPoints, 4);
+                        panel.polyline(NewPoints, 8);
                     // 오브젝트가 링크된 선분
-                    ZAY_RGBA(panel, 64, 64, 192, 128)
+                    ZAY_RGBA(panel, 255, 255, 0, 128)
                     for(sint32 j = 0, jend = CurPoints.Count(); j < jend; ++j)
                     {
                         const sint32 jNext = (j + 1) % jend;
                         if(NewPayloads[j] != -1 && NewPayloads[j] == NewPayloads[jNext])
-                            panel.line(NewPoints[j], NewPoints[jNext], 4);
+                            panel.line(NewPoints[j], NewPoints[jNext], 12);
                     }
                 }
             }
@@ -1796,69 +2124,19 @@ void F1State::RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer,
             {
                 ZAY_RGBA(panel, 64, 64, 64, 64)
                 {
-                    if(CurPolygons[i].mIsCW)
+                    if(CurPolygons[i].mIsCCW)
                         panel.polygon(NewPoints);
                     else panel.polyline(NewPoints, 4);
                 }
             }
         }
     }
-
-    // 몬스터와 오브젝트의 정보
-    if(editmode && false)
-    {
-        CurNode = &Head;
-        ZAY_FONT(panel, 0.8)
-        while((CurNode = CurNode->Next()) != &Head)
-        {
-            OrderNode* CurOrderNode = (OrderNode*) CurNode;
-            ZAY_RECT(panel, CurOrderNode->mRect)
-            {
-                if(CurOrderNode->mIsMonster)
-                {
-                    const MapMonster* CurMonster = (const MapMonster*) CurOrderNode->mData;
-                    // 몬스터HP
-                    const String HP = String::Format("HP-%d", CurMonster->mHPValue);
-                    ZAY_RGB(panel, 0, 0, 0)
-                        panel.text(panel.w() / 2 + 1, panel.h() / 2 + 1, HP, UIFA_CenterTop);
-                    ZAY_RGB(panel, 255, 255, 255)
-                        panel.text(panel.w() / 2, panel.h() / 2, HP, UIFA_CenterTop);
-                }
-                else
-                {
-                    const MapObject* CurObject = (const MapObject*) CurOrderNode->mData;
-                    if(CurObject->mEnable)
-                    {
-                        if(CurObject->mType->mType == ObjectType::TypeClass::Dynamic)
-                        {
-                            // 오브젝트HP
-                            const String HP = String::Format("HP-%d", CurObject->mHPValue);
-                            ZAY_RGB(panel, 0, 0, 0)
-                                panel.text(panel.w() / 2 + 1, panel.h() / 2 + 1, HP, UIFA_CenterTop);
-                            ZAY_RGB(panel, 255, 255, 255)
-                                panel.text(panel.w() / 2, panel.h() / 2, HP, UIFA_CenterTop);
-                        }
-                        else // 타입ID
-                            ZAY_RGBA(panel, 255, 255, 0, 64)
-                                panel.text(panel.w() / 2, panel.h() / 2, CurObject->mType->mID, UIFA_CenterMiddle);
-                    }
-                    else
-                    {
-                        ZAY_RGBA(panel, 64, 64, 64, 64)
-                            panel.rect(2);
-                        ZAY_RGBA(panel, 64, 64, 64, 128)
-                            panel.text(panel.w() / 2, panel.h() / 2, CurObject->mType->mID, UIFA_CenterMiddle);
-                    }
-                }
-            }
-        }
-    }
 }
 
-Rect F1State::RenderMap(bool editmode, ZayPanel& panel, const MapMonsters* monsters, sint32 wavesec)
+Rect F1State::RenderMap(DebugMode debug, ZayPanel& panel, const MapMonsters* monsters, sint32 wavesec)
 {
     // 배경
-    const Image& BGImage = R((mLandscape)? (chars) (mBGNameA + "w") : (chars) mBGNameA);
+    const Image& BGImage = R((mLandscape)? (chars) (mBGName + "w") : (chars) mBGName);
     panel.stretch(BGImage, true);
 
     // 레이어
@@ -1867,11 +2145,11 @@ Rect F1State::RenderMap(bool editmode, ZayPanel& panel, const MapMonsters* monst
     {
         if(!mLayers[i].mShowFlag) continue;
         if(i == 2) RenderBreathArea(panel);
-        RenderLayer(editmode, panel, mLayers[i], (i == 2)? monsters : nullptr, wavesec);
+        RenderLayer(debug, panel, mLayers[i], (i == 2)? monsters : nullptr, wavesec);
     }
 
     // 타겟정보
-    if(editmode)
+    if(debug != DebugMode::None)
     for(sint32 i = 0, iend = mTargetsForEnemy.Count(); i < iend; ++i)
     {
         auto& CurObject = mLayers[2].mObjects[mTargetsForEnemy[i].mObjectIndex];
@@ -1889,7 +2167,7 @@ Rect F1State::RenderMap(bool editmode, ZayPanel& panel, const MapMonsters* monst
     }
 
     // 배경(뚜껑)
-    const R BGResource((mLandscape)? (chars) (mBGNameB + "w") : (chars) mBGNameB);
+    const R BGResource((mLandscape)? (chars) (mBGImageB + "w") : (chars) mBGImageB);
     if(BGResource.exist()) panel.stretch((const Image&) BGResource, true);
 
     const float XRate = panel.w() / BGImage.GetWidth();
@@ -1936,63 +2214,72 @@ void F1State::RenderDebug(ZayPanel& panel, const MapMonsters& monsters, sint32 w
     AniValue += CurValue - OldValue;
     OldValue = CurValue;
 
+    // 디버깅 포커스
+    sint32 SelectedMonster = -1;
     if(const sint32 MonsterCount = monsters.Count())
     {
-        // 디버깅포커스
         const sint32 iSelectBegin = AniValue % MonsterCount;
-        sint32 iSelect = iSelectBegin;
-        while(wavesec < monsters[iSelect].mEntranceSec)
+        SelectedMonster = iSelectBegin;
+        while(wavesec < monsters[SelectedMonster].mEntranceSec)
         {
             AniValue++;
-            iSelect = AniValue % MonsterCount;
-            if(iSelect == iSelectBegin)
+            SelectedMonster = AniValue % MonsterCount;
+            if(SelectedMonster == iSelectBegin)
             {
-                iSelect = -1;
+                SelectedMonster = -1;
                 break;
             }
         }
+    }
 
-        if(iSelect != -1)
+    // 길찾기 매핑결과
+    const String PolygonName = (SelectedMonster == -1)? mPolygonTypes[0].mID : monsters[SelectedMonster].mType->mPolygon;
+    if(auto* CurTryWorldZone = mAllTryWorldZones.Access(PolygonName))
+    for(sint32 i = 0, iend = CurTryWorldZone->mMap->Lines.Count(); i < iend; ++i)
+    {
+        auto& DotA = CurTryWorldZone->mMap->Dots[CurTryWorldZone->mMap->Lines[i].DotA];
+        auto& DotB = CurTryWorldZone->mMap->Dots[CurTryWorldZone->mMap->Lines[i].DotB];
+        if(CurTryWorldZone->mMap->Lines[i].Type == TryWorld::linetype_wall)
         {
-            const auto& CurMonster = monsters[iSelect];
-            // 삼각분할결과
-            if(auto* CurTryWorldZone = mAllTryWorldZones.Access(CurMonster.mType->mPolygon))
+            ZAY_RGBA(panel, 0, 0, 0, 192)
+                panel.line(Point(DotA.x, DotA.y), Point(DotB.x, DotB.y), 4);
+        }
+        else
+        {
+            ZAY_RGBA(panel, 0, 0, 255, 32)
+                panel.line(Point(DotA.x, DotA.y), Point(DotB.x, DotB.y), 1);
+        }
+    }
+
+    // 길정보
+    if(SelectedMonster != -1)
+    {
+        const auto& CurMonster = monsters[SelectedMonster];
+        if(CurMonster.mDeathStep < 2 && 0 < CurMonster.mTargets.Count())
+        {
+            if(auto CurPath = CurMonster.mTargets[0].mPath)
+            if(0 < CurPath->Dots.Count())
             {
-                ZAY_RGBA(panel, 0, 0, 255, 64)
-                for(sint32 i = 0, iend = CurTryWorldZone->mMap->Lines.Count(); i < iend; ++i)
+                auto OldPoint = CurPath->Dots[0];
+                for(sint32 j = 1, jend = CurPath->Dots.Count(); j < jend; ++j)
                 {
-                    auto& DotA = CurTryWorldZone->mMap->Dots[CurTryWorldZone->mMap->Lines[i].DotA];
-                    auto& DotB = CurTryWorldZone->mMap->Dots[CurTryWorldZone->mMap->Lines[i].DotB];
-                    panel.line(Point(DotA.x, DotA.y), Point(DotB.x, DotB.y), 1);
-                }
-            }
-            // 길정보
-            if(CurMonster.mDeathStep < 2 && 0 < CurMonster.mTargets.Count())
-            {
-                if(auto CurPath = CurMonster.mTargets[0].mPath)
-                if(0 < CurPath->Dots.Count())
-                {
-                    auto OldPoint = CurPath->Dots[0];
-                    for(sint32 j = 1, jend = CurPath->Dots.Count(); j < jend; ++j)
+                    auto& NewPoint = CurPath->Dots[j];
+                    ZAY_RGBA(panel, 255, 0, 255, 128)
                     {
-                        auto& NewPoint = CurPath->Dots[j];
-                        ZAY_RGBA(panel, 255, 0, 255, 128)
-                        {
-                            if(j & 1) panel.line(Point(OldPoint.x, OldPoint.y), Point(NewPoint.x, NewPoint.y), 2);
-                            if(jend - 1 - j == CurPath->DotFocus)
-                            ZAY_RGB(panel, 255, 0, 0)
-                            ZAY_XYRR(panel, NewPoint.x, NewPoint.y, 4, 4)
-                                panel.circle();
-                        }
-                        OldPoint = NewPoint;
+                        if(j & 1) panel.line(Point(OldPoint.x, OldPoint.y), Point(NewPoint.x, NewPoint.y), 2);
+                        if(jend - 1 - j == CurPath->DotFocus)
+                        ZAY_RGB(panel, 255, 0, 0)
+                        ZAY_XYRR(panel, NewPoint.x, NewPoint.y, 4, 4)
+                            panel.circle();
                     }
+                    OldPoint = NewPoint;
                 }
             }
         }
     }
 
     // 게임영역 표시
-    ZAY_RGB(panel, 255, 255, 128)
+    ZAY_RGBA(panel, 255, 255, 255, 64)
         panel.rect(1);
 }
 
@@ -2234,7 +2521,7 @@ void F1Tool::RenderHomeButton(ZayPanel& panel)
         {
             if(t == GT_InReleased)
             {
-                next("codename_f1View");
+                next("f1View");
             }
         })
     {

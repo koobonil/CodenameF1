@@ -1,0 +1,30 @@
+﻿[
+	{
+		"ID":"Heart10",
+		"Type":"Heart",
+		"Desc":1005,
+		"CashCost":0.99,
+		"Icon":"Heart1"
+	},
+	{
+		"ID":"Heart15",
+		"Type":"Heart",
+		"Desc":1005,
+		"CashCost":3.99,
+		"Icon":"Heart2"
+	},
+	{
+		"ID":"Heart20",
+		"Type":"Heart",
+		"Desc":1005,
+		"CashCost":5,
+		"Icon":"Heart3"
+	},
+	{
+		"ID":"Heart40",
+		"Type":"Heart",
+		"Desc":1005,
+		"CashCost":10,
+		"Icon":"Heart4"
+	}
+]

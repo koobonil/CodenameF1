@@ -4,6 +4,13 @@
 #include <element/boss_solver.hpp>
 #include <element/boss_tween.hpp>
 
+#include <../source-gen/item_get_type.hpp>
+#include <../source-gen/monster_move_type.hpp>
+#include <../source-gen/monster_type.hpp>
+#include <../source-gen/object_type.hpp>
+#include <../source-gen/polygon_type.hpp>
+#include <../source-gen/skill_id.hpp>
+
 ////////////////////////////////////////////////////////////////////////////////
 class ObjectType : public SpineAsset
 {
@@ -33,60 +40,30 @@ public:
     void SetAssetShadow(const String& asset) {mAssetShadow = (!asset.Compare("None"))? "" : asset;}
 
 public:
-    class TypeClass
+    class ObjectTypeClass : public object_type
     {
     public:
-        enum Type {Static, Dynamic, Trigger, Target, AllyTarget, View, Ground, Spot, Hole, Max, Null = -1};
-    public:
-        TypeClass() {mValue = Null;}
-        TypeClass(const TypeClass& rhs) {operator=(rhs);}
-        TypeClass& operator=(const TypeClass& rhs) {mValue = rhs.mValue; return *this;}
-        TypeClass& operator=(Type rhs) {mValue = rhs; return *this;}
-        TypeClass& operator=(chars rhs)
+        ObjectTypeClass& operator=(chars rhs)
         {
-            if(!String::Compare(rhs, "Static"))
-                mValue = Static;
-            else if(!String::Compare(rhs, "Dynamic"))
-                mValue = Dynamic;
-            else if(!String::Compare(rhs, "Trigger"))
-                mValue = Trigger;
-            else if(!String::Compare(rhs, "Target"))
-                mValue = Target;
-            else if(!String::Compare(rhs, "AllyTarget"))
-                mValue = AllyTarget;
-            else if(!String::Compare(rhs, "View"))
-                mValue = View;
-            else if(!String::Compare(rhs, "Ground"))
-                mValue = Ground;
-            else if(!String::Compare(rhs, "Spot"))
-                mValue = Spot;
-            else if(!String::Compare(rhs, "Hole"))
-                mValue = Hole;
-            else
-            {
-                mValue = Null;
-                if(!String::Compare(rhs, "Null"))
-                    BOSS_ASSERT("키워드가 없습니다", false);
-                else BOSS_ASSERT("알 수 없는 키워드입니다", false);
-            }
+            object_type::operator=(rhs);
             return *this;
         }
-        bool operator==(Type rhs) const
-        {return (mValue == rhs);}
-        bool operator!=(Type rhs) const
-        {return (mValue != rhs);}
     public:
         inline bool isWall() const
-        {return (mValue < Ground);}
-        inline bool canBroken() const
-        {return (mValue == Dynamic);}
-    private:
-        Type mValue;
+        {return (mName == Wall || mName == Dynamic || mName == View);}
+        inline bool isDynamic() const
+        {return (mName == Dynamic);}
+        inline bool isTarget() const
+        {return (mName == Target);}
+        inline bool isAllyTarget() const
+        {return (mName == AllyTarget);}
+        inline bool isTrigger() const
+        {return (mName == Trigger);}
     };
 
 public:
     String mID;
-    TypeClass mType;
+    ObjectTypeClass mType;
     String mAssetShadow;
     sint32 mHP;
     sint32 mGaugePosition;
@@ -100,6 +77,8 @@ class PolygonType
 public:
     PolygonType()
     {
+        mWaistScaleWidth = 0;
+        mWaistScaleHeight = 0;
     }
     ~PolygonType()
     {
@@ -112,50 +91,64 @@ public:
         mColorR = rhs.mColorR;
         mColorG = rhs.mColorG;
         mColorB = rhs.mColorB;
+        mWaistScaleWidth = rhs.mWaistScaleWidth;
+        mWaistScaleHeight = rhs.mWaistScaleHeight;
         return *this;
     }
 
 public:
-    class TypeClass
-    {
-    public:
-        enum Type {Wall, Water, Max, Null = -1};
-    public:
-        TypeClass() {mValue = Null;}
-        TypeClass(const TypeClass& rhs) {operator=(rhs);}
-        TypeClass& operator=(const TypeClass& rhs) {mValue = rhs.mValue; return *this;}
-        TypeClass& operator=(Type rhs) {mValue = rhs; return *this;}
-        TypeClass& operator=(chars rhs)
-        {
-            if(!String::Compare(rhs, "Wall"))
-                mValue = Wall;
-            else if(!String::Compare(rhs, "Water"))
-                mValue = Water;
-            else
-            {
-                mValue = Null;
-                if(!String::Compare(rhs, "Null"))
-                    BOSS_ASSERT("키워드가 없습니다", false);
-                else BOSS_ASSERT("알 수 없는 키워드입니다", false);
-            }
-            return *this;
-        }
-        bool operator==(Type rhs) const
-        {return (mValue == rhs);}
-        bool operator!=(Type rhs) const
-        {return (mValue != rhs);}
-    private:
-        Type mValue;
-    };
-
-public:
     String mID;
-    TypeClass mType;
+    polygon_type mType;
     sint32 mColorR;
     sint32 mColorG;
     sint32 mColorB;
+    sint32 mWaistScaleWidth;
+    sint32 mWaistScaleHeight;
 };
 typedef Array<PolygonType> PolygonTypes;
+
+////////////////////////////////////////////////////////////////////////////////
+class ItemType
+{
+    BOSS_DECLARE_NONCOPYABLE_CLASS(ItemType)
+public:
+    ItemType()
+    {
+        mRemoveTime = 0;
+        mSkillDuration = 0;
+        mAddGauge = 0;
+        mAddDamage = 0;
+    }
+    ~ItemType()
+    {
+    }
+    ItemType(ItemType&& rhs) {operator=(ToReference(rhs));}
+    ItemType& operator=(ItemType&& rhs)
+    {
+        mID = ToReference(rhs.mID);
+        mGetType = rhs.mGetType;
+        mRemoveTime = rhs.mRemoveTime;
+        mSkillID = ToReference(rhs.mSkillID);
+        mSkillDuration = rhs.mSkillDuration;
+        mSkillParameter = rhs.mSkillParameter;
+        mAddGauge = rhs.mAddGauge;
+        mAddDamage = rhs.mAddDamage;
+        mSkinName = ToReference(rhs.mSkinName);
+        return *this;
+    }
+
+public:
+    String mID;
+    item_get_type mGetType;
+    sint32 mRemoveTime;
+    skill_id mSkillID;
+    sint32 mSkillDuration;
+    String mSkillParameter;
+    sint32 mAddGauge;
+    sint32 mAddDamage;
+    String mSkinName;
+};
+typedef Array<ItemType> ItemTypes;
 
 ////////////////////////////////////////////////////////////////////////////////
 class MonsterType : public SpineAsset
@@ -164,20 +157,20 @@ class MonsterType : public SpineAsset
 public:
     MonsterType()
     {
-        mType = TypeClass::Null;
+        mType = monster_type::Null;
         mHP = 0;
-        mMoveType = MoveType::Null;
+        mMoveType = monster_move_type::Null;
         mMoveSpeed = 0;
+        mMoveVector = 0;
         mTurnDistance = 0;
         mAttackPower = 0;
         mAttackSpeed = 0;
         mAttackRange = 0;
-        mWaistScaleWidth = 0;
-        mWaistScaleHeight = 0;
         mGaugePosition = 0;
         mPolygon = "";
         mWeight = 0;
         mResistance = 0;
+        mInfinityPoint = 0;
         mWaveStop = false;
     }
     ~MonsterType() {}
@@ -190,96 +183,36 @@ public:
         mHP = rhs.mHP;
         mMoveType = rhs.mMoveType;
         mMoveSpeed = rhs.mMoveSpeed;
+        mMoveVector = rhs.mMoveVector;
         mTurnDistance = rhs.mTurnDistance;
         mAttackPower = rhs.mAttackPower;
         mAttackSpeed = rhs.mAttackSpeed;
         mAttackRange = rhs.mAttackRange;
-        mWaistScaleWidth = rhs.mWaistScaleWidth;
-        mWaistScaleHeight = rhs.mWaistScaleHeight;
         mGaugePosition = rhs.mGaugePosition;
         mPolygon = ToReference(rhs.mPolygon);
         mWeight = rhs.mWeight;
         mResistance = rhs.mResistance;
+        mInfinityPoint = rhs.mInfinityPoint;
         mWaveStop = rhs.mWaveStop;
         return *this;
     }
 
 public:
-    class TypeClass
-    {
-    public:
-        enum Type {Enemy, Ally, Max, Null = -1};
-    public:
-        TypeClass() {mValue = Null;}
-        TypeClass(const TypeClass& rhs) {operator=(rhs);}
-        TypeClass& operator=(const TypeClass& rhs) {mValue = rhs.mValue; return *this;}
-        TypeClass& operator=(Type rhs) {mValue = rhs; return *this;}
-        TypeClass& operator=(chars rhs)
-        {
-            if(!String::Compare(rhs, "Enemy"))
-                mValue = Enemy;
-            else if(!String::Compare(rhs, "Ally"))
-                mValue = Ally;
-            else
-            {
-                mValue = Null;
-                if(!String::Compare(rhs, "Null"))
-                    BOSS_ASSERT("키워드가 없습니다", false);
-                else BOSS_ASSERT("알 수 없는 키워드입니다", false);
-            }
-            return *this;
-        }
-        bool operator==(Type rhs) const
-        {return (mValue == rhs);}
-        bool operator!=(Type rhs) const
-        {return (mValue != rhs);}
-    private:
-        Type mValue;
-    };
-
-public:
-    class MoveType
-    {
-    public:
-        enum Type {StraightMoving, Max, Null = -1};
-    public:
-        MoveType() {mValue = Null;}
-        MoveType(const MoveType& rhs) {operator=(rhs);}
-        MoveType& operator=(const MoveType& rhs) {mValue = rhs.mValue; return *this;}
-        MoveType& operator=(Type rhs) {mValue = rhs; return *this;}
-        MoveType& operator=(chars rhs)
-        {
-            if(!String::Compare(rhs, "Straight"))
-                mValue = StraightMoving;
-            else
-            {
-                mValue = Null;
-                if(!String::Compare(rhs, "Null"))
-                    BOSS_ASSERT("키워드가 없습니다", false);
-                else BOSS_ASSERT("알 수 없는 키워드입니다", false);
-            }
-            return *this;
-        }
-    private:
-        Type mValue;
-    };
-
-public:
     String mID;
-    TypeClass mType;
+    monster_type mType;
     sint32 mHP;
-    MoveType mMoveType;
+    monster_move_type mMoveType;
     sint32 mMoveSpeed;
+    sint32 mMoveVector;
     sint32 mTurnDistance;
     sint32 mAttackPower;
     sint32 mAttackSpeed;
     sint32 mAttackRange;
-    sint32 mWaistScaleWidth;
-    sint32 mWaistScaleHeight;
     sint32 mGaugePosition;
     String mPolygon;
     sint32 mWeight;
     sint32 mResistance;
+    sint32 mInfinityPoint;
     bool mWaveStop;
 };
 typedef Array<MonsterType> MonsterTypes;
@@ -310,13 +243,33 @@ public:
     inline chars GetExtraInfo(sint32 i) const {return mExtraInfo[i];}
 
 public:
+    inline bool CanBroken(chars polygon_name) const
+    {
+        if(mType->mType.isDynamic())
+        if(auto ChainID = mDynamicChainID.Access(polygon_name))
+            return (*ChainID != -1);
+        return false;
+    }
+    inline bool ValidTrigger() const
+    {
+        return (mType->mType.isTrigger() && !mTriggerOpened);
+    }
+    inline bool ValidTarget(const MonsterType& type) const
+    {
+        return ((mType->mType.isTarget() && type.mType == monster_type::Enemy)
+            || (mType->mType.isAllyTarget() && type.mType == monster_type::Ally));
+    }
+
+public:
     const ObjectType* mType;
     sint32 mRID;
-    bool mEnable;
+    bool mVisible;
     sint32 mHPValue;
     uint64 mHPTimeMsec;
     mutable float mHPAni;
     Rect mCurrentRect;
+    Map<sint32> mDynamicChainID;
+    bool mTriggerOpened;
     Strings mExtraInfo;
     ParaView* mParaView;
 };
@@ -334,14 +287,14 @@ public:
     MapPolygon& operator=(MapPolygon&& rhs);
 
 public:
-    void UpdateCW();
+    void UpdateCCW();
 
 public:
     const PolygonType* mType;
     sint32 mRID;
-    bool mEnable;
+    bool mVisible;
     TryWorld::DotList mDots;
-    bool mIsCW;
+    bool mIsCCW;
 };
 typedef Array<MapPolygon> MapPolygons;
 
@@ -389,15 +342,15 @@ public:
     MapMonster& operator=(MapMonster&& rhs);
 
 public:
-    void Init(const MonsterType* type, sint32 rid, sint32 timesec, float x, float y,
+    void Init(const MonsterType* type, sint32 rid, sint32 timesec, float hprate, float x, float y,
         const SpineRenderer* renderer, const SpineRenderer* toast_renderer = nullptr);
     void ResetCB(FXState* state);
     bool IsEntranced();
     bool IsKnockBackMode();
-    void KnockBack(bool down, const Point& accel, chars skin);
+    void KnockBack(bool down, const Point& accel, float knockbackup, chars skillskin, float skillspeed, sint32 skilltime, chars skin);
     void KnockBackBound(sint32 damage);
-    void KnockBackEnd();
-    void KnockBackEndByHole(const Point& hole);
+    bool KnockBackEnd();
+    bool KnockBackEndByHole(const Point& hole);
     void Turn() const;
     sint32 TryAttack(const Point& target);
     void CancelAttack();
@@ -407,7 +360,10 @@ public:
     void TryParaTalk();
     void Ally_Arrived();
     void Ally_Touched();
-    Point CalcBump(const MapObject* object);
+    float CalcedSpeed(uint64 msec) const;
+    float CalcedVector() const;
+    void ToastTest(uint64 msec);
+    void PlayToast(chars motion, bool repeat);
 
 public:
     const float mKnockBackAccelMin = 0.001f; // 화면크기비율상수
@@ -419,6 +375,8 @@ public:
     sint32 mRID;
     bool mEntranced;
     sint32 mEntranceSec;
+    bool mImmortal;
+    sint32 mHPValueMax;
     sint32 mHPValue;
     uint64 mHPTimeMsec;
     mutable float mHPAni;
@@ -432,27 +390,31 @@ public:
     Point mLastFlipPos;
     Point mCurrentPos;
     Point mCurrentPosOld;
+    Point mCurrentVec;
     Point mTargetPos;
     MonsterTargets mTargets;
     uint64 mTargetTimeLimit;
+    uint64 mShoveTimeMsec;
     sint32 mBounceObjectIndex;
     MapSpine mToast;
     bool mHasParaTalk;
     String mParaTalk;
-    // 오브젝트충돌처리의 경험기록
-    bool mIsBumpClock;
-    sint32 mBumpObjectRID;
-    Rect mBumpObjectRect;
 
 private:
     bool mKnockBackMode;
     Point mKnockBackAccel;
+    float mKnockResistance;
     sint32 mKnockBackBoundCount;
+    String mSkillSkin;
+    float mSkillSpeed;
+    sint32 mSkillTime;
+    uint64 mSkillTimeLimit;
 
 public:
-    inline const Point& knockbackaccel() const {return mKnockBackAccel;}
+    inline const Point& knockBackAccel() const {return mKnockBackAccel;}
     inline void SetKnockBackAccel(const Point& accel) {mKnockBackAccel = accel;}
-    inline sint32 knockbackboundcount() const {return mKnockBackBoundCount;}
+    inline float knockBackResistance() const {return mKnockResistance;}
+    inline sint32 knockBackBoundCount() const {return mKnockBackBoundCount;}
 };
 typedef Array<MapMonster> MapMonsters;
 
@@ -515,34 +477,39 @@ public:
     MapItem& operator=(MapItem&& rhs);
 
 public:
-    void Init(chars skin, const SpineRenderer* renderer, const MapObject* sender, Updater* updater,
+    void Init(const ItemType* type, const SpineRenderer* renderer, const MapObject* sender, Updater* updater,
         float ypos, sint32 entryMsec, sint32 flyingMsec);
+    void InitForSlot(const ItemType* type, const SpineRenderer* renderer, Updater* updater, const Point& pos);
     bool AnimationOnce();
-    void MoveToSlot(const Point* pos, sint32 slotMsec);
-    const Point* Use();
+    void MoveToSlot(sint32 i, const Point* pos, sint32 slotMsec);
+    void MoveToOut(Point pos, sint32 outMsec);
+    bool UseOnce();
     Point CalcPos(uint64 msec) const;
     float CalcFlyingRate(uint64 msec) const;
     float CalcSlotRate(uint64 msec) const;
 
 public:
-    enum class ItemMode {Wait, Show, Slot, Used, Destroy};
-
-public:
-    inline chars skin() const {return mSkin;}
+    inline const ItemType* type() const {return mType;}
+    inline chars skin() const {return mType->mSkinName;}
     inline bool slot() const {return (mMode == ItemMode::Slot || mMode == ItemMode::Used || mMode == ItemMode::Destroy);}
+    inline sint32 slot_index() const {return mSlotIndex;}
     static String MakeId() {static sint32 _ = 0; return String::Format("%d", _++);}
 
 private:
     void Show() const;
 
+public:
+    enum class ItemMode {Wait, Show, Slot, Out, Used, Destroy};
+
 private:
-    String mSkin;
+    const ItemType* mType;
     const MapObject* mSender;
     Tween2D* mTween;
     uint64 mFlyingBeginTimeMsec;
     uint64 mFlyingEndTimeMsec;
     uint64 mSlotBeginTimeMsec;
     uint64 mSlotEndTimeMsec;
+    sint32 mSlotIndex;
     const Point* mSlotPos;
     ItemMode mMode;
 };
@@ -557,6 +524,7 @@ public:
     ~TryWorldZone();
 
 public:
+    const PolygonType* mType;
     TryWorld::Hurdle* mHurdle;
     TryWorld::Map* mMap;
 };
@@ -587,17 +555,18 @@ class F1State : public FXState
 {
     BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(F1State, FXState(""), mLandscape(false), mStage(""))
 public:
-    F1State();
+    F1State(bool needdoor = false);
     ~F1State();
 
 public:
     sint32 LoadMap(chars json, bool toolmode);
     String SaveMap(const F1Tool* tool);
-    void RebuildTryWorld();
+    void BuildTryWorld(bool error_test, chars polygon_name = nullptr);
+    void RebuildTryWorld(sint32 dynamic_chain_id, chars polygon_name = nullptr);
     void SetSize(sint32 width, sint32 height);
-    void RenderImage(bool editmode, ZayPanel& panel, const Image& image);
-    void RenderLayer(bool editmode, ZayPanel& panel, const MapLayer& layer, const MapMonsters* monsters = nullptr, const sint32 wavesec = 0);
-    Rect RenderMap(bool editmode, ZayPanel& panel, const MapMonsters* monsters = nullptr, sint32 wavesec = 0);
+    void RenderImage(DebugMode debug, ZayPanel& panel, const Image& image);
+    void RenderLayer(DebugMode debug, ZayPanel& panel, const MapLayer& layer, const MapMonsters* monsters = nullptr, const sint32 wavesec = 0);
+    Rect RenderMap(DebugMode debug, ZayPanel& panel, const MapMonsters* monsters = nullptr, sint32 wavesec = 0);
     void RenderCap(ZayPanel& panel, const Rect outline);
     void RenderDebug(ZayPanel& panel, const MapMonsters& monsters, sint32 wavesec);
 
@@ -613,7 +582,6 @@ public: // 기획요소
     Solver mUITop;
     Solver mUIRight;
     Solver mUIBottom;
-    float mViewRate; // 뷰비율 = 가로길이 / 세로길이
     float mDragonScale;
     float mDragonScaleMax;
     float mDragonCurve;
@@ -623,6 +591,12 @@ public: // 기획요소
     float mItemScale;
     float mSlotScale;
     sint32 mHoleItemGetCount;
+    sint32 mHeartHoleCreatCount; // 하트구멍에 몬스터를 넣었을 경우 하트가 생성될 최소 몬스터 마리수
+    float mHeartHoleCreatRate; // 하트구멍에 몬스터를 넣었을 경우 하트가 생성될 확률 (마리수가 만족할때마다 체크)
+    sint32 mInfinityPlusValue; // 무한모드가 1웨이브 지날때마다 몬스터에게 추가될 점수
+    float mInfinityMoveSpeedRate; // 무한모드가 1웨이브 지날때마다 몬스터에게 증가될 이동속도 비율
+    float mInfinityHPRate; // 무한모드가 1웨이브 지날때마다 몬스터에게 증가될 체력 비율
+    sint32 mItemSlotStack; // 한 슬롯에 등록될 수 있는 아이템의 최대 개수
     float mBreathScale;
     sint32 mBreathMinDamage;
     sint32 mBreathMaxDamage;
@@ -645,8 +619,19 @@ public: // 기획요소
     float m1BoundDamageRate;
     float m2BoundDamageRate;
     float m3BoundDamageRate;
+    float mFireStoneDropRate;
+    float mIceStoneDropRate;
+    float mWindStoneDropRate;
+    float mLightningStoneDropRate;
+    float mUnicornEggHealValue;
+    float mUnicornGageUpValue;
+    sint32 mShoveCoolTime;
+    float mShoveCheckDistance;
+    float mShovePower;
+
     ObjectTypes mObjectTypes;
     PolygonTypes mPolygonTypes;
+    ItemTypes mItemTypes;
     MonsterTypes mMonsterTypes;
 
 public: // UI요소
@@ -687,8 +672,10 @@ public: // 인스턴스ID
     sint32 mMissionLastRID;
 
 public: // 맵요소
-    String mBGNameA;
-    String mBGNameB;
+    String mBGName;
+    String mBGImageB;
+    String mBGMusic;
+    String mBGWeather;
     TargetZones mTargetsForEnemy;
     TargetZones mTargetsForAlly;
     MapLayers mLayers;

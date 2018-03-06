@@ -17,7 +17,7 @@ public:
 
 public:
     bool mFlagShow;
-    bool mFlagCW;
+    bool mFlagCCW;
     float mX;
     float mY;
     float mWidth;

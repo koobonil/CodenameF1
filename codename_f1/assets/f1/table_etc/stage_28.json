@@ -1,5 +1,5 @@
 {
-	"BuildNumber":"2",
+	"BuildNumber":"3",
 	"MapName":"map_28",
 	"MissionLastRID":"83999999",
 	"MonsterLastRID":"83000362",
@@ -14,9 +14,9 @@
 					"Scripts":
 					[
 						{
-							"PosX":"-0.196296",
-							"PosY":"-0.016667",
-							"TargetRID":"81000195",
+							"PosX":"0.086262",
+							"PosY":"-0.124601",
+							"TargetRID":"81000191",
 							"Text":"animate count-idle"
 						}
 					],
@@ -236,9 +236,9 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.22963",
-							"PosY":"0.12963",
-							"TargetRID":"81000196",
+							"PosX":"-0.004792",
+							"PosY":"-0.116613",
+							"TargetRID":"81000192",
 							"Text":"animate count-idle"
 						}
 					],
@@ -458,15 +458,15 @@
 					"Scripts":
 					[
 						{
-							"PosX":"-0.001852",
-							"PosY":"-0.235185",
-							"TargetRID":"81000193",
+							"PosX":"-0.003195",
+							"PosY":"-0.086262",
+							"TargetRID":"81000189",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"0.212963",
-							"PosY":"-0.214815",
-							"TargetRID":"81000194",
+							"PosX":"0.092652",
+							"PosY":"-0.070288",
+							"TargetRID":"81000190",
 							"Text":"animate count-idle"
 						}
 					],
@@ -824,15 +824,15 @@
 					"Scripts":
 					[
 						{
-							"PosX":"-0.166667",
-							"PosY":"-0.174074",
-							"TargetRID":"81000195",
+							"PosX":"-0.00639",
+							"PosY":"-0.097444",
+							"TargetRID":"81000191",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"0.168519",
-							"PosY":"0.07037",
-							"TargetRID":"81000196",
+							"PosX":"-0.003195",
+							"PosY":"-0.13099",
+							"TargetRID":"81000192",
 							"Text":"animate count-idle"
 						}
 					],
@@ -1154,15 +1154,15 @@
 					"Scripts":
 					[
 						{
-							"PosX":"-0.059259",
-							"PosY":"-0.214815",
-							"TargetRID":"81000193",
+							"PosX":"-0.015974",
+							"PosY":"-0.084665",
+							"TargetRID":"81000189",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"-0.222222",
-							"PosY":"0.057407",
-							"TargetRID":"81000195",
+							"PosX":"0.001597",
+							"PosY":"-0.086262",
+							"TargetRID":"81000191",
 							"Text":"animate count-idle"
 						}
 					],
@@ -1556,15 +1556,15 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.103704",
-							"PosY":"-0.201852",
-							"TargetRID":"81000194",
+							"PosX":"0.076677",
+							"PosY":"-0.0623",
+							"TargetRID":"81000190",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"0.192593",
-							"PosY":"-0.02963",
-							"TargetRID":"81000196",
+							"PosX":"-0.017572",
+							"PosY":"-0.105431",
+							"TargetRID":"81000192",
 							"Text":"animate count-idle"
 						}
 					],
@@ -1904,15 +1904,15 @@
 					"Scripts":
 					[
 						{
-							"PosX":"-0.048148",
-							"PosY":"-0.17037",
-							"TargetRID":"81000193",
+							"PosX":"0.011182",
+							"PosY":"-0.073482",
+							"TargetRID":"81000189",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"0.135185",
-							"PosY":"-0.175926",
-							"TargetRID":"81000194",
+							"PosX":"0.183706",
+							"PosY":"-0.095847",
+							"TargetRID":"81000190",
 							"Text":"animate count-idle"
 						}
 					],
@@ -2270,15 +2270,15 @@
 					"Scripts":
 					[
 						{
-							"PosX":"-0.188889",
-							"PosY":"-0.053704",
-							"TargetRID":"81000195",
+							"PosX":"0.014377",
+							"PosY":"-0.100639",
+							"TargetRID":"81000191",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"0.157407",
-							"PosY":"0.174074",
-							"TargetRID":"81000196",
+							"PosX":"-0.015974",
+							"PosY":"-0.100639",
+							"TargetRID":"81000192",
 							"Text":"animate count-idle"
 						}
 					],
@@ -2564,15 +2564,15 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.02037",
-							"PosY":"-0.188889",
-							"TargetRID":"81000193",
+							"PosX":"0.043131",
+							"PosY":"-0.095847",
+							"TargetRID":"81000189",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"0.181481",
-							"PosY":"-0.248148",
-							"TargetRID":"81000194",
+							"PosX":"0.121406",
+							"PosY":"-0.055911",
+							"TargetRID":"81000190",
 							"Text":"animate count-idle"
 						}
 					],
@@ -2948,27 +2948,27 @@
 					"Scripts":
 					[
 						{
-							"PosX":"-0.011111",
-							"PosY":"-0.227778",
-							"TargetRID":"81000193",
+							"PosX":"0.059105",
+							"PosY":"-0.097444",
+							"TargetRID":"81000189",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"0.118519",
-							"PosY":"-0.187037",
-							"TargetRID":"81000194",
+							"PosX":"0.035144",
+							"PosY":"0.099042",
+							"TargetRID":"81000190",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"-0.185185",
-							"PosY":"0.027778",
-							"TargetRID":"81000195",
+							"PosX":"0.084665",
+							"PosY":"-0.107029",
+							"TargetRID":"81000191",
 							"Text":"animate count-idle"
 						},
 						{
-							"PosX":"0.151852",
-							"PosY":"0.101852",
-							"TargetRID":"81000196",
+							"PosX":"-0.21885",
+							"PosY":"0.13738",
+							"TargetRID":"81000192",
 							"Text":"animate count-idle"
 						}
 					],

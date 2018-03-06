@@ -1,683 +1,690 @@
 ﻿[
 	{
+		"ID":"infinity",
+		"Option":"GameMode=Infinity;FireStone=10;IceStone=10;",
+		"MapJson":"f1/table/map_infinity.json",
+		"StageJson":"f1/table/stage_infinity.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/infinity.txt"
+	},
+	{
 		"ID":1,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_1.json",
 		"StageJson":"f1/table/stage_1.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/1.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31",
-		"ParaView":"[name] thumbnail_1.png [url] http://www.finalbossbehindthedoor.com/f1/1.png",
-		"BuildNumbers":"1/1"
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/1.txt"
 	},
 	{
 		"ID":2,
 		"NeedEgg":1,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_2.json",
 		"StageJson":"f1/table/stage_2.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/2.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31",
-		"ParaView":"[name] thumbnail_2.png [url] http://www.finalbossbehindthedoor.com/f1/1.png",
-		"BuildNumbers":"1/1"
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/2.txt"
 	},
 	{
 		"ID":3,
 		"NeedEgg":2,
-		"DefaultItem":"FireStone/1",
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_3.json",
 		"StageJson":"f1/table/stage_3.json",
-		"FinalBoss":"http://www.finalbossbehindthedoor.com/f1/3.txt",
-		"ParaSource":"http://cafe.naver.com/monthlykoobonil/31",
-		"BuildNumbers":"1/1"
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/3.txt"
 	},
 	{
 		"ID":4,
 		"NeedEgg":3,
-		"DefaultItem":"LightningStone/2/FireStone/1",
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_4.json",
 		"StageJson":"f1/table/stage_4.json",
-		"BuildNumbers":"1/1"
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/4.txt"
 	},
 	{
 		"ID":5,
 		"NeedEgg":4,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_5.json",
 		"StageJson":"f1/table/stage_5.json",
-		"BuildNumbers":"1/1"
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/5.txt"
 	},
 	{
 		"ID":6,
 		"NeedEgg":5,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_6.json",
 		"StageJson":"f1/table/stage_6.json",
-		"BuildNumbers":"1/1"
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/6.txt"
 	},
 	{
 		"ID":7,
 		"NeedEgg":6,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_7.json",
 		"StageJson":"f1/table/stage_7.json",
-		"BuildNumbers":"1/1"
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/7.txt"
 	},
 	{
 		"ID":8,
 		"NeedEgg":7,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_8.json",
 		"StageJson":"f1/table/stage_8.json",
-		"BuildNumbers":"1/1"
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/8.txt"
 	},
 	{
 		"ID":9,
 		"NeedEgg":8,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_9.json",
 		"StageJson":"f1/table/stage_9.json",
-		"BuildNumbers":"1/1"
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/9.txt"
 	},
 	{
 		"ID":10,
 		"NeedEgg":9,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_10.json",
 		"StageJson":"f1/table/stage_10.json",
-		"BuildNumbers":"1/1"
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/10.txt"
 	},
 	{
 		"ID":11,
 		"NeedEgg":10,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_11.json",
-		"StageJson":"f1/table/stage_11.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_11.json"
 	},
 	{
 		"ID":12,
 		"NeedEgg":11,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_12.json",
-		"StageJson":"f1/table/stage_12.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_12.json"
 	},
 	{
 		"ID":13,
 		"NeedEgg":12,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_13.json",
-		"StageJson":"f1/table/stage_13.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_13.json"
 	},
 	{
 		"ID":14,
 		"NeedEgg":13,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_14.json",
-		"StageJson":"f1/table/stage_14.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_14.json"
 	},
 	{
 		"ID":15,
 		"NeedEgg":14,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_15.json",
-		"StageJson":"f1/table/stage_15.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_15.json"
 	},
 	{
 		"ID":16,
 		"NeedEgg":15,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_16.json",
-		"StageJson":"f1/table/stage_16.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_16.json"
 	},
 	{
 		"ID":17,
 		"NeedEgg":16,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_17.json",
-		"StageJson":"f1/table/stage_17.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_17.json"
 	},
 	{
 		"ID":18,
 		"NeedEgg":17,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_18.json",
-		"StageJson":"f1/table/stage_18.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_18.json"
 	},
 	{
 		"ID":19,
 		"NeedEgg":18,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_19.json",
-		"StageJson":"f1/table/stage_19.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_19.json"
 	},
 	{
 		"ID":20,
 		"NeedEgg":19,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_20.json",
-		"StageJson":"f1/table/stage_20.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_20.json"
 	},
 	{
 		"ID":21,
 		"NeedEgg":20,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_21.json",
-		"StageJson":"f1/table/stage_21.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_21.json"
 	},
 	{
 		"ID":22,
 		"NeedEgg":21,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_22.json",
-		"StageJson":"f1/table/stage_22.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_22.json"
 	},
 	{
 		"ID":23,
 		"NeedEgg":22,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_23.json",
-		"StageJson":"f1/table/stage_23.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_23.json"
 	},
 	{
 		"ID":24,
 		"NeedEgg":23,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_24.json",
-		"StageJson":"f1/table/stage_24.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_24.json"
 	},
 	{
 		"ID":25,
 		"NeedEgg":24,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_25.json",
-		"StageJson":"f1/table/stage_25.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_25.json"
 	},
 	{
 		"ID":26,
 		"NeedEgg":25,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_26.json",
-		"StageJson":"f1/table/stage_26.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_26.json"
 	},
 	{
 		"ID":27,
 		"NeedEgg":26,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_27.json",
-		"StageJson":"f1/table/stage_27.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_27.json"
 	},
 	{
 		"ID":28,
 		"NeedEgg":27,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_28.json",
-		"StageJson":"f1/table/stage_28.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_28.json"
 	},
 	{
 		"ID":29,
 		"NeedEgg":28,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_29.json",
-		"StageJson":"f1/table/stage_29.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_29.json"
 	},
 	{
 		"ID":30,
 		"NeedEgg":29,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_30.json",
-		"StageJson":"f1/table/stage_30.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_30.json"
 	},
 	{
 		"ID":31,
 		"NeedEgg":30,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_31.json",
-		"StageJson":"f1/table/stage_31.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_31.json"
 	},
 	{
 		"ID":32,
 		"NeedEgg":31,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_32.json",
-		"StageJson":"f1/table/stage_32.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_32.json"
 	},
 	{
 		"ID":33,
 		"NeedEgg":32,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_33.json",
-		"StageJson":"f1/table/stage_33.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_33.json"
 	},
 	{
 		"ID":34,
 		"NeedEgg":33,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_34.json",
-		"StageJson":"f1/table/stage_34.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_34.json"
 	},
 	{
 		"ID":35,
 		"NeedEgg":34,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_35.json",
-		"StageJson":"f1/table/stage_35.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_35.json"
 	},
 	{
 		"ID":36,
 		"NeedEgg":35,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_36.json",
-		"StageJson":"f1/table/stage_36.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_36.json"
 	},
 	{
 		"ID":37,
 		"NeedEgg":36,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_37.json",
-		"StageJson":"f1/table/stage_37.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_37.json"
 	},
 	{
 		"ID":38,
 		"NeedEgg":37,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_38.json",
-		"StageJson":"f1/table/stage_38.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_38.json"
 	},
 	{
 		"ID":39,
 		"NeedEgg":38,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_39.json",
-		"StageJson":"f1/table/stage_39.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_39.json"
 	},
 	{
 		"ID":40,
 		"NeedEgg":39,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_40.json",
-		"StageJson":"f1/table/stage_40.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_40.json"
 	},
 	{
 		"ID":41,
 		"NeedEgg":40,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_41.json",
-		"StageJson":"f1/table/stage_41.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_41.json"
 	},
 	{
 		"ID":42,
 		"NeedEgg":41,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_42.json",
-		"StageJson":"f1/table/stage_42.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_42.json"
 	},
 	{
 		"ID":43,
 		"NeedEgg":42,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_43.json",
-		"StageJson":"f1/table/stage_43.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_43.json"
 	},
 	{
 		"ID":44,
 		"NeedEgg":43,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_44.json",
-		"StageJson":"f1/table/stage_44.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_44.json"
 	},
 	{
 		"ID":45,
 		"NeedEgg":44,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_45.json",
-		"StageJson":"f1/table/stage_45.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_45.json"
 	},
 	{
 		"ID":46,
 		"NeedEgg":45,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_46.json",
-		"StageJson":"f1/table/stage_46.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_46.json"
 	},
 	{
 		"ID":47,
 		"NeedEgg":46,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_47.json",
-		"StageJson":"f1/table/stage_47.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_47.json"
 	},
 	{
 		"ID":48,
 		"NeedEgg":47,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_48.json",
-		"StageJson":"f1/table/stage_48.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_48.json"
 	},
 	{
 		"ID":49,
 		"NeedEgg":48,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_49.json",
-		"StageJson":"f1/table/stage_49.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_49.json"
 	},
 	{
 		"ID":50,
 		"NeedEgg":49,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_50.json",
-		"StageJson":"f1/table/stage_50.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_50.json"
 	},
 	{
 		"ID":51,
 		"NeedEgg":50,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_51.json",
-		"StageJson":"f1/table/stage_51.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_51.json"
 	},
 	{
 		"ID":52,
 		"NeedEgg":51,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_52.json",
-		"StageJson":"f1/table/stage_52.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_52.json"
 	},
 	{
 		"ID":53,
 		"NeedEgg":52,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_53.json",
-		"StageJson":"f1/table/stage_53.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_53.json"
 	},
 	{
 		"ID":54,
 		"NeedEgg":53,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_54.json",
-		"StageJson":"f1/table/stage_54.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_54.json"
 	},
 	{
 		"ID":55,
 		"NeedEgg":54,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_55.json",
-		"StageJson":"f1/table/stage_55.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_55.json"
 	},
 	{
 		"ID":56,
 		"NeedEgg":55,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_56.json",
-		"StageJson":"f1/table/stage_56.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_56.json"
 	},
 	{
 		"ID":57,
 		"NeedEgg":56,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_57.json",
-		"StageJson":"f1/table/stage_57.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_57.json"
 	},
 	{
 		"ID":58,
 		"NeedEgg":57,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_58.json",
-		"StageJson":"f1/table/stage_58.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_58.json"
 	},
 	{
 		"ID":59,
 		"NeedEgg":58,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_59.json",
-		"StageJson":"f1/table/stage_59.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_59.json"
 	},
 	{
 		"ID":60,
 		"NeedEgg":59,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_60.json",
-		"StageJson":"f1/table/stage_60.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_60.json"
 	},
 	{
 		"ID":61,
 		"NeedEgg":60,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_61.json",
-		"StageJson":"f1/table/stage_61.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_61.json"
 	},
 	{
 		"ID":62,
 		"NeedEgg":61,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_62.json",
-		"StageJson":"f1/table/stage_62.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_62.json"
 	},
 	{
 		"ID":63,
 		"NeedEgg":62,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_63.json",
-		"StageJson":"f1/table/stage_63.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_63.json"
 	},
 	{
 		"ID":64,
 		"NeedEgg":63,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_64.json",
-		"StageJson":"f1/table/stage_64.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_64.json"
 	},
 	{
 		"ID":65,
 		"NeedEgg":64,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_65.json",
-		"StageJson":"f1/table/stage_65.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_65.json"
 	},
 	{
 		"ID":66,
 		"NeedEgg":65,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_66.json",
-		"StageJson":"f1/table/stage_66.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_66.json"
 	},
 	{
 		"ID":67,
 		"NeedEgg":66,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_67.json",
-		"StageJson":"f1/table/stage_67.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_67.json"
 	},
 	{
 		"ID":68,
 		"NeedEgg":67,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_68.json",
-		"StageJson":"f1/table/stage_68.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_68.json"
 	},
 	{
 		"ID":69,
 		"NeedEgg":68,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_69.json",
-		"StageJson":"f1/table/stage_69.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_69.json"
 	},
 	{
 		"ID":70,
 		"NeedEgg":69,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_70.json",
-		"StageJson":"f1/table/stage_70.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_70.json"
 	},
 	{
 		"ID":71,
 		"NeedEgg":70,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_71.json",
-		"StageJson":"f1/table/stage_71.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_71.json"
 	},
 	{
 		"ID":72,
 		"NeedEgg":71,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_72.json",
-		"StageJson":"f1/table/stage_72.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_72.json"
 	},
 	{
 		"ID":73,
 		"NeedEgg":72,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_73.json",
-		"StageJson":"f1/table/stage_73.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_73.json"
 	},
 	{
 		"ID":74,
 		"NeedEgg":73,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_74.json",
-		"StageJson":"f1/table/stage_74.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_74.json"
 	},
 	{
 		"ID":75,
 		"NeedEgg":74,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_75.json",
-		"StageJson":"f1/table/stage_75.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_75.json"
 	},
 	{
 		"ID":76,
 		"NeedEgg":75,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_76.json",
-		"StageJson":"f1/table/stage_76.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_76.json"
 	},
 	{
 		"ID":77,
 		"NeedEgg":76,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_77.json",
-		"StageJson":"f1/table/stage_77.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_77.json"
 	},
 	{
 		"ID":78,
 		"NeedEgg":77,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_78.json",
-		"StageJson":"f1/table/stage_78.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_78.json"
 	},
 	{
 		"ID":79,
 		"NeedEgg":78,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_79.json",
-		"StageJson":"f1/table/stage_79.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_79.json"
 	},
 	{
 		"ID":80,
 		"NeedEgg":79,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_80.json",
-		"StageJson":"f1/table/stage_80.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_80.json"
 	},
 	{
 		"ID":81,
 		"NeedEgg":80,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_81.json",
-		"StageJson":"f1/table/stage_81.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_81.json"
 	},
 	{
 		"ID":82,
 		"NeedEgg":81,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_82.json",
-		"StageJson":"f1/table/stage_82.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_82.json"
 	},
 	{
 		"ID":83,
 		"NeedEgg":82,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_83.json",
-		"StageJson":"f1/table/stage_83.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_83.json"
 	},
 	{
 		"ID":84,
 		"NeedEgg":83,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_84.json",
-		"StageJson":"f1/table/stage_84.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_84.json"
 	},
 	{
 		"ID":85,
 		"NeedEgg":84,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_85.json",
-		"StageJson":"f1/table/stage_85.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_85.json"
 	},
 	{
 		"ID":86,
 		"NeedEgg":85,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_86.json",
-		"StageJson":"f1/table/stage_86.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_86.json"
 	},
 	{
 		"ID":87,
 		"NeedEgg":86,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_87.json",
-		"StageJson":"f1/table/stage_87.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_87.json"
 	},
 	{
 		"ID":88,
 		"NeedEgg":87,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_88.json",
-		"StageJson":"f1/table/stage_88.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_88.json"
 	},
 	{
 		"ID":89,
 		"NeedEgg":88,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_89.json",
-		"StageJson":"f1/table/stage_89.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_89.json"
 	},
 	{
 		"ID":90,
 		"NeedEgg":89,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_90.json",
-		"StageJson":"f1/table/stage_90.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_90.json"
 	},
 	{
 		"ID":91,
 		"NeedEgg":90,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_91.json",
-		"StageJson":"f1/table/stage_91.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_91.json"
 	},
 	{
 		"ID":92,
 		"NeedEgg":91,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_92.json",
-		"StageJson":"f1/table/stage_92.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_92.json"
 	},
 	{
 		"ID":93,
 		"NeedEgg":92,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_93.json",
-		"StageJson":"f1/table/stage_93.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_93.json"
 	},
 	{
 		"ID":94,
 		"NeedEgg":93,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_94.json",
-		"StageJson":"f1/table/stage_94.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_94.json"
 	},
 	{
 		"ID":95,
 		"NeedEgg":94,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_95.json",
-		"StageJson":"f1/table/stage_95.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_95.json"
 	},
 	{
 		"ID":96,
 		"NeedEgg":95,
+		"Option":"FireStone=1;IceStone=1;",
 		"MapJson":"f1/table/map_96.json",
-		"StageJson":"f1/table/stage_96.json",
-		"BuildNumbers":"1/1"
+		"StageJson":"f1/table/stage_96.json"
 	}
 ]

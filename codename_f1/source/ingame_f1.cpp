@@ -31,6 +31,7 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
                     while(m->mWaveSecSettled < m->mWaveSecCurrently)
                         m->PlayScriptOnce(m->mWaveSecSettled++);
                     m->AnimationOnce(CurTimeSecSpan);
+                    m->ReserveToSlotOnce();
                 }
             }
 
@@ -63,12 +64,16 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
         {
             m->mSpineInited = true;
             m->InitForSpine();
+            // 배경사운드시작
+            if(FXSaver::Read("SoundFlag").GetInt() && FXSaver::Read("BGMFlag").GetInt())
+                Platform::Sound::Play(m->GetSound(m->mBGMusic, true));
         }
-        else m->RebuildTryWorld();
+        else m->BuildTryWorld(false);
         m->ClearAllPathes(true);
         // 윈도우 타이틀
         if(FXSaver::Read("DevMode").GetInt())
-            Platform::SetWindowName(String::Format("Codename F1 [%dx%d:%.03f]", Width, Height, Height / (float) Width));
+            Platform::SetWindowName(String::Format("Codename F1 [%dx%d:%.03f] - %s(%s)",
+                Width, Height, Height / (float) Width, (chars) m->mStage, (chars) m->mWaveData("MapName").GetString()));
         else Platform::SetWindowName("DragonBreath - MonthlyKoobonil");
     }
 }
@@ -82,7 +87,36 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
     static bool IsPressEnabled = true;
 
     if(m->mWave == -1 || m->mPaused || m->mClosing != -1)
+    {
         IsPressEnabled = true;
+        if(type == GT_Pressed)
+        {
+            // 디버그모드시 타이틀에서는 블럭을 부셔볼 수 있음
+            if(m->mWave == -1 && m->mShowDebug)
+            {
+                auto& CurObjects = m->mLayers.At(2).mObjects;
+                for(sint32 i = 0, iend = CurObjects.Count(); i < iend; ++i)
+                {
+                    auto& CurObject = CurObjects.At(i);
+                    if(!CurObject.mType->mType.isDynamic() || CurObject.mHPValue == 0)
+                        continue;
+                    const float l = m->mInGameX + m->mInGameW * (CurObject.mCurrentRect.l + 0.5f);
+                    const float t = m->mInGameY + m->mInGameH * (CurObject.mCurrentRect.t + 0.5f);
+                    const float r = m->mInGameX + m->mInGameW * (CurObject.mCurrentRect.r + 0.5f);
+                    const float b = m->mInGameY + m->mInGameH * (CurObject.mCurrentRect.b + 0.5f);
+                    if(l <= x && x < r && t <= y && y < b)
+                    {
+                        if(CurObject.SetHP(0, m->mHPbarDeleteTime))
+                        {
+                            if(m->mShowDebug)
+                                CurObject.mVisible = false;
+                            m->SetBrokenObject(CurObject);
+                        }
+                    }
+                }
+            }
+        }
+    }
     else
     {
         if(type == GT_Pressed)
@@ -91,7 +125,7 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
             for(sint32 i = 0, iend = m->mMonsters.Count(); i < iend; ++i)
             {
                 auto& CurMonster = m->mMonsters.At(i);
-                if(CurMonster.mType->mType != MonsterType::TypeClass::Ally) continue;
+                if(CurMonster.mType->mType != monster_type::Ally) continue;
                 if(m->mWaveSecCurrently < CurMonster.mEntranceSec || 0 < CurMonster.mDeathStep)
                     continue;
 
@@ -129,7 +163,7 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
                 if(m->mBreathing)
                     m->mBreathPos = Point(x, y - m->mFingerSizeR);
             }
-            else if(type == GT_InReleased)
+            else if(type == GT_InReleased || type == GT_OutReleased)
             {
                 if(m->mBreathing)
                 {
@@ -174,10 +208,12 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
         m->door().Render(panel);
 }
 
-ingameData::ingameData()
+ingameData::ingameData() : F1State(true)
 {
-    mSpineInited = false;
     mShowDebug = false;
+
+    mSpineInited = false;
+    mOptionItemInited = false;
     mPaused = false;
     mClosing = -1;
     mClosingOption = 0;
@@ -189,10 +225,6 @@ ingameData::ingameData()
     mWaveSecMax = 0;
     mCurTickTimeSec = 0;
     mCurParaTalk = 0;
-    mSlotFlag[0] = mSlotFlag[1] = mSlotFlag[2] = mSlotFlag[3] = false;
-    mCurItemSkin = "normal";
-    mCurItemSkinForDragon = "normal";
-    mCurItemSkinEndTimeMsec = 0;
     mWallBoundFocus = 0;
     mBreathReadyCount = 0;
     mBreathing = false;
@@ -206,18 +238,33 @@ ingameData::ingameData()
     mBreathGaugeTime = mBreathMaxGauge;
     mBreathGaugeTimeLog = mBreathMaxGauge;
 
-    // 도어인증
-    door().Load();
-
-    // 배경사운드시작
-    if(FXSaver::Read("SoundFlag").GetInt() && FXSaver::Read("BGMFlag").GetInt())
-        Platform::Sound::Play(GetSound("bg_forest", true));
+    // 옵션
+    mGameMode = GameMode::Normal;
+    mGameBeginMsec = 0;
+    mGameStopMsec = 0;
+    mGameSumStopMsec = 0;
+    mGameSumWave = 0;
+    mGameScore = 0;
+    mGameScoreLog = 0;
+    // 로컬실행을 위한 옵션셋팅
+    if(!String::Compare(mStage, "f1/table_etc/", 13))
+        mGameOption.LoadJson(SO_NeedCopy, "{\"FireStone\":10,\"IceStone\":10,\"WindStone\":10,\"LightningStone\":10}");
+    // 옵션셋팅
+    else if(!mStage.Right(5).CompareNoCase(".json"))
+    {
+        const String OptionAssetName = mStage.Left(mStage.Length() - 5) + "_option.json";
+        const String Option = String::FromAsset(OptionAssetName);
+        if(0 < Option.Length())
+            mGameOption.LoadJson(SO_NeedCopy, Option);
+    }
+    else BOSS_ASSERT("mStage의 값은 .json으로 끝나야 합니다", false);
+    mGameMode = mGameOption("GameMode").GetString("Normal");
 }
 
 ingameData::~ingameData()
 {
     // 배경사운드끝
-    Platform::Sound::Stop(GetSound("bg_forest", true));
+    Platform::Sound::Stop(GetSound(mBGMusic, true));
 }
 
 #define PATHFIND_STEP (5)
@@ -226,7 +273,7 @@ void ingameData::Targeting(MapMonster& monster, const TryWorldZone& tryworld)
     // 타겟중 최적의 타겟을 선정
     TryWorld::Path* ResultPath = nullptr;
     sint32 ResultPathScore = 0, ResultIndex = -1;
-    auto& CurTargets = (monster.mType->mType == MonsterType::TypeClass::Ally)? mTargetsForAlly : mTargetsForEnemy;
+    auto& CurTargets = (monster.mType->mType == monster_type::Ally)? mTargetsForAlly : mTargetsForEnemy;
     const Point CurMonsterPos(mInGameW * (monster.mCurrentPos.x + 0.5f), mInGameH * (monster.mCurrentPos.y + 0.5f));
     for(sint32 j = 0, jend = CurTargets.Count(); j < jend; ++j)
     {
@@ -236,37 +283,10 @@ void ingameData::Targeting(MapMonster& monster, const TryWorldZone& tryworld)
         const float y = mInGameH * (CurObject.mCurrentRect.CenterY() + 0.5f);
 
         sint32 GetScore = 0;
-        auto NewPath = tryworld.mMap->BuildPath(CurMonsterPos, Point(x, y), PATHFIND_STEP, &GetScore,
-            [this](const TryWorld::Dot& a, const TryWorld::Dot& b, const TryWorld::Dot& c)->int
-            {
-                // 루트선정시 오브젝트점수를 고려하여 판단
-                sint32 SumScore = 0;
-                auto& CurObjects = mLayers[2].mObjects;
-                for(sint32 i = 0, iend = CurObjects.Count(); i < iend; ++i)
-                {
-                    if(!CurObjects[i].mEnable || !CurObjects[i].mType->mType.canBroken())
-                        continue;
-                    const Point ObjectPos(
-                        mInGameW * (CurObjects[i].mCurrentRect.CenterX() + 0.5f),
-                        mInGameH * (CurObjects[i].mCurrentRect.CenterY() + 0.5f));
-                    auto SideTest = [](const TryWorld::Dot& a, const TryWorld::Dot& b, const Point& c)->float
-                    {return ((a.x - b.x) * (c.y - b.y) - (a.y - b.y) * (c.x - b.x));};
-                    const bool Side1 = (SideTest(a, b, ObjectPos) < 0);
-                    const bool Side2 = (SideTest(b, c, ObjectPos) < 0);
-                    const bool Side3 = (SideTest(c, a, ObjectPos) < 0);
-                    if(Side1 == Side2 && Side1 == Side3)
-                    {
-                        if(CurObjects[i].mType->mType.canBroken())
-                            SumScore += CurObjects[i].mHPValue * mInGameSize / 1000; // 1000점이 인게임사이즈로 환산
-                        else if(CurObjects[i].mType->mType.isWall())
-                            SumScore += 1000000 * mInGameSize / 1000; // 인게임사이즈의 1000배
-                    }
-                }
-                return SumScore;
-            });
-        sint32 NewPathScore = GetScore * 1000 / mInGameSize; // 인게임사이즈가 1000점으로 환산
+        auto NewPath = tryworld.mMap->BuildPath(CurMonsterPos, Point(x, y), PATHFIND_STEP, &GetScore);
+        sint32 NewPathScore = GetScore * 1000 / mInGameSize; // 인게임사이즈당 1000점으로 환산
         NewPathScore += CurObject.mHPValue; // 점수가 낮은 타겟이 우선
-        NewPathScore += Platform::Utility::Random() % 500; // 랜덤요소 추가
+        NewPathScore += Platform::Utility::Random() % 1000; // 랜덤요소 추가
 
         if(!ResultPath || (NewPath && NewPathScore < ResultPathScore))
         {
@@ -278,39 +298,6 @@ void ingameData::Targeting(MapMonster& monster, const TryWorldZone& tryworld)
         else TryWorld::Path::Release(NewPath);
     }
 
-    // 중간타겟으로 선정
-    if(ResultPath)
-    for(sint32 p = ResultPath->Dots.Count() - 2; 1 <= p && ResultPath; --p)
-    {
-        auto& CurPos = ResultPath->Dots[p];
-        auto& CurObjects = mLayers[2].mObjects;
-        for(sint32 i = 0, iend = CurObjects.Count(); i < iend; ++i)
-        {
-            if(!CurObjects[i].mEnable || !CurObjects[i].mType->mType.canBroken())
-                continue;
-            const Rect Area(
-                mInGameW * (CurObjects[i].mCurrentRect.l + 0.5f),
-                mInGameH * (CurObjects[i].mCurrentRect.t + 0.5f),
-                mInGameW * (CurObjects[i].mCurrentRect.r + 0.5f),
-                mInGameH * (CurObjects[i].mCurrentRect.b + 0.5f));
-            if(Area.PtInRect(CurPos.x, CurPos.y))
-            {
-                auto& NewTarget = monster.mTargets.AtAdding();
-                NewTarget.mType = MonsterTarget::Wall;
-                NewTarget.mIndex = i;
-                NewTarget.mPos = CurObjects[i].mCurrentRect.Center();
-                NewTarget.mPath = tryworld.mMap->CreatePath(PATHFIND_STEP);
-                NewTarget.mPath->Dots.AtAdding() = Area.Center();
-                for(sint32 j = p, jend = ResultPath->Dots.Count(); j < jend; ++j)
-                    NewTarget.mPath->Dots.AtAdding() = ResultPath->Dots[j];
-                TryWorld::Path::Release(ResultPath);
-                ResultPath = nullptr;
-                break;
-            }
-        }
-    }
-
-    // 최종타겟으로 선정
     if(ResultPath)
     {
         auto& NewTarget = monster.mTargets.AtAdding();
@@ -321,53 +308,34 @@ void ingameData::Targeting(MapMonster& monster, const TryWorldZone& tryworld)
     }
 }
 
-sint32 ingameData::GetContactObject(const MapMonster& monster, const Point& curPos, const Point& nextPos)
+sint32 ingameData::GetContactObject(const MapMonster& monster, const Point& nextPos)
 {
     float ResultDistance = -1;
     sint32 ResultIndex = -1;
-    auto& CurObjects = mLayers[2].mObjects;
-    const float MonsterWaistSizeRW = mMonsterSizeR * monster.mType->mWaistScaleWidth / 1000;
-    const float MonsterWaistSizeRH = mMonsterSizeR * monster.mType->mWaistScaleHeight / 1000;
-    for(sint32 i = 0, iend = CurObjects.Count(); i < iend; ++i)
+    if(auto CurTryWorldZone = mAllTryWorldZones.Access(monster.mType->mPolygon))
     {
-        if(!CurObjects[i].mEnable || !CurObjects[i].mType->mType.isWall())
-            continue;
-        const Rect Area(
-            mInGameW * (CurObjects[i].mCurrentRect.l + 0.5f) - MonsterWaistSizeRW,
-            mInGameH * (CurObjects[i].mCurrentRect.t + 0.5f) - MonsterWaistSizeRH,
-            mInGameW * (CurObjects[i].mCurrentRect.r + 0.5f) + MonsterWaistSizeRW,
-            mInGameH * (CurObjects[i].mCurrentRect.b + 0.5f) + MonsterWaistSizeRH);
-        if(!Area.PtInRect(nextPos))
-            continue;
-
-        // 오브젝트를 향해 다가서는 것이 맞는지의 여부
-        bool IsContact = false;
-        const float DistanceL = Area.l - curPos.x;
-        const float DistanceR = curPos.x - Area.r;
-        const float DistanceLR = Math::MaxF(DistanceL, DistanceR);
-        const float DistanceT = Area.t - curPos.y;
-        const float DistanceB = curPos.y - Area.b;
-        const float DistanceTB = Math::MaxF(DistanceT, DistanceB);
-        const float CurDistance = Math::MaxF(DistanceLR, DistanceTB);
-        if(DistanceLR > DistanceTB)
+        const auto& CurObjects = mLayers[2].mObjects;
+        const float MonsterWaistSizeRW = mMonsterSizeR * CurTryWorldZone->mType->mWaistScaleWidth / 1000 * 1.1f; // 110%
+        const float MonsterWaistSizeRH = mMonsterSizeR * CurTryWorldZone->mType->mWaistScaleHeight / 1000 * 1.1f; // 110%
+        for(sint32 i = 0, iend = CurObjects.Count(); i < iend; ++i)
         {
-            if(DistanceL > DistanceR) IsContact = (Area.l - nextPos.x < CurDistance);
-            else IsContact = (nextPos.x - Area.r < CurDistance);
-        }
-        else
-        {
-            if(DistanceT > DistanceB) IsContact = (Area.t - nextPos.y < CurDistance);
-            else IsContact = (nextPos.y - Area.b < CurDistance);
-        }
-        if(!IsContact)
-            continue;
-
-        // 최소거리의 오브젝트를 찾음
-        const float NextDistance = Math::Distance(nextPos.x, nextPos.y, Area.CenterX(), Area.CenterY());
-        if(ResultDistance == -1 || NextDistance < ResultDistance)
-        {
-            ResultDistance = NextDistance;
-            ResultIndex = i;
+            const auto& CurObject = CurObjects[i];
+            if(!CurObject.mVisible || !(CurObject.CanBroken(monster.mType->mPolygon) || CurObject.ValidTarget(*monster.mType) || CurObject.ValidTrigger()))
+                continue;
+            const Rect Area(
+                mInGameW * (CurObject.mCurrentRect.l + 0.5f) - MonsterWaistSizeRW,
+                mInGameH * (CurObject.mCurrentRect.t + 0.5f) - MonsterWaistSizeRH,
+                mInGameW * (CurObject.mCurrentRect.r + 0.5f) + MonsterWaistSizeRW,
+                mInGameH * (CurObject.mCurrentRect.b + 0.5f) + MonsterWaistSizeRH);
+            if(!Area.PtInRect(nextPos))
+                continue;
+            // 최소거리의 오브젝트를 찾음
+            const float NextDistance = Math::Distance(nextPos.x, nextPos.y, Area.CenterX(), Area.CenterY());
+            if(ResultDistance == -1 || NextDistance < ResultDistance)
+            {
+                ResultDistance = NextDistance;
+                ResultIndex = i;
+            }
         }
     }
     return ResultIndex;
@@ -378,53 +346,97 @@ sint32 ingameData::GetValidNextObject(const MapMonster& monster, const Point& cu
     Point ResultPos = nextPos;
     float ResultDistance = -1;
     sint32 ResultIndex = -1;
-    auto& CurObjects = mLayers[2].mObjects;
-    const float MonsterWaistSizeRW = mMonsterSizeR * monster.mType->mWaistScaleWidth / 1000;
-    const float MonsterWaistSizeRH = mMonsterSizeR * monster.mType->mWaistScaleHeight / 1000;
-    for(sint32 i = 0, iend = CurObjects.Count(); i < iend; ++i)
+    if(auto CurTryWorldZone = mAllTryWorldZones.Access(monster.mType->mPolygon))
     {
-        if(!CurObjects[i].mEnable || !CurObjects[i].mType->mType.isWall())
-            continue;
-        const Rect Area(
-            mInGameW * (CurObjects[i].mCurrentRect.l + 0.5f) - MonsterWaistSizeRW,
-            mInGameH * (CurObjects[i].mCurrentRect.t + 0.5f) - MonsterWaistSizeRH,
-            mInGameW * (CurObjects[i].mCurrentRect.r + 0.5f) + MonsterWaistSizeRW,
-            mInGameH * (CurObjects[i].mCurrentRect.b + 0.5f) + MonsterWaistSizeRH);
-        if(Math::MaxF(curPos.x, nextPos.x) < Area.l || Math::MinF(curPos.x, nextPos.x) > Area.r
-		|| Math::MaxF(curPos.y, nextPos.y) < Area.t || Math::MinF(curPos.y, nextPos.y) > Area.b)
-            continue;
+        auto& CurObjects = mLayers[2].mObjects;
+        const float MonsterWaistSizeRW = mMonsterSizeR * CurTryWorldZone->mType->mWaistScaleWidth / 1000 * 1.1f; // 110%
+        const float MonsterWaistSizeRH = mMonsterSizeR * CurTryWorldZone->mType->mWaistScaleHeight / 1000 * 1.1f; // 110%
+        for(sint32 i = 0, iend = CurObjects.Count(); i < iend; ++i)
+        {
+            const auto& CurObject = CurObjects[i];
+            if(!CurObject.mVisible || !(CurObject.CanBroken(monster.mType->mPolygon) || CurObject.ValidTrigger()))
+                continue;
+            const Rect Area(
+                mInGameW * (CurObject.mCurrentRect.l + 0.5f) - MonsterWaistSizeRW,
+                mInGameH * (CurObject.mCurrentRect.t + 0.5f) - MonsterWaistSizeRH,
+                mInGameW * (CurObject.mCurrentRect.r + 0.5f) + MonsterWaistSizeRW,
+                mInGameH * (CurObject.mCurrentRect.b + 0.5f) + MonsterWaistSizeRH);
+            if(Math::MaxF(curPos.x, nextPos.x) < Area.l || Math::MinF(curPos.x, nextPos.x) > Area.r
+		    || Math::MaxF(curPos.y, nextPos.y) < Area.t || Math::MinF(curPos.y, nextPos.y) > Area.b)
+                continue;
 
-        const TryWorld::Dot LineDot[4] = {
-            TryWorld::Dot(Area.l, Area.t), TryWorld::Dot(Area.l, Area.b),
-            TryWorld::Dot(Area.r, Area.b), TryWorld::Dot(Area.r, Area.t)};
-        for(int j = 0, jend = 4; j < jend; ++j)
-		{
-            auto& LineBegin = LineDot[j];
-            auto& LineEnd = LineDot[(j + 1) % jend];
-            if(TryWorld::Util::GetClockwiseValue(LineBegin, LineEnd, curPos) < 0)
-			if(auto CrossPos = TryWorld::Util::GetDotByLineCross(LineBegin, LineEnd, curPos, nextPos))
-            {
-                const float CurDistance = Math::Distance(curPos.x, curPos.y, CrossPos->x, CrossPos->y);
-                if(ResultDistance == -1 || CurDistance < ResultDistance)
+            const TryWorld::Dot LineDot[4] = {
+                TryWorld::Dot(Area.l, Area.t), TryWorld::Dot(Area.l, Area.b),
+                TryWorld::Dot(Area.r, Area.b), TryWorld::Dot(Area.r, Area.t)};
+            for(int j = 0, jend = 4; j < jend; ++j)
+		    {
+                auto& LineBegin = LineDot[j];
+                auto& LineEnd = LineDot[(j + 1) % jend];
+                if(TryWorld::Util::GetClockwiseValue(LineBegin, LineEnd, curPos) < 0)
+			    if(auto CrossPos = TryWorld::Util::GetDotByLineCross(LineBegin, LineEnd, curPos, nextPos))
                 {
-                    ResultPos = Point(CrossPos->x, CrossPos->y);
-                    ResultDistance = CurDistance;
-                    ResultIndex = i;
+                    const float CurDistance = Math::Distance(curPos.x, curPos.y, CrossPos->x, CrossPos->y);
+                    if(ResultDistance == -1 || CurDistance < ResultDistance)
+                    {
+                        ResultPos = Point(CrossPos->x, CrossPos->y);
+                        ResultDistance = CurDistance;
+                        ResultIndex = i;
 
-                    const float LineDx = LineEnd.x - LineBegin.x;
-                    const float LineDy = LineEnd.y - LineBegin.y;
-                    const float TValue = ((curPos.x - LineBegin.x) * LineDx + (curPos.y - LineBegin.y) * LineDy)
-                        / (LineDx * LineDx + LineDy * LineDy);
-                    const float NearX = LineBegin.x + TValue * LineDx;
-                    const float NearY = LineBegin.y + TValue * LineDy;
-                    reflectPos.x = curPos.x + (ResultPos.x - NearX) * 2;
-                    reflectPos.y = curPos.y + (ResultPos.y - NearY) * 2;
+                        const float LineDx = LineEnd.x - LineBegin.x;
+                        const float LineDy = LineEnd.y - LineBegin.y;
+                        const float TValue = ((curPos.x - LineBegin.x) * LineDx + (curPos.y - LineBegin.y) * LineDy)
+                            / (LineDx * LineDx + LineDy * LineDy);
+                        const float NearX = LineBegin.x + TValue * LineDx;
+                        const float NearY = LineBegin.y + TValue * LineDy;
+                        reflectPos.x = curPos.x + (ResultPos.x - NearX) * 2;
+                        reflectPos.y = curPos.y + (ResultPos.y - NearY) * 2;
+                    }
                 }
-            }
-		}
+		    }
+        }
     }
     resultPos = ResultPos;
     return ResultIndex;
+}
+
+void ingameData::ItemToSlot(MapItem& item)
+{
+    sint32 SaveIndex = -1;
+    for(sint32 i = 0; i < 5; ++i)
+    {
+        if(i == 4)
+        {
+            if(SaveIndex != -1)
+            {
+                mSlotStatus[SaveIndex].mItemType = item.type();
+                mSlotStatus[SaveIndex].mCount++;
+                item.MoveToSlot(SaveIndex, &mSlotStatus[SaveIndex].mPos, 1000);
+            }
+        }
+        else if(mSlotStatus[i].mItemType)
+        {
+            if(mSlotStatus[i].mItemType == item.type())
+            {
+                mSlotStatus[i].mCount++;
+                item.MoveToSlot(i, &mSlotStatus[i].mPos, 1000);
+            }
+        }
+        else if(SaveIndex == -1)
+            SaveIndex = i;
+    }
+}
+
+void ingameData::ReserveItem(chars skin)
+{
+    for(sint32 i = 0; i < 4; ++i)
+    {
+        if(!mSlotStatus[i].mItemType) continue;
+        if(!mSlotStatus[i].mItemType->mSkinName.Compare(skin))
+        {
+            mSlotStatus[i].mReserved++;
+            break;
+        }
+    }
 }
 
 void ingameData::InitForSpine()
@@ -432,8 +444,8 @@ void ingameData::InitForSpine()
     // 맵로드
     const String MapName = mWaveData("MapName").GetString();
     // 로컬스테이지 플레이인지 체크
-    const String MapJsonPath = (!String::Compare(mStage, "f1/table_etc/", 13))? "f1/table_etc/" : "f1/table/";
-    id_asset_read TextAsset = Asset::OpenForRead(MapJsonPath + MapName + ".json");
+    const String MapPath = (!String::Compare(mStage, "f1/table_etc/", 13))? "f1/table_etc/" : "f1/table/";
+    id_asset_read TextAsset = Asset::OpenForRead(MapPath + MapName + ".json");
     if(TextAsset)
     {
         const sint32 TextSize = Asset::Size(TextAsset);
@@ -444,8 +456,8 @@ void ingameData::InitForSpine()
         LoadMap((chars) TextBuffer, false);
         Buffer::Free(TextBuffer);
     }
-    // 맵로드후 길찾기맵 첫빌드
-    RebuildTryWorld();
+    // 길찾기맵 첫빌드
+    BuildTryWorld(false);
 
     if(Platform::Option::GetFlag("DirectPlay"))
         ReadyForNextWave();
@@ -475,8 +487,7 @@ void ingameData::InitForSpine()
         mWallBound[i].InitSpine(GetSpine("wall_bound")).PlayMotion("idle", true);
 
     // InGame
-    mDragon.Init(GetSpine("dragon"), mDragonScaleMax / mDragonScale, updater(),
-        mDragonHome, mDragonExitL, mDragonExitR);
+    mDragon.Init(GetSpine("dragon"), mDragonScaleMax / mDragonScale, updater(), mDragonHome, mDragonExitL, mDragonExitR);
     mDragon.ResetCB(this);
     mBreathReadySpine[0].InitSpine(GetSpine("breath_ready"), "first").PlayMotionSeek("meteo_ready", false);
     mBreathReadySpine[1].InitSpine(GetSpine("breath_ready"), "second").PlayMotionSeek("meteo_ready", false);
@@ -485,12 +496,17 @@ void ingameData::InitForSpine()
     mBreathEffectSpine.InitSpine(GetSpine("breath_effect")).PlayMotion("idle", true);
 
     // UI
-    mWeather[0].InitSpine(GetSpine("a_weather_toast")).PlayMotion("forest_weather", true);
-    mWeather[1].InitSpine(GetSpine("b_weather_toast")).PlayMotion("forest_weather", true);
+    if(mGameMode == GameMode::Infinity)
+        mWeather[0].InitSpine(GetSpine("a_weather_toast")).PlayMotion("infinity", true);
+    else mWeather[0].InitSpine(GetSpine("a_weather_toast")).PlayMotion(mBGWeather, true);
+    mWeather[1].InitSpine(GetSpine("b_weather_toast")).PlayMotion(mBGWeather, true);
+    mCampaign.InitSpine(GetSpine("ui_campaign")).PlayMotion("idle", true);
     mGaugeHUD.InitSpine(GetSpine("ui_ingame_gauge"), "normal").PlayMotionSeek("charge", false);
     mGaugeHUD.PlayMotionOnce("loading");
     mSlotHUD.InitSpine(GetSpine("ui_ingame_slot")).PlayMotionAttached("show", "idle", true);
-    mWaveHUD.InitSpine(GetSpine("ui_ingame_wave")).PlayMotionAttached("show", "idle", true);
+    if(mGameMode == GameMode::Infinity)
+        mWaveHUD.InitSpine(GetSpine("ui_ingame_wave")).PlayMotionAttached("show_infinity", "idle_infinity", true);
+    else mWaveHUD.InitSpine(GetSpine("ui_ingame_wave")).PlayMotionAttached("show", "idle", true);
     mStopButton.InitSpine(GetSpine("ui_ingame_stop_butten")).PlayMotionAttached("show", "idle", true);
     mPausePopup.InitSpine(GetSpine("ui_pause"), "default",
         [this](chars motionname)
@@ -508,47 +524,134 @@ void ingameData::InitForSpine()
                 mPausePopup.PlayMotion("hide", false);
             }
             else if(!String::Compare("hide", motionname))
+            {
                 mPaused = false;
+                if(mClosing == -1)
+                {
+                    mGameSumStopMsec += Platform::Utility::CurrentTimeMsec() - mGameStopMsec;
+                    mGameStopMsec = 0;
+                }
+            }
         }).PlayMotion("idle", true);
 }
 
 void ingameData::PlayScriptOnce(sint32 sec)
 {
-    for(sint32 i = 0, iend = mWaveData("Waves")[mWave]("Events").LengthOfIndexable(); i < iend; ++i)
+    auto& CurEvents = mWaveData("Waves")[mWave]("Events");
+    for(sint32 i = 0, iend = CurEvents.LengthOfIndexable(); i < iend; ++i)
     {
-        const sint32 TimeSec = mWaveData("Waves")[mWave]("Events")[i]("TimeSec").GetInt(0);
+        const sint32 TimeSec = CurEvents[i]("TimeSec").GetInt(0);
         if(TimeSec == sec)
         {
-            auto& JsonScripts = mWaveData("Waves")[mWave]("Events")[i]("Scripts");
-            for(sint32 j = 0, jend = JsonScripts.LengthOfIndexable(); j < jend; ++j)
+            auto& CurScripts = CurEvents[i]("Scripts");
+            for(sint32 j = 0, jend = CurScripts.LengthOfIndexable(); j < jend; ++j)
             {
-                const sint32 ObjectRID = JsonScripts[j]("TargetRID").GetInt(0);
-                const String ScriptText = JsonScripts[j]("Text").GetString();
-                if(auto CurObject = mObjectRIDs.Access(ObjectRID))
+                const sint32 ObjectRID = CurScripts[j]("TargetRID").GetInt(0);
+                const String ScriptText = CurScripts[j]("Text").GetString();
+                if(ObjectRID == 0)
+                {
+                    if(!String::Compare(ScriptText, "wavejump ", 9))
+                    {
+                        // 웨이브 선택과정
+                        sint32s WaveIDCollector;
+                        sint32 LastWaveID = 0;
+                        chars CurWord = ((chars) ScriptText) + 9 - 1; // ++CurWord을 위해 한칸 앞으로 이동
+                        while(*(++CurWord))
+                        {
+                            if(*CurWord == '/')
+                            {
+                                WaveIDCollector.AtAdding() = LastWaveID;
+                                LastWaveID = 0;
+                            }
+                            else if('0' <= *CurWord && *CurWord <= '9')
+                                LastWaveID = LastWaveID * 10 + (*CurWord - '0');
+                        }
+                        WaveIDCollector.AtAdding() = LastWaveID;
+                        // 웨이브이동
+                        const sint32 SelectedIndex = Platform::Utility::Random() % WaveIDCollector.Count();
+                        const sint32 NewWaveIndex = WaveIDCollector[SelectedIndex] - 1; // 툴에서는 1부터 시작, 0은 내 웨이브잔존
+                        if(0 <= NewWaveIndex)
+                        {
+                            // ReadyForNextWave에서 1증가 될테니 -1
+                            mWave = Math::Min(NewWaveIndex, mWaveData("Waves").LengthOfIndexable() - 1) - 1;
+                            ReadyForNextWave();
+                        }
+                        // 스크립트로그
+                        mDebugScriptLogs.AtAdding() = String::Format("[wavejump] %s ▶ %d", (chars) ScriptText, NewWaveIndex + 1);
+                    }
+                }
+                else if(auto CurObject = mObjectRIDs.Access(ObjectRID))
                 {
                     if(!String::Compare(ScriptText, "animate ", 8))
-                        (*CurObject)->PlayMotionScript(((chars) ScriptText) + 8);
+                    {
+                        const String LastMotion = (*CurObject)->PlayMotionScript(((chars) ScriptText) + 8);
+                        // 트리거처리
+                        if((*CurObject)->mType->mType.isTrigger())
+                        {
+                            if(!LastMotion.Compare("idle"))
+                                (*CurObject)->mTriggerOpened = true;
+                            else if(!LastMotion.Compare("show"))
+                                (*CurObject)->mTriggerOpened = false;
+                        }
+                        // 스크립트로그
+                        mDebugScriptLogs.AtAdding() = String::Format("[animate] %s ▶ [%s] %d",
+                            (chars) ScriptText, (chars) (*CurObject)->mType->mID, ObjectRID);
+                    }
                 }
             }
             break;
         }
     }
+    // 스크립트로그 수량제한
+    if(20 < mDebugScriptLogs.Count())
+        mDebugScriptLogs.SubtractionSection(0, mDebugScriptLogs.Count() - 20);
 }
 
 void ingameData::AnimationOnce(sint32 sec_span)
 {
     const uint64 CurTimeMsec = Platform::Utility::CurrentTimeMsec();
 
-    // 스킨풀림
-    if(mCurItemSkinEndTimeMsec != 0 && mCurItemSkinEndTimeMsec < CurTimeMsec)
+    // 옵션로드
+    if(!mOptionItemInited && 2 < mWaveSecCurrently)
     {
-        mCurItemSkin = "normal";
-        mCurItemSkinEndTimeMsec = 0;
-        mGaugeHUD.SetSkin(mCurItemSkin);
+        mOptionItemInited = true;
+        // 시작캠페인
+        mCampaign.StopMotionAll();
+        mCampaign.PlayMotionAttached("start_show", "idle", true);
+        // 아이템추가
+        chars OptionNames[4] = {"FireStone", "IceStone", "WindStone", "LightningStone"};
+        chars SkinNames[4] = {"fire", "ice", "wind", "lightning"};
+        for(sint32 i = 0; i < 4; ++i)
+        for(sint32 j = 0, jend = mGameOption(OptionNames[i]).GetInt(0); j < jend; ++j)
+        {
+            if(j == 0)
+            {
+                for(sint32 k = 0, kend = mItemTypes.Count(); k < kend; ++k)
+                {
+                    if(!mItemTypes[k].mSkinName.Compare(SkinNames[i]))
+                    {
+                        auto& NewItem = mItemMap(MapItem::MakeId());
+                        NewItem.InitForSlot(&mItemTypes[k], GetSpine("item"), updater(), Point(0, -1));
+                        ItemToSlot(NewItem);
+                        break;
+                    }
+                }
+            }
+            else ReserveItem(SkinNames[i]);
+        }
+    }
+
+    // 스킬의 종료시점 확인
+    if(mCurSkill.IsFinished(CurTimeMsec))
+    {
+        // 스킬풀림
+        mCurSkill.Clear();
+        // 스킨풀림
+        mGaugeHUD.SetSkin(mCurSkill.skin());
         mGaugeHUD.PlayMotionOnce("change");
     }
 
-    // 몬스터애니
+    // 몬스터
     for(sint32 i = 0, iend = mMonsters.Count(); i < iend; ++i)
     {
         auto& CurMonster = mMonsters.At(i);
@@ -558,7 +661,53 @@ void ingameData::AnimationOnce(sint32 sec_span)
                 CurMonster.TryDeathMove();
             continue;
         }
-        const Point CurMonsterPos(mInGameW * (CurMonster.mCurrentPos.x + 0.5f), mInGameH * (CurMonster.mCurrentPos.y + 0.5f));
+
+        // 인접몬스터로부터 밀려나기
+        bool HasShove = false;
+        if(CurMonster.mShoveTimeMsec + mShoveCoolTime <= CurTimeMsec) // ShoveCoolTime마다 테스트실시
+        {
+            CurMonster.mShoveTimeMsec = CurTimeMsec;
+            for(sint32 j = 0, jend = mMonsters.Count(); j < jend; ++j)
+            {
+                if(i == j) continue;
+                auto& OtherMonster = mMonsters.At(j);
+                if(mWaveSecCurrently < OtherMonster.mEntranceSec || 0 < OtherMonster.mDeathStep)
+                    continue;
+                const float OtherDistance = Math::Distance(CurMonster.mCurrentPos.x, CurMonster.mCurrentPos.y,
+                    OtherMonster.mCurrentPos.x, OtherMonster.mCurrentPos.y);
+                if(OtherDistance < mShoveCheckDistance)
+                {
+                    HasShove = true;
+                    if(OtherDistance < 0.001f)
+                    {
+                        const float NewRad = Math::ToRadian(Platform::Utility::Random() % 360);
+                        CurMonster.mCurrentVec.x = mShovePower * Math::Cos(NewRad);
+                        CurMonster.mCurrentVec.y = mShovePower * Math::Sin(NewRad);
+                    }
+                    else
+                    {
+                        CurMonster.mCurrentVec.x = mShovePower * (CurMonster.mCurrentPos.x - OtherMonster.mCurrentPos.x) / OtherDistance;
+                        CurMonster.mCurrentVec.y = mShovePower * (CurMonster.mCurrentPos.y - OtherMonster.mCurrentPos.y) / OtherDistance;
+                    }
+                    break;
+                }
+            }
+        }
+
+        // 진행방향 가속벡터 업데이트
+        if(!HasShove)
+        {
+            const float VecDistanceMax = mMonsterScale * CurMonster.CalcedVector();
+            const sint32 VecWeight = 1000 - CurMonster.mType->mWeight;
+            CurMonster.mCurrentVec.x = (CurMonster.mCurrentVec.x * VecWeight + (CurMonster.mCurrentPos.x - CurMonster.mCurrentPosOld.x)) / (VecWeight + 1);
+            CurMonster.mCurrentVec.y = (CurMonster.mCurrentVec.y * VecWeight + (CurMonster.mCurrentPos.y - CurMonster.mCurrentPosOld.y)) / (VecWeight + 1);
+            const float VecDistance = Math::Sqrt(CurMonster.mCurrentVec.x * CurMonster.mCurrentVec.x + CurMonster.mCurrentVec.y * CurMonster.mCurrentVec.y);
+            if(VecDistanceMax < VecDistance) CurMonster.mCurrentVec *= VecDistanceMax / VecDistance;
+        }
+
+        // 위치와 벡터
+        const Point CurPos(mInGameW * (CurMonster.mCurrentPos.x + 0.5f), mInGameH * (CurMonster.mCurrentPos.y + 0.5f));
+        const Point CurVec(mInGameW * CurMonster.mCurrentVec.x, mInGameH * CurMonster.mCurrentVec.y);
 
         // 파라토크
         if(CurMonster.mEntranceSec + 2 < mWaveSecCurrently)
@@ -571,12 +720,12 @@ void ingameData::AnimationOnce(sint32 sec_span)
             for(sint32 j = 0, jend = CurObjects.Count(); j < jend; ++j)
             {
                 auto& CurObject = CurObjects.At(j);
-                if(!CurObject.mEnable || CurObject.mType->mType != ObjectType::TypeClass::Spot)
+                if(!CurObject.mVisible || CurObject.mType->mType != object_type::Spot)
                     continue;
                 const float x = mInGameW * (CurObject.mCurrentRect.CenterX() + 0.5f);
                 const float y = mInGameH * (CurObject.mCurrentRect.CenterY() + 0.5f);
                 const float r = mInGameSize * CurObject.mCurrentRect.Width();
-                if(Math::Distance(x, y, CurMonsterPos.x, CurMonsterPos.y) < r)
+                if(Math::Distance(x, y, CurPos.x, CurPos.y) < r)
                     CurObject.Spot();
             }
         }
@@ -589,271 +738,24 @@ void ingameData::AnimationOnce(sint32 sec_span)
             CurMonster.CancelAttack();
         }
 
-        // 공격
-        bool HasAction = false;
-        if(!CurMonster.IsKnockBackMode())
+        // 토스트 잔존테스트
+        CurMonster.ToastTest(CurTimeMsec);
+
+        // 몬스터AI
+        if(!MonsterActionOnce(CurMonster, CurPos))
         {
-            // 타겟공격 또는 도착
-            if(!HasAction)
-            if(0 < CurMonster.mTargets.Count())
+            if(auto CurTryWorldZone = mAllTryWorldZones.Access(CurMonster.mType->mPolygon))
             {
-                bool LossAttack = false;
-                bool LossTarget = false;
-                auto& CurTarget = CurMonster.mTargets[0];
-                if(CurTarget.mType == MonsterTarget::Target)
-                {
-                    auto& CurObject = mLayers.At(2).mObjects.At(CurTarget.mIndex);
-                    if(0 < CurObject.mHPValue)
-                    {
-                        if(CurTarget.mIndex == CurMonster.mBounceObjectIndex)
-                        {
-                            HasAction = true;
-                            if(CurMonster.mType->mType == MonsterType::TypeClass::Ally) // 동맹군도착
-                                CurMonster.Ally_Arrived();
-                            else if(auto AttackCount = CurMonster.TryAttack(CurTarget.mPos)) // 타겟공격
-                                if(CurObject.SetHP(CurObject.mHPValue - CurMonster.mType->mAttackPower * AttackCount, mHPbarDeleteTime))
-                                    ClearAllPathes(false);
-                        }
-                    }
-                    else LossAttack = LossTarget = true;
-                }
-                else if(CurTarget.mType == MonsterTarget::Wall)
-                {
-                    auto& CurObject = mLayers.At(2).mObjects.At(CurTarget.mIndex);
-                    if(0 < CurObject.mHPValue)
-                    {
-                        if(CurTarget.mIndex == CurMonster.mBounceObjectIndex)
-                        {
-                            HasAction = true;
-                            if(auto AttackCount = CurMonster.TryAttack(CurTarget.mPos)) // 오브젝트공격
-                                if(CurObject.SetHP(CurObject.mHPValue - CurMonster.mType->mAttackPower * AttackCount, mHPbarDeleteTime))
-                                    ClearAllPathes(false);
-                        }
-                    }
-                    else
-                    {
-                        LossAttack = true;
-                        const float x = mInGameW * (CurTarget.mPos.x + 0.5f);
-                        const float y = mInGameH * (CurTarget.mPos.y + 0.5f);
-                        if(Math::Distance(CurMonsterPos.x, CurMonsterPos.y, x, y) < 1) // 1px안쪽으로 들어오면 타겟종료
-                            LossTarget = true;
-                    }
-                }
-                else if(CurTarget.mType == MonsterTarget::Mission)
-                {
-                    const float x = mInGameW * (CurTarget.mPos.x + 0.5f);
-                    const float y = mInGameH * (CurTarget.mPos.y + 0.5f);
-                    const float r = mInGameSize * CurTarget.mSizeR;
-                    if(Math::Distance(CurMonsterPos.x, CurMonsterPos.y, x, y) < r)
-                        LossTarget = true;
-                }
-                if(LossAttack) CurMonster.CancelAttack();
-                if(LossTarget) CurMonster.ClearTargetOnce();
+                // 닿은 오브젝트 초기화
+                CurMonster.mBounceObjectIndex = -1;
+                // 다음위치 계산
+                CurMonster.mCurrentPosOld = CurMonster.mCurrentPos;
+                CurMonster.mCurrentPos = (CurMonster.IsKnockBackMode())?
+                    MonsterKnockBackOnce(CurMonster, *CurTryWorldZone, CurPos, CurTimeMsec) :
+                    MonsterMoveOnce(CurMonster, *CurTryWorldZone, CurPos, CurVec, CurTimeMsec);
             }
         }
-
-        // 이동
-        if(!HasAction)
-        if(auto CurTryWorldZone = mAllTryWorldZones.Access(CurMonster.mType->mPolygon))
-        {
-            // 닿은 오브젝트 초기화
-            CurMonster.mBounceObjectIndex = -1;
-            // 다음위치 계산
-            Point NextPos = CurMonster.mCurrentPos;
-            const float WallDistanceCheck = mInGameSize * 5 / 1000; // 벽에 닿아버린 상황판단
-            const float WallDistanceMin = mInGameSize * 20 / 1000; // 계산상 오류를 방지하는 거리
-            // 넉백중
-            if(CurMonster.IsKnockBackMode())
-            {
-                // 오브젝트와 폴리곤에 의해 반동되어야 할 경우를 판단
-                const float TryNextPosX = CurMonsterPos.x + CurMonster.knockbackaccel().x * mInGameW;
-                const float TryNextPosY = CurMonsterPos.y + CurMonster.knockbackaccel().y * mInGameH;
-                const Point TryResultPos(TryNextPosX, TryNextPosY);
-                Point ResultPos = TryResultPos, ReflectPos;
-                bool IsBounce = false, IsHole = false;
-                float DistanceMin = -1;
-                if(GetValidNextObject(CurMonster, CurMonsterPos, TryResultPos, ResultPos, ReflectPos) != -1)
-                {
-                    IsBounce = true;
-                    DistanceMin = Math::Distance(CurMonsterPos.x, CurMonsterPos.y, ResultPos.x, ResultPos.y);
-                }
-                if(auto Polygon = TryWorld::GetPosition::GetValidNext(CurTryWorldZone->mHurdle, CurMonsterPos, TryResultPos, ResultPos, ReflectPos, DistanceMin))
-                {
-                    IsBounce = true;
-                    if(Polygon[0]->Payload != -1 && Polygon[0]->Payload == Polygon[1]->Payload)
-                    {
-                        IsHole = true;
-                        const sint32 LayerIndex = (Polygon[0]->Payload >> 16) & 0xFFFF;
-                        const sint32 ObjectIndex = Polygon[0]->Payload & 0xFFFF;
-                        auto& HoleObject = mLayers.At(LayerIndex).mObjects.At(ObjectIndex);
-                        HoleObject.Hit();
-                        if(0 < CurMonster.mHPValue)
-                        {
-                            CurMonster.mHPValue = 0;
-                            CurMonster.mHPTimeMsec = CurTimeMsec + mHPbarDeleteTime;
-                        }
-                        CurMonster.KnockBackEndByHole(HoleObject.mCurrentRect.Center());
-                        // 홀실적추가
-                        const String CurHoleSkin = HoleObject.mType->spineSkinName();
-                        if(!!CurHoleSkin.Compare("normal"))
-                        {
-                            HoleObject.AddExtraInfo(CurMonster.mType->mID);
-                            if(mHoleItemGetCount <= HoleObject.GetExtraInfoCount())
-                            {
-                                // 아이템추가
-                                auto& NewItem = mItemMap(MapItem::MakeId());
-                                NewItem.Init(CurHoleSkin, GetSpine("item"), &HoleObject, updater(), -0.15f, 2000, 1000);
-                                // 홀실적초기화
-                                HoleObject.ResetExtraInfo();
-                            }
-                        }
-                    }
-                }
-
-                if(!IsHole)
-                {
-                    if(IsBounce)
-                    {
-                        // 반동의 충격
-                        mWallBound[mWallBoundFocus].StopMotionAll();
-                        sint32 BoundDamage = 0;
-                        switch(CurMonster.knockbackboundcount())
-                        {
-                        case 0:
-                            mWallBound[mWallBoundFocus].PlayMotionAttached("wall_bound_one", "idle", true);
-                            BoundDamage = CurMonster.mType->mHP * m1BoundDamageRate;
-                            break;
-                        case 1:
-                            mWallBound[mWallBoundFocus].PlayMotionAttached("wall_bound_two", "idle", true);
-                            BoundDamage = CurMonster.mType->mHP * m2BoundDamageRate;
-                            break;
-                        case 2: default:
-                            mWallBound[mWallBoundFocus].PlayMotionAttached("wall_bound_three", "idle", true);
-                            BoundDamage = CurMonster.mType->mHP * m3BoundDamageRate;
-                            break;
-                        }
-                        mWallBoundPos[mWallBoundFocus] = ResultPos;
-                        mWallBoundFocus = (mWallBoundFocus + 1) % mWallBoundMax;
-                        CurMonster.KnockBackBound(BoundDamage);
-
-                        // 진행방향을 결정하고
-                        CurMonster.SetKnockBackAccel(Point((ReflectPos.x - ResultPos.x) / mInGameW, (ReflectPos.y - ResultPos.y) / mInGameH));
-                        // 벽에 너무 닿은 경우에는 살짝 뒤로 물러섬
-                        const float ReflectOX = (CurMonsterPos.x + ReflectPos.x) / 2;
-                        const float ReflectOY = (CurMonsterPos.y + ReflectPos.y) / 2;
-                        const float ReflectDistance = Math::Distance(ResultPos.x, ResultPos.y, ReflectOX, ReflectOY);
-                        if(ReflectDistance < WallDistanceCheck)
-                        {
-                            BOSS_ASSERT("게임의 시나리오가 잘못되었습니다", 0 < ReflectDistance);
-                            ResultPos.x += (ReflectOX - ResultPos.x) * WallDistanceMin / ReflectDistance;
-                            ResultPos.y += (ReflectOY - ResultPos.y) * WallDistanceMin / ReflectDistance;
-                        }
-                    }
-                    CurMonster.SetKnockBackAccel(CurMonster.knockbackaccel() * CurMonster.mType->mResistance / 1000); // 가속도감소
-                    const float NextKnockBackAccelSize = Math::Sqrt(Math::Pow(CurMonster.knockbackaccel().x) + Math::Pow(CurMonster.knockbackaccel().y));
-                    if(NextKnockBackAccelSize < CurMonster.mKnockBackAccelMin) // 정신차리기
-                        CurMonster.KnockBackEnd();
-                }
-                NextPos = Point(ResultPos.x / mInGameW - 0.5f, ResultPos.y / mInGameH - 0.5f);
-            }
-            else // 걷기진행
-            {
-                // 타겟설정
-                if(CurMonster.mTargets.Count() == 0)
-                    Targeting(CurMonster, *CurTryWorldZone);
-
-                // 서브타겟위치 업데이트
-                Point TempPos;
-                if(CurMonster.mTargets.Count() == 0)
-                    TempPos = Point(mInGameW * (CurMonster.mTargetPos.x + 0.5f), mInGameH * (CurMonster.mTargetPos.y + 0.5f));
-                else
-                {
-                    if(TryWorld::GetPosition::SubTarget(CurTryWorldZone->mHurdle, CurMonster.mTargets[0].mPath, CurMonsterPos, TempPos))
-                        CurMonster.mTargetPos = Point(TempPos.x / mInGameW - 0.5f, TempPos.y / mInGameH - 0.5f);
-                    else CurMonster.ClearTargetOnce();
-                }
-
-                const float TargetDistance = Math::Distance(CurMonsterPos.x, CurMonsterPos.y, TempPos.x, TempPos.y);
-                if(0 < TargetDistance)
-                {
-                    const float SpeedDelay = 10;
-                    const float MoveDistance = mMonsterSizeR * CurMonster.mType->mMoveSpeed / (1000 * SpeedDelay);
-                    if(MoveDistance < TargetDistance)
-                    {
-                        // 오브젝트와 폴리곤에 의해 멈추어야 할 경우를 판단
-                        const float TryNextPosX = CurMonsterPos.x + (TempPos.x - CurMonsterPos.x) * MoveDistance / TargetDistance;
-                        const float TryNextPosY = CurMonsterPos.y + (TempPos.y - CurMonsterPos.y) * MoveDistance / TargetDistance;
-                        const Point TryResultPos(TryNextPosX, TryNextPosY);
-                        Point ResultPos = TryResultPos, ReflectPos;
-                        if(TryWorld::GetPosition::GetValidNext(CurTryWorldZone->mHurdle, CurMonsterPos, TryResultPos, ResultPos, ReflectPos))
-                        {
-                            // 벽에 너무 닿은 경우에는 살짝 뒤로 물러섬
-                            const float ReflectOX = (CurMonsterPos.x + ReflectPos.x) / 2;
-                            const float ReflectOY = (CurMonsterPos.y + ReflectPos.y) / 2;
-                            const float ResultToReflect = Math::Distance(ResultPos.x, ResultPos.y, ReflectOX, ReflectOY);
-                            if(ResultToReflect < WallDistanceCheck)
-                            {
-                                BOSS_ASSERT("게임의 시나리오가 잘못되었습니다", 0 < ResultToReflect);
-                                ResultPos.x += (ReflectOX - ResultPos.x) * WallDistanceMin / ResultToReflect;
-                                ResultPos.y += (ReflectOY - ResultPos.y) * WallDistanceMin / ResultToReflect;
-                            }
-                            // 폴리곤식 추가이동
-                            else
-                            {
-                                const float MonsterToReflect = Math::Distance(CurMonsterPos.x, CurMonsterPos.y, ReflectPos.x, ReflectPos.y);
-                                if(0 < MonsterToReflect)
-                                {
-                                    ResultPos.x = CurMonsterPos.x + (ReflectPos.x - CurMonsterPos.x) * MoveDistance / MonsterToReflect;
-                                    ResultPos.y = CurMonsterPos.y + (ReflectPos.y - CurMonsterPos.y) * MoveDistance / MonsterToReflect;
-                                }
-                                else
-                                {
-                                    const float ResultToMonster = ResultToReflect; // Monster와 Reflect가 같은 위치라서
-                                    ReflectPos.x = CurMonsterPos.x + (ResultPos.y - CurMonsterPos.y); // 90도 꺾음
-                                    ReflectPos.y = CurMonsterPos.y - (ResultPos.x - CurMonsterPos.x);
-                                    ResultPos.x = CurMonsterPos.x + (ReflectPos.x - CurMonsterPos.x) * MoveDistance / ResultToMonster;
-                                    ResultPos.y = CurMonsterPos.y + (ReflectPos.y - CurMonsterPos.y) * MoveDistance / ResultToMonster;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            // 닿은 오브젝트가 있다면 경험에 따른 추가이동
-                            const sint32 ObjectIndex = GetContactObject(CurMonster, CurMonsterPos, TryResultPos);
-                            if(ObjectIndex != -1)
-                            {
-                                CurMonster.mBounceObjectIndex = ObjectIndex; // 닿은 오브젝트의 기록
-                                const Point MoveFlag = CurMonster.CalcBump(&mLayers.At(2).mObjects.At(ObjectIndex));
-                                ResultPos.x = CurMonsterPos.x + MoveDistance * MoveFlag.x;
-                                ResultPos.y = CurMonsterPos.y + MoveDistance * MoveFlag.y;
-                            }
-                        }
-                        NextPos = Point(ResultPos.x / mInGameW - 0.5f, ResultPos.y / mInGameH - 0.5f);
-                    }
-                    else NextPos = CurMonster.mTargetPos;
-
-                    // 방향전환된 꼭지점 기록
-                    const bool CurFlip = (CurMonster.mCurrentPos.x < NextPos.x);
-                    if(CurMonster.mLastFlip != CurFlip)
-                    {
-                        CurMonster.mLastFlip = CurFlip;
-                        CurMonster.mLastFlipPos = CurMonster.mCurrentPos;
-                    }
-                    // 방향전환
-                    if(CurMonster.mFlipMode != CurMonster.mLastFlip)
-                    {
-                        const float FlipDist = Math::Distance(CurMonster.mLastFlipPos.x, CurMonster.mLastFlipPos.y, NextPos.x, NextPos.y);
-                        if(CurMonster.mType->mTurnDistance < FlipDist * 1000)
-                        {
-                            CurMonster.mFlipMode = CurMonster.mLastFlip;
-                            CurMonster.Turn();
-                        }
-                    }
-                }
-            }
-            CurMonster.mCurrentPosOld = CurMonster.mCurrentPos;
-            CurMonster.mCurrentPos = NextPos;
-        }
+        else CurMonster.mCurrentVec = Point(0, 0);
     }
 
     // 아이템 애니메이션처리
@@ -876,80 +778,102 @@ void ingameData::AnimationOnce(sint32 sec_span)
             CurObject.mHPValue = Math::Min(CurObject.mHPValue + mEggHPRegenValue * sec_span, CurObject.mType->mHP);
         }
     }
+
+    // 죽어서 게임종료
     if(mClosing == -1 && LiveTargetCount == 0)
     {
         mClosing = 200;
-        Platform::Option::SetText("StartMode", "Result");
-        Platform::Option::SetText("LastResult", "LOSE");
-        SetPanel("result",
-            [](const FXState& state, FXPanel::Data& data)->void
-            {
-                data.mSpines("win_lose").InitSpine(state.GetSpine("ui_win_lose")).PlayMotionAttached("lose_loading", "lose_no_egg", false);
-                data.mSpines("dragon").InitSpine(state.GetSpine("dragon"), "normal").PlayMotion("lose", true);
-            },
-            [](ZayPanel& panel, const FXPanel::Data& data)->void
-            {
-                if(auto WinLose = data.mSpines.Access("win_lose"))
-                    WinLose->RenderObject(true, false, panel, false, nullptr, nullptr,
-                        ZAY_RENDER_PN(p, n, data)
-                        {
-                            if(!String::Compare(n, "dragon_lose_area"))
-                            if(auto Dragon = data.mSpines.Access("dragon"))
-                                Dragon->RenderObject(true, false, p, false);
-                        });
-            });
-    }
-
-    // 웨이브클리어
-    const sint32 WaveCount = mWaveData("Waves").LengthOfIndexable();
-    if(mWave < WaveCount)
-    {
-        bool AnyMonsterAlived = false;
-        bool AnyMonsterWaiting = false;
-        bool WaveStop = false;
-        for(sint32 i = 0, iend = mMonsters.Count(); i < iend; ++i)
+        if(mGameMode == GameMode::Infinity)
         {
-            auto& CurMonster = mMonsters.At(i);
-            if(CurMonster.mDeathStep == 2) continue;
-            AnyMonsterAlived = true;
-            if(AnyMonsterWaiting = (mWaveSecCurrently < CurMonster.mEntranceSec)) break;
-            if(WaveStop = CurMonster.mType->mWaveStop) break;
+            Platform::Option::SetText("StartMode", "Lobby");
+            const sint32 OldScore = FXSaver::Read("InfinityScore").GetInt(0);
+            FXSaver::Write("InfinityScore").Set(String::Format("%d", Math::Max(mGameScoreLog, OldScore)));
         }
-        // 중간 웨이브
-        if(mWave < WaveCount - 1)
+        else
         {
-            if(!AnyMonsterWaiting && !WaveStop && mWaveSecMax < mWaveSecSettled)
-                ReadyForNextWave();
-        }
-        // 마지막 웨이브
-        else if(!AnyMonsterAlived)
-        {
-            ReadyForNextWave();
-            mClosing = 100;
             Platform::Option::SetText("StartMode", "Result");
-            Platform::Option::SetText("LastResult", String::Format("WIN-%d", LiveTargetCount));
+            Platform::Option::SetText("LastResult", "LOSE");
             SetPanel("result",
                 [](const FXState& state, FXPanel::Data& data)->void
                 {
-                    chars EggResult = Platform::Option::GetText("LastResult");
-                    if(!String::Compare(EggResult, "WIN-1"))
-                        data.mSpines("win_lose").InitSpine(state.GetSpine("ui_win_lose")).PlayMotionAttached("win_loading", "win_one_egg", false);
-                    else if(!String::Compare(EggResult, "WIN-2"))
-                        data.mSpines("win_lose").InitSpine(state.GetSpine("ui_win_lose")).PlayMotionAttached("win_loading", "win_two_egg", false);
-                    else data.mSpines("win_lose").InitSpine(state.GetSpine("ui_win_lose")).PlayMotionAttached("win_loading", "win_three_egg", false);
-                    data.mSpines("dragon").InitSpine(state.GetSpine("dragon"), "normal").PlayMotion("run", true);
+                    data.mSpines("win_lose").InitSpine(state.GetSpine("ui_win_lose")).PlayMotionAttached("lose_loading", "lose_no_egg", false);
+                    data.mSpines("dragon").InitSpine(state.GetSpine("dragon"), "normal").PlayMotion("lose", true);
                 },
                 [](ZayPanel& panel, const FXPanel::Data& data)->void
                 {
                     if(auto WinLose = data.mSpines.Access("win_lose"))
-                        WinLose->RenderObject(true, false, panel, false, nullptr, nullptr,
+                        WinLose->RenderObject(DebugMode::None, true, panel, false, nullptr, nullptr,
                             ZAY_RENDER_PN(p, n, data)
                             {
-                                if(!String::Compare(n, "dragon_win_area"))
+                                if(!String::Compare(n, "dragon_lose_area"))
                                 if(auto Dragon = data.mSpines.Access("dragon"))
-                                    Dragon->RenderObject(true, false, p, false);
+                                    Dragon->RenderObject(DebugMode::None, true, p, false);
                             });
                 });
+        }
+    }
+
+    // 웨이브전환(초단위로 판단)
+    if(0 < sec_span)
+    {
+        const sint32 WaveCount = mWaveData("Waves").LengthOfIndexable();
+        if(mWave < WaveCount)
+        {
+            // 몬스터 상황
+            bool AnyMonsterAlived = false; // 등장된 몬스터 잔존여부
+            bool WaveStop = false; // 웨이브조건인 대장몬스터의 생존여부
+            for(sint32 i = 0, iend = mMonsters.Count(); i < iend; ++i)
+            {
+                auto& CurMonster = mMonsters.At(i);
+                if(CurMonster.mDeathStep == 2) continue;
+                AnyMonsterAlived = true;
+                if(WaveStop = CurMonster.mType->mWaveStop) break;
+            }
+            // 미실행 이벤트 존재여부(몬스터, 스크립트등)
+            bool AnyEventWaiting = false;
+            auto& CurEvents = mWaveData("Waves")[mWave]("Events");
+            for(sint32 i = 0, iend = CurEvents.LengthOfIndexable(); i < iend; ++i)
+            {
+                const sint32 TimeSec = CurEvents[i]("TimeSec").GetInt(0);
+                if(AnyEventWaiting = (mWaveSecSettled <= TimeSec)) break;
+            }
+
+            // 중간 웨이브
+            if(mWave < WaveCount - 1)
+            {
+                if(!AnyEventWaiting && !WaveStop && mWaveSecMax < mWaveSecSettled)
+                    ReadyForNextWave();
+            }
+            // 마지막 웨이브(살아서 게임종료)
+            else if(mGameMode != GameMode::Infinity && !AnyMonsterAlived)
+            {
+                ReadyForNextWave();
+                mClosing = 100;
+                Platform::Option::SetText("StartMode", "Result");
+                Platform::Option::SetText("LastResult", String::Format("WIN-%d", LiveTargetCount));
+                SetPanel("result",
+                    [](const FXState& state, FXPanel::Data& data)->void
+                    {
+                        chars EggResult = Platform::Option::GetText("LastResult");
+                        if(!String::Compare(EggResult, "WIN-1"))
+                            data.mSpines("win_lose").InitSpine(state.GetSpine("ui_win_lose")).PlayMotionAttached("win_loading", "win_one_egg", false);
+                        else if(!String::Compare(EggResult, "WIN-2"))
+                            data.mSpines("win_lose").InitSpine(state.GetSpine("ui_win_lose")).PlayMotionAttached("win_loading", "win_two_egg", false);
+                        else data.mSpines("win_lose").InitSpine(state.GetSpine("ui_win_lose")).PlayMotionAttached("win_loading", "win_three_egg", false);
+                        data.mSpines("dragon").InitSpine(state.GetSpine("dragon"), "normal").PlayMotion("run", true);
+                    },
+                    [](ZayPanel& panel, const FXPanel::Data& data)->void
+                    {
+                        if(auto WinLose = data.mSpines.Access("win_lose"))
+                            WinLose->RenderObject(DebugMode::None, true, panel, false, nullptr, nullptr,
+                                ZAY_RENDER_PN(p, n, data)
+                                {
+                                    if(!String::Compare(n, "dragon_win_area"))
+                                    if(auto Dragon = data.mSpines.Access("dragon"))
+                                        Dragon->RenderObject(DebugMode::None, true, p, false);
+                                });
+                    });
+            }
         }
     }
 
@@ -959,10 +883,10 @@ void ingameData::AnimationOnce(sint32 sec_span)
         SetBreathAttack(&mBreath[0]);
         // 브레스 애니
         mBreathAttackSpine.StopMotionAll();
-        mBreathAttackSpine.PlayMotionAttached(String::Format("breath_%s_attack_b", (chars) mCurItemSkinForDragon), "idle", true);
+        mBreathAttackSpine.PlayMotionAttached(String::Format("breath_%s_attack_b", mCurSkill.dragon_skin()), "idle", true);
         // 브레스이펙트 애니
         mBreathEffectSpine.StopMotionAll();
-        mBreathEffectSpine.PlayMotionAttached(String::Format("breath_%s_ground", (chars) mCurItemSkinForDragon), "idle", true);
+        mBreathEffectSpine.PlayMotionAttached(String::Format("breath_%s_ground", mCurSkill.dragon_skin()), "idle", true);
         // 현재 브레스바 스킨재조정
         mBreathBarSpine.SetSkin("first");
         // 예약된 브레스를 드래곤에 적용
@@ -981,13 +905,306 @@ void ingameData::AnimationOnce(sint32 sec_span)
     mBreathGaugeTimeLog = (mBreathGaugeTimeLog * 9 + mBreathGaugeTime * 1) / 10;
 }
 
-void ingameData::ClearAllPathes(bool directly)
+bool ingameData::MonsterActionOnce(MapMonster& monster, const Point& pos)
+{
+    // 공격
+    bool HasAction = false;
+    if(!monster.IsKnockBackMode())
+    {
+        // 타겟공격 또는 도착
+        if(0 < monster.mTargets.Count())
+        {
+            bool LossAttack = false;
+            bool LossTarget = false;
+            auto& CurTarget = monster.mTargets[0];
+
+            if(monster.mBounceObjectIndex == -1)
+            {
+                if(CurTarget.mType == MonsterTarget::Target)
+                {
+                    auto& CurObject = mLayers.At(2).mObjects.At(CurTarget.mIndex);
+                    if(CurObject.mHPValue == 0)
+                        LossAttack = LossTarget = true;
+                }
+                else if(CurTarget.mType == MonsterTarget::Mission)
+                {
+                    const float x = mInGameW * (CurTarget.mPos.x + 0.5f);
+                    const float y = mInGameH * (CurTarget.mPos.y + 0.5f);
+                    const float r = mInGameSize * CurTarget.mSizeR;
+                    if(Math::Distance(pos.x, pos.y, x, y) < r)
+                        LossTarget = true;
+                }
+            }
+            else
+            {
+                auto& CurObject = mLayers.At(2).mObjects.At(monster.mBounceObjectIndex);
+                // 타겟에 대한 공격
+                if(CurObject.mType->mType.isTarget() && monster.mType->mType == monster_type::Enemy)
+                {
+                    if(0 < CurObject.mHPValue)
+                    {
+                        HasAction = true;
+                        if(auto AttackCount = monster.TryAttack(CurObject.mCurrentRect.Center())) // 타겟공격
+                            if(CurObject.SetHP(CurObject.mHPValue - monster.mType->mAttackPower * AttackCount, mHPbarDeleteTime))
+                            {
+                                if(mShowDebug)
+                                    CurObject.mVisible = false;
+                                ClearAllPathes(false);
+                            }
+                    }
+                    else LossAttack = LossTarget = true;
+                }
+                else if(CurObject.mType->mType.isAllyTarget() && monster.mType->mType == monster_type::Ally) // 동맹군도착
+                {
+                    HasAction = true;
+                    monster.Ally_Arrived();
+                }
+                // 다이나믹 오브젝트에 대한 공격
+                else if(CurObject.CanBroken(monster.mType->mPolygon))
+                {
+                    if(0 < CurObject.mHPValue)
+                    {
+                        HasAction = true;
+                        if(auto AttackCount = monster.TryAttack(CurObject.mCurrentRect.Center())) // 오브젝트공격
+                        {
+                            if(CurObject.SetHP(CurObject.mHPValue - monster.mType->mAttackPower * AttackCount, mHPbarDeleteTime))
+                            {
+                                if(mShowDebug)
+                                    CurObject.mVisible = false;
+                                SetBrokenObject(CurObject);
+                            }
+                        }
+                    }
+                    else LossAttack = true;
+                }
+            }
+            if(LossAttack) monster.CancelAttack();
+            if(LossTarget) monster.ClearTargetOnce();
+        }
+    }
+    return HasAction;
+}
+
+Point ingameData::MonsterKnockBackOnce(MapMonster& monster, const TryWorldZone& zone, const Point& pos, const uint64 msec)
+{
+    const float WallDistanceCheck = mInGameSize * 5 / 1000; // 벽에 닿아버린 상황판단
+    const float WallDistanceMin = mInGameSize * 20 / 1000; // 계산상 오류를 방지하는 거리
+    const float TryNextPosX = pos.x + monster.knockBackAccel().x * mInGameW;
+    const float TryNextPosY = pos.y + monster.knockBackAccel().y * mInGameH;
+    const Point TryResultPos(TryNextPosX, TryNextPosY);
+    Point ResultPos = TryResultPos, ReflectPos;
+    bool IsBounce = false, IsHole = false;
+    float DistanceMin = -1;
+
+    if(GetValidNextObject(monster, pos, TryResultPos, ResultPos, ReflectPos) != -1)
+    {
+        IsBounce = true;
+        DistanceMin = Math::Distance(pos.x, pos.y, ResultPos.x, ResultPos.y);
+    }
+
+    if(auto Polygon = TryWorld::GetPosition::GetValidNext(zone.mHurdle, pos, TryResultPos, ResultPos, ReflectPos, DistanceMin))
+    {
+        IsBounce = true;
+        if(Polygon[0]->Payload != -1 && Polygon[0]->Payload == Polygon[1]->Payload)
+        {
+            IsHole = true;
+            const sint32 LayerIndex = (Polygon[0]->Payload >> 16) & 0xFFFF;
+            const sint32 ObjectIndex = Polygon[0]->Payload & 0xFFFF;
+            auto& HoleObject = mLayers.At(LayerIndex).mObjects.At(ObjectIndex);
+            HoleObject.Hit();
+            if(0 < monster.mHPValue)
+            {
+                monster.mHPValue = 0;
+                monster.mHPTimeMsec = msec;
+            }
+            if(monster.KnockBackEndByHole(HoleObject.mCurrentRect.Center()))
+                mGameScoreLog += monster.mType->mInfinityPoint + CalcedPlusValue();
+
+            // 홀실적추가
+            const String CurHoleSkin = HoleObject.mType->spineSkinName();
+            if(!!CurHoleSkin.Compare("normal"))
+            {
+                const bool IsHeart = !CurHoleSkin.Compare("heart");
+                const sint32 CheckCount = (IsHeart)? mHeartHoleCreatCount : mHoleItemGetCount;
+                HoleObject.AddExtraInfo(monster.mType->mID);
+                if(CheckCount <= HoleObject.GetExtraInfoCount())
+                {
+                    // 아이템추가
+                    if(IsHeart)
+                    {
+                        if(Platform::Utility::Random() % 1000 < mHeartHoleCreatRate) // 확율
+                        {
+                            auto& NewItem = mItemMap(MapItem::MakeId());
+                            NewItem.Init(nullptr, GetSpine("item"), &HoleObject, updater(), -0.15f, 2000, 1000);
+                        }
+                    }
+                    else for(sint32 k = 0, kend = mItemTypes.Count(); k < kend; ++k)
+                    {
+                        if(!mItemTypes[k].mSkinName.Compare(CurHoleSkin))
+                        {
+                            auto& NewItem = mItemMap(MapItem::MakeId());
+                            NewItem.Init(&mItemTypes[k], GetSpine("item"), &HoleObject, updater(), -0.15f, 2000, 1000);
+                            break;
+                        }
+                    }
+                    // 홀실적초기화
+                    HoleObject.ResetExtraInfo();
+                }
+            }
+        }
+    }
+
+    if(!IsHole)
+    {
+        if(IsBounce)
+        {
+            // 반동의 충격
+            mWallBound[mWallBoundFocus].StopMotionAll();
+            sint32 BoundDamage = 0;
+            switch(monster.knockBackBoundCount())
+            {
+            case 0:
+                mWallBound[mWallBoundFocus].PlayMotionAttached("wall_bound_one", "idle", true);
+                BoundDamage = monster.mHPValueMax * m1BoundDamageRate;
+                break;
+            case 1:
+                mWallBound[mWallBoundFocus].PlayMotionAttached("wall_bound_two", "idle", true);
+                BoundDamage = monster.mHPValueMax * m2BoundDamageRate;
+                break;
+            case 2: default:
+                mWallBound[mWallBoundFocus].PlayMotionAttached("wall_bound_three", "idle", true);
+                BoundDamage = monster.mHPValueMax * m3BoundDamageRate;
+                break;
+            }
+            mWallBoundPos[mWallBoundFocus] = ResultPos;
+            mWallBoundFocus = (mWallBoundFocus + 1) % mWallBoundMax;
+            monster.KnockBackBound(BoundDamage);
+
+            // 진행방향을 결정하고
+            monster.SetKnockBackAccel(Point((ReflectPos.x - ResultPos.x) / mInGameW, (ReflectPos.y - ResultPos.y) / mInGameH));
+            // 벽에 너무 닿은 경우에는 살짝 뒤로 물러섬
+            const float ReflectOX = (pos.x + ReflectPos.x) / 2;
+            const float ReflectOY = (pos.y + ReflectPos.y) / 2;
+            const float ReflectDistance = Math::Distance(ResultPos.x, ResultPos.y, ReflectOX, ReflectOY);
+            if(ReflectDistance < WallDistanceCheck)
+            {
+                BOSS_ASSERT("게임의 시나리오가 잘못되었습니다", 0 < ReflectDistance);
+                ResultPos.x += (ReflectOX - ResultPos.x) * WallDistanceMin / ReflectDistance;
+                ResultPos.y += (ReflectOY - ResultPos.y) * WallDistanceMin / ReflectDistance;
+            }
+        }
+
+        monster.SetKnockBackAccel(monster.knockBackAccel() * monster.knockBackResistance()); // 가속도감소
+        const float NextKnockBackAccelSize = Math::Sqrt(Math::Pow(monster.knockBackAccel().x) + Math::Pow(monster.knockBackAccel().y));
+        if(NextKnockBackAccelSize < monster.mKnockBackAccelMin) // 정신차리기
+        {
+            if(monster.KnockBackEnd())
+                mGameScoreLog += monster.mType->mInfinityPoint + CalcedPlusValue();
+        }
+    }
+    return Point(ResultPos.x / mInGameW - 0.5f, ResultPos.y / mInGameH - 0.5f);
+}
+
+Point ingameData::MonsterMoveOnce(MapMonster& monster, const TryWorldZone& zone, const Point& pos, const Point& vec, const uint64 msec)
+{
+    // 타겟설정
+    if(monster.mTargets.Count() == 0)
+        Targeting(monster, zone);
+
+    // 서브타겟위치 업데이트
+    Point TempPos;
+    if(monster.mTargets.Count() == 0)
+        TempPos = Point(mInGameW * (monster.mTargetPos.x + 0.5f), mInGameH * (monster.mTargetPos.y + 0.5f));
+    else
+    {
+        if(TryWorld::GetPosition::SubTarget(zone.mHurdle, monster.mTargets[0].mPath, pos, TempPos))
+            monster.mTargetPos = Point(TempPos.x / mInGameW - 0.5f, TempPos.y / mInGameH - 0.5f);
+        else monster.ClearTargetOnce();
+    }
+
+    Point NextPos = monster.mCurrentPos;
+    const float TargetDistance = Math::Distance(pos.x, pos.y, TempPos.x, TempPos.y);
+    if(0 < TargetDistance)
+    {
+        const float MoveDistance = mMonsterSizeR * monster.CalcedSpeed(msec) * CalcedMoveSpeedRate();
+        if(MoveDistance < TargetDistance)
+        {
+            // 폴리곤에 의해 멈추어야 할 경우를 판단
+            const float TryNextPosX = pos.x + (TempPos.x - pos.x) * MoveDistance / TargetDistance + vec.x;
+            const float TryNextPosY = pos.y + (TempPos.y - pos.y) * MoveDistance / TargetDistance + vec.y;
+            const Point TryResultPos(TryNextPosX, TryNextPosY);
+            Point ResultPos = TryResultPos, ReflectPos = TryResultPos;
+            if(!TryWorld::GetPosition::GetValidNext(zone.mHurdle, pos, TryResultPos, ResultPos, ReflectPos))
+            {
+                // 닿은 오브젝트가 있다면 정지
+                const sint32 ObjectIndex = GetContactObject(monster, TryResultPos);
+                if(ObjectIndex != -1)
+                {
+                    monster.mBounceObjectIndex = ObjectIndex; // 닿은 오브젝트의 기록
+                    ReflectPos.x = pos.x;
+                    ReflectPos.y = pos.y;
+                }
+            }
+            NextPos = Point(ReflectPos.x / mInGameW - 0.5f, ReflectPos.y / mInGameH - 0.5f);
+        }
+        else NextPos = monster.mTargetPos;
+
+        // 방향전환된 꼭지점 기록
+        const bool CurFlip = (monster.mCurrentPos.x < NextPos.x);
+        if(monster.mLastFlip != CurFlip)
+        {
+            monster.mLastFlip = CurFlip;
+            monster.mLastFlipPos = monster.mCurrentPos;
+        }
+        // 방향전환
+        if(monster.mFlipMode != monster.mLastFlip)
+        {
+            const float FlipDist = Math::Distance(monster.mLastFlipPos.x, monster.mLastFlipPos.y, NextPos.x, NextPos.y);
+            if(monster.mType->mTurnDistance < FlipDist * 1000)
+            {
+                monster.mFlipMode = monster.mLastFlip;
+                monster.Turn();
+            }
+        }
+    }
+    return NextPos;
+}
+
+void ingameData::ReserveToSlotOnce()
+{
+    static uint64 LastTimeMsec = Platform::Utility::CurrentTimeMsec();
+    const uint64 CurTimeMsec = Platform::Utility::CurrentTimeMsec();
+    if(CurTimeMsec < LastTimeMsec + 60) return;
+    LastTimeMsec = (LastTimeMsec + 60 > CurTimeMsec - 20)?
+        LastTimeMsec + 60 : CurTimeMsec - 20;
+
+    for(sint32 i = 0; i < 4; ++i)
+    {
+        if(0 < mSlotStatus[i].mReserved)
+        {
+            if(mSlotStatus[i].mItemType)
+            {
+                mSlotStatus[i].mReserved--;
+                auto& NewItem = mItemMap(MapItem::MakeId());
+                NewItem.InitForSlot(mSlotStatus[i].mItemType, GetSpine("item"), updater(), Point(0, -1));
+                // 즉시 슬롯으로 이동
+                mSlotStatus[i].mCount++;
+                NewItem.MoveToSlot(i, &mSlotStatus[i].mPos, 1000);
+            }
+            else BOSS_ASSERT("예약된 아이템을 생성할 수 없습니다", false);
+        }
+    }
+}
+
+void ingameData::ClearAllPathes(bool directly, chars polygon_name)
 {
     const uint64 CurTimeMsec = Platform::Utility::CurrentTimeMsec();
 
     for(sint32 i = 0, iend = mMonsters.Count(); i < iend; ++i)
     {
         auto& CurMonster = mMonsters.At(i);
+        if(polygon_name && CurMonster.mType->mPolygon.Compare(polygon_name))
+            continue;
         if(directly)
         {
             CurMonster.mTargets.Clear();
@@ -1005,35 +1222,38 @@ void ingameData::Render(ZayPanel& panel)
     Rect OutlineRect;
     ZAY_XYWH(panel, mInGameX, mInGameY, mInGameW, mInGameH)
     {
-        OutlineRect = F1State::RenderMap(mShowDebug, panel, &mMonsters, mWaveSecCurrently);
+        OutlineRect = F1State::RenderMap((mShowDebug)? DebugMode::Strong : DebugMode::None, panel, &mMonsters, mWaveSecCurrently);
         OutlineRect += Point(mInGameX, mInGameY);
         // 이펙트
         for(sint32 i = 0; i < mWallBoundMax; ++i)
         {
             const sint32 Index = (mWallBoundFocus + i) % mWallBoundMax;
             ZAY_XYRR(panel, mWallBoundPos[Index].x, mWallBoundPos[Index].y, mWallBoundSizeR, mWallBoundSizeR)
-                mWallBound[Index].RenderObject(true, false, panel, false);
+                mWallBound[Index].RenderObject(DebugMode::None, true, panel, false);
         }
         // 공중아이템
         RenderItems(panel, false, CurTimeMsec);
     }
 
-    const sint32 OutlineL = Math::Max(0, OutlineRect.l);
-    const sint32 OutlineT = Math::Max(0, OutlineRect.t);
-    const sint32 OutlineR = Math::Min(OutlineRect.r, mScreenW);
-    const sint32 OutlineB = Math::Min(OutlineRect.b, mScreenH);
-    ZAY_LTRB(panel, OutlineL, OutlineT, OutlineR, OutlineB)
+    if(!mShowDebug)
     {
-        // 구름
-        mWeather[1].RenderObject(true, false, panel, false);
-        // 햇살
-        if(const Rect* Area = mWeather[0].GetBoundRect("area"))
+        const sint32 OutlineL = Math::Max(0, OutlineRect.l);
+        const sint32 OutlineT = Math::Max(0, OutlineRect.t);
+        const sint32 OutlineR = Math::Min(OutlineRect.r, mScreenW);
+        const sint32 OutlineB = Math::Min(OutlineRect.b, mScreenH);
+        ZAY_LTRB(panel, OutlineL, OutlineT, OutlineR, OutlineB)
         {
-            const float Rate = Math::MinF(panel.w() / Area->Width(), panel.h() / Area->Height());
-            const float Width = Area->Width() * Rate;
-            const float Height = Area->Height() * Rate;
-            ZAY_XYWH(panel, 0, 0, Width, Height)
-                mWeather[0].RenderObject(true, false, panel, false);
+            // 구름
+            mWeather[1].RenderObject(DebugMode::None, true, panel, false);
+            // 햇살
+            if(const Rect* Area = mWeather[0].GetBoundRect("area"))
+            {
+                const float Rate = Math::MinF(panel.w() / Area->Width(), panel.h() / Area->Height());
+                const float Width = Area->Width() * Rate;
+                const float Height = Area->Height() * Rate;
+                ZAY_XYWH(panel, 0, 0, Width, Height)
+                    mWeather[0].RenderObject(DebugMode::None, true, panel, false);
+            }
         }
     }
 
@@ -1059,7 +1279,7 @@ void ingameData::Render(ZayPanel& panel)
             mBreathAttack.mDragonBreathEndTimeMsec = mDragon.endtime();
             // 브레스 애니
             mBreathAttackSpine.StopMotionAll();
-            mBreathAttackSpine.PlayMotion(String::Format("breath_%s_attack_a", (chars) mCurItemSkinForDragon), true);
+            mBreathAttackSpine.PlayMotion(String::Format("breath_%s_attack_a", mCurSkill.dragon_skin()), true);
         }
         // 브레스어택
         float BreathRate = 0;
@@ -1080,21 +1300,21 @@ void ingameData::Render(ZayPanel& panel)
             ZAY_XYRR(panel, X, Y, R, R)
             {
                 if(mBreathReadyCount == 0 || mBreathAttack.mBreathAniTimeMsec < CurTimeMsec)
-                    mBreathAttackSpine.RenderObject(true, false, panel, mBreathAttack.mDragonFlip);
-                mBreathEffectSpine.RenderObject(true, false, panel, mBreathAttack.mDragonFlip);
+                    mBreathAttackSpine.RenderObject(DebugMode::None, true, panel, mBreathAttack.mDragonFlip);
+                mBreathEffectSpine.RenderObject(DebugMode::None, true, panel, mBreathAttack.mDragonFlip);
             }
         }
         // 드래곤
         if(mDragon.CalcExitRate(CurTimeMsec) < 1)
             ZAY_XYRR(panel, DragonPos.x, DragonPos.y, DragonSizeR, DragonSizeR)
-                mDragon.RenderObject(true, mShowDebug, panel, mDragon.flip());
+                mDragon.RenderObject((mShowDebug)? DebugMode::Weak : DebugMode::None, true, panel, mDragon.flip());
     }
 
     // 게임전 UI
-    if(mWave == -1)
+    if(mWave == -1 && !mShowDebug)
     {
         // 메인타이틀
-        mMainTitleSpine.RenderObject(true, false, panel, false, "Title_",
+        mMainTitleSpine.RenderObject(DebugMode::None, true, panel, false, "Title_",
             ZAY_GESTURE_NT(n, t, this)
             {
                 if(t == GT_Pressed)
@@ -1161,27 +1381,58 @@ void ingameData::Render(ZayPanel& panel)
             {
                 const sint32 WaveWidth = Area->Width() * panel.h() / Area->Height();
                 ZAY_LTRB(panel, 0, 0, WaveWidth, panel.h())
-                    mWaveHUD.RenderObject(true, mShowDebug, panel, false, nullptr, nullptr,
+                    mWaveHUD.RenderObject((mShowDebug)? DebugMode::Weak : DebugMode::None, true, panel, false, nullptr, nullptr,
                         ZAY_RENDER_PN(p, n, this)
                         {
                             if(!String::Compare(n, "pont_wave_b_area"))
                             {
-                                ZAY_FONT(p, p.h() / 12)
+                                ZAY_INNER_SCISSOR(p, 0)
+                                ZAY_COLOR_CLEAR(p)
                                 {
-                                    const sint32 WaveCount = mWaveData("Waves").LengthOfIndexable();
-                                    if(mWave == WaveCount)
-                                        p.text("END", UIFA_CenterMiddle, UIFE_Right);
-                                    else p.text(String::Format("%d / %d", mWave + 1, WaveCount), UIFA_CenterMiddle, UIFE_Right);
+                                    if(mGameMode == GameMode::Infinity && !mShowDebug)
+                                        RenderNumbers(p, String::Format("%d", mGameSumWave), false);
+                                    else
+                                    {
+                                        const sint32 WaveCount = mWaveData("Waves").LengthOfIndexable();
+                                        RenderNumbers(p, String::Format("%d/%d", Math::Min(mWave + 1, WaveCount), WaveCount), false);
+                                    }
+                                }
+                            }
+                            else if(!String::Compare(n, "time_area"))
+                            {
+                                if(0 < mGameBeginMsec)
+                                {
+                                    const sint32 SumTime = ((0 < mGameStopMsec)? mGameStopMsec - mGameBeginMsec - mGameSumStopMsec
+                                        : Platform::Utility::CurrentTimeMsec() - mGameBeginMsec - mGameSumStopMsec) / 100;
+                                    ZAY_INNER_SCISSOR(p, 0)
+                                    ZAY_COLOR_CLEAR(p)
+                                    {
+                                        if(SumTime < 600) RenderNumbers(p, String::Format("%d.%d", (SumTime / 10) % 60, SumTime % 10), true);
+                                        else RenderNumbers(p, String::Format("%d:%02d.%d", SumTime / 600, (SumTime / 10) % 60, SumTime % 10), true);
+                                    }
+                                }
+                            }
+                            else if(!String::Compare(n, "score_area"))
+                            {
+                                ZAY_INNER_SCISSOR(p, 0)
+                                ZAY_COLOR_CLEAR(p)
+                                {
+                                    mGameScore = (mGameScore * 9 + mGameScoreLog * 1) / 10;
+                                    if(mGameScore < mGameScoreLog) mGameScore++;
+                                    else if(mGameScore > mGameScoreLog) mGameScore--;
+                                    RenderNumbers(p, String::Format("%d", mGameScore), true);
                                 }
                             }
                         });
             }
+
             // 중지버튼
             if(const Rect* Area = mStopButton.GetBoundRect("area"))
             {
                 const sint32 StopWidth = Area->Width() * panel.h() / Area->Height();
                 ZAY_LTRB(panel, panel.w() - StopWidth, 0, panel.w(), panel.h())
-                    mStopButton.RenderObject(true, mShowDebug, panel, false, "Stop_",
+                {
+                    mStopButton.RenderObject((mShowDebug)? DebugMode::Weak : DebugMode::None, true, panel, false, "Stop_",
                         ZAY_GESTURE_NT(n, t, this)
                         {
                             if(t == GT_Pressed)
@@ -1198,9 +1449,11 @@ void ingameData::Render(ZayPanel& panel)
                                     if(!FXSaver::Read("SumHeart").IsValid() || 0 < FXSaver::Read("SumHeart").GetInt())
                                         mPausePopup.PlayMotion("idle_replay", true);
                                     mPaused = true;
+                                    mGameStopMsec = Platform::Utility::CurrentTimeMsec();
                                 }
                             }
                         });
+                }
             }
         }
 
@@ -1212,8 +1465,9 @@ void ingameData::Render(ZayPanel& panel)
             GaugeWidth = Math::Min(panel.w() / 2, mUIB * Area->Width() / Area->Height());
             GaugeHeight = GaugeWidth * Area->Height() / Area->Width();
             ZAY_LTRB(panel, 0, panel.h() - GaugeHeight, GaugeWidth, panel.h())
-                mGaugeHUD.RenderObject(true, mShowDebug, panel, false);
+                mGaugeHUD.RenderObject((mShowDebug)? DebugMode::Weak : DebugMode::None, true, panel, false);
         }
+
         // 슬롯
         if(const Rect* Area = mSlotHUD.GetBoundRect("area"))
         {
@@ -1234,16 +1488,21 @@ void ingameData::Render(ZayPanel& panel)
                     const float T = (ButtonArea[i]->t - Area->t) / (Area->b - Area->t) * (GaugeRect.b - GaugeRect.t) + GaugeRect.t;
                     const float R = (ButtonArea[i]->r - Area->l) / (Area->r - Area->l) * (GaugeRect.r - GaugeRect.l) + GaugeRect.l;
                     const float B = (ButtonArea[i]->b - Area->t) / (Area->b - Area->t) * (GaugeRect.b - GaugeRect.t) + GaugeRect.t;
-                    mSlotPos[i].x = ((L + R) / 2 - mInGameX) / mInGameW - 0.5f;
-                    mSlotPos[i].y = ((T + B) / 2 - mInGameY) / mInGameH - 0.5f;
+                    mSlotStatus[i].mPos.x = ((L + R) / 2 - mInGameX) / mInGameW - 0.5f;
+                    mSlotStatus[i].mPos.y = ((T + B) / 2 - mInGameY) / mInGameH - 0.5f;
                 }
                 ZAY_RECT(panel, GaugeRect)
-                    mSlotHUD.RenderObject(true, mShowDebug, panel, false);
+                    mSlotHUD.RenderObject((mShowDebug)? DebugMode::Weak : DebugMode::None, true, panel, false);
             }
         }
+
         // 슬롯아이템
         ZAY_XYWH(panel, mInGameX, mInGameY, mInGameW, mInGameH)
             RenderItems(panel, true, CurTimeMsec);
+
+        // 캠페인
+        ZAY_XYWH(panel, mInGameX, mInGameY, mInGameW, mInGameH)
+            mCampaign.RenderObject(DebugMode::None, true, panel, false);
 
         // 중지팝업
         if(mPaused)
@@ -1251,7 +1510,7 @@ void ingameData::Render(ZayPanel& panel)
             ZAY_INNER_UI(panel, 0, "PausePopup")
             ZAY_RGBA(panel, 0, 0, 0, 128)
                 panel.fill();
-            mPausePopup.RenderObject(true, false, panel, false, "Pause_",
+            mPausePopup.RenderObject(DebugMode::None, true, panel, false, "Pause_",
                 ZAY_GESTURE_NT(n, t, this)
                 {
                     if(t == GT_Pressed)
@@ -1289,7 +1548,7 @@ void ingameData::Render(ZayPanel& panel)
                                 mPausePopup.StopMotion("idle_sound");
                                 mPausePopup.StopMotion("show_sound");
                                 mPausePopup.PlayMotionOnce("hide_sound");
-                                Platform::Sound::Stop(GetSound("bg_forest", true));
+                                Platform::Sound::Stop(GetSound(mBGMusic, true));
                             }
                             else
                             {
@@ -1297,7 +1556,7 @@ void ingameData::Render(ZayPanel& panel)
                                 mPausePopup.StopMotion("hide_sound");
                                 mPausePopup.PlayMotionAttached("show_sound", "idle_sound", true);
                                 if(FXSaver::Read("BGMFlag").GetInt())
-                                    Platform::Sound::Play(GetSound("bg_forest", true));
+                                    Platform::Sound::Play(GetSound(mBGMusic, true));
                             }
                         }
                         else if(!String::Compare(n, "Pause_pause_bgm_mid_area"))
@@ -1308,14 +1567,14 @@ void ingameData::Render(ZayPanel& panel)
                                 mPausePopup.StopMotion("idle_bgm");
                                 mPausePopup.StopMotion("show_bgm");
                                 mPausePopup.PlayMotionOnce("hide_bgm");
-                                Platform::Sound::Stop(GetSound("bg_forest", true));
+                                Platform::Sound::Stop(GetSound(mBGMusic, true));
                             }
                             else
                             {
                                 FXSaver::Write("BGMFlag").Set("1");
                                 mPausePopup.StopMotion("hide_bgm");
                                 mPausePopup.PlayMotionAttached("show_bgm", "idle_bgm", true);
-                                Platform::Sound::Play(GetSound("bg_forest", true));
+                                Platform::Sound::Play(GetSound(mBGMusic, true));
                             }
                         }
                     }
@@ -1323,15 +1582,22 @@ void ingameData::Render(ZayPanel& panel)
         }
     }
 
-    // 인게임클로징
+    // 인게임 클로징
     if(0 <= mClosing && mClosing < 50)
         ZAY_RGBA(panel, 0, 0, 0, 255 * (50 - mClosing) / 50)
             panel.fill();
 
     // 인게임 디버그정보
     if(mShowDebug)
-    ZAY_XYWH(panel, mInGameX, mInGameY, mInGameW, mInGameH)
-        F1State::RenderDebug(panel, mMonsters, mWaveSecCurrently);
+    {
+        ZAY_XYWH(panel, mInGameX, mInGameY, mInGameW, mInGameH)
+            F1State::RenderDebug(panel, mMonsters, mWaveSecCurrently);
+        // 스크립트 로그
+        ZAY_LTRB(panel, 0, mInGameY, panel.w(), panel.h())
+        ZAY_RGB(panel, 255, 255, 255)
+        for(sint32 i = 0, iend = mDebugScriptLogs.Count(); i < iend; ++i)
+            panel.text(10, 10 + i * 20, mDebugScriptLogs[i], UIFA_LeftTop);
+    }
 
     if(FXSaver::Read("DevMode").GetInt())
     {
@@ -1344,7 +1610,7 @@ void ingameData::Render(ZayPanel& panel)
                 ZAY_GESTURE_T(t, this)
                 {
                     if(t == GT_InReleased)
-                        next("codename_f1View");
+                        next("f1View");
                 })
             {
                 ZAY_RGBA(panel, 255, 255, 128, 192)
@@ -1380,8 +1646,61 @@ void ingameData::Render(ZayPanel& panel)
     }
 }
 
+void ingameData::RenderNumbers(ZayPanel& panel, chars numbers, bool rside)
+{
+    static sint32s NumberIDs; // 0~9, 10('.'), 11(','), 12(':'), 13('/'), 14(' ')
+    static sint32s Widths;
+    NumberIDs.SubtractionAll();
+    Widths.SubtractionAll();
+
+    // 수집
+    sint32 SumWidth = 0;
+    for(; *numbers; ++numbers)
+    {
+        const Image* CurImage = nullptr;
+        if('0' <= *numbers && *numbers <= '9')
+        {
+            NumberIDs.AtAdding() = *numbers - '0';
+            CurImage = &((const Image&) R(String::Format("s_%c", 'a' + (*numbers - '0'))));
+        }
+        else if(*numbers == '.') {NumberIDs.AtAdding() = 10; CurImage = &((const Image&) R("s_dot"));}
+        else if(*numbers == ',') {NumberIDs.AtAdding() = 11; CurImage = &((const Image&) R("s_comma"));}
+        else if(*numbers == ':') {NumberIDs.AtAdding() = 12; CurImage = &((const Image&) R("s_colon"));}
+        else if(*numbers == '/') {NumberIDs.AtAdding() = 13; CurImage = &((const Image&) R("s_slash"));}
+        else if(*numbers == ' ') {NumberIDs.AtAdding() = 14; CurImage = &((const Image&) R("s_dot"));} // dot크기가 공백크기
+        else
+        {
+            NumberIDs.AtAdding() = -1;
+            Widths.AtAdding() = 0;
+            continue;
+        }
+        const sint32 CurWidth = CurImage->GetWidth() * panel.h() / CurImage->GetHeight();
+        Widths.AtAdding() = CurWidth;
+        SumWidth += CurWidth;
+    }
+
+    // 출력
+    sint32 XPos = (rside)? panel.w() - SumWidth : (panel.w() - SumWidth) / 2;
+    for(sint32 i = 0, iend = NumberIDs.Count(); i < iend; ++i)
+    {
+        ZAY_XYWH(panel, XPos, 0, Widths[i], panel.h())
+        {
+            const sint32 CurID = NumberIDs[i];
+            if(0 <= CurID && CurID <= 9)
+                panel.stretch(R(String::Format("s_%c", 'a' + CurID)), true);
+            else if(CurID == 10) panel.stretch(R("s_dot"), true);
+            else if(CurID == 11) panel.stretch(R("s_comma"), true);
+            else if(CurID == 12) panel.stretch(R("s_colon"), true);
+            else if(CurID == 13) panel.stretch(R("s_slash"), true);
+        }
+        XPos += Widths[i];
+    }
+}
+
 void ingameData::RenderItems(ZayPanel& panel, bool slot, uint64 msec)
 {
+    sint32 FlyingCount[4] = {0, 0, 0, 0};
+    bool SlotArrived[4] = {false, false, false, false};
     for(sint32 i = 0, iend = mItemMap.Count(); i < iend; ++i)
     {
         auto CurItem = mItemMap.AccessByOrder(i);
@@ -1392,40 +1711,71 @@ void ingameData::RenderItems(ZayPanel& panel, bool slot, uint64 msec)
         const float Y = mInGameH * (CurPos.y + 0.5f);
         const float R = mItemSizeR * CurItem->CalcFlyingRate(msec) * (1 - SlotRate) + mSlotSizeR * SlotRate;
         ZAY_XYRR(panel, X, Y, R, R)
-            CurItem->RenderObject(true, mShowDebug, panel, false, String::Format("Item%03d_", i),
-                ZAY_GESTURE_NT(n, t, this, i)
-                {
-                    if(t == GT_Pressed && mClosing == -1 && !String::Compare(n + 8, "ston_touch_area"))
+        {
+            const bool Arrived = (0.99f < SlotRate);
+            if(!slot || !Arrived || !SlotArrived[CurItem->slot_index()]) // 슬롯에 도착한 아이템들 겹치는 현상 방지
+            {
+                CurItem->RenderObject((mShowDebug)? DebugMode::Weak : DebugMode::None, true, panel, false, String::Format("Item%d_", i),
+                    ZAY_GESTURE_NT(n, t, this, i)
                     {
-                        auto CurItem = mItemMap.AccessByOrder(i);
-                        if(CurItem->slot())
+                        if(t == GT_Pressed && mClosing == -1 && !String(n).Right(15).Compare("ston_touch_area"))
                         {
-                            auto* OldPos = CurItem->Use();
-                            for(sint32 j = 0; j < 4; ++j)
+                            auto CurItem = mItemMap.AccessByOrder(i);
+                            if(!CurItem) return; // 이미 지워진 경우
+                            if(!CurItem->type()) // 하트처리
                             {
-                                if(&mSlotPos[j] == OldPos)
+                                CurItem->MoveToOut(Point(0, -1), 1000);
+                                if(FXSaver::Read("SumHeart").IsValid())
                                 {
-                                    mSlotFlag[j] = false;
-                                    break;
+                                    const sint32 SumHeart = FXSaver::Read("SumHeart").GetInt();
+                                    FXSaver::Write("SumHeart").Set(String::FromInteger(SumHeart + 1));
                                 }
+                                else BOSS_ASSERT("잘못된 시나리오입니다", false);
                             }
-                            // 스킨적용
-                            mCurItemSkin = CurItem->skin();
-                            mCurItemSkinEndTimeMsec = Platform::Utility::CurrentTimeMsec() + 30000;
-                            mGaugeHUD.SetSkin(mCurItemSkin);
-                            mGaugeHUD.PlayMotionOnce("change");
-                        }
-                        else for(sint32 j = 0; j < 4; ++j)
-                        {
-                            if(!mSlotFlag[j])
+                            else if(!CurItem->slot())
+                                ItemToSlot(*CurItem);
+                            else if(CurItem->UseOnce())
                             {
-                                mSlotFlag[j] = true;
-                                CurItem->MoveToSlot(&mSlotPos[j], 1000);
-                                break;
+                                const sint32 SlotIndex = CurItem->slot_index();
+                                if(0 < mSlotStatus[SlotIndex].mCount && --mSlotStatus[SlotIndex].mCount == 0 && mSlotStatus[SlotIndex].mReserved == 0)
+                                    mSlotStatus[SlotIndex].mItemType = nullptr;
+                                // 스킬적용
+                                mCurSkill.Reset(CurItem);
+                                // 스킨적용
+                                mGaugeHUD.SetSkin(mCurSkill.skin());
+                                mGaugeHUD.PlayMotionOnce("change");
+                                // 브레스게이지 증가
+                                mBreathGaugeTime = Math::Min(mBreathGaugeTime + mBreathMaxGauge * CurItem->type()->mAddGauge / 1000, mBreathMaxGauge);
                             }
                         }
-                    }
-                });
+                    });
+            }
+            if(slot)
+            {
+                if(Arrived)
+                    SlotArrived[CurItem->slot_index()] = true;
+                else FlyingCount[CurItem->slot_index()]++; // 현재 비행중인 수량은 카운트에서 뺌
+            }
+        }
+    }
+    // 슬롯카운트
+    if(slot)
+    for(sint32 i = 0; i < 4; ++i)
+    {
+        const sint32 CurCount = Math::Min(mSlotStatus[i].mCount - FlyingCount[i], 99);
+        if(1 < CurCount)
+        {
+            const float X = mInGameW * (mSlotStatus[i].mPos.x + 0.5f) + mSlotSizeR * 0.5;
+            const float Y = mInGameH * (mSlotStatus[i].mPos.y + 0.5f) + mSlotSizeR * 0.4;
+            const float RSize = mSlotSizeR * 0.3;
+            ZAY_XYRR(panel, X, Y, RSize, RSize)
+            {
+                RenderImage(DebugMode::None, panel, R(String::Format("s_%c", 'a' + (CurCount % 10))));
+                if(9 < CurCount)
+                ZAY_XYWH(panel, -mSlotSizeR * 0.5, 0, panel.w(), panel.h())
+                    RenderImage(DebugMode::None, panel, R(String::Format("s_%c", 'a' + ((CurCount / 10) % 10))));
+            }
+        }
     }
 }
 
@@ -1437,7 +1787,7 @@ void ingameData::RenderBreathArea(ZayPanel& panel)
         ZAY_XYRR(panel, mBreath[i].mPos.x - mInGameX, mBreath[i].mPos.y - mInGameY, mBreathSizeR, mBreathSizeR)
         {
             mBreathReadySpine[i].SetSeekSec(mBreath[i].mGaugeTime * 0.001f);
-            mBreathReadySpine[i].RenderObject(true, mShowDebug, panel, false);
+            mBreathReadySpine[i].RenderObject((mShowDebug)? DebugMode::Weak : DebugMode::None, true, panel, false);
         }
     }
     // 브레스영역 성장중
@@ -1452,9 +1802,9 @@ void ingameData::RenderBreathArea(ZayPanel& panel)
             // 브레스영역
             auto& CurBreathReadySpine = mBreathReadySpine[mBreathReadyCount];
             CurBreathReadySpine.SetSeekSec(mBreathGaugeTimeUsingCurrently * 0.001f);
-            CurBreathReadySpine.RenderObject(true, mShowDebug, panel, false);
+            CurBreathReadySpine.RenderObject((mShowDebug)? DebugMode::Weak : DebugMode::None, true, panel, false);
             // 브레스바
-            mBreathBarSpine.RenderObject(true, false, panel, false);
+            mBreathBarSpine.RenderObject(DebugMode::None, true, panel, false);
 
             if(const Rect* Area = CurBreathReadySpine.GetBoundRect("area"))
             if(const Rect* RedArea = CurBreathReadySpine.GetBoundRect("background_red_area"))
@@ -1488,16 +1838,16 @@ void ingameData::RenderBreathArea(ZayPanel& panel)
 
 void ingameData::ReadyForNextWave()
 {
-    mWave++;
+    if(0 <= ++mWave)
+    if(0 == mGameSumWave++)
+        mGameBeginMsec = Platform::Utility::CurrentTimeMsec();
     mWaveTitle = "Load Failure";
     mWaveSecCurrently = 0;
     mWaveSecSettled = -1;
     mWaveSecMax = 0;
 
-    if(mWave == 0)
-        mMonsters.SubtractionAll();
     // 생존몬스터 보전
-    else for(sint32 i = mMonsters.Count() - 1; 0 <= i; --i)
+    for(sint32 i = mMonsters.Count() - 1; 0 <= i; --i)
     {
         auto& CurMonster = mMonsters.At(i);
         if(CurMonster.mDeathStep == 2)
@@ -1528,7 +1878,7 @@ void ingameData::ReadyForNextWave()
                         if(!CurJsonMonsterID.Compare(CurMonsterType.mID))
                         {
                             auto& CurMonster = PtrMonsters[j];
-                            CurMonster.Init(&CurMonsterType, CurJsonMonsterRID, TimeSec,
+                            CurMonster.Init(&CurMonsterType, CurJsonMonsterRID, TimeSec, CalcedHPRate(),
                                 (mLandscape)? JsonMonsters[j]("PosY").GetFloat(0) : JsonMonsters[j]("PosX").GetFloat(0),
                                 (mLandscape)? -JsonMonsters[j]("PosX").GetFloat(0) : JsonMonsters[j]("PosY").GetFloat(0),
                                 GetSpine(CurMonsterType.spineName()), GetSpine("monster_toast"));
@@ -1554,9 +1904,8 @@ void ingameData::ReadyForNextWave()
                                         NewTarget.mSizeR = 0.01;
                                         if(auto* CurTryWorldZone = mAllTryWorldZones.Access(CurMonsterType.mPolygon))
                                         {
-                                            sint32 GetScore = 0;
                                             const Point NewMonsterPos(mInGameW * (NewTarget.mPos.x + 0.5f), mInGameH * (NewTarget.mPos.y + 0.5f));
-                                            NewTarget.mPath = CurTryWorldZone->mMap->BuildPath(OldMonsterPos, NewMonsterPos, 20, &GetScore);
+                                            NewTarget.mPath = CurTryWorldZone->mMap->BuildPath(OldMonsterPos, NewMonsterPos, PATHFIND_STEP);
                                         }
                                         break;
                                     }
@@ -1583,10 +1932,10 @@ void ingameData::ReadyForNextWave()
 
 void ingameData::SetDragonSchedule(const MapBreath* breath, bool retry)
 {
-    // 스킨적용
-    mCurItemSkinForDragon = mCurItemSkin;
+    // 드래곤에 스킬적용
+    mCurSkill.CopyToDragon();
     // 드래곤 일정기록
-    mDragon.SetSkin(mCurItemSkinForDragon);
+    mDragon.SetSkin(mCurSkill.dragon_skin());
     const Point LastPos = mDragon.pos();
     mDragon.GoTarget(LastPos, breath->mPos, mInGameX + mInGameW / 2 < breath->mPos.x,
         (retry)? mDragonRetryTime : mDragonEntryTime, mDragonBreathTime, mDragonExitTime);
@@ -1603,16 +1952,19 @@ void ingameData::SetBreathAttack(const MapBreath* breath)
     for(sint32 i = 0, iend = mMonsters.Count(); i < iend; ++i)
     {
         auto& CurMonster = mMonsters.At(i);
-        if(CurMonster.mType->mType != MonsterType::TypeClass::Enemy) continue;
-        if(mWaveSecCurrently < CurMonster.mEntranceSec || CurMonster.mHPValue == 0)
+        if(CurMonster.mType->mType != monster_type::Enemy) continue;
+        if(mWaveSecCurrently < CurMonster.mEntranceSec || (!CurMonster.mImmortal && CurMonster.mHPValue == 0))
             continue;
 
         float x = mInGameX + mInGameW * (CurMonster.mCurrentPos.x + 0.5f);
         float y = mInGameY + mInGameH * (CurMonster.mCurrentPos.y + 0.5f);
         if(Math::Distance(x, y, breath->mPos.x, breath->mPos.y) < mMonsterSizeR + breath->mSizeR)
         {
-            CurMonster.mHPValue = Math::Max(0, CurMonster.mHPValue - breath->mDamage);
-            CurMonster.mHPTimeMsec = Platform::Utility::CurrentTimeMsec() + mHPbarDeleteTime;
+            if(!CurMonster.mImmortal)
+            {
+                CurMonster.mHPValue = Math::Max(0, CurMonster.mHPValue - mCurSkill.CalcedDamage(breath->mDamage));
+                CurMonster.mHPTimeMsec = Platform::Utility::CurrentTimeMsec() + mHPbarDeleteTime;
+            }
 
             // 넉백처리
             sint32 Distance = 0;
@@ -1622,12 +1974,15 @@ void ingameData::SetBreathAttack(const MapBreath* breath)
                 y = breath->mPos.y + (Platform::Utility::Random() % 1000) - 500;
             }
             const float PowerRate = Math::ClampF((breath->mDamage - mBreathMinDamage) / (float) (mBreathMaxDamage - mBreathMinDamage), 0, 1);
-            const float AccelRate = ((mKnockBackMaxV - mKnockBackMinV) * PowerRate + mKnockBackMinV) / Distance;
+            const float AccelRate = ((mKnockBackMaxV - mKnockBackMinV) * PowerRate * mCurSkill.CalcedKnockBackUp() + mKnockBackMinV) / Distance;
             const Point NewAccel = Point((x - breath->mPos.x) * AccelRate, (y - breath->mPos.y) * AccelRate) * 1000 / CurMonster.mType->mWeight;
 
             // 애니처리
             CurMonster.mFlipMode = (x < breath->mPos.x) ^ (y > breath->mPos.y);
-            CurMonster.KnockBack(y > breath->mPos.y, Point(NewAccel.x / mInGameW, NewAccel.y / mInGameH), mCurItemSkinForDragon);
+            CurMonster.mCurrentVec = Point(0, 0);
+            CurMonster.KnockBack(y > breath->mPos.y, Point(NewAccel.x / mInGameW, NewAccel.y / mInGameH),
+                mCurSkill.CalcedKnockBackUp(), mCurSkill.CalcedSkillSkin(), mCurSkill.CalcedSkillSpeed(), mCurSkill.CalcedSkillTime(),
+                mCurSkill.dragon_skin());
             CurMonster.ClearAllTargets();
         }
     }
@@ -1637,14 +1992,20 @@ void ingameData::SetBreathAttack(const MapBreath* breath)
     for(sint32 i = 0, iend = CurObjects.Count(); i < iend; ++i)
     {
         auto& CurObject = CurObjects.At(i);
-        if(!CurObject.mEnable || CurObject.mType->mType != ObjectType::TypeClass::Dynamic)
+        if(!CurObject.mType->mType.isDynamic() || CurObject.mHPValue == 0)
             continue;
         const float x = mInGameX + mInGameW * (CurObject.mCurrentRect.CenterX() + 0.5f);
         const float y = mInGameY + mInGameH * (CurObject.mCurrentRect.CenterY() + 0.5f);
         const float r = mInGameSize * CurObject.mCurrentRect.Width();
         if(Math::Distance(x, y, breath->mPos.x, breath->mPos.y) < r + breath->mSizeR)
-            if(CurObject.SetHP(CurObject.mHPValue - breath->mDamage, mHPbarDeleteTime))
-                ClearAllPathes(false);
+        {
+            if(CurObject.SetHP(CurObject.mHPValue - mCurSkill.CalcedDamage(breath->mDamage), mHPbarDeleteTime))
+            {
+                if(mShowDebug)
+                    CurObject.mVisible = false;
+                SetBrokenObject(CurObject);
+            }
+        }
     }
 
     // 타겟피해(유저의 조작실수)
@@ -1655,7 +2016,35 @@ void ingameData::SetBreathAttack(const MapBreath* breath)
         const float x = mInGameX + mInGameW * (CurObject.mCurrentRect.CenterX() + 0.5f);
         const float y = mInGameY + mInGameH * (CurObject.mCurrentRect.CenterY() + 0.5f);
         if(Math::Distance(x, y, breath->mPos.x, breath->mPos.y) < mInGameSize * mTargetsForEnemy[i].mSizeR + breath->mSizeR)
-            if(CurObject.SetHP(CurObject.mHPValue - breath->mDamage, mHPbarDeleteTime))
+        {
+            if(CurObject.SetHP(CurObject.mHPValue - mCurSkill.CalcedDamage(breath->mDamage), mHPbarDeleteTime))
+            {
+                if(mShowDebug)
+                    CurObject.mVisible = false;
                 ClearAllPathes(false);
+            }
+        }
+    }
+}
+
+void ingameData::SetBrokenObject(const MapObject& object)
+{
+    for(sint32 i = 0, iend = mAllTryWorldZones.Count(); i < iend; ++i)
+    {
+        chararray PolygonName;
+        if(auto CurTryWorldZone = mAllTryWorldZones.AccessByOrder(i, &PolygonName))
+        if(auto CurChainID = object.mDynamicChainID.Access(&PolygonName[0]))
+        {
+            if(*CurChainID == -1)
+            {
+                BuildTryWorld(false, &PolygonName[0]);
+                ClearAllPathes(false, &PolygonName[0]);
+            }
+            else
+            {
+                RebuildTryWorld(*CurChainID, &PolygonName[0]);
+                ClearAllPathes(true, &PolygonName[0]);
+            }
+        }
     }
 }

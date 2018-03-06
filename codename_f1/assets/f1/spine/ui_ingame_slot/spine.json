@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "Tb9H1YS2T4LxE+OXRc3CtjzuM/4", "spine": "3.6.50", "width": 1023, "height": 275.6, "images": "./ingame_ui/" },
+"skeleton": { "hash": "PlI525vDq343YRkhmbN5zLtPYaQ", "spine": "3.6.50", "width": 1023, "height": 275.6, "images": "./ingame_ui/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 58.97, "rotation": 90, "x": -0.35, "y": -93.59 },
@@ -28,7 +28,7 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 290.11, 129.92, 288.07, -915.28, -101.66, -913.24, -99.63, 131.95 ]
+				"vertices": [ 383.21, 129.92, 381.17, -915.28, -101.66, -913.24, -99.63, 131.95 ]
 			}
 		},
 		"item_butten_a": {

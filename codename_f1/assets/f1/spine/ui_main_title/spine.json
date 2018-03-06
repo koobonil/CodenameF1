@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "hA+vpolqIMxw+wx+IFUNwPWyvhI", "spine": "3.6.50", "width": 7066.09, "height": 3357.9, "images": "./main_title_ui/" },
+"skeleton": { "hash": "7FLqgqyyNPlVsetqSujSToztFUE", "spine": "3.6.52", "width": 7066.09, "height": 3357.9, "images": "./main_title_ui/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 205.23, "rotation": 90, "x": -0.49, "y": 3.34 },
@@ -389,9 +389,14 @@
 					{ "time": 0, "x": 0, "y": 0 }
 				],
 				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"butten_a2": {
+				"scale": [
 					{ "time": 0, "x": 1, "y": 1 },
-					{ "time": 0.0667, "x": 1.333, "y": 1.333 },
-					{ "time": 0.1667, "x": 1.111, "y": 1.111 }
+					{ "time": 0.1, "x": 1.333, "y": 1.333 },
+					{ "time": 0.2333, "x": 1, "y": 1 }
 				]
 			}
 		}
@@ -634,6 +639,8 @@
 					{ "time": 0.7, "x": 0, "y": -1079.19 }
 				],
 				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 0.0667, "x": 1.2, "y": 1.2 },
 					{ "time": 0.2, "x": 1, "y": 1 }
 				]
 			},
@@ -675,8 +682,7 @@
 					{ "time": 0.3, "x": 0, "y": 0 }
 				],
 				"scale": [
-					{ "time": 0, "x": 1, "y": 1 },
-					{ "time": 0.1, "x": 1.3, "y": 1.3 },
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.1667, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.3, "x": 1, "y": 1 }
 				]

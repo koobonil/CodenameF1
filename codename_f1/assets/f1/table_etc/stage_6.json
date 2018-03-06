@@ -1,5 +1,5 @@
 {
-	"BuildNumber":"6",
+	"BuildNumber":"7",
 	"MapName":"map_6",
 	"MissionLastRID":"83999999",
 	"MonsterLastRID":"83000152",
@@ -128,40 +128,10 @@
 					"Monsters":
 					[
 						{
-							"ID":"F_Normal",
-							"PosX":"-0.58",
-							"PosY":"-0.716667",
-							"RID":"83000141"
-						}
-					],
-					"TimeSec":"2"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"-0.58",
-							"PosY":"-0.716667",
-							"RID":"83000142"
-						}
-					],
-					"TimeSec":"4"
-				},
-				{
-					"Monsters":
-					[
-						{
 							"ID":"F_Middle",
 							"PosX":"0.42",
 							"PosY":"0.249792",
 							"RID":"83000006"
-						},
-						{
-							"ID":"F_Normal",
-							"PosX":"-0.58",
-							"PosY":"-0.716667",
-							"RID":"83000143"
 						}
 					],
 					"TimeSec":"6"
@@ -174,12 +144,6 @@
 							"PosX":"0.42",
 							"PosY":"0.249792",
 							"RID":"83000007"
-						},
-						{
-							"ID":"F_Normal",
-							"PosX":"-0.58",
-							"PosY":"-0.716667",
-							"RID":"83000144"
 						}
 					],
 					"TimeSec":"8"

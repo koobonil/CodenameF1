@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "ybWn+GpWdcae3PIf1wY8OpjwaCg", "spine": "3.6.50", "width": 1858, "height": 2627.01, "images": "./pop/" },
+"skeleton": { "hash": "XG6ZAFfPfD4mnXZKTVaPZQxxYXM", "spine": "3.6.52", "width": 3271.72, "height": 2919.41, "images": "./pop/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 304.38, "rotation": 90 },
@@ -38,7 +38,7 @@
 	{ "name": "str_10", "bone": "pop_set_ob_staff", "attachment": "str_10" },
 	{ "name": "str_11", "bone": "pop_set_ob_facebook", "attachment": "str_11" },
 	{ "name": "str_12", "bone": "pop_set_ob_rate", "attachment": "str_12" },
-	{ "name": "str_naver", "bone": "pop_set_ob_naver", "attachment": "str_naver" },
+	{ "name": "str_32", "bone": "pop_set_ob_naver", "attachment": "str_32" },
 	{ "name": "pop_set_ob_staff_area", "bone": "pop_set_ob_staff", "attachment": "pop_set_ob_staff_area" },
 	{ "name": "pop_set_ob_facebook_area", "bone": "pop_set_ob_facebook", "attachment": "pop_set_ob_facebook_area" },
 	{ "name": "pop_set_ob_rate_area", "bone": "pop_set_ob_rate", "attachment": "pop_set_ob_rate_area" },
@@ -149,28 +149,28 @@
 			"str_10": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 111.98, 168.28, 23, 168.28, 23.59, -288.99, 111.8, -288.94 ]
+				"vertices": [ 96.87, 168.28, 36.69, 168.28, 37.28, -288.99, 96.69, -288.94 ]
 			}
 		},
 		"str_11": {
 			"str_11": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 98.93, 157.14, 11.37, 157.14, 12.16, -300.12, 100.37, -300.07 ]
+				"vertices": [ 82.87, 157.14, 24.42, 157.14, 25.22, -300.12, 84.31, -300.07 ]
 			}
 		},
 		"str_12": {
 			"str_12": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 119.99, 165.09, 32.43, 165.09, 33.22, -292.17, 121.43, -292.12 ]
+				"vertices": [ 103.93, 165.09, 44.48, 165.09, 45.27, -292.17, 105.37, -292.12 ]
 			}
 		},
-		"str_naver": {
-			"str_naver": {
+		"str_32": {
+			"str_32": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 89.12, 157.14, 1.56, 157.14, 2.36, -300.12, 90.57, -300.07 ]
+				"vertices": [ 74.06, 157.14, 16.62, 157.14, 17.42, -300.12, 74.5, -300.07 ]
 			}
 		},
 		"text_e": {
@@ -414,7 +414,7 @@
 					{ "time": 0.4333, "color": "ffffffff" }
 				]
 			},
-			"str_naver": {
+			"str_32": {
 				"color": [
 					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
 					{ "time": 0.1667, "color": "ffffff00" },

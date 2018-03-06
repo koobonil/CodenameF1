@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "hPAefdFgnEBztgmOEE7WZC17T2s", "spine": "3.6.50", "width": 157, "height": 280.78, "images": "./hole/" },
+"skeleton": { "hash": "yzkZTZ0LJ6s91a3rXZZT7S8X54g", "spine": "3.6.52", "width": 157, "height": 282.19, "images": "./hole/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 49.57, "rotation": 90 },
@@ -48,6 +48,14 @@
 		},
 		"hole": {
 			"skin": { "name": "hole_fire", "x": 74.5, "y": -2.09, "rotation": -90, "width": 150, "height": 149 }
+		}
+	},
+	"heart": {
+		"effect_hole_fire": {
+			"skin": { "name": "effect_hole_heart", "x": 110.94, "y": -4.24, "rotation": -90, "width": 120, "height": 243 }
+		},
+		"hole": {
+			"skin": { "name": "hole_heart", "x": 74.5, "y": -2.09, "rotation": -90, "width": 159, "height": 158 }
 		}
 	},
 	"ice": {

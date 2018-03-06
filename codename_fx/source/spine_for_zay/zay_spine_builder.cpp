@@ -273,6 +273,7 @@ namespace ZAY
                 motion->setLoopAndSeek(loop, false);
                 motion->setCurrentTime(beginpos);
             }
+            else BOSS_ASSERT(String::Format("해당 애니메이션(%s)이 존재하지 않습니다", name), false);
         }
 
         void SetMotionOnSeek(chars name, float beginpos, int loop)
@@ -1149,131 +1150,7 @@ namespace ZAY
                                 delete Data;
                                 return nullptr;
                             }
-                            else if (strcmp(attachment_type, "mesh") == 0)
-                            {
-                                const TYPE& attachment_mesh_vertices = attachment("vertices");
-                                const TYPE& attachment_mesh_indices = attachment("triangles");
-                                const TYPE& attachment_mesh_uvs = attachment("uvs");
-                                chars attachment_mesh_color = attachment("color").GetString(nullptr);
-
-                                ZAY::MeshData* meshData = new ZAY::MeshData;
-                                meshData->autorelease();
-
-                                int32_t verticesCount = 0;
-
-                                if(attachment_mesh_vertices.IsValid())
-                                {
-                                    sint32 attachment_mesh_vertices_count = attachment_mesh_vertices.LengthOfIndexable();
-                                    verticesCount = attachment_mesh_vertices_count / 2;
-
-                                    if (verticesCount > 0)
-                                    {
-                                        meshData->_getVertexPositions().createBuffer(verticesCount);
-
-                                        ZAY::Vector3* v = meshData->getVertexPositions().getBufferPointer();
-
-                                        for(sint32 l = 0, lend = attachment_mesh_vertices.LengthOfIndexable(); l < lend;)
-                                        {
-                                            float x = attachment_mesh_vertices[l++].GetFloat();
-                                            float y = attachment_mesh_vertices[l++].GetFloat();
-
-                                            v->x = x;
-                                            v->y = y;
-                                            v->z = 0.0f;
-
-                                            v++;
-                                        }
-                                    }
-                                }
-
-                                if(attachment_mesh_indices.IsValid())
-                                {
-                                    sint32 attachment_mesh_indices_count = attachment_mesh_indices.LengthOfIndexable();
-                                    sint32 indicesCount = attachment_mesh_indices_count;
-
-                                    if (indicesCount > 0)
-                                    {
-                                        meshData->_getIndices().createBuffer(indicesCount);
-
-                                        GLushort* indices = meshData->getIndices().getBufferPointer();
-
-                                        for(sint32 l = 0, lend = attachment_mesh_indices.LengthOfIndexable(); l < lend; ++l)
-                                        {
-                                            sint32 value = attachment_mesh_indices[l].GetInt();
-
-                                            *indices = value;
-
-                                            indices++;
-                                        }
-                                    }
-                                }
-
-                                if(attachment_mesh_uvs.IsValid())
-                                {
-                                    sint32 attachment_mesh_uvs_count = attachment_mesh_uvs.LengthOfIndexable();
-                                    sint32 count = attachment_mesh_uvs_count / 2;
-
-                                    if (count != verticesCount)
-                                    {
-                                        delete Data;
-                                        return nullptr;
-                                    }
-
-                                    meshData->_getVertexUVs().createBuffer(count);
-
-                                    auto p_uv = meshData->getVertexUVs().getBufferPointer();
-
-                                    for(sint32 l = 0, lend = attachment_mesh_uvs.LengthOfIndexable(); l < lend;)
-                                    {
-                                        float u = attachment_mesh_uvs[l++].GetFloat();
-                                        float v = attachment_mesh_uvs[l++].GetFloat();
-
-                                        p_uv->x = u;
-                                        p_uv->y = v;
-
-                                        p_uv++;
-                                    }
-                                }
-
-                                ZAY::ColourValue color = ZAY::ColourValue::White;
-
-                                if (attachment_mesh_color)
-                                {
-                                    float r = ToColor(attachment_mesh_color, 0);
-                                    float g = ToColor(attachment_mesh_color, 1);
-                                    float b = ToColor(attachment_mesh_color, 2);
-                                    float a = ToColor(attachment_mesh_color, 3);
-
-                                    color.r = r;
-                                    color.g = g;
-                                    color.b = b;
-                                    color.a = a;
-                                }
-
-                                if (verticesCount > 0)
-                                {
-                                    meshData->_getVertexColors().createBuffer(verticesCount);
-
-                                    auto p_color = meshData->getVertexColors().getBufferPointer();
-
-                                    for (sint32 l = 0; l < verticesCount ; l++)
-                                    {
-                                        *(p_color++) = color;
-                                    }
-                                }
-
-                                meshData->loadTextureImage(String::Format("%s/%s.png", img_pathname, path));
-                                meshData->setBlendMode(skeleton_slot->getBlendMode());
-                                skeleton_slot->setSkin(skinAttachmentName, skinName, meshData);
-                                if (attachments[skinName][slot_name].find(skinAttachmentName) != attachments[skinName][slot_name].end())
-                                {
-                                    delete Data;
-                                    return nullptr;
-                                }
-
-                                attachments[skinName][slot_name][skinAttachmentName] = std::make_pair(attachmentName, meshData);
-                            }
-                            else if (strcmp(attachment_type, "skinnedmesh") == 0)
+                            else if (strcmp(attachment_type, "mesh") == 0 || strcmp(attachment_type, "skinnedmesh") == 0)
                             {
                                 const TYPE& attachment_mesh_vertices = attachment("vertices");
                                 const TYPE& attachment_mesh_indices = attachment("triangles");
@@ -1349,7 +1226,7 @@ namespace ZAY
 
                                     meshData->_getVertexUVs().createBuffer(count);
 
-                                    ZAY::Vector2* p_uv = meshData->getVertexUVs().getBufferPointer();
+                                    auto p_uv = meshData->getVertexUVs().getBufferPointer();
 
                                     for(sint32 l = 0, lend = attachment_mesh_uvs.LengthOfIndexable(); l < lend;)
                                     {
@@ -1384,7 +1261,7 @@ namespace ZAY
 
                                     auto p_color = meshData->getVertexColors().getBufferPointer();
 
-                                    for(sint32 l = 0; l < verticesCount; l++)
+                                    for (sint32 l = 0; l < verticesCount ; l++)
                                     {
                                         *(p_color++) = color;
                                     }

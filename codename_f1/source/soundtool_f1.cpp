@@ -70,11 +70,11 @@ soundtoolData::soundtoolData() : mScroll(updater())
     mScroll.Reset(0);
     mPlayTimeMsec = 0;
     mCurSound = 0;
-    Platform::File::Search("assets:/f1/sound/*",
+    Platform::File::Search("assets:/f1/sound_ogg/*",
         [](chars name, payload data)->void
         {
             String FileName = name;
-            if(!FileName.Right(4).CompareNoCase(".wav"))
+            if(!FileName.Right(4).CompareNoCase(".ogg"))
             {
                 auto Self = (soundtoolData*) data;
                 auto& NewElement = Self->mSoundElements.AtAdding();

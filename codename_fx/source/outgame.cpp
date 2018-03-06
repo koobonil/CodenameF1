@@ -83,6 +83,9 @@ outgameData::outgameData() : FXState("fx/"),
     mLandscape(Platform::Option::GetFlag("LandscapeMode")),
     mStartMode(Platform::Option::GetText("StartMode"))
 {
+    // 도어인증
+    door().Load();
+
     Map<String> GlobalWeightMap;
     Context GlobalWeightTable;
     if(GlobalWeightTable.LoadJson(SO_NeedCopy, String::FromAsset("fx/table/globalweightfx_table.json")))
@@ -113,6 +116,7 @@ outgameData::outgameData() : FXState("fx/"),
     mUIRight.Execute();
     mUIBottom.Execute();
 
+    SetLanguage(GlobalWeightMap("DefaultLanguage"));
     mDefaultHeartCount = Parser::GetInt(GlobalWeightMap("DefaultHeartCount"));
     mHeartRegenSec = Parser::GetInt(GlobalWeightMap("HeartRegenTime")) / 1000;
     mHeartCountMax = Parser::GetInt(GlobalWeightMap("HeartCountMax"));
@@ -385,7 +389,7 @@ void outgameData::ReloadAllCards(bool create)
             const String CurID = String::Format("%d", CurIndex + 1);
             sint32 Egg = FXSaver::Read("Stage" + CurID)("Egg").GetInt(-1);
 
-            const Context& CurStage = GetStage(CurIndex);
+            const Context& CurStage = GetStage(CurID);
             const bool ExistUrl = (CurStage("ParaSource").GetString()[0] != '\0');
             if(!ExistUrl) Egg = -3;
             else if(Egg == -1)
@@ -415,18 +419,21 @@ void outgameData::ReloadAllCards(bool create)
     }
 }
 
-bool outgameData::GoStage(sint32 id, bool directly)
+bool outgameData::GoStage(chars id, bool nopopup, bool paratalk)
 {
-    if(mHeart == 0 && !directly)
+    if(mHeart == 0)
     {
-        if(mAdEnabled)
-            Popup("no heart");
-        else Popup("no heart no ad");
+        if(!nopopup)
+        {
+            if(mAdEnabled)
+                Popup("no heart");
+            else Popup("no heart no ad");
+        }
         return false;
     }
     else
     {
-        const Context& CurStage = GetStage(id - 1);
+        const Context& CurStage = GetStage(id);
         String URL = CurStage("ParaSource").GetString();
         if(!String::CompareNoCase(URL, "http://", 7))
         {
@@ -451,16 +458,18 @@ bool outgameData::GoStage(sint32 id, bool directly)
                         Asset::Close(NewAsset);
                     }
 
+                    // Option항목의 파일저장
+                    SaveOption(CurStage);
                     // 어플종료후 재시작을 위한 저장
                     FXSaver::Write("LastStageJson").Set(CurStage("StageJson").GetString());
-                    FXSaver::Write("LastStageID").Set(String::Format("Stage%d", id));
+                    FXSaver::Write("LastStageID").Set(String::Format("Stage%s", id));
                     // 하트감소
                     FXSaver::Write("SumHeart").Set(String::FromInteger(--mHeart));
                     UpdateHeartAd(true);
 
                     // 파라토크/파라뷰 댓글전달
                     Context Comment;
-                    if(Source.GetLastSpecialJson(Comment))
+                    if(Source.GetLastSpecialJson(Comment) && paratalk)
                     {
                         static const String ParaViewText = "[paraview]";
 
@@ -492,6 +501,24 @@ bool outgameData::GoStage(sint32 id, bool directly)
     return false;
 }
 
+void outgameData::SaveOption(const Context& stage)
+{
+    String OptionAssetName = stage("StageJson").GetString();
+    if(!OptionAssetName.Right(5).CompareNoCase(".json"))
+    {
+        OptionAssetName = OptionAssetName.Left(OptionAssetName.Length() - 5) + "_option.json";
+        if(stage("Option").IsValid())
+        {
+            // prm을 json으로 저장
+            Context OptionJson;
+            OptionJson.LoadPrm(stage("Option").GetString());
+            OptionJson.SaveJson().ToAsset(OptionAssetName);
+        }
+        else Platform::File::Remove(WString::FromChars(Platform::File::RootForAssetsRem() + OptionAssetName));
+    }
+    else BOSS_ASSERT("StageJson의 값은 .json으로 끝나야 합니다", false);
+}
+
 void outgameData::Render(ZayPanel& panel)
 {
     // 배경색
@@ -507,7 +534,7 @@ void outgameData::Render(ZayPanel& panel)
         if(mStartMode == outgameMode::Lobby)
         {
             // 로비: 스테이지 캡쳐/카드
-            mUILobby.RenderObject(true, false, panel, false, "Lobby_",
+            mUILobby.RenderObject(DebugMode::None, true, panel, false, "Lobby_",
                 ZAY_GESTURE_NT(n, t, this)
                 {
                     if(t == GT_Pressed && mClosing == -1)
@@ -553,7 +580,11 @@ void outgameData::Render(ZayPanel& panel)
                                 if(!mCards[CardIndex].mLocked)
                                 {
                                     const sint32 StageID = CardIndex + 1 + 16 * mCurCard + 48 * mCurChapter;
-                                    if(0 < StageID) GoStage(StageID, false);
+                                    if(0 < StageID)
+                                    {
+                                        if(GoStage(String::Format("%d", StageID), false, true))
+                                            mCards[CardIndex].mSpine.PlayMotionOnce("touch");
+                                    }
                                 }
                             }
                         }
@@ -617,7 +648,7 @@ void outgameData::Render(ZayPanel& panel)
                         const float CardWidth = p.h() * Area->Width() / Area->Height();
                         ZAY_XYWH(p, (p.w() - CardWidth) / 2, 0, CardWidth, p.h())
                         {
-                            mCards[CardID].mSpine.RenderObject(true, false, p, false, nullptr, nullptr,
+                            mCards[CardID].mSpine.RenderObject(DebugMode::None, true, p, false, nullptr, nullptr,
                                 ZAY_RENDER_PN(p, n, this, CardID)
                                 {
                                     if(!String::Compare(n, "stage_number_area"))
@@ -651,7 +682,7 @@ void outgameData::Render(ZayPanel& panel)
         }
         else if(mStartMode == outgameMode::Result)
         {
-            mUIResult.RenderObject(true, false, panel, false, "Result_",
+            mUIResult.RenderObject(DebugMode::None, true, panel, false, "Result_",
                 ZAY_GESTURE_NT(n, t, this)
                 {
                     if(t == GT_Pressed && mClosing == -1)
@@ -673,9 +704,9 @@ void outgameData::Render(ZayPanel& panel)
                             if(GoStart)
                             {
                                 chars StageID = FXSaver::Read("LastStageID").GetString();
-                                const sint32 ID = Parser::GetInt(StageID + 5);
-                                GoStage(ID, true);
-                                mUIResult.PlayMotionOnce("result_replay");
+                                const sint32 ID = Parser::GetInt(StageID + 5); // Stage1, Stage2, Stage3
+                                if(GoStage(String::Format("%d", ID), true, true))
+                                    mUIResult.PlayMotionOnce("result_replay");
                             }
                         }
                         else if(!String::Compare(n, "Result_result_lobby_area"))
@@ -701,9 +732,9 @@ void outgameData::Render(ZayPanel& panel)
                             if(GoStart)
                             {
                                 chars StageID = FXSaver::Read("LastStageID").GetString();
-                                const sint32 ID = Parser::GetInt(StageID + 5);
-                                GoStage(ID + 1, true);
-                                mUIResult.PlayMotionOnce("result_next_stage");
+                                const sint32 ID = Parser::GetInt(StageID + 5); // Stage1, Stage2, Stage3
+                                if(GoStage(String::Format("%d", ID + 1), true, true))
+                                    mUIResult.PlayMotionOnce("result_next_stage");
                             }
                         }
                     }
@@ -711,7 +742,7 @@ void outgameData::Render(ZayPanel& panel)
         }
         else if(mStartMode == outgameMode::StaffRoll)
         {
-            mUIStaffRoll.RenderObject(true, false, panel, false, "StaffRoll_",
+            mUIStaffRoll.RenderObject(DebugMode::None, true, panel, false, "StaffRoll_",
                 ZAY_GESTURE_NT(n, t, this)
                 {
                     if(t == GT_Pressed && mClosing == -1)
@@ -746,7 +777,7 @@ void outgameData::Render(ZayPanel& panel)
                 const Rect AreaRect(Point(0, 0), Size(AreaWidth, AreaHeight));
                 ZAY_RECT(panel, AreaRect)
                 {
-                    mUILobbyTL.RenderObject(true, false, panel, false, nullptr, nullptr,
+                    mUILobbyTL.RenderObject(DebugMode::None, true, panel, false, nullptr, nullptr,
                         ZAY_RENDER_PN(p, n, this)
                         {
                             if(!String::Compare(n, "heart_time_area"))
@@ -782,7 +813,7 @@ void outgameData::Render(ZayPanel& panel)
                 const Rect AreaRect(Point(panel.w() - AreaWidth, 0), Size(AreaWidth, BaseHeight));
                 ZAY_RECT(panel, AreaRect)
                 {
-                    mUILobbyTR.RenderObject(true, false, panel, false, "Option_",
+                    mUILobbyTR.RenderObject(DebugMode::None, true, panel, false, "Option_",
                         ZAY_GESTURE_NT(n, t, this)
                         {
                             if(t == GT_Pressed)
@@ -808,7 +839,7 @@ void outgameData::Render(ZayPanel& panel)
                 const Rect AreaRect(Point(0, panel.h() - BaseHeight), Size(AreaWidth, BaseHeight));
                 ZAY_RECT(panel, AreaRect)
                 {
-                    mUILobbyBL.RenderObject(true, false, panel, false, "Ad_",
+                    mUILobbyBL.RenderObject(DebugMode::None, true, panel, false, "Ad_",
                         ZAY_GESTURE_NT(n, t, this)
                         {
                             if(t == GT_Pressed)
@@ -846,13 +877,43 @@ void outgameData::Render(ZayPanel& panel)
                 }
             }
 
-            // 로비: 아이템상점
+            // 로비: 무한모드
             if(const Rect* Area = mUILobbyBR.GetBoundRect("area"))
             {
                 const sint32 AreaWidth = BaseHeight * Area->Width() / Area->Height();
                 const Rect AreaRect(Point(panel.w() - AreaWidth, panel.h() - BaseHeight), Size(AreaWidth, BaseHeight));
                 ZAY_RECT(panel, AreaRect)
-                    mUILobbyBR.RenderObject(true, false, panel, false, nullptr, nullptr, mSubRenderer);
+                {
+                    mUILobbyBR.RenderObject(DebugMode::None, true, panel, false, "Infinity_",
+                        ZAY_GESTURE_NT(n, t, this)
+                        {
+                            if(t == GT_Pressed)
+                            {
+                                if(!String::Compare(n, "Infinity_slot_c_area") || !String::Compare(n, "Infinity_score_area"))
+                                {
+                                    if(GoStage("infinity", false, false))
+                                    {
+                                        mUILobbyBR.StopMotionAll();
+                                        mUILobbyBR.PlayMotion("touch", false);
+                                    }
+                                }
+                            }
+                        },
+                        ZAY_RENDER_PN(p, n, this)
+                        {
+                            if(!String::Compare(n, "score_area"))
+                            {
+                                ZAY_FONT(p, p.h() / 12)
+                                    p.text(FXSaver::Read("InfinityScore").GetString("0"), UIFA_CenterMiddle, UIFE_Right);
+                            }
+                            else if(!String::Compare(n, "str_", 4))
+                            {
+                                ZAY_RGB(p, 255, 255, 255)
+                                ZAY_FONT(p, p.h() / 14)
+                                    p.text(GetString(Parser::GetInt(n + 4)), UIFA_CenterMiddle, UIFE_Right);
+                            }
+                        });
+                }
             }
         }
     }
@@ -863,7 +924,7 @@ void outgameData::Render(ZayPanel& panel)
         ZAY_INNER_UI(panel, 0, "Popup")
         ZAY_RGBA(panel, 22, 40, 42, 160)
             panel.fill();
-        mUIPopups[mShowingPopupId].RenderObject(true, false, panel, false, "Popup_",
+        mUIPopups[mShowingPopupId].RenderObject(DebugMode::None, true, panel, false, "Popup_",
             ZAY_GESTURE_NT(n, t, this)
             {
                 if(t == GT_Pressed)

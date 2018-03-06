@@ -1,0 +1,161 @@
+{
+"skeleton": { "hash": "C/m3LrJYPrWKqYFbKzGMo29f+Qw", "spine": "3.6.52", "width": 1408, "height": 372, "images": "./market/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "area", "parent": "root", "length": 114.17, "rotation": 90 },
+	{ "name": "market_butten", "parent": "root", "length": 60.84, "rotation": 90, "x": 4.08, "y": 41.08 },
+	{ "name": "heart", "parent": "market_butten", "length": 56.7, "x": 3.78, "y": 506.56 },
+	{ "name": "market_butten_b", "parent": "market_butten", "length": 58.01, "x": 5.79, "y": -451.93 }
+],
+"slots": [
+	{ "name": "market_butten_a", "bone": "market_butten", "attachment": "market_butten_a" },
+	{ "name": "market_butten_b", "bone": "market_butten_b", "attachment": "market_butten_b" },
+	{ "name": "area", "bone": "area", "attachment": "area" },
+	{ "name": "butten_b_area", "bone": "market_butten_b", "attachment": "butten_b_area" },
+	{ "name": "text_area", "bone": "market_butten", "attachment": "text_area" },
+	{ "name": "dollar_area", "bone": "market_butten_b", "attachment": "dollar_area" },
+	{ "name": "heart_a", "bone": "heart", "attachment": "heart_a" },
+	{ "name": "heart_b", "bone": "heart", "attachment": "heart_b" },
+	{ "name": "heart_c", "bone": "heart", "attachment": "heart_c" },
+	{ "name": "heart_d", "bone": "heart", "attachment": "heart_d" }
+],
+"skins": {
+	"default": {
+		"area": {
+			"area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 223.5, 720.17, -163.47, 720.17, -163.47, -702.26, 226.4, -702.26 ]
+			}
+		},
+		"butten_b_area": {
+			"butten_b_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 121.67, 197, -110.09, 197, -110.09, -191.2, 121.67, -194.1 ]
+			}
+		},
+		"dollar_area": {
+			"dollar_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 65.08, 156.51, -31.94, 156.51, -33.64, -158.36, 64.62, -158.36 ]
+			}
+		},
+		"heart_a": {
+			"heart_a": { "x": 2.45, "y": -7.15, "rotation": -90, "width": 198, "height": 185 }
+		},
+		"heart_b": {
+			"heart_b": { "x": 2.45, "y": -7.15, "rotation": -90, "width": 263, "height": 217 }
+		},
+		"heart_c": {
+			"heart_c": { "x": 0.44, "y": -14.01, "rotation": -90, "width": 269, "height": 245 }
+		},
+		"heart_d": {
+			"heart_d": { "x": 0.44, "y": -10.17, "rotation": -90, "width": 303, "height": 245 }
+		},
+		"market_butten_a": {
+			"market_butten_a": { "x": -11.7, "y": 12.23, "rotation": -90, "width": 1408, "height": 372 }
+		},
+		"market_butten_b": {
+			"market_butten_b": { "x": -10.5, "y": 0.66, "rotation": -90, "width": 365, "height": 240 }
+		},
+		"text_area": {
+			"text_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 103.33, -180.29, -70.21, -180.29, -70.27, 284.76, 104.32, 285.69 ]
+			}
+		}
+	}
+},
+"animations": {
+	"butten": {
+		"bones": {
+			"market_butten_b": {
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 0.1333, "x": 1.3, "y": 1.3 },
+					{ "time": 0.2, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"heart_a": {
+		"slots": {
+			"heart_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"heart_c": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"heart_d": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		}
+	},
+	"heart_b": {
+		"slots": {
+			"heart_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"heart_c": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"heart_d": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		}
+	},
+	"heart_c": {
+		"slots": {
+			"heart_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"heart_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"heart_d": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		}
+	},
+	"heart_d": {
+		"slots": {
+			"heart_a": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"heart_b": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"heart_c": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		}
+	}
+}
+}

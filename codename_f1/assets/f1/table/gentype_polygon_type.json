@@ -1,0 +1,10 @@
+﻿[
+	{
+		"Name":"Wall",
+		"Description":"못가는 일반벽의 폴리곤"
+	},
+	{
+		"Name":"DynamicChain",
+		"Description":"파괴되는 벽의 폴리곤"
+	}
+]

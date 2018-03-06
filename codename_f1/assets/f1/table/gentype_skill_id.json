@@ -1,0 +1,18 @@
+﻿[
+	{
+		"Name":"NoSkill",
+		"Description":"스킬이 없음"
+	},
+	{
+		"Name":"BreathSlow",
+		"Description":"브레스에 맞으면 몬스터가 느려지는 효과"
+	},
+	{
+		"Name":"BreathKnockBackUp",
+		"Description":"브레스에 맞으면 몬스터의 넉백거리가 길어지는 효과"
+	},
+	{
+		"Name":"BreathStun",
+		"Description":"브레스에 맞으면 몬스터가 경직되는 효과"
+	}
+]

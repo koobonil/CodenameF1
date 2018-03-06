@@ -1,7 +1,7 @@
 {
 "skeleton": {
-	"hash": "kWmfENZE+QMQY4zqYdG76tJ8aXU",
-	"spine": "3.6.48",
+	"hash": "Oti8KbQ5wWuNCDm4G5MI051+jNw",
+	"spine": "3.6.52",
 	"width": 832.29,
 	"height": 863.22,
 	"images": "../../브레스 속성 모음/breath_ground/"
@@ -31,11 +31,11 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 121.94, 91.89, -73.98, 88.76, -79.87, -102.31, 120.45, -105.58 ]
+				"vertices": [ 175.29, 133.08, -151.92, 144.4, -156.56, -172.67, 168.21, -180.32 ]
 			}
 		},
 		"breath_g": {
-			"breath_g": { "width": 714, "height": 752 }
+			"breath_g": { "x": -4.18, "y": 0.73, "width": 714, "height": 752 }
 		},
 		"breath_stone": {
 			"breath_stone": { "x": -5.75, "y": 7.5, "rotation": 150.04, "width": 600, "height": 551 }

@@ -1,6 +1,6 @@
 {
 	"BGName":"map_ice_a",
-	"BuildNumber":"1",
+	"BuildNumber":"3",
 	"Layers":
 	[
 		{
@@ -23,15 +23,6 @@
 					"RectL":"-0.04",
 					"RectR":"0.04",
 					"RectT":"0.4",
-					"Visible":"1"
-				},
-				{
-					"ID":"Water_S",
-					"RID":"81000136",
-					"RectB":"0.066667",
-					"RectL":"-0.1",
-					"RectR":"0.1",
-					"RectT":"-0.066667",
 					"Visible":"1"
 				},
 				{
@@ -77,6 +68,15 @@
 					"RectL":"0.08",
 					"RectR":"0.2",
 					"RectT":"0.166667",
+					"Visible":"1"
+				},
+				{
+					"ID":"Water_S",
+					"RID":"81000136",
+					"RectB":"0.066667",
+					"RectL":"-0.1",
+					"RectR":"0.1",
+					"RectT":"-0.066667",
 					"Visible":"1"
 				},
 				{
@@ -366,78 +366,6 @@
 				},
 				{
 					"ID":"I_NonHitWall",
-					"RID":"81000035",
-					"RectB":"0.333333",
-					"RectL":"-0.36",
-					"RectR":"-0.32",
-					"RectT":"0.3",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_NonHitWall",
-					"RID":"81000036",
-					"RectB":"0.3",
-					"RectL":"-0.34",
-					"RectR":"-0.3",
-					"RectT":"0.266667",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_NonHitWall",
-					"RID":"81000037",
-					"RectB":"0.266667",
-					"RectL":"-0.34",
-					"RectR":"-0.3",
-					"RectT":"0.233333",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_NonHitWall",
-					"RID":"81000038",
-					"RectB":"0.233333",
-					"RectL":"-0.32",
-					"RectR":"-0.28",
-					"RectT":"0.2",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_NonHitWall",
-					"RID":"81000039",
-					"RectB":"0.2",
-					"RectL":"-0.28",
-					"RectR":"-0.24",
-					"RectT":"0.166667",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_NonHitWall",
-					"RID":"81000040",
-					"RectB":"0.166667",
-					"RectL":"-0.26",
-					"RectR":"-0.22",
-					"RectT":"0.133333",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_NonHitWall",
-					"RID":"81000041",
-					"RectB":"0.133333",
-					"RectL":"-0.22",
-					"RectR":"-0.18",
-					"RectT":"0.1",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_NonHitWall",
-					"RID":"81000042",
-					"RectB":"0.1",
-					"RectL":"-0.18",
-					"RectR":"-0.14",
-					"RectT":"0.066667",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_NonHitWall",
 					"RID":"81000043",
 					"RectB":"0.5",
 					"RectL":"0.34",
@@ -654,24 +582,6 @@
 				},
 				{
 					"ID":"I_MobHitWall",
-					"RID":"81000067",
-					"RectB":"0.066667",
-					"RectL":"-0.14",
-					"RectR":"-0.1",
-					"RectT":"0.033333",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_MobHitWall",
-					"RID":"81000068",
-					"RectB":"0.1",
-					"RectL":"-0.14",
-					"RectR":"-0.1",
-					"RectT":"0.066667",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_MobHitWall",
 					"RID":"81000069",
 					"RectB":"0.1",
 					"RectL":"-0.1",
@@ -731,33 +641,6 @@
 					"RectL":"0.1",
 					"RectR":"0.14",
 					"RectT":"0.033333",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_MobHitWall",
-					"RID":"81000077",
-					"RectB":"0.033333",
-					"RectL":"0.1",
-					"RectR":"0.14",
-					"RectT":"0",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_MobHitWall",
-					"RID":"81000078",
-					"RectB":"0",
-					"RectL":"0.1",
-					"RectR":"0.14",
-					"RectT":"-0.033333",
-					"Visible":"1"
-				},
-				{
-					"ID":"I_MobHitWall",
-					"RID":"81000079",
-					"RectB":"-0.033333",
-					"RectL":"0.1",
-					"RectR":"0.14",
-					"RectT":"-0.066667",
 					"Visible":"1"
 				},
 				{
@@ -1154,6 +1037,123 @@
 					"RectL":"-0.18",
 					"RectR":"-0.14",
 					"RectT":"-0.3",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_MobHitWall",
+					"RID":"81000077",
+					"RectB":"0.033333",
+					"RectL":"0.1",
+					"RectR":"0.14",
+					"RectT":"0",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_MobHitWall",
+					"RID":"81000078",
+					"RectB":"0",
+					"RectL":"0.1",
+					"RectR":"0.14",
+					"RectT":"-0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_MobHitWall",
+					"RID":"81000079",
+					"RectB":"-0.033333",
+					"RectL":"0.1",
+					"RectR":"0.14",
+					"RectT":"-0.066667",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_MobHitWall",
+					"RID":"81000067",
+					"RectB":"0.066667",
+					"RectL":"-0.14",
+					"RectR":"-0.1",
+					"RectT":"0.033333",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_MobHitWall",
+					"RID":"81000068",
+					"RectB":"0.1",
+					"RectL":"-0.14",
+					"RectR":"-0.1",
+					"RectT":"0.066667",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_NonHitWall",
+					"RID":"81000035",
+					"RectB":"0.333333",
+					"RectL":"-0.36",
+					"RectR":"-0.32",
+					"RectT":"0.3",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_NonHitWall",
+					"RID":"81000036",
+					"RectB":"0.3",
+					"RectL":"-0.34",
+					"RectR":"-0.3",
+					"RectT":"0.266667",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_NonHitWall",
+					"RID":"81000037",
+					"RectB":"0.266667",
+					"RectL":"-0.34",
+					"RectR":"-0.3",
+					"RectT":"0.233333",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_NonHitWall",
+					"RID":"81000038",
+					"RectB":"0.233333",
+					"RectL":"-0.32",
+					"RectR":"-0.28",
+					"RectT":"0.2",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_NonHitWall",
+					"RID":"81000041",
+					"RectB":"0.133333",
+					"RectL":"-0.22",
+					"RectR":"-0.18",
+					"RectT":"0.1",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_NonHitWall",
+					"RID":"81000042",
+					"RectB":"0.1",
+					"RectL":"-0.18",
+					"RectR":"-0.14",
+					"RectT":"0.066667",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_NonHitWall",
+					"RID":"81000039",
+					"RectB":"0.2",
+					"RectL":"-0.28",
+					"RectR":"-0.24",
+					"RectT":"0.166667",
+					"Visible":"1"
+				},
+				{
+					"ID":"I_NonHitWall",
+					"RID":"81000040",
+					"RectB":"0.166667",
+					"RectL":"-0.26",
+					"RectR":"-0.22",
+					"RectT":"0.133333",
 					"Visible":"1"
 				}
 			],
@@ -1774,12 +1774,112 @@
 					],
 					"RID":"82000000",
 					"Visible":"1"
+				},
+				{
+					"ID":"DynamicArea",
+					"Points":
+					[
+						{
+							"X":"-0.1",
+							"Y":"-0.11657"
+						},
+						{
+							"X":"0.1",
+							"Y":"-0.11657"
+						},
+						{
+							"X":"0.1",
+							"Y":"-0.066611"
+						},
+						{
+							"X":"-0.1",
+							"Y":"-0.066611"
+						}
+					],
+					"RID":"82000002",
+					"Visible":"1"
+				},
+				{
+					"ID":"DynamicArea",
+					"Points":
+					[
+						{
+							"X":"0.1",
+							"Y":"-0.066611"
+						},
+						{
+							"X":"0.14",
+							"Y":"-0.066611"
+						},
+						{
+							"X":"0.14",
+							"Y":"0.066611"
+						},
+						{
+							"X":"0.1",
+							"Y":"0.066611"
+						}
+					],
+					"RID":"82000003",
+					"Visible":"1"
+				},
+				{
+					"ID":"DynamicArea",
+					"Points":
+					[
+						{
+							"X":"-0.14",
+							"Y":"-0.066611"
+						},
+						{
+							"X":"-0.1",
+							"Y":"-0.066611"
+						},
+						{
+							"X":"-0.1",
+							"Y":"0.049958"
+						},
+						{
+							"X":"-0.1",
+							"Y":"0.066611"
+						},
+						{
+							"X":"-0.14",
+							"Y":"0.066611"
+						}
+					],
+					"RID":"82000004",
+					"Visible":"1"
+				},
+				{
+					"ID":"DynamicArea",
+					"Points":
+					[
+						{
+							"X":"-0.1",
+							"Y":"0.066611"
+						},
+						{
+							"X":"0.1",
+							"Y":"0.066611"
+						},
+						{
+							"X":"0.1",
+							"Y":"0.099917"
+						},
+						{
+							"X":"-0.1",
+							"Y":"0.099917"
+						}
+					],
+					"RID":"82000005",
+					"Visible":"1"
 				}
 			]
 		}
 	],
 	"ObjectLastRID":"81000160",
-	"PolygonLastRID":"82000000",
+	"PolygonLastRID":"82000005",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"
 }

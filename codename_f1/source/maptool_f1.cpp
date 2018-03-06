@@ -83,6 +83,7 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
                             m->mCurSelectBox = -1;
                     }
                 }
+                m->mCurSelectBox = Math::Min(m->mCurSelectBox, m->mSelectBoxes.Count() - 1);
             }
             else if(m->mCurObject != -1)
             {
@@ -95,11 +96,11 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
                 NewObject.mCurrentRect.t = Math::MinF(m->mCurDrawingPoints[0].y, m->mCurDrawingPoints[1].y);
                 NewObject.mCurrentRect.r = Math::MaxF(m->mCurDrawingPoints[0].x, m->mCurDrawingPoints[1].x);
                 NewObject.mCurrentRect.b = Math::MaxF(m->mCurDrawingPoints[0].y, m->mCurDrawingPoints[1].y);
-                if(NewObject.mType->mType != ObjectType::TypeClass::Spot && NewObject.mType->mType != ObjectType::TypeClass::Hole)
+                if(NewObject.mType->mType != object_type::Spot && NewObject.mType->mType != object_type::Hole)
                 if(auto CurSpine = m->mState.GetSpine(NewObject.mType->spineName()))
                 {
                     NewObject.InitSpine(CurSpine, NewObject.mType->spineSkinName()).PlayMotion("idle", true);
-                    if(NewObject.mType->mType == ObjectType::TypeClass::Dynamic)
+                    if(NewObject.mType->mType == object_type::Dynamic)
                     {
                         NewObject.PlayMotionSeek("_state", false);
                         NewObject.SetSeekSec(0);
@@ -122,7 +123,7 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
 MapSelectBox::MapSelectBox()
 {
     mFlagShow = true;
-    mFlagCW = true;
+    mFlagCCW = true;
     mX = 0;
     mY = 0;
     mWidth = 0;
@@ -143,7 +144,7 @@ MapSelectBox::MapSelectBox(MapSelectBox&& rhs)
 MapSelectBox& MapSelectBox::operator=(MapSelectBox&& rhs)
 {
     mFlagShow = rhs.mFlagShow;
-    mFlagCW = rhs.mFlagCW;
+    mFlagCCW = rhs.mFlagCCW;
     mX = rhs.mX;
     mY = rhs.mY;
     mWidth = rhs.mWidth;
@@ -157,7 +158,7 @@ MapSelectBox& MapSelectBox::operator=(MapSelectBox&& rhs)
 void MapSelectBox::CopyFrom(const MapSelectBox& rhs)
 {
     mFlagShow = rhs.mFlagShow;
-    mFlagCW = rhs.mFlagCW;
+    mFlagCCW = rhs.mFlagCCW;
     mX = rhs.mX;
     mY = rhs.mY;
     mWidth = rhs.mWidth;
@@ -217,7 +218,7 @@ void maptoolData::Render(ZayPanel& panel)
     // 인게임
     ZAY_XYWH(panel, mMapPos.x + mState.mInGameX, mMapPos.y + mState.mInGameY, mState.mInGameW, mState.mInGameH)
     {
-        Rect OutlineRect = mState.RenderMap(true, panel);
+        Rect OutlineRect = mState.RenderMap((mCurPolygon == -1)? DebugMode::Weak : DebugMode::Strong, panel);
         OutlineRect += Point(mMapPos.x + mState.mInGameX, mMapPos.y + mState.mInGameY);
         // 게임영역 표시
         ZAY_RGB(panel, 255, 255, 128)
@@ -285,7 +286,7 @@ void maptoolData::Render(ZayPanel& panel)
                                 NewPolygon.mType = &mState.mPolygonTypes[mCurPolygon];
                                 NewPolygon.mRID = ++mState.mPolygonLastRID;
                                 NewPolygon.mDots = mCurDrawingPoints;
-                                NewPolygon.UpdateCW();
+                                NewPolygon.UpdateCCW();
                                 mCurDrawingPoints.SubtractionAll();
                                 invalidate();
                             }
@@ -319,7 +320,7 @@ void maptoolData::Render(ZayPanel& panel)
                     const sint32 CurPolygonCount = CurBox.mLayers[j].mPolygons.Count();
                     if(0 < CurObjectCount || 0 < CurPolygonCount)
                     {
-                        mState.RenderLayer(true, panel, CurBox.mLayers[j]);
+                        mState.RenderLayer(DebugMode::Weak, panel, CurBox.mLayers[j]);
                         if(0 < Info.Length()) Info += "/";
                         if(j < 2) Info += String::Format("B%d", 2 - j);
                         else Info += String::Format("%dF", j - 1);
@@ -369,7 +370,7 @@ void maptoolData::Render(ZayPanel& panel)
             // 시계방향 상태변경
             ZAY_XYWH(panel, ButtonSize * 4 + ButtonSize * 2, 0, ButtonSize, ButtonSizeSmall)
             ZAY_RGBA(panel, 192, 128, 255, 192)
-                RenderSelect_SubButton(panel, (mSelectBoxes[mCurSelectBox].mFlagCW)? "CW" : "CCW");
+                RenderSelect_SubButton(panel, (mSelectBoxes[mCurSelectBox].mFlagCCW)? "CCW" : "CW");
 
             // 삭제
             ZAY_XYWH(panel, ButtonSize * 4 + ButtonSize * 3, 0, ButtonSizeSmall, ButtonSizeSmall)
@@ -390,7 +391,11 @@ void maptoolData::Render(ZayPanel& panel)
                 {
                     String FileName;
                     if(Platform::Popup::FileDialog(FileName, nullptr, "Load Map(json)"))
+                    {
                         Load(FileName);
+                        // 윈도우 타이틀
+                        Platform::SetWindowName(String::Format("Codename F1 [MapTool] - %s", (chars) FileName));
+                    }
                 }
             })
         {
@@ -412,7 +417,11 @@ void maptoolData::Render(ZayPanel& panel)
                 {
                     String FileName;
                     if(Platform::Popup::FileDialog(FileName, nullptr, "Save Map(json)"))
+                    {
                         Save(FileName);
+                        // 윈도우 타이틀
+                        Platform::SetWindowName(String::Format("Codename F1 [MapTool] - %s", (chars) FileName));
+                    }
                 }
             })
         {
@@ -468,9 +477,9 @@ void maptoolData::Render(ZayPanel& panel)
             {
                 if(t == GT_InReleased)
                 {
-                    String BGName = mState.mBGNameA;
+                    String BGName = mState.mBGName;
                     if(Platform::Popup::TextDialog(BGName, "Load BG", "Typing the asset name"))
-                        mState.mBGNameA = BGName;
+                        mState.mBGName = BGName;
                 }
             })
         {
@@ -514,7 +523,7 @@ void maptoolData::Render(ZayPanel& panel)
                     ZAY_INNER_SCISSOR(panel, 4)
                     ZAY_XYWH(panel, (panel.w() - IconSize) / 2, 0, IconSize, panel.h())
                     ZAY_RGBA(panel, 128, 128, 128, 64)
-                        mState.RenderImage(false, panel, R(mState.mObjectTypes[i].imageName()));
+                        mState.RenderImage(DebugMode::None, panel, R(mState.mObjectTypes[i].imageName()));
                     ZAY_RGB(panel, 0, 0, 0)
                         panel.text(mState.mObjectTypes[i].mID, UIFA_CenterMiddle, UIFE_Right);
                 }
@@ -626,7 +635,7 @@ void maptoolData::OnSelectSub(chars name)
     {
         if(mCurSelectBox != -1)
         {
-            mSelectBoxes.At(mCurSelectBox).mFlagCW ^= true;
+            mSelectBoxes.At(mCurSelectBox).mFlagCCW ^= true;
             ChangeSelectBox(1, mCurSelectBox);
         }
     }
@@ -776,17 +785,17 @@ void maptoolData::ChangeSelectBox(sint32 type, sint32 index)
         {
             // 오브젝트
             for(sint32 j = 0; j < CurLayer.mObjects.Count(); ++j)
-                CurLayer.mObjects.At(j).mEnable = CurBox.mFlagShow;
+                CurLayer.mObjects.At(j).mVisible = CurBox.mFlagShow;
             // 폴리곤
             for(sint32 j = 0; j < CurLayer.mPolygons.Count(); ++j)
-                CurLayer.mPolygons.At(j).mEnable = CurBox.mFlagShow;
+                CurLayer.mPolygons.At(j).mVisible = CurBox.mFlagShow;
         }
         else if(type == 1)
         {
             // 폴리곤
             for(sint32 j = 0; j < CurLayer.mPolygons.Count(); ++j)
             {
-                if(CurLayer.mPolygons[j].mIsCW != CurBox.mFlagCW)
+                if(CurLayer.mPolygons[j].mIsCCW != CurBox.mFlagCCW)
                 {
                     auto& CurPoints = CurLayer.mPolygons.At(j).mDots;
                     TryWorld::DotList NewPoints;
@@ -794,7 +803,7 @@ void maptoolData::ChangeSelectBox(sint32 type, sint32 index)
                     for(sint32 k = 0, kend = CurPoints.Count(); k < kend; ++k)
                         NewPoints.At(k) = CurPoints[(kend - k) % kend];
                     CurPoints = ToReference(NewPoints);
-                    CurLayer.mPolygons.At(j).UpdateCW();
+                    CurLayer.mPolygons.At(j).UpdateCCW();
                 }
             }
         }

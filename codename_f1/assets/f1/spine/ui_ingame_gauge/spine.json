@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "yzzPzAsxF7CdjB1zXgJB88bSafI", "spine": "3.6.50", "width": 12800, "height": 926.64, "images": "./ingame_ui/" },
+"skeleton": { "hash": "LTIZt0hzpRvnK/fXx0omyAkq6O8", "spine": "3.6.50", "width": 20000, "height": 926.64, "images": "./ingame_ui/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 58.97, "rotation": 90, "x": -0.35, "y": -93.59 },
@@ -30,17 +30,17 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 318.76, 1047.05, 316.73, 163.71, -43.91, 165.74, -41.88, 1049.08 ]
+				"vertices": [ 414.78, 1047.05, 412.75, 163.71, -43.91, 165.74, -41.88, 1049.08 ]
 			}
 		},
 		"background_b": {
-			"background_b": { "x": -4178.29, "y": 262.81, "scaleX": 16, "scaleY": 3.122, "rotation": 180, "width": 800, "height": 257 }
+			"background_b": { "x": -7058.29, "y": 262.81, "scaleX": 25, "scaleY": 3.122, "rotation": 180, "width": 800, "height": 257 }
 		},
 		"effect_area": {
 			"effect_area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 173.58, 873.58, 124.9, 872.64, 126.08, 817.37, 174.29, 818.31 ]
+				"vertices": [ 145.47, 924.63, 96.79, 923.69, 97.97, 872.21, 146.18, 873.14 ]
 			}
 		},
 		"gauge_back": {

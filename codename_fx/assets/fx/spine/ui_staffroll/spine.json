@@ -1,15 +1,17 @@
 {
-"skeleton": { "hash": "U2d3p/6FBL6WPQ9JfQZ6EyBz+wg", "spine": "3.6.50", "width": 7784, "height": 9666.21, "fps": 20, "images": "./staffroll/" },
+"skeleton": { "hash": "5lIEQ4xDDtB4DolyJGbJwXza2zw", "spine": "3.6.52", "width": 7784, "height": 9666.21, "fps": 20, "images": "./staffroll/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 237.23, "rotation": 90 },
 	{ "name": "bone", "parent": "root", "length": 252, "rotation": 90, "y": 1501.4 },
+	{ "name": "bone2", "parent": "root", "length": 171, "rotation": 90, "y": -6325.89 },
 	{ "name": "clipingmask", "parent": "root", "length": 75.87, "rotation": 90, "x": -2.65, "y": 703.37 },
 	{ "name": "staff roll", "parent": "bone", "length": 142.82, "x": 114.69 },
 	{ "name": "roll", "parent": "staff roll", "length": 238.13, "x": -2115.11 },
 	{ "name": "roll_a", "parent": "roll", "length": 126, "x": 1928.91, "y": 17.75 },
 	{ "name": "roll_b", "parent": "roll", "length": 189, "x": 974.91, "y": 8.75 },
 	{ "name": "roll_b2", "parent": "roll", "length": 198.58, "x": -3747.13 },
+	{ "name": "roll_b3", "parent": "roll", "length": 216.19, "x": -5817.88 },
 	{ "name": "roll_b_a", "parent": "roll_b", "length": 223.86, "x": -1615.2, "y": -11.62 },
 	{ "name": "roll_b_b", "parent": "roll_b2", "length": 223.86, "x": -258.97, "y": -2.87 },
 	{ "name": "roll_d", "parent": "roll", "length": 185.92, "x": -5074.5, "y": -2.87 },
@@ -40,17 +42,22 @@
 	{ "name": "str_519", "bone": "roll_b_a", "attachment": "str_510" },
 	{ "name": "str_520", "bone": "roll_b_a", "attachment": "str_510" },
 	{ "name": "str_521", "bone": "roll_b_a", "attachment": "str_510" },
-	{ "name": "str_522", "bone": "roll_b_b", "attachment": "str_510" },
-	{ "name": "str_523", "bone": "roll_b_b", "attachment": "str_510" },
-	{ "name": "str_524", "bone": "roll_b_b", "attachment": "str_510" },
-	{ "name": "str_525", "bone": "roll_b_b", "attachment": "str_510" },
-	{ "name": "str_526", "bone": "roll_b_b", "attachment": "str_510" },
-	{ "name": "str_527", "bone": "roll_b_b", "attachment": "str_510" },
-	{ "name": "str_528", "bone": "roll_b_b", "attachment": "str_510" },
-	{ "name": "str_529", "bone": "roll_b_b", "attachment": "str_510" },
-	{ "name": "str_530", "bone": "roll_b_b", "attachment": "str_510" },
-	{ "name": "str_531", "bone": "roll_b_b", "attachment": "str_510" },
-	{ "name": "str_532", "bone": "roll_b_b", "attachment": "str_510" },
+	{ "name": "str_522", "bone": "roll_b_b", "attachment": "str_522" },
+	{ "name": "str_523", "bone": "roll_b_b", "attachment": "str_523" },
+	{ "name": "str_524", "bone": "roll_b_b", "attachment": "str_524" },
+	{ "name": "str_525", "bone": "roll_b_b", "attachment": "str_525" },
+	{ "name": "str_526", "bone": "roll_b_b", "attachment": "str_526" },
+	{ "name": "str_527", "bone": "roll_b_b", "attachment": "str_527" },
+	{ "name": "str_528", "bone": "roll_b_b", "attachment": "str_528" },
+	{ "name": "str_529", "bone": "roll_b_b", "attachment": "str_529" },
+	{ "name": "str_530", "bone": "roll_b_b", "attachment": "str_530" },
+	{ "name": "str_531", "bone": "roll_b_b", "attachment": "str_531" },
+	{ "name": "str_532", "bone": "roll_b_b", "attachment": "str_532" },
+	{ "name": "str_533", "bone": "roll_b3", "attachment": "str_533" },
+	{ "name": "str_534", "bone": "roll_b3", "attachment": "str_534" },
+	{ "name": "str_535", "bone": "roll_b3", "attachment": "str_535" },
+	{ "name": "str_536", "bone": "roll_b3", "attachment": "str_536" },
+	{ "name": "str_537", "bone": "roll_b3", "attachment": "str_537" },
 	{ "name": "staff roll_b", "bone": "staff roll", "attachment": "staff roll_b" },
 	{ "name": "staff roll_x", "bone": "staff roll_x", "attachment": "staff roll_x" },
 	{ "name": "area", "bone": "area", "attachment": "area" },
@@ -220,80 +227,115 @@
 			}
 		},
 		"str_522": {
-			"str_510": {
+			"str_522": {
 				"type": "boundingbox",
 				"vertexCount": 4,
 				"vertices": [ 1141.71, 479.43, 1085.62, 479.43, 1083.46, -463.86, 1140.3, -463.64 ]
 			}
 		},
 		"str_523": {
-			"str_510": {
+			"str_523": {
 				"type": "boundingbox",
 				"vertexCount": 4,
 				"vertices": [ 1001.71, 479.43, 945.62, 479.43, 943.46, -463.86, 1000.3, -463.64 ]
 			}
 		},
 		"str_524": {
-			"str_510": {
+			"str_524": {
 				"type": "boundingbox",
 				"vertexCount": 4,
 				"vertices": [ 841.71, 479.43, 785.62, 479.43, 783.46, -463.86, 840.3, -463.64 ]
 			}
 		},
 		"str_525": {
-			"str_510": {
+			"str_525": {
 				"type": "boundingbox",
 				"vertexCount": 4,
 				"vertices": [ 681.71, 479.43, 625.62, 479.43, 623.46, -463.86, 680.3, -463.64 ]
 			}
 		},
 		"str_526": {
-			"str_510": {
+			"str_526": {
 				"type": "boundingbox",
 				"vertexCount": 4,
 				"vertices": [ 532.68, 479.43, 476.59, 479.43, 474.43, -463.86, 531.28, -463.64 ]
 			}
 		},
 		"str_527": {
-			"str_510": {
+			"str_527": {
 				"type": "boundingbox",
 				"vertexCount": 4,
 				"vertices": [ 368.54, 479.43, 312.45, 479.43, 310.29, -463.86, 367.14, -463.64 ]
 			}
 		},
 		"str_528": {
-			"str_510": {
+			"str_528": {
 				"type": "boundingbox",
 				"vertexCount": 4,
 				"vertices": [ 199.29, 479.43, 143.2, 479.43, 141.04, -463.86, 197.88, -463.64 ]
 			}
 		},
 		"str_529": {
-			"str_510": {
+			"str_529": {
 				"type": "boundingbox",
 				"vertexCount": 4,
 				"vertices": [ 30.03, 479.43, -26.06, 479.43, -28.22, -463.86, 28.63, -463.64 ]
 			}
 		},
 		"str_530": {
-			"str_510": {
+			"str_530": {
 				"type": "boundingbox",
 				"vertexCount": 4,
 				"vertices": [ -139.22, 479.43, -195.31, 479.43, -197.47, -463.86, -140.63, -463.64 ]
 			}
 		},
 		"str_531": {
-			"str_510": {
+			"str_531": {
 				"type": "boundingbox",
 				"vertexCount": 4,
 				"vertices": [ -303.59, 479.43, -359.68, 479.43, -361.84, -463.86, -305, -463.64 ]
 			}
 		},
 		"str_532": {
-			"str_510": {
+			"str_532": {
 				"type": "boundingbox",
 				"vertexCount": 4,
 				"vertices": [ -482.62, 479.43, -538.71, 479.43, -540.87, -463.86, -484.02, -463.64 ]
+			}
+		},
+		"str_533": {
+			"str_533": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 425.9, 476.55, 369.81, 476.55, 367.65, -466.73, 424.49, -466.51 ]
+			}
+		},
+		"str_534": {
+			"str_534": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 235.05, 476.55, 178.96, 476.55, 176.8, -466.74, 233.64, -466.51 ]
+			}
+		},
+		"str_535": {
+			"str_535": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 41.42, 476.55, -14.67, 476.55, -16.83, -466.74, 40.01, -466.51 ]
+			}
+		},
+		"str_536": {
+			"str_536": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -144.51, 476.55, -200.6, 476.55, -202.76, -466.74, -145.92, -466.51 ]
+			}
+		},
+		"str_537": {
+			"str_537": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -336.53, 476.55, -392.63, 476.55, -394.79, -466.74, -337.94, -466.51 ]
 			}
 		}
 	}
@@ -433,6 +475,31 @@
 				]
 			},
 			"str_532": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"str_533": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"str_534": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"str_535": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"str_536": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"str_537": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
@@ -650,6 +717,31 @@
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
+			},
+			"str_533": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"str_534": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"str_535": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"str_536": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"str_537": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
 			}
 		},
 		"deform": {
@@ -706,18 +798,18 @@
 					{ "time": 1.5, "color": "ffffff00" },
 					{ "time": 10, "color": "ffffff31" },
 					{ "time": 12.5, "color": "ffffffff", "curve": "stepped" },
-					{ "time": 24.5, "color": "ffffffff" },
-					{ "time": 27, "color": "ffffff00" }
+					{ "time": 34, "color": "ffffffff" },
+					{ "time": 37.6, "color": "ffffff00" }
 				]
 			},
 			"roll_p": {
 				"color": [
 					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
 					{ "time": 1.5, "color": "ffffff00", "curve": "stepped" },
-					{ "time": 28.05, "color": "ffffff00" },
-					{ "time": 30.55, "color": "ffffffff", "curve": "stepped" },
-					{ "time": 34.55, "color": "ffffffff" },
-					{ "time": 37.1, "color": "ffffff00" }
+					{ "time": 37.6, "color": "ffffff00" },
+					{ "time": 40.1, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 44.1, "color": "ffffffff" },
+					{ "time": 46.65, "color": "ffffff00" }
 				]
 			},
 			"staff roll_a": {
@@ -991,6 +1083,46 @@
 					{ "time": 24.5, "color": "ffffffff" },
 					{ "time": 28, "color": "ffffff00" }
 				]
+			},
+			"str_533": {
+				"color": [
+					{ "time": 28.05, "color": "ffffff00" },
+					{ "time": 30.55, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 34.05, "color": "ffffffff" },
+					{ "time": 37.55, "color": "ffffff00" }
+				]
+			},
+			"str_534": {
+				"color": [
+					{ "time": 28.05, "color": "ffffff00" },
+					{ "time": 30.55, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 34.05, "color": "ffffffff" },
+					{ "time": 37.55, "color": "ffffff00" }
+				]
+			},
+			"str_535": {
+				"color": [
+					{ "time": 28.05, "color": "ffffff00" },
+					{ "time": 30.55, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 34.05, "color": "ffffffff" },
+					{ "time": 37.55, "color": "ffffff00" }
+				]
+			},
+			"str_536": {
+				"color": [
+					{ "time": 28.05, "color": "ffffff00" },
+					{ "time": 30.55, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 34.05, "color": "ffffffff" },
+					{ "time": 37.55, "color": "ffffff00" }
+				]
+			},
+			"str_537": {
+				"color": [
+					{ "time": 28.05, "color": "ffffff00" },
+					{ "time": 30.55, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 34.05, "color": "ffffffff" },
+					{ "time": 37.55, "color": "ffffff00" }
+				]
 			}
 		},
 		"bones": {
@@ -1015,6 +1147,16 @@
 			"roll_b2": {
 				"translate": [
 					{ "time": 18.5, "x": 5773.44, "y": 0 }
+				]
+			},
+			"roll_b3": {
+				"translate": [
+					{ "time": 28.05, "x": 8001.68, "y": 0 }
+				]
+			},
+			"bone2": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
 				]
 			}
 		}

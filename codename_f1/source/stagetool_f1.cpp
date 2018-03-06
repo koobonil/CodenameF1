@@ -410,7 +410,7 @@ void stagetoolData::Render(ZayPanel& panel)
     // 인게임
     ZAY_XYWH(panel, mMapPos.x + mState.mInGameX, mMapPos.y + mState.mInGameY, mState.mInGameW, mState.mInGameH)
     {
-        Rect OutlineRect = mState.RenderMap(true, panel);
+        Rect OutlineRect = mState.RenderMap(DebugMode::Weak, panel);
         OutlineRect += Point(mMapPos.x + mState.mInGameX, mMapPos.y + mState.mInGameY);
         // 게임영역 표시
         ZAY_RGB(panel, 255, 255, 128)
@@ -426,13 +426,13 @@ void stagetoolData::Render(ZayPanel& panel)
             ZAY_XYRR(panel, x, y, mState.mMonsterSizeR, mState.mMonsterSizeR)
             {
                 if(mMode != Mode::Mob)
-                    mState.RenderImage(false, panel, R(CurMonsters[i].mType->imageName()));
+                    mState.RenderImage(DebugMode::None, panel, R(CurMonsters[i].mType->imageName()));
                 else
                 {
                     // 위치
                     ZAY_RGB(panel, 255, 0, 0)
                         panel.circle();
-                    mState.RenderImage(false, panel, R(CurMonsters[i].mType->imageName()));
+                    mState.RenderImage(DebugMode::None, panel, R(CurMonsters[i].mType->imageName()));
                     // 타입ID-음영
                     ZAY_RGB(panel, 255, 0, 0)
                         panel.text(panel.w() / 2 + 1, panel.h() / 2 + 1, CurMonsters[i].mType->mID, UIFA_CenterMiddle);
@@ -566,7 +566,11 @@ void stagetoolData::Render(ZayPanel& panel)
                 {
                     String FileName;
                     if(Platform::Popup::FileDialog(FileName, nullptr, "Load Stage(json)"))
+                    {
                         Load(FileName);
+                        // 윈도우 타이틀
+                        Platform::SetWindowName(String::Format("Codename F1 [StageTool] - %s(f1/table_etc/%s.json)", (chars) FileName, (chars) mMapName));
+                    }
                 }
             })
         {
@@ -588,7 +592,11 @@ void stagetoolData::Render(ZayPanel& panel)
                 {
                     String FileName;
                     if(Platform::Popup::FileDialog(FileName, nullptr, "Save Stage(json)"))
+                    {
                         Save(FileName);
+                        // 윈도우 타이틀
+                        Platform::SetWindowName(String::Format("Codename F1 [StageTool] - %s(f1/table_etc/%s.json)", (chars) FileName, (chars) mMapName));
+                    }
                 }
             })
         {
@@ -659,8 +667,15 @@ void stagetoolData::Render(ZayPanel& panel)
                             ((char*) TextBuffer)[TextSize] = '\0';
                             mState.LoadMap((chars) TextBuffer, true);
                             Buffer::Free(TextBuffer);
+                            // 윈도우 타이틀
+                            Platform::SetWindowName(String::Format("Codename F1 [StageTool] - noname(f1/table_etc/%s.json)", (chars) MapName));
                         }
-                        else mState.LoadMap("", true);
+                        else
+                        {
+                            mState.LoadMap("", true);
+                            // 윈도우 타이틀
+                            Platform::SetWindowName("Codename F1 [StageTool] - error");
+                        }
                     }
                 }
             })
@@ -720,7 +735,7 @@ void stagetoolData::Render(ZayPanel& panel)
                         ZAY_INNER_SCISSOR(panel, 4)
                         ZAY_XYWH(panel, (panel.w() - IconSize / 2) / 2, panel.h() * 3 / 4, IconSize / 2, panel.h() / 4)
                         ZAY_RGBA(panel, 128, 128, 128, 64)
-                            mState.RenderImage(false, panel, R(mState.mMonsterTypes[i].imageName()));
+                            mState.RenderImage(DebugMode::None, panel, R(mState.mMonsterTypes[i].imageName()));
                         ZAY_RGB(panel, 0, 0, 0)
                             panel.text(mState.mMonsterTypes[i].mID, UIFA_CenterMiddle, UIFE_Right);
 
