@@ -99,7 +99,7 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
                 if(NewObject.mType->mType != object_type::Spot && NewObject.mType->mType != object_type::Hole)
                 if(auto CurSpine = m->mState.GetSpine(NewObject.mType->spineName()))
                 {
-                    NewObject.InitSpine(CurSpine, NewObject.mType->spineSkinName()).PlayMotion("idle", true);
+                    NewObject.InitSpine(&m->mState, CurSpine, NewObject.mType->spineSkinName()).PlayMotion("idle", true);
                     if(NewObject.mType->mType == object_type::Dynamic)
                     {
                         NewObject.PlayMotionSeek("_state", false);
@@ -168,13 +168,16 @@ void MapSelectBox::CopyFrom(const MapSelectBox& rhs)
     mLayers = rhs.mLayers;
 }
 
-maptoolData::maptoolData() : mObjectScroll(updater()), mObjectScrollMax(11)
+maptoolData::maptoolData() : mObjectScroll(updater()), mObjectScrollMax(11),
+    mFastSaveEffect(updater())
 {
     mCurObject = 0;
     mObjectScroll.Reset(0);
     mCurPolygon = -1;
     mCurLayer = 2;
     mCurSelectBox = -1;
+    mFastSaveFileName = "";
+    mFastSaveEffect.Reset(0);
 }
 
 maptoolData::~maptoolData()
@@ -393,6 +396,8 @@ void maptoolData::Render(ZayPanel& panel)
                     if(Platform::Popup::FileDialog(FileName, nullptr, "Load Map(json)"))
                     {
                         Load(FileName);
+                        // 빨리저장 경로
+                        mFastSaveFileName = FileName;
                         // 윈도우 타이틀
                         Platform::SetWindowName(String::Format("Codename F1 [MapTool] - %s", (chars) FileName));
                     }
@@ -419,6 +424,8 @@ void maptoolData::Render(ZayPanel& panel)
                     if(Platform::Popup::FileDialog(FileName, nullptr, "Save Map(json)"))
                     {
                         Save(FileName);
+                        // 빨리저장 경로
+                        mFastSaveFileName = FileName;
                         // 윈도우 타이틀
                         Platform::SetWindowName(String::Format("Codename F1 [MapTool] - %s", (chars) FileName));
                     }
@@ -431,6 +438,27 @@ void maptoolData::Render(ZayPanel& panel)
             {
                 panel.rect(2);
                 panel.text("Save\nMap", UIFA_CenterMiddle);
+            }
+            // 빨리 저장하기
+            if(0 < mFastSaveFileName.Length())
+            {
+                ZAY_XYWH(panel, panel.w() - IconSize / 2 + InnerGap, -InnerGap, IconSize / 2, IconSize / 2)
+                ZAY_INNER_UI(panel, 4, "save_fast",
+                    ZAY_GESTURE_T(t, this)
+                    {
+                        if(t == GT_InReleased)
+                        {
+                            Save(mFastSaveFileName);
+                            mFastSaveEffect.Reset(1);
+                            mFastSaveEffect.MoveTo(0, 1);
+                        }
+                    })
+                {
+                    ZAY_RGBA(panel, 255 * mFastSaveEffect.value(), 255, 0, 192)
+                        panel.fill();
+                    ZAY_RGB(panel, 0, 0, 0)
+                        panel.rect(2);
+                }
             }
         }
 

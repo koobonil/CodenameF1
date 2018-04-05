@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "4CMVJWR7pu2pa9riwVCGs80F4Fw", "spine": "3.6.50", "width": 291, "height": 287, "images": "./unicon/" },
+"skeleton": { "hash": "Or8sv3CBQ1JeFFvAA7bZw/WrwNQ", "spine": "3.6.52", "width": 561, "height": 561, "images": "./unicon/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 44.22, "rotation": 90, "scaleX": 0.356 },
@@ -9,7 +9,7 @@
 	{ "name": "b_l_dari_b_nomal", "parent": "b_l_dari_a_nomal", "length": 44.96, "rotation": 0.98, "x": 53.17 },
 	{ "name": "b_r_dari_a", "parent": "mom_nomal", "length": 53.17, "rotation": 93.15, "x": -0.7, "y": 18.7 },
 	{ "name": "b_r_dari_b", "parent": "b_r_dari_a", "length": 44.96, "rotation": 0.98, "x": 53.17 },
-	{ "name": "effect_normal", "parent": "root", "length": 37.34, "rotation": 90, "y": 155.94 },
+	{ "name": "effect_normal", "parent": "root", "length": 37.34, "rotation": 90, "y": 155.94, "scaleX": 2.2, "scaleY": 2.2 },
 	{ "name": "effect_normal_b", "parent": "effect_normal", "length": 37.34 },
 	{ "name": "neck_normal", "parent": "mom_nomal", "length": 83.33, "rotation": -106.45, "x": 107.66 },
 	{ "name": "head_normal", "parent": "neck_normal", "length": 91.72, "rotation": 150.47, "x": 81.72, "y": 0.22 },
@@ -533,8 +533,8 @@
 					{ "time": 0.6667, "color": "72ff6c3f" },
 					{ "time": 0.8333, "color": "6ac7ff5e" },
 					{ "time": 1, "color": "879aff7e" },
-					{ "time": 1.1667, "color": "dd9cff9e" },
-					{ "time": 1.3333, "color": "ffffffbd" },
+					{ "time": 1.1667, "color": "dd9cff78" },
+					{ "time": 1.3333, "color": "ffffff7b" },
 					{ "time": 2, "color": "ffffff00" }
 				]
 			},
@@ -542,7 +542,7 @@
 				"color": [
 					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
 					{ "time": 0.3333, "color": "ffffff00" },
-					{ "time": 1.3333, "color": "ffffffbd" },
+					{ "time": 1.3333, "color": "ffffff7e" },
 					{ "time": 2, "color": "ffffff00" }
 				]
 			},

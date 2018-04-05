@@ -15,7 +15,7 @@
 	{
 		"ID":"MobHitWall",
 		"Type":"Dynamic",
-		"HP":1000,
+		"HP":680,
 		"Duration":"None",
 		"SKillID":"None",
 		"DropID":"None",
@@ -119,7 +119,7 @@
 	{
 		"ID":"I_MobHitWall",
 		"Type":"Dynamic",
-		"HP":1000,
+		"HP":600,
 		"Duration":"None",
 		"SKillID":"None",
 		"DropID":"None",
@@ -339,26 +339,26 @@
 	},
 	{
 		"ID":"AllyStart_L",
-		"Type":"Ground",
+		"Type":"AllySpot",
 		"HP":"None",
 		"Duration":"None",
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"ally_spot_left",
-		"Spine":"None",
+		"Spine":"rainbow_left",
 		"AssetShadow":"None",
 		"GaugePosition":"None",
 		"IsTool":"True"
 	},
 	{
 		"ID":"AllyStart_R",
-		"Type":"Ground",
+		"Type":"AllySpot",
 		"HP":"None",
 		"Duration":"None",
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"ally_spot_right",
-		"Spine":"None",
+		"Spine":"rainbow_right",
 		"AssetShadow":"None",
 		"GaugePosition":"None",
 		"IsTool":"True"
@@ -370,8 +370,8 @@
 		"Duration":"None",
 		"SKillID":"None",
 		"DropID":"None",
-		"Asset":"ally_spot_left",
-		"Spine":"None",
+		"Asset":"ally_spot_right",
+		"Spine":"rainbow_right",
 		"AssetShadow":"None",
 		"GaugePosition":"None",
 		"IsTool":"True"
@@ -383,8 +383,8 @@
 		"Duration":"None",
 		"SKillID":"None",
 		"DropID":"None",
-		"Asset":"ally_spot_right",
-		"Spine":"None",
+		"Asset":"ally_spot_left",
+		"Spine":"rainbow_left",
 		"AssetShadow":"None",
 		"GaugePosition":"None",
 		"IsTool":"True"
@@ -469,15 +469,15 @@
 	},
 	{
 		"ID":"Box",
-		"Type":"RandomBox",
-		"HP":1000,
+		"Type":"Dynamic",
+		"HP":600,
 		"Duration":"None",
 		"SKillID":"None",
 		"DropID":"None",
 		"Asset":"box",
 		"Spine":"box",
 		"AssetShadow":"box_shadow",
-		"GaugePosition":60,
+		"GaugePosition":90,
 		"IsTool":"True"
 	}
 ]

@@ -1,6 +1,6 @@
 {
 	"BGName":"map_forest_a",
-	"BuildNumber":"1",
+	"BuildNumber":"7",
 	"Layers":
 	[
 		{
@@ -149,6 +149,114 @@
 					"RectL":"-0.08",
 					"RectR":"-0.02",
 					"RectT":"0.166667",
+					"Visible":"1"
+				},
+				{
+					"ID":"Flower",
+					"RID":"81000129",
+					"RectB":"0.383333",
+					"RectL":"0.14",
+					"RectR":"0.18",
+					"RectT":"0.35",
+					"Visible":"1"
+				},
+				{
+					"ID":"Flower",
+					"RID":"81000133",
+					"RectB":"0.416667",
+					"RectL":"0.34",
+					"RectR":"0.38",
+					"RectT":"0.383333",
+					"Visible":"1"
+				},
+				{
+					"ID":"Flower",
+					"RID":"81000134",
+					"RectB":"0.333333",
+					"RectL":"0.36",
+					"RectR":"0.42",
+					"RectT":"0.3",
+					"Visible":"1"
+				},
+				{
+					"ID":"Flower",
+					"RID":"81000136",
+					"RectB":"0.283333",
+					"RectL":"0.4",
+					"RectR":"0.44",
+					"RectT":"0.25",
+					"Visible":"1"
+				},
+				{
+					"ID":"Flower",
+					"RID":"81000135",
+					"RectB":"0.316667",
+					"RectL":"0.46",
+					"RectR":"0.5",
+					"RectT":"0.283333",
+					"Visible":"1"
+				},
+				{
+					"ID":"Flower",
+					"RID":"81000137",
+					"RectB":"0.5",
+					"RectL":"0.36",
+					"RectR":"0.4",
+					"RectT":"0.466667",
+					"Visible":"1"
+				},
+				{
+					"ID":"Flower",
+					"RID":"81000130",
+					"RectB":"0.483333",
+					"RectL":"0.18",
+					"RectR":"0.26",
+					"RectT":"0.433333",
+					"Visible":"1"
+				},
+				{
+					"ID":"Flower",
+					"RID":"81000138",
+					"RectB":"0.416667",
+					"RectL":"-0.16",
+					"RectR":"-0.12",
+					"RectT":"0.383333",
+					"Visible":"1"
+				},
+				{
+					"ID":"Flower",
+					"RID":"81000139",
+					"RectB":"0.233333",
+					"RectL":"-0.46",
+					"RectR":"-0.42",
+					"RectT":"0.2",
+					"Visible":"1"
+				},
+				{
+					"ID":"Flower",
+					"RID":"81000140",
+					"RectB":"-0.283333",
+					"RectL":"-0.42",
+					"RectR":"-0.38",
+					"RectT":"-0.316667",
+					"Visible":"1"
+				},
+				{
+					"ID":"Flower",
+					"RID":"81000141",
+					"RectB":"-0.366667",
+					"RectL":"0.34",
+					"RectR":"0.38",
+					"RectT":"-0.4",
+					"Visible":"1"
+				},
+				{
+					"ID":"Flower",
+					"RID":"81000142",
+					"RectB":"0.383333",
+					"RectL":"0.3",
+					"RectR":"0.34",
+					"RectT":"0.35",
 					"Visible":"1"
 				}
 			],
@@ -1408,15 +1516,6 @@
 				},
 				{
 					"ID":"Tree",
-					"RID":"81000114",
-					"RectB":"-0.466667",
-					"RectL":"0.46",
-					"RectR":"0.5",
-					"RectT":"-0.5",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
 					"RID":"81000115",
 					"RectB":"-0.116667",
 					"RectL":"0.46",
@@ -1435,29 +1534,29 @@
 				},
 				{
 					"ID":"Tree",
-					"RID":"81000117",
-					"RectB":"0.466667",
-					"RectL":"0.3",
-					"RectR":"0.34",
-					"RectT":"0.433333",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
-					"RID":"81000118",
-					"RectB":"0.45",
-					"RectL":"-0.18",
-					"RectR":"-0.14",
-					"RectT":"0.416667",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
 					"RID":"81000119",
-					"RectB":"0.083333",
+					"RectB":"0.5",
 					"RectL":"-0.5",
 					"RectR":"-0.46",
-					"RectT":"0.05",
+					"RectT":"0.466667",
+					"Visible":"1"
+				},
+				{
+					"ID":"Tree",
+					"RID":"81000131",
+					"RectB":"0.483168",
+					"RectL":"0.42",
+					"RectR":"0.46",
+					"RectT":"0.449834",
+					"Visible":"1"
+				},
+				{
+					"ID":"Box",
+					"RID":"81000132",
+					"RectB":"0.432612",
+					"RectL":"0.42",
+					"RectR":"0.5",
+					"RectT":"0.366057",
 					"Visible":"1"
 				}
 			],
@@ -1622,12 +1721,36 @@
 					],
 					"RID":"82000004",
 					"Visible":"1"
+				},
+				{
+					"ID":"SmallWall",
+					"Points":
+					[
+						{
+							"X":"-0.5",
+							"Y":"-0.499584"
+						},
+						{
+							"X":"0.5",
+							"Y":"-0.499584"
+						},
+						{
+							"X":"0.5",
+							"Y":"0.499584"
+						},
+						{
+							"X":"-0.5",
+							"Y":"0.499584"
+						}
+					],
+					"RID":"82000008",
+					"Visible":"1"
 				}
 			]
 		}
 	],
-	"ObjectLastRID":"81000128",
-	"PolygonLastRID":"82000007",
+	"ObjectLastRID":"81000142",
+	"PolygonLastRID":"82000008",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"
 }

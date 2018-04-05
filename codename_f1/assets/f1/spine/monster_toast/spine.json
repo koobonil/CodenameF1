@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "hmuIotZqDZPTjE00c0R13wP8AF0", "spine": "3.6.52", "width": 726, "height": 530.61, "images": "./monster_toast_resores/" },
+"skeleton": { "hash": "09XNXZ9yK540ogl9EXBjdiJVXnU", "spine": "3.6.52", "width": 726, "height": 565.8, "images": "./monster_toast_resores/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 36.03, "rotation": 87.75, "x": 13.45, "y": 9.93 },
@@ -9,7 +9,7 @@
 	{ "name": "breath_hit_normal", "parent": "root", "length": 23.5, "rotation": 90 },
 	{ "name": "breath_hit_wind", "parent": "root", "length": 34.58, "rotation": 90 },
 	{ "name": "heart", "parent": "root", "length": 55.46, "y": 185.95, "scaleX": 0.4, "scaleY": 0.4 },
-	{ "name": "monster_fire", "parent": "root", "length": 26.06, "rotation": 90, "x": 5.23, "y": 60.03, "scaleX": 1.5, "scaleY": 1.5 },
+	{ "name": "monster_fire", "parent": "root", "length": 26.06, "rotation": 90, "x": -7.1, "y": 60.03, "scaleX": 1.5, "scaleY": 1.5 },
 	{ "name": "monster_hold", "parent": "root", "length": 34.22, "rotation": 90, "y": 0.13, "scaleX": 0.9, "scaleY": 0.9 },
 	{
 		"name": "monster_ice",
@@ -31,7 +31,7 @@
 ],
 "slots": [
 	{ "name": "area", "bone": "area", "attachment": "area" },
-	{ "name": "fire_a", "bone": "monster_fire", "attachment": "fire_o" },
+	{ "name": "fire_a", "bone": "monster_fire", "color": "ff5959ff", "attachment": "fire_o", "blend": "additive" },
 	{ "name": "hold_a", "bone": "monster_hold", "attachment": "hold_x" },
 	{ "name": "slow_a", "bone": "monster_slow4", "attachment": "slow_a" },
 	{ "name": "slow_b", "bone": "monster_slow3", "attachment": "slow_b" },
@@ -164,7 +164,7 @@
 			"fire_o": { "x": 4.41, "y": 2.85, "rotation": -92.25, "width": 80, "height": 164 }
 		},
 		"heart": {
-			"heart": { "width": 324, "height": 307 }
+			"heart": { "width": 284, "height": 269 }
 		},
 		"hold_a": {
 			"hold_a": { "width": 221, "height": 228 },
@@ -1083,6 +1083,13 @@
 			"slow_d": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"monster_hold": {
+				"scale": [
+					{ "time": 0, "x": 1.056, "y": 1.278 }
 				]
 			}
 		}

@@ -66,6 +66,7 @@ public:
     void AdToHeart();
     void ReloadAllCards(bool create);
     bool GoStage(chars id, bool nopopup, bool paratalk);
+    void SavePara(const Context& stage, ParaSource& source, bool paratalk);
     void SaveOption(const Context& stage);
     void Render(ZayPanel& panel);
     void Popup(chars name);
@@ -117,6 +118,7 @@ public: // 게임상태
     sint32 mCalcedAdSec;
     bool mResultIsWin;
     outgameCard mCards[48];
+    id_purchase mDonate;
 
 public: // 스파인
     MapSpine mUILobby;

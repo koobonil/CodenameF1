@@ -42,6 +42,9 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
         {
             m->mSpineInited = true;
             m->InitForSpine();
+            // 배경사운드시작
+            if(FXSaver::Read("SoundFlag").GetInt() && FXSaver::Read("BGMFlag").GetInt())
+                FXState::PlaySound(m->GetSound("bg_lobby", true));
         }
         // 윈도우 타이틀
         if(FXSaver::Read("DevMode").GetInt())
@@ -143,13 +146,14 @@ outgameData::outgameData() : FXState("fx/"),
     mCurChapter = 0;
     mCurCard = -1;
     mNextCard = -1;
-    mResultIsWin = false;
     mHeart = mDefaultHeartCount;
     mAdEnabled = false;
     mHeartUpdatedSec = (sint32) (Platform::Utility::CurrentTimeMsec() / 1000);
     mAdUpdatedSec = (sint32) (Platform::Utility::CurrentTimeMsec() / 1000);
     mCalcedHeartSec = 0;
     mCalcedAdSec = 0;
+    mResultIsWin = false;
+    mDonate = Platform::Purchase::Open("donate", PT_Consumable);
 
     // 하트정리
     if(!FXSaver::Read("SumHeart").IsValid())
@@ -188,6 +192,9 @@ outgameData::outgameData() : FXState("fx/"),
 
 outgameData::~outgameData()
 {
+    Platform::Purchase::Close(mDonate);
+    // 배경사운드끝
+    FXState::StopSound(GetSound("bg_lobby", true));
 }
 
 void outgameData::SetSize(sint32 width, sint32 height)
@@ -235,13 +242,13 @@ void outgameData::InitForSpine()
         ReloadAllCards(true);
         switch(mCurChapter)
         {
-        case 0: mUILobby.InitSpine(GetSpine("ui_lobby_mid"), "default", FinishedCB).PlayMotion("mid_forest_idle", true); break;
-        case 1: mUILobby.InitSpine(GetSpine("ui_lobby_mid"), "default", FinishedCB).PlayMotion("mid_ice_idle", true); break;
+        case 0: mUILobby.InitSpine(this, GetSpine("ui_lobby_mid"), "default", FinishedCB).PlayMotion("mid_forest_idle", true); break;
+        case 1: mUILobby.InitSpine(this, GetSpine("ui_lobby_mid"), "default", FinishedCB).PlayMotion("mid_ice_idle", true); break;
         }
-        mUILobbyTL.InitSpine(GetSpine("ui_lobby_top_left"));
-        mUILobbyTR.InitSpine(GetSpine("ui_lobby_top_right")).PlayMotion("idle", true);
-        mUILobbyBL.InitSpine(GetSpine("ui_lobby_bottom_left")).PlayMotion("idle_no", true);
-        mUILobbyBR.InitSpine(GetSpine("ui_lobby_bottom_right")).PlayMotion("idle", true);
+        mUILobbyTL.InitSpine(this, GetSpine("ui_lobby_top_left"));
+        mUILobbyTR.InitSpine(this, GetSpine("ui_lobby_top_right")).PlayMotion("idle", true);
+        mUILobbyBL.InitSpine(this, GetSpine("ui_lobby_bottom_left")).PlayMotion("idle_no", true);
+        mUILobbyBR.InitSpine(this, GetSpine("ui_lobby_bottom_right")).PlayMotion("idle", true);
         UpdateHeartAd(true);
 
         auto PopupCB = [this](chars motionname)
@@ -263,13 +270,13 @@ void outgameData::InitForSpine()
                 }
             }
         };
-        mUIPopups[0].InitSpine(GetSpine("ui_popup_heart"), "default", PopupCB);
-        mUIPopups[1].InitSpine(GetSpine("ui_popup_get"), "default", PopupCB);
-        mUIPopups[2].InitSpine(GetSpine("ui_popup_set"), "default", PopupCB);
+        mUIPopups[0].InitSpine(this, GetSpine("ui_popup_heart"), "default", PopupCB);
+        mUIPopups[1].InitSpine(this, GetSpine("ui_popup_get"), "default", PopupCB);
+        mUIPopups[2].InitSpine(this, GetSpine("ui_popup_set"), "default", PopupCB);
     }
     else if(mStartMode == outgameMode::Result)
     {
-        mUIResult.InitSpine(GetSpine("ui_result")).PlayMotionAttached(
+        mUIResult.InitSpine(this, GetSpine("ui_result")).PlayMotionAttached(
             (mResultIsWin)? "result_win_loading" : "result_lose_loading",
             (mResultIsWin)? "result_win_idle" : "result_lose_idle", true);
         if(FXSaver::Read("SumHeart").IsValid() && FXSaver::Read("SumHeart").GetInt() == 0)
@@ -277,7 +284,7 @@ void outgameData::InitForSpine()
     }
     else if(mStartMode == outgameMode::StaffRoll)
     {
-        mUIStaffRoll.InitSpine(GetSpine("ui_staffroll"), "default",
+        mUIStaffRoll.InitSpine(this, GetSpine("ui_staffroll"), "default",
             [this](chars motionname)
             {
                 if(mClosing == -1 && !String::Compare("end", motionname))
@@ -382,7 +389,7 @@ void outgameData::ReloadAllCards(bool create)
 {
     for(sint32 i = 0; i < 48; ++i)
     {
-        if(create) mCards[i].mSpine.InitSpine(GetSpine("ui_card"));
+        if(create) mCards[i].mSpine.InitSpine(this, GetSpine("ui_card"));
         else
         {
             const sint32 CurIndex = i + 48 * mCurChapter;
@@ -466,32 +473,8 @@ bool outgameData::GoStage(chars id, bool nopopup, bool paratalk)
                     // 하트감소
                     FXSaver::Write("SumHeart").Set(String::FromInteger(--mHeart));
                     UpdateHeartAd(true);
-
                     // 파라토크/파라뷰 댓글전달
-                    Context Comment;
-                    if(Source.GetLastSpecialJson(Comment) && paratalk)
-                    {
-                        static const String ParaViewText = "[paraview]";
-
-                        const Context& List = Comment("result")("list");
-                        sint32 ParaTalkCount = 0, ParaViewCount = 0;
-                        for(sint32 i = 0, iend = List.LengthOfIndexable(); i < iend; ++i)
-                        {
-                            const String ContentText = List[i]("content").GetString();
-                            const sint32 ParaViewPos = ContentText.Find(0, ParaViewText);
-                            if(ParaViewPos == -1)
-                                Platform::Option::SetText(String::Format("ParaTalkText_%d", ParaTalkCount++), ContentText);
-                            else Platform::Option::SetText(String::Format("ParaViewText_%d", ParaViewCount++),
-                                ((chars) ContentText) + ParaViewPos + ParaViewText.Length());
-                        }
-                        Platform::Option::SetText("ParaTalkCount", String::FromInteger(ParaTalkCount));
-                        Platform::Option::SetText("ParaViewCount", String::FromInteger(ParaViewCount));
-                    }
-                    else
-                    {
-                        Platform::Option::SetText("ParaTalkCount", "0");
-                        Platform::Option::SetText("ParaViewCount", "0");
-                    }
+                    SavePara(CurStage, Source, paratalk);
                     return true;
                 }
                 else mClosing = -1;
@@ -499,6 +482,20 @@ bool outgameData::GoStage(chars id, bool nopopup, bool paratalk)
         }
     }
     return false;
+}
+
+void outgameData::SavePara(const Context& stage, ParaSource& source, bool paratalk)
+{
+    String OptionAssetName = stage("StageJson").GetString();
+    if(!OptionAssetName.Right(5).CompareNoCase(".json"))
+    {
+        OptionAssetName = OptionAssetName.Left(OptionAssetName.Length() - 5) + "_para.json";
+        Context Comment;
+        if(source.GetLastSpecialJson(Comment) && paratalk)
+            Comment.SaveJson().ToAsset(OptionAssetName);
+        else Platform::File::Remove(WString::FromChars(Platform::File::RootForAssetsRem() + OptionAssetName));
+    }
+    else BOSS_ASSERT("StageJson의 값은 .json으로 끝나야 합니다", false);
 }
 
 void outgameData::SaveOption(const Context& stage)
@@ -915,6 +912,25 @@ void outgameData::Render(ZayPanel& panel)
                         });
                 }
             }
+        }
+
+        ZAY_LTRB(panel, panel.w() * 0.4f, mInGameY + mInGameH, panel.w() * 0.6f, panel.h())
+        ZAY_INNER_UI(panel, panel.w() * 0.05f, "Donate",
+            ZAY_GESTURE_T(t, this)
+            {
+                if(t == GT_Pressed)
+                {
+                    Platform::Purchase::Purchasing(mDonate, nullptr);
+                }
+            })
+        {
+            ZAY_RGBA(panel, 255, 255, 0, 128)
+                panel.fill();
+            ZAY_FONT(panel, 2.0f * mInGameSize / 300)
+            ZAY_RGB(panel, 0, 0, 0)
+                panel.text("기부!", UIFA_CenterMiddle, UIFE_Right);
+            ZAY_RGB(panel, 0, 0, 0)
+                panel.rect(1);
         }
     }
 

@@ -101,6 +101,9 @@ public:
     void SetBrokenObject(const MapObject& object);
 
 public:
+    void OnEvent(chars name, const Point& pos) override;
+
+public:
     class GameMode
     {
     public:
@@ -151,8 +154,10 @@ public: // 게임상태
     sint32 mWaveSecCurrently;
     sint32 mWaveSecSettled;
     sint32 mWaveSecMax;
-    uint64 mCurTickTimeSec;
+    uint64 mCurTickSec;
+	uint64 mCurRenderMsec;
     sint32 mCurParaTalk;
+    bool mHolicMode;
     MapMonsters mMonsters;
 
     // Item & Slot

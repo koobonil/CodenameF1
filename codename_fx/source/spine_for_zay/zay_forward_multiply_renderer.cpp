@@ -606,7 +606,11 @@ namespace ZAY
                     "    }\n"
                     "    else if(u_renderMode < 1.0)\n" // 그림자모드
                     "    {\n"
-                    "        v_fragmentColor = vec4(0.0, 0.0, 0.0, 1.0);\n"
+                    #if BOSS_ANDROID
+                        "        v_fragmentColor = vec4(0.0, 0.0, 0.0, 0.25);\n"
+                    #else
+                        "        v_fragmentColor = vec4(0.0, 0.0, 0.0, 1.0);\n"
+                    #endif
                     "        gl_Position = u_mvpMat * vec4(a_position.x + a_position.y * (u_renderMode - 0.5), a_position.y * -0.25, 0.0, 1.0);\n"
                     "    }\n"
                     "    else\n" // 외곽선모드
@@ -1199,7 +1203,11 @@ namespace ZAY
                         testGL();
                         break;
                     case BlendType::Shadow:
-                        glBlendFunc(GL_ONE, GL_ONE);
+                        #if BOSS_ANDROID
+                            glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
+                        #else
+                            glBlendFunc(GL_ONE, GL_ONE);
+                        #endif
                         testGL();
                         break;
                     default:

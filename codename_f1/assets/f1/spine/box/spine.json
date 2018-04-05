@@ -1,8 +1,8 @@
 {
-"skeleton": { "hash": "bqr0yN90ZsRWpxOEd1dTXZti1XQ", "spine": "3.6.52", "width": 770, "height": 793, "images": "./box/" },
+"skeleton": { "hash": "RVM6kiky1nH1DsEADbxrmCLWI8Q", "spine": "3.6.52", "width": 770, "height": 793, "images": "./box/" },
 "bones": [
 	{ "name": "root" },
-	{ "name": "area", "parent": "root", "length": 222.6, "rotation": 90 },
+	{ "name": "area", "parent": "root", "length": 222.6, "rotation": 90, "y": -100.22 },
 	{ "name": "bone3", "parent": "root", "length": 97.7, "rotation": 90 },
 	{ "name": "bone", "parent": "bone3", "length": 51.63, "x": 83.09 },
 	{ "name": "bone2", "parent": "bone3", "length": 72.74, "x": -123.35 },
@@ -22,7 +22,7 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 72.75, 73.55, -68.15, 73.55, -68.15, -73.84, 73.68, -71.99 ]
+				"vertices": [ 198.03, 144.08, -70.01, 144.08, -70.01, -145.3, 197.1, -143.44 ]
 			}
 		},
 		"box_a": {
@@ -40,9 +40,10 @@
 	}
 },
 "events": {
-	"drop": {}
+	"drop_random_item": {}
 },
 "animations": {
+	"_state": {},
 	"dead": {
 		"slots": {
 			"box_a": {
@@ -114,7 +115,7 @@
 			}
 		},
 		"events": [
-			{ "time": 0.7, "name": "drop" }
+			{ "time": 0.7, "name": "drop_random_item" }
 		]
 	},
 	"hit": {

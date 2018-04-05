@@ -1,14 +1,14 @@
 {
-"skeleton": { "hash": "LTIZt0hzpRvnK/fXx0omyAkq6O8", "spine": "3.6.50", "width": 20000, "height": 926.64, "images": "./ingame_ui/" },
+"skeleton": { "hash": "DJaOPcvhb7CknfsjIn2CAPPSlq4", "spine": "3.6.52", "width": 20000, "height": 926.64, "images": "./ingame_ui/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 58.97, "rotation": 90, "x": -0.35, "y": -93.59 },
 	{ "name": "bone3", "parent": "root", "length": 93.8, "rotation": 90, "x": 2.05, "y": 166.68 },
 	{ "name": "background_b", "parent": "bone3", "length": 101.83, "rotation": 90, "x": -83.54, "y": -34.04 },
 	{ "name": "gauge_back", "parent": "bone3", "length": 79.22, "rotation": 90, "x": -179.22, "y": 962.81 },
-	{ "name": "bone", "parent": "gauge_back", "length": 128.02, "rotation": 180, "x": -988.19, "y": -12.54 },
+	{ "name": "bone", "parent": "gauge_back", "length": 128.02, "rotation": 180, "x": -1000.34, "y": -12.74, "scaleX": 1.04 },
 	{ "name": "effect_area", "parent": "root", "length": 57.64, "rotation": 90 },
-	{ "name": "gauge", "parent": "gauge_back", "length": 45.9, "rotation": 360, "x": 4.17, "y": -29.18, "scaleX": 1.257 },
+	{ "name": "gauge", "parent": "gauge_back", "length": 45.9, "rotation": 360, "x": 23.54, "y": -29.18, "scaleX": 1.29 },
 	{ "name": "gauge_back2", "parent": "gauge_back", "length": 20.03, "x": -755.08, "y": -10.45, "scaleX": 0.01, "scaleY": 0.996 },
 	{ "name": "gauge_dragon", "parent": "gauge_back", "length": 58.7, "x": -23.61, "y": -56.25, "color": "ff0000ff" }
 ],
@@ -19,6 +19,7 @@
 	{ "name": "gauge", "bone": "gauge", "attachment": "skin" },
 	{ "name": "gauge_front", "bone": "gauge_back2", "attachment": "gauge_front" },
 	{ "name": "gauge_dragon_white_normal", "bone": "gauge_dragon", "attachment": "skin" },
+	{ "name": "gauge_back3", "bone": "gauge_back", "attachment": "gauge_back_b" },
 	{ "name": "gauge_dragon", "bone": "gauge_dragon", "attachment": "skin" },
 	{ "name": "area", "bone": "area", "attachment": "area" },
 	{ "name": "gauge_back2", "bone": "gauge_back", "attachment": "gauge_back_b" },
@@ -30,7 +31,7 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 414.78, 1047.05, 412.75, 163.71, -43.91, 165.74, -41.88, 1049.08 ]
+				"vertices": [ 404.64, 1047.05, 402.61, 163.71, -54.04, 165.74, -52.01, 1049.08 ]
 			}
 		},
 		"background_b": {
@@ -48,6 +49,9 @@
 		},
 		"gauge_back2": {
 			"gauge_back_b": { "x": -757.35, "y": -27.72, "scaleY": 1.14, "rotation": 180, "width": 48, "height": 250 }
+		},
+		"gauge_back3": {
+			"gauge_back_b": { "x": 82.62, "y": -27.72, "scaleX": -2.003, "scaleY": 1.14, "rotation": 180, "width": 48, "height": 250 }
 		},
 		"gauge_front": {
 			"gauge_front": { "x": 389.5, "y": -35.09, "scaleY": 1.133, "rotation": 180, "width": 768, "height": 151 }
@@ -243,7 +247,7 @@
 				"time": 0,
 				"offsets": [
 					{ "slot": "gauge_white", "offset": 1 },
-					{ "slot": "gauge_dragon_white_normal", "offset": 3 }
+					{ "slot": "gauge_dragon_white_normal", "offset": 4 }
 				]
 			}
 		]
@@ -259,7 +263,7 @@
 				],
 				"scale": [
 					{ "time": 0, "x": 0.508, "y": 1 },
-					{ "time": 5, "x": 98.682, "y": 1 }
+					{ "time": 5, "x": 110, "y": 1 }
 				]
 			}
 		}

@@ -1,42 +1,73 @@
 ﻿[
 	{
-		"Name":"10 슬라임",
-		"Group":"F_Normal/2/F_Normal/2/F_Normal/2/F_Normal/2/F_Normal/2/F_Normal/2/F_Normal/2/F_Normal/2/F_Normal/2/F_Normal"
+		"Name":"5슬라임",
+		"Group":"F_Normal/2/F_Normal/2/F_Normal/2/F_Normal/2/F_Normal"
+	},
+	
+	{
+		"Name":"2슬라임 2오크",
+		"Group":"F_Normal/2/F_Middle/2/F_Normal/2/F_Middle"
+	},
+	
+		{
+		"Name":"2헬멧 2오크",
+		"Group":"F_MiddleBoss/2/F_Middle/2/F_MiddleBoss/2/F_Middle"
+	},
+	
+	
+	
+	{
+		"Name":"1킹 4슬라임",
+		"Group":"F_Normal_B/2/F_Normal/2/F_Normal/2/F_Normal/2/F_Normal"
+	},
+	
+	{
+		"Name":"3킹 2슬라임",
+		"Group":"F_Normal_B/2/F_Normal/2/F_Normal_B/2/F_Normal/2/F_Normal_B"
+	},
+	
+	{
+		"Name":"5킹슬라임",
+		"Group":"F_Normal_B/2/F_Normal_B/2/F_Normal_B/2/F_Normal_B/2/F_Normal_B"
+	},
+	
+	{
+		"Name":"4오크",
+		"Group":"F_Middle/2/F_Middle/2/F_Middle/2/F_Middle"
 	},
 	{
-		"Name":"10 빼곡슬라임",
-		"Group":"F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal/1/F_Normal"
+		"Name":"2레드 2오크",
+		"Group":"F_Middle_B/2/F_Middle/2/F_Middle_B/2/F_Middle"
 	},
+		
 	{
-		"Name":"10 오크",
-		"Group":"F_Middle/2/F_Middle/2/F_Middle/2/F_Middle/2/F_Middle/2/F_Middle/2/F_Middle/2/F_Middle/2/F_Middle/2/F_Middle"
+		"Name":"2레드 2킹슬라임",
+		"Group":"F_Middle_B/2/F_Normal_B/2/F_Middle_B/2/F_Normal_B"
+	},	
+		
+	{
+		"Name":"4레드오크",
+		"Group":"F_Middle_B/2/F_Middle_B/2/F_Middle_B/2/F_Middle_B"
 	},
+	
+			
 	{
-		"Name":"10 빼곡 오크",
-		"Group":"F_Middle/1/F_Middle/1/F_Middle/1/F_Middle/1/F_Middle/1/F_Middle/1/F_Middle/1/F_Middle/1/F_Middle/1/F_Middle"
+		"Name":"4헷멧오크",
+		"Group":"F_MiddleBoss/2/F_MiddleBoss/2/F_MiddleBoss/2/F_MiddleBoss"
 	},
-	{
-		"Name":"변형 슬라임",
-		"Group":"F_Normal_B/2/F_Normal_B/2/F_Normal_B/2/F_Normal_B/2/F_Normal_B/2/F_Normal_B/2/F_Normal_B/2/F_Normal_B/2/F_Normal_B/2/F_Normal_B"
+	
+		{
+		"Name":"2레드 2헬멧오크",
+		"Group":"F_Middle_B/2/F_MiddleBoss/2/F_Middle_B/2/F_MiddleBoss"
 	},
+	
 	{
-		"Name":"교차 슬라임",
-		"Group":"F_Normal/2/F_Normal_B/2/F_Normal/2/F_Normal_B/2/F_Normal/2/F_Normal_B/2/F_Normal/2/F_Normal_B/2/F_Normal/2/F_Normal_B"
+		"Name":"3늑대",
+		"Group":"F_Fast/2/F_Fast/2/F_Fast"
 	},
+	
 	{
-		"Name":"교차 오크",
-		"Group":"F_Middle/2/F_Middle_B/2/F_Middle/2/F_Middle_B/2/F_Middle/2/F_Middle_B/2/F_Middle/2/F_Middle_B/2/F_Middle/2/F_Middle_B"
-	},
-	{
-		"Name":"변형 오크",
-		"Group":"F_Middle/2/F_Middle/2/F_Middle/2/F_Middle/2/F_Middle/2/F_Middle/2/F_Middle/2/F_Middle/2/F_Middle/2/F_Middle"
-	},
-	{
-		"Name":"강화오크",
-		"Group":"F_MiddleBoss/2/F_MiddleBoss/2/F_MiddleBoss/2/F_MiddleBoss/2/F_MiddleBoss/2/F_MiddleBoss/2/F_MiddleBoss/2/F_MiddleBoss/2/F_MiddleBoss/2/F_MiddleBoss"
-	},
-	{
-		"Name":"늑대",
-		"Group":"F_Fast/2/F_Fast/2/F_Fast/2/F_Fast/2/F_Fast/2/F_Fast/2/F_Fast/2/F_Fast/2/F_Fast/2/F_Fast"
+		"Name":"1강화오크 4늑대",
+		"Group":"F_MiddleBoss/2/F_Fast/2/F_Fast/2/F_Fast/2/F_Fast"
 	}
 ]

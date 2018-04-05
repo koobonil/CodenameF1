@@ -1,7 +1,7 @@
 ﻿class object_type
 {
 public:
-    enum Type {Static, Wall, Dynamic, Trigger, Target, AllyTarget, View, Ground, Spot, Hole, RandomBox, Max, Null = -1};
+    enum Type {Static, Wall, Dynamic, Trigger, Target, AllyTarget, View, Ground, Spot, AllySpot, Hole, Max, Null = -1};
 
 public:
     object_type() {mName = Null;}
@@ -22,7 +22,7 @@ public:
             mName = Trigger;
         else if(!String::Compare(rhs, "Target")) // 몬스터가 길찾기의 '목표'가 될 타입
             mName = Target;
-        else if(!String::Compare(rhs, "AllyTarget")) // 아군몬스터가 타겟이 될 타입
+        else if(!String::Compare(rhs, "AllyTarget")) // 아군몬스터가 길찾기의 '목표'가 될 타입
             mName = AllyTarget;
         else if(!String::Compare(rhs, "View")) // 광고판
             mName = View;
@@ -30,10 +30,10 @@ public:
             mName = Ground;
         else if(!String::Compare(rhs, "Spot")) // 몬스터가 출현하는 오브젝트 타입
             mName = Spot;
+        else if(!String::Compare(rhs, "AllySpot")) // 아군몬스터가 출현하는 오브젝트 타입
+            mName = AllySpot;
         else if(!String::Compare(rhs, "Hole")) // 길찾기에 영향을 받고 몬스터가 닿게 되면 떨어지는 타입
             mName = Hole;
-        else if(!String::Compare(rhs, "RandomBox")) // 다이나믹과 동일하며, 파괴되면 아이템이 등장하는 타입
-            mName = RandomBox;
         else
         {
             mName = Null;

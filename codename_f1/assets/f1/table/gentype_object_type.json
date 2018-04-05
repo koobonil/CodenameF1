@@ -21,7 +21,7 @@
 	},
 	{
 		"Name":"AllyTarget",
-		"Description":"아군몬스터가 타겟이 될 타입"
+		"Description":"아군몬스터가 길찾기의 '목표'가 될 타입"
 	},
 	{
 		"Name":"View",
@@ -36,11 +36,11 @@
 		"Description":"몬스터가 출현하는 오브젝트 타입"
 	},
 	{
-		"Name":"Hole",
-		"Description":"길찾기에 영향을 받고 몬스터가 닿게 되면 떨어지는 타입"
+		"Name":"AllySpot",
+		"Description":"아군몬스터가 출현하는 오브젝트 타입"
 	},
 	{
-		"Name":"RandomBox",
-		"Description":"다이나믹과 동일하며, 파괴되면 아이템이 등장하는 타입"
+		"Name":"Hole",
+		"Description":"길찾기에 영향을 받고 몬스터가 닿게 되면 떨어지는 타입"
 	}
 ]

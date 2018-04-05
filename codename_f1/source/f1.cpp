@@ -42,6 +42,7 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
     {
         ZAY_RGB(panel, 255, 255, 255)
             panel.fill();
+
         // 배경
         const Image& LogoImage = R("logo");
         const sint32 Width = LogoImage.GetWidth();
@@ -49,6 +50,16 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
         const float RateR = Math::MinF(panel.w() / Width, panel.h() / Height) / 2;
         ZAY_XYRR(panel, panel.w() / 2, panel.h() / 2, Width * RateR, Height * RateR)
             panel.stretch(LogoImage, true);
+
+        // TAB
+        ZAY_XYRR(panel, panel.w() / 2, panel.h() / 2 + Height * RateR * 1.5f, Width * RateR / 2, Height * RateR / 4)
+        ZAY_RGBA(panel, 0, 0, 0, 32)
+        {
+            ZAY_FONT(panel, Width * RateR / 100, "Arial Black")
+                panel.text("TAB", UIFA_CenterMiddle, UIFE_Right);
+            panel.rect(Height * RateR / 50);
+        }
+
         // 다음뷰로 이동
         if(m->mGoNextCounter == -1)
             m->mGoNextCounter = 5;
@@ -102,8 +113,6 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
                         if(0 < m->FirstStage().Length())
                             FXSaver::Write("LastStageJson").Set(String("f1/table_etc/") + m->FirstStage() + ".json");
                         FXSaver::Write("LastStageID").Set("Stage1");
-                        Platform::Option::SetText("ParaTalkCount", "0");
-                        Platform::Option::SetText("ParaViewCount", "0");
                         Platform::Option::SetFlag("LandscapeMode", false);
                         Platform::Option::SetFlag("DirectPlay", false);
                         m->next("ingameView");

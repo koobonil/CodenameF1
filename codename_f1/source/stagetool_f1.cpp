@@ -12,6 +12,24 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
         // 윈도우 타이틀
         Platform::SetWindowName("Codename F1 [StageTool]");
     }
+    else if(type == CT_Signal)
+    {
+        if(!String::Compare(topic, "KeyPress"))
+        {
+            pointers Pointer(in);
+            sint32 Code = *((sint32*) Pointer[0]);
+            if(Code == 0x01000012) // ←
+            {
+                m->mCurEvent = Math::Max(0, m->mCurEvent - 1);
+                m->invalidate();
+            }
+            else if(Code == 0x01000014) // →
+            {
+                m->mCurEvent = Math::Min(m->mCurEvent + 1, m->mState.mTimelineLength - 1);
+                m->invalidate();
+            }
+        }
+    }
     else m->Command(type, in);
 }
 
@@ -114,8 +132,9 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
 }
 
 stagetoolData::stagetoolData() :
-    mMonsterScroll(updater()), mMonsterScrollMax(11),
-    mMonsterGroupScroll(updater()), mMonsterGroupScrollMax(7)
+    mMonsterScroll(updater()), mMonsterScrollMax(12),
+    mMonsterGroupScroll(updater()), mMonsterGroupScrollMax(12),
+    mFastSaveEffect(updater())
 {
     mMode = Mode::Mob;
     mCurWave = 0;
@@ -127,6 +146,9 @@ stagetoolData::stagetoolData() :
     mShowScript[0] = true;
     mShowScript[1] = true;
     mShowScript[2] = true;
+    mShowRemover = false;
+    mFastSaveFileName = "";
+    mFastSaveEffect.Reset(0);
     mMapName = "";
     auto& NewWave = mWaves.AtAdding();
     NewWave.mEventMonsters.AtDumpingAdded(mState.mTimelineLength);
@@ -187,6 +209,7 @@ void stagetoolData::Load(chars filename)
     mShowScript[0] = true;
     mShowScript[1] = true;
     mShowScript[2] = true;
+    mShowRemover = false;
     mMapName = "";
     mWaves.SubtractionAll();
 
@@ -568,6 +591,8 @@ void stagetoolData::Render(ZayPanel& panel)
                     if(Platform::Popup::FileDialog(FileName, nullptr, "Load Stage(json)"))
                     {
                         Load(FileName);
+                        // 빨리저장 경로
+                        mFastSaveFileName = FileName;
                         // 윈도우 타이틀
                         Platform::SetWindowName(String::Format("Codename F1 [StageTool] - %s(f1/table_etc/%s.json)", (chars) FileName, (chars) mMapName));
                     }
@@ -594,6 +619,8 @@ void stagetoolData::Render(ZayPanel& panel)
                     if(Platform::Popup::FileDialog(FileName, nullptr, "Save Stage(json)"))
                     {
                         Save(FileName);
+                        // 빨리저장 경로
+                        mFastSaveFileName = FileName;
                         // 윈도우 타이틀
                         Platform::SetWindowName(String::Format("Codename F1 [StageTool] - %s(f1/table_etc/%s.json)", (chars) FileName, (chars) mMapName));
                     }
@@ -606,6 +633,27 @@ void stagetoolData::Render(ZayPanel& panel)
             {
                 panel.rect(2);
                 panel.text("Save\nStage", UIFA_CenterMiddle);
+            }
+            // 빨리 저장하기
+            if(0 < mFastSaveFileName.Length())
+            {
+                ZAY_XYWH(panel, panel.w() - IconSize / 2 + InnerGap, -InnerGap, IconSize / 2, IconSize / 2)
+                ZAY_INNER_UI(panel, 4, "save_fast",
+                    ZAY_GESTURE_T(t, this)
+                    {
+                        if(t == GT_InReleased)
+                        {
+                            Save(mFastSaveFileName);
+                            mFastSaveEffect.Reset(1);
+                            mFastSaveEffect.MoveTo(0, 1);
+                        }
+                    })
+                {
+                    ZAY_RGBA(panel, 255 * mFastSaveEffect.value(), 255, 0, 192)
+                        panel.fill();
+                    ZAY_RGB(panel, 0, 0, 0)
+                        panel.rect(2);
+                }
             }
         }
 
@@ -751,12 +799,12 @@ void stagetoolData::Render(ZayPanel& panel)
 
             // 몬스터그룹리스트
             if(const sint32 MonsterGroupCount = mMonsterGroups.Count())
-            ZAY_XYWH_SCISSOR(panel, panel.w() - InnerGap - IconSize * 2, ButtonSize * 3 + InnerGap, IconSize * 2, IconSize * mMonsterGroupScrollMax)
+            ZAY_XYWH_SCISSOR(panel, panel.w() - InnerGap - IconSize * 2, ButtonSize * 3 + InnerGap, IconSize * 2, IconSizeSmall * mMonsterGroupScrollMax)
             {
                 const float ScrollPos = mMonsterGroupScroll.value();
                 for(sint32 i = 0; i < MonsterGroupCount; ++i)
                 {
-                    ZAY_XYWH_UI(panel, 0, IconSize * (i - ScrollPos), panel.w(), IconSize, String::Format("monstergroup-%d", i),
+                    ZAY_XYWH_UI(panel, 0, IconSizeSmall * (i - ScrollPos), panel.w(), IconSizeSmall, String::Format("monstergroup-%d", i),
                         ZAY_GESTURE_NT(n, t, this)
                         {
                             if(t == GT_InReleased)
@@ -781,6 +829,76 @@ void stagetoolData::Render(ZayPanel& panel)
                 ZAY_INNER(panel, 2)
                 ZAY_RGB(panel, 0, 0, 0)
                     panel.rect(2);
+            }
+        }
+
+        // 타임라인 일괄삭제기능
+        ZAY_XYWH(panel, panel.w() - IconSize * 2, panel.h() - ButtonSize - IconSize + InnerGap, IconSize * 2, IconSize)
+        ZAY_INNER_UI(panel, InnerGap, "erase",
+            ZAY_GESTURE_T(t, this)
+            {
+                if(t == GT_InReleased)
+                {
+                    mShowRemover = !mShowRemover;
+                }
+            })
+        {
+            ZAY_RGBA_IF(panel, 96, 96, 96, 192, mShowRemover)
+            ZAY_RGBA_IF(panel, 255, 128, 128, 192, !mShowRemover)
+                panel.fill();
+            ZAY_RGB(panel, 0, 0, 0)
+            {
+                panel.rect(2);
+                panel.text("Erase it", UIFA_CenterMiddle);
+            }
+
+            // 전개된 삭제버튼
+            if(mShowRemover)
+            {
+                // 모두 제거
+                ZAY_XYWH_UI(panel, 0, -panel.h() * 2, panel.w(), panel.h(), "erase_all",
+                    ZAY_GESTURE_T(t, this)
+                    {
+                        if(t == GT_InReleased)
+                        {
+                            mShowRemover = false;
+                            for(sint32 i = 0; i < mState.mTimelineLength; ++i)
+                            {
+                                mWaves.At(mCurWave).mEventMonsters.At(i).Clear();
+                                mWaves.At(mCurWave).mEventMissions.At(i).Reset();
+                                mWaves.At(mCurWave).mEventScripts.At(i).Reset();
+                            }
+                        }
+                    })
+                {
+                    ZAY_RGBA(panel, 255, 128, 128, 192)
+                        panel.fill();
+                    ZAY_RGB(panel, 0, 0, 0)
+                    {
+                        panel.rect(2);
+                        panel.text("All", UIFA_CenterMiddle);
+                    }
+                }
+                // 몬스터만 제거
+                ZAY_XYWH_UI(panel, 0, -panel.h() * 1, panel.w(), panel.h(), "erase_monster",
+                    ZAY_GESTURE_T(t, this)
+                    {
+                        if(t == GT_InReleased)
+                        {
+                            mShowRemover = false;
+                            for(sint32 i = 0; i < mState.mTimelineLength; ++i)
+                                mWaves.At(mCurWave).mEventMonsters.At(i).Clear();
+                        }
+                    })
+                {
+                    ZAY_RGBA(panel, 255, 128, 128, 192)
+                        panel.fill();
+                    ZAY_RGB(panel, 0, 0, 0)
+                    {
+                        panel.rect(2);
+                        panel.text("Monsters", UIFA_CenterMiddle);
+                    }
+                }
             }
         }
 
@@ -843,7 +961,7 @@ void stagetoolData::Render(ZayPanel& panel)
                     }
                 }
                 // 프로그레스바
-                const sint32 ProgressInnerSize = (panel.h() - InnerGap) / 2;
+                const sint32 ProgressInnerSize = (panel.h() - InnerGap) / 3;
                 ZAY_LTRB_UI(panel, SkipButtonSize, ProgressInnerSize, panel.w() - SkipButtonSize, panel.h() - ProgressInnerSize, "timeline",
                     ZAY_GESTURE_NTXY(n, t, x, y, this)
                     {
@@ -864,18 +982,31 @@ void stagetoolData::Render(ZayPanel& panel)
                         ZAY_RGB_IF(panel, 240, 240, 240, IsOdd)
                         ZAY_RGB_IF(panel, 255, 255, 255, !IsOdd)
                         ZAY_RGB_IF(panel, 150, 150, 100, i == mCurEvent)
-                        ZAY_RGB_IF(panel, 200, 50, 50, mMode == Mode::Mob && 0 < mWaves[mCurWave].mEventMonsters[i].Count())
-                        ZAY_RGB_IF(panel, 50, 50, 200, mMode == Mode::Mission && 0 < mWaves[mCurWave].mEventMissions[i].Count())
-                        ZAY_RGB_IF(panel, 200, 50, 200, mMode == Mode::Script && 0 < mWaves[mCurWave].mEventScripts[i].Count())
                         {
-                            panel.fill();
-                            // 타임라인별 시스템 스크립트
-                            if(mMode == Mode::Script)
-                                RenderScript(panel, i, 0, false, i == mCurEvent);
+                            // 사용현황
+                            ZAY_LTRB(panel, 0, panel.h() * 0 / 3, panel.w(), panel.h() * 1 / 3)
+                            ZAY_RGB_IF(panel, 200, 50, 50, 0 < mWaves[mCurWave].mEventMonsters[i].Count())
+                                panel.fill();
+                            ZAY_LTRB(panel, 0, panel.h() * 1 / 3, panel.w(), panel.h() * 2 / 3)
+                            ZAY_RGB_IF(panel, 50, 50, 200, 0 < mWaves[mCurWave].mEventMissions[i].Count())
+                                panel.fill();
+                            ZAY_LTRB(panel, 0, panel.h() * 2 / 3, panel.w(), panel.h() * 3 / 3)
+                            ZAY_RGB_IF(panel, 200, 50, 200, 0 < mWaves[mCurWave].mEventScripts[i].Count())
+                                panel.fill();
                         }
                     }
+                    // 외곽선
                     ZAY_RGB(panel, 0, 0, 0)
                         panel.rect(2);
+                    // 타임라인별 시스템 스크립트
+                    if(mMode == Mode::Script)
+                    for(sint32 i = 0; i < mState.mTimelineLength; ++i)
+                    {
+                        ZAY_LTRB(panel, panel.w() * i / mState.mTimelineLength, 0, panel.w() * (i + 1) / mState.mTimelineLength, panel.h())
+                        ZAY_LTRB(panel, 0, panel.h() * 2 / 3, panel.w(), panel.h() * 3 / 3)
+                        ZAY_RGB_IF(panel, 200, 50, 200, 0 < mWaves[mCurWave].mEventScripts[i].Count())
+                            RenderScript(panel, i, 0, false, i == mCurEvent);
+                    }
                     ZAY_RGBA(panel, 255, 128, 64, 192)
                     {
                         // 커서위치
@@ -884,7 +1015,7 @@ void stagetoolData::Render(ZayPanel& panel)
                         // 커서시간
                         ZAY_FONT(panel, 0.8)
                         ZAY_XYRR(panel, panel.w() * (mCurEvent + 0.5) / mState.mTimelineLength, panel.h(), 0, 0)
-                            panel.text(0, 3, String::Format("%ds", mCurEvent), UIFA_CenterTop);
+                            panel.text(0, 0, String::Format("%ds", mCurEvent), UIFA_CenterTop);
                     }
                 }
             }

@@ -165,6 +165,9 @@ public:
     Tween1D mMonsterGroupScroll;
     const sint32 mMonsterGroupScrollMax;
     bool mShowScript[3];
+    bool mShowRemover;
+    String mFastSaveFileName;
+    Tween1D mFastSaveEffect;
     String mMapName;
     TimelineWaves mWaves;
     MonsterGroups mMonsterGroups;

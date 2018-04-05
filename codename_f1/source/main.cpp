@@ -49,8 +49,6 @@ void PlatformInit()
         FirstSaver->At("LastStageID").Set("Stage1");
         FXSaver::Update();
     }
-    Platform::Option::SetText("ParaTalkCount", "0");
-    Platform::Option::SetText("ParaViewCount", "0");
     Platform::Option::SetFlag("LandscapeMode", false);
     Platform::Option::SetFlag("DirectPlay", false);
 

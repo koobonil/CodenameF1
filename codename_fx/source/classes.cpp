@@ -140,11 +140,27 @@ MapSpine& MapSpine::operator=(MapSpine&& rhs)
     return *this;
 }
 
-MapSpine& MapSpine::InitSpine(const SpineRenderer* renderer, chars skin,
+MapSpine& MapSpine::InitSpine(const FXState* state, const SpineRenderer* renderer, chars skin,
     ZAY::SpineBuilder::MotionFinishedCB fcb, ZAY::SpineBuilder::UserEventCB ecb)
 {
     if(mSpineRenderer = renderer)
-        mSpineInstance = ZAY::SpineBuilder::Create(mSpineRenderer->spine(), skin, fcb, ecb);
+    {
+        branch;
+        jump(ecb)
+            mSpineInstance = ZAY::SpineBuilder::Create(mSpineRenderer->spine(), skin, fcb, ecb);
+        jump(!state)
+            mSpineInstance = ZAY::SpineBuilder::Create(mSpineRenderer->spine(), skin, fcb, nullptr);
+        else
+            mSpineInstance = ZAY::SpineBuilder::Create(mSpineRenderer->spine(), skin, fcb,
+                [state](chars eventname)
+                {
+                    if(!String::Compare("sound_", eventname, 6))
+                    {
+                        if(FXSaver::Read("SoundFlag").GetInt())
+                            FXState::PlaySound(state->GetSound(&eventname[6]));
+                    }
+                });
+    }
     return *this;
 }
 
@@ -587,7 +603,7 @@ void FXDoor::RenderVersion(ZayPanel& panel)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-FXState::FXState(chars defaultpath) : mDoor(FXDoor::ST()), mData(FXData::ST()), mDefaultPath(defaultpath)
+FXState::FXState(chars defaultpath) : mDoor(&FXDoor::ST()), mData(&FXData::ST()), mDefaultPath(defaultpath)
 {
     mSubRenderer = ZAY_RENDER_PN(p, n, this)
     {
@@ -608,13 +624,13 @@ FXState::~FXState()
 
 void FXState::SetLanguage(chars language)
 {
-    mData.mLanguage = language;
-    mData.mAllStrings.Reset();
+    mData->mLanguage = language;
+    mData->mAllStrings.Reset();
 }
 
 const Context& FXState::GetStage(chars id)
 {
-    if(auto CurStage = mDoor.stage())
+    if(auto CurStage = mDoor->stage())
     for(sint32 i = 0, iend = CurStage->LengthOfIndexable(); i < iend; ++i)
     {
         if(!String::Compare(id, (*CurStage)[i]("ID").GetString()))
@@ -627,32 +643,32 @@ const Context& FXState::GetStage(chars id)
 
 ZayPanel::SubRenderCB FXState::GetStageThumbnail(chars id)
 {
-    if(auto Result = mData.mAllParaViews.Access(id))
+    if(auto Result = mData->mAllParaViews.Access(id))
         return Result->GetRenderer();
 
-    auto& NewParaView = mData.mAllParaViews(id);
+    auto& NewParaView = mData->mAllParaViews(id);
     NewParaView.Init(GetStage(id)("Thumbnail").GetString());
     return NewParaView.GetRenderer();
 }
 
 const String& FXState::GetString(sint32 id)
 {
-    if(auto Result = mData.mAllStrings.Access(id))
+    if(auto Result = mData->mAllStrings.Access(id))
         return *Result;
 
-    if(auto CurLanguage = mDoor.language())
+    if(auto CurLanguage = mDoor->language())
     {
-        if(mData.mAllStrings.Count() == 0)
+        if(mData->mAllStrings.Count() == 0)
         {
             for(sint32 i = 0, iend = CurLanguage->LengthOfIndexable(); i < iend; ++i)
             {
                 sint32 CurID = (*CurLanguage)[i]("Index").GetInt(0);
-                auto& CurString = (*CurLanguage)[i](mData.mLanguage);
+                auto& CurString = (*CurLanguage)[i](mData->mLanguage);
                 if(CurString.IsValid())
-                    mData.mAllStrings[CurID] = CurString.GetString("-blank-");
-                else mData.mAllStrings[CurID] = "-unknown language-";
+                    mData->mAllStrings[CurID] = CurString.GetString("-blank-");
+                else mData->mAllStrings[CurID] = "-unknown language-";
             }
-            if(auto Result = mData.mAllStrings.Access(id))
+            if(auto Result = mData->mAllStrings.Access(id))
                 return *Result;
         }
         static String Null = "-null-";
@@ -664,7 +680,7 @@ const String& FXState::GetString(sint32 id)
 
 const SpineRenderer* FXState::GetSpine(chars name, chars path) const
 {
-    if(auto Result = mData.mAllSpines.Access(name))
+    if(auto Result = mData->mAllSpines.Access(name))
         return Result;
 
     const String ResRoot = (path)? String(path) : mDefaultPath;
@@ -672,34 +688,102 @@ const SpineRenderer* FXState::GetSpine(chars name, chars path) const
     const String PathJsonPath = String::Format("spine/%s/path.json", name);
     if(Asset::Exist(ResRoot + SpineJsonPath) != roottype_null)
     {
-        mData.mAllSpines(name).Create(ResRoot, SpineJsonPath, PathJsonPath);
-        return &mData.mAllSpines(name);
+        mData->mAllSpines(name).Create(ResRoot, SpineJsonPath, PathJsonPath);
+        return &mData->mAllSpines(name);
     }
     return nullptr;
 }
 
-id_sound FXState::GetSound(chars name, bool loop) const
+const FXData::Sound* FXState::GetSound(chars name, bool loop) const
 {
-    if(auto Result = mData.mAllSounds.Access(name))
-        return Result->mId;
+    if(auto Result = mData->mAllSounds.Access(name))
+        return Result;
 
-    mData.mAllSounds(name).mId = Platform::Sound::Open(Platform::File::RootForAssets()
-        + mDefaultPath + String::Format("sound_ogg/%s.ogg", name), loop);
-    return mData.mAllSounds(name).mId;
+    auto& NewSound = mData->mAllSounds(name);
+    NewSound.mFilename = Platform::File::RootForAssets() + mDefaultPath + String::Format("sound_ogg/%s.ogg", name);
+    NewSound.mLoop = loop;
+    return &NewSound;
+}
+
+void FXState::PlaySound(const FXData::Sound* sound, float volume_rate)
+{
+    if(sound)
+    {
+        sound->mPlaying = true;
+        payload* Payloads = new payload[2];
+        Payloads[0] = *((payload*) &sound);
+        Payloads[1] = *((payload*) &volume_rate);
+        Platform::Utility::Threading([](void* data)->void
+        {
+            auto Payloads = (payload*) data;
+            auto SoundData = (FXData::Sound*) Payloads[0];
+            auto VolumeRate = *((const float*) &Payloads[1]);
+            delete[] Payloads;
+
+            if(auto OggFile = Platform::File::OpenForRead(SoundData->mFilename))
+            {
+                do
+                {
+                    Platform::File::Seek(OggFile, 0);
+                    id_sound SoundID = nullptr;
+                    payload Payloads[3] = {&SoundID, &VolumeRate, &SoundData->mPlaying};
+
+                    AddOn::Ogg::ToPcmStream(OggFile,
+                        [](sint32 channel, sint32 sample_rate, sint32 sample_size, payload data)->void
+                        {
+                            id_sound& SoundID = *((id_sound*) ((payload*) data)[0]);
+                            float VolumeRate = *((float*) ((payload*) data)[1]);
+                            Platform::Sound::Close(SoundID);
+                            SoundID = Platform::Sound::OpenForStream(channel, sample_rate, sample_size);
+                            Platform::Sound::Play(SoundID, VolumeRate);
+                        },
+                        [](void* ptr, size_t size, payload data)->sint32
+                        {
+                            id_sound& SoundID = *((id_sound*) ((payload*) data)[0]);
+                            bool& Playing = *((bool*) ((payload*) data)[2]);
+                            if(!Playing) return -1;
+                            return Platform::Sound::AddStreamForPlay(SoundID, (bytes) ptr, size);
+                        }, Payloads);
+
+                    // StopSound호출에 따른 사운드종료
+                    if(!SoundData->mPlaying)
+                        Platform::Sound::Stop(SoundID);
+                    else while(Platform::Sound::NowPlaying(SoundID))
+                    {
+                        Platform::Utility::Sleep(1, false);
+                        if(!SoundData->mPlaying)
+                            Platform::Sound::Stop(SoundID);
+                    }
+
+                    // 사운드제거
+                    Platform::Sound::Close(SoundID);
+                }
+                while(SoundData->mPlaying && SoundData->mLoop);
+                Platform::File::Close(OggFile);
+            }
+            else BOSS_ASSERT(String::Format("해당 파일이 없습니다(%s)", (chars) SoundData->mFilename), false);
+        }, Payloads);
+    }
+}
+
+void FXState::StopSound(const FXData::Sound* sound)
+{
+    if(sound)
+        sound->mPlaying = false;
 }
 
 void FXState::SetPanel(chars name, FXPanel::InitCB icb, FXPanel::RenderCB rcb)
 {
-    mData.mAllPanels.Remove(name);
-    auto& CurPanel = mData.mAllPanels(name);
+    mData->mAllPanels.Remove(name);
+    auto& CurPanel = mData->mAllPanels(name);
     CurPanel.mCB = rcb;
-    icb(*this, CurPanel.mData);
+    icb(*this, &CurPanel.mData);
 }
 
 void FXState::RenderPanel(chars name, ZayPanel& panel)
 {
-    if(auto CurPanel = mData.mAllPanels.Access(name))
-        CurPanel->mCB(panel, CurPanel->mData);
+    if(auto CurPanel = mData->mAllPanels.Access(name))
+        CurPanel->mCB(panel, &CurPanel->mData);
     else ZAY_RGBA(panel, 255, 0, 0, -128)
         panel.fill();
 }

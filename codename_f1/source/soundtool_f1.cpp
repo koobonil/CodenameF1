@@ -28,7 +28,7 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
                 if(!m->mSoundElements[i].mIsPlayCheck) continue;
                 const uint64 SoundMsec = m->mPlayTimeMsec + m->mSoundElements[i].mDelayTimeMsec;
                 if(OldTick < SoundMsec && SoundMsec <= CurTick)
-                    Platform::Sound::Play(m->mState.GetSound(m->mSoundElements[i].mSoundName));
+                    FXState::PlaySound(m->mState.GetSound(m->mSoundElements[i].mSoundName));
             }
         }
         OldTick = CurTick;
@@ -171,7 +171,7 @@ void soundtoolData::Render(ZayPanel& panel)
                     for(sint32 i = 0, iend = m->mSoundElements.Count(); i < iend; ++i)
                     {
                         if(!m->mSoundElements[i].mIsPlayCheck) continue;
-                        Platform::Sound::Stop(m->mState.GetSound(m->mSoundElements[i].mSoundName));
+                        FXState::StopSound(m->mState.GetSound(m->mSoundElements[i].mSoundName));
                     }
                 }
             })
@@ -267,7 +267,7 @@ void soundtoolData::RenderSound(ZayPanel& panel, sint32 i)
             ZAY_GESTURE_T(t, this, i)
             {
                 if(t == GT_InReleased)
-                    Platform::Sound::Play(mState.GetSound(mSoundElements[i].mSoundName));
+                    FXState::PlaySound(mState.GetSound(mSoundElements[i].mSoundName));
             })
         ZAY_INNER(panel, 4)
         {
@@ -287,7 +287,7 @@ void soundtoolData::RenderSound(ZayPanel& panel, sint32 i)
             ZAY_GESTURE_T(t, this, i)
             {
                 if(t == GT_InReleased)
-                    Platform::Sound::Stop(mState.GetSound(mSoundElements[i].mSoundName));
+                    FXState::StopSound(mState.GetSound(mSoundElements[i].mSoundName));
             })
         ZAY_INNER(panel, 4)
         {

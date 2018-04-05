@@ -1,8 +1,8 @@
 {
-	"BuildNumber":"1",
+	"BuildNumber":"2",
     "MapName":"map_tutorial",
-	"MissionLastRID":"84000013",
-	"MonsterLastRID":"83000025",
+	"MissionLastRID":"83999999",
+	"MonsterLastRID":"83000072",
 	"ToolType":"stagetool_f1",
 	"ToolVersion":"2",
 	"Waves":
@@ -14,8 +14,8 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.091071",
-							"PosY":"-0.139286",
+							"PosX":"0.020952",
+							"PosY":"0.194286",
 							"TargetRID":"81000004",
 							"Text":"animate count-idle"
 						}
@@ -27,198 +27,9 @@
 					[
 						{
 							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033306",
-							"RID":"83000002"
-						}
-					],
-					"TimeSec":"7"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033306",
-							"RID":"83000003"
-						}
-					],
-					"TimeSec":"10"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033306",
-							"RID":"83000004"
-						}
-					],
-					"TimeSec":"13"
-				}
-			],
-			"Title":"Untitled"
-		},
-		{
-			"Events":
-			[
-				{
-					"Scripts":
-					[
-						{
-							"PosX":"0.126095",
-							"PosY":"-0.10683",
-							"TargetRID":"81000004",
-							"Text":"animate count-idle"
-						}
-					],
-					"TimeSec":"0"
-				},
-				{
-					"Missions":
-					[
-						{
-							"PosX":"-0.05812",
-							"PosY":"0.063248",
-							"RID":"84000009",
-							"TargetRID":"83000007"
-						}
-					],
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033306",
-							"RID":"83000007"
-						}
-					],
-					"TimeSec":"6"
-				},
-				{
-					"Missions":
-					[
-						{
-							"PosX":"-0.049573",
-							"PosY":"0.073504",
-							"RID":"84000010",
-							"TargetRID":"83000008"
-						}
-					],
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033306",
-							"RID":"83000008"
-						}
-					],
-					"TimeSec":"9"
-				},
-				{
-					"Missions":
-					[
-						{
-							"PosX":"-0.047863",
-							"PosY":"0.066667",
-							"RID":"84000011",
-							"TargetRID":"83000009"
-						}
-					],
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033306",
-							"RID":"83000009"
-						}
-					],
-					"TimeSec":"12"
-				},
-				{
-					"Missions":
-					[
-						{
-							"PosX":"-0.051282",
-							"PosY":"0.059829",
-							"RID":"84000012",
-							"TargetRID":"83000010"
-						}
-					],
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033306",
-							"RID":"83000010"
-						}
-					],
-					"TimeSec":"15"
-				},
-				{
-					"Missions":
-					[
-						{
-							"PosX":"-0.046154",
-							"PosY":"0.064957",
-							"RID":"84000013",
-							"TargetRID":"83000011"
-						}
-					],
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033306",
-							"RID":"83000011"
-						}
-					],
-					"TimeSec":"18"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033333",
-							"RID":"83000018"
-						}
-					],
-					"TimeSec":"21"
-				}
-			],
-			"Title":"Untitled"
-		},
-		{
-			"Events":
-			[
-				{
-					"Scripts":
-					[
-						{
-							"PosX":"0.138354",
-							"PosY":"-0.126095",
-							"TargetRID":"81000004",
-							"Text":"animate count-idle"
-						}
-					],
-					"TimeSec":"0"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033306",
-							"RID":"83000015"
+							"PosX":"0.44",
+							"PosY":"-0.05",
+							"RID":"83000060"
 						}
 					],
 					"TimeSec":"6"
@@ -228,9 +39,9 @@
 					[
 						{
 							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033306",
-							"RID":"83000016"
+							"PosX":"0.44",
+							"PosY":"-0.05",
+							"RID":"83000061"
 						}
 					],
 					"TimeSec":"8"
@@ -240,9 +51,63 @@
 					[
 						{
 							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033306",
-							"RID":"83000017"
+							"PosX":"0.44",
+							"PosY":"-0.05",
+							"RID":"83000062"
+						}
+					],
+					"TimeSec":"10"
+				}
+			],
+			"Title":"Untitled"
+		},
+		{
+			"Events":
+			[
+				{
+					"Scripts":
+					[
+						{
+							"PosX":"-0.017143",
+							"PosY":"0.121905",
+							"TargetRID":"81000004",
+							"Text":"animate count-idle"
+						}
+					],
+					"TimeSec":"0"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"0.44",
+							"PosY":"-0.05",
+							"RID":"83000063"
+						}
+					],
+					"TimeSec":"6"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"0.44",
+							"PosY":"-0.05",
+							"RID":"83000064"
+						}
+					],
+					"TimeSec":"8"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"0.44",
+							"PosY":"-0.05",
+							"RID":"83000065"
 						}
 					],
 					"TimeSec":"10"
@@ -252,9 +117,75 @@
 					[
 						{
 							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033333",
-							"RID":"83000019"
+							"PosX":"0.44",
+							"PosY":"-0.05",
+							"RID":"83000066"
+						}
+					],
+					"TimeSec":"12"
+				}
+			],
+			"Title":"Untitled"
+		},
+		{
+			"Events":
+			[
+				{
+					"Scripts":
+					[
+						{
+							"PosX":"0",
+							"PosY":"0",
+							"TargetRID":"81000004",
+							"Text":"animate count-idle"
+						}
+					],
+					"TimeSec":"0"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"0.44",
+							"PosY":"-0.05",
+							"RID":"83000068"
+						}
+					],
+					"TimeSec":"6"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"0.44",
+							"PosY":"-0.05",
+							"RID":"83000069"
+						}
+					],
+					"TimeSec":"8"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"0.44",
+							"PosY":"-0.05",
+							"RID":"83000070"
+						}
+					],
+					"TimeSec":"10"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"0.44",
+							"PosY":"-0.05",
+							"RID":"83000071"
 						}
 					],
 					"TimeSec":"12"
@@ -264,90 +195,12 @@
 					[
 						{
 							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033333",
-							"RID":"83000020"
+							"PosX":"0.44",
+							"PosY":"-0.05",
+							"RID":"83000072"
 						}
 					],
 					"TimeSec":"14"
-				}
-			],
-			"Title":"Untitled"
-		},
-		{
-			"Events":
-			[
-				{
-					"Scripts":
-					[
-						{
-							"PosX":"0.15937",
-							"PosY":"-0.119089",
-							"TargetRID":"81000004",
-							"Text":"animate count-idle"
-						}
-					],
-					"TimeSec":"0"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033333",
-							"RID":"83000021"
-						}
-					],
-					"TimeSec":"6"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033333",
-							"RID":"83000022"
-						}
-					],
-					"TimeSec":"7"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033333",
-							"RID":"83000023"
-						}
-					],
-					"TimeSec":"8"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033333",
-							"RID":"83000024"
-						}
-					],
-					"TimeSec":"9"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.28",
-							"PosY":"-0.033333",
-							"RID":"83000025"
-						}
-					],
-					"TimeSec":"10"
 				}
 			],
 			"Title":"Untitled"

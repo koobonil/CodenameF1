@@ -1,12 +1,12 @@
 {
-"skeleton": { "hash": "DAVUU6FSX0OWFvLMQLg423F6X0A", "spine": "3.6.50", "width": 262, "height": 285.23, "images": "./mimic/" },
+"skeleton": { "hash": "axTZ+nBhAFLz3VGAvQdXL9jVNdc", "spine": "3.6.52", "width": 510, "height": 510, "images": "./mimic/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 7.79, "rotation": 90 },
 	{ "name": "mom", "parent": "root", "length": 35.48, "rotation": 90 },
 	{ "name": "balck", "parent": "mom", "length": 11.67, "x": 120.3, "y": 22.35 },
-	{ "name": "effect_normal", "parent": "mom", "length": 19.4, "x": 117.73, "y": -17.11 },
-	{ "name": "effect_normal_b", "parent": "mom", "length": 19.4, "x": 117.73, "y": -17.11 },
+	{ "name": "effect_normal", "parent": "mom", "length": 19.4, "x": 117.73, "y": -17.11, "scaleX": 2, "scaleY": 2 },
+	{ "name": "effect_normal_b", "parent": "mom", "length": 19.4, "x": 117.73, "y": -17.11, "scaleX": 2, "scaleY": 2 },
 	{ "name": "head", "parent": "mom", "length": 28.82, "rotation": -5.81, "x": 110.1, "y": -104.5 },
 	{ "name": "l_eye", "parent": "balck", "length": 12.65, "x": 7.78, "y": 38.88 },
 	{ "name": "l_ribon_a", "parent": "head", "length": 26.31, "rotation": 45.71, "x": 76.19, "y": 115.59 },
@@ -74,6 +74,7 @@
 	}
 },
 "events": {
+	"drop_random_item": {},
 	"sound-ally_gift": {},
 	"sound_ally_active": {}
 },
@@ -221,17 +222,17 @@
 					{ "time": 1.0333, "color": "fffd96ff" },
 					{ "time": 1.1333, "color": "ffffff00", "curve": "stepped" },
 					{ "time": 2.3333, "color": "ffffff00" },
-					{ "time": 2.4667, "color": "fffd96ba", "curve": "stepped" },
-					{ "time": 2.6333, "color": "fffd96ba" },
-					{ "time": 2.8333, "color": "fffd9600" }
+					{ "time": 2.5333, "color": "fffd96ba", "curve": "stepped" },
+					{ "time": 2.7333, "color": "fffd96ba" },
+					{ "time": 3, "color": "fffd9600" }
 				]
 			},
 			"effect_normal_b": {
 				"color": [
 					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
 					{ "time": 2.3333, "color": "ffffff00" },
-					{ "time": 2.6667, "color": "fffd96ff" },
-					{ "time": 2.8333, "color": "fffd9600" }
+					{ "time": 2.7667, "color": "fffd96ff" },
+					{ "time": 3, "color": "fffd9600" }
 				]
 			},
 			"l_eye": {
@@ -291,11 +292,11 @@
 				"translate": [
 					{ "time": 0.5667, "x": 1.08, "y": 0 },
 					{ "time": 2.3333, "x": 0, "y": 0 },
-					{ "time": 2.6667, "x": 15.62, "y": 0 }
+					{ "time": 2.7667, "x": 15.62, "y": 0 }
 				],
 				"scale": [
 					{ "time": 2.3333, "x": 1, "y": 1 },
-					{ "time": 2.6667, "x": 2, "y": 2 }
+					{ "time": 2.7667, "x": 2, "y": 2 }
 				]
 			},
 			"effect_normal": {
@@ -305,8 +306,8 @@
 				"translate": [
 					{ "time": 0, "x": 10, "y": 0, "curve": "stepped" },
 					{ "time": 2.3333, "x": 10, "y": 0 },
-					{ "time": 2.4667, "x": 14.77, "y": 0.67, "curve": "stepped" },
-					{ "time": 2.6333, "x": 14.77, "y": 0.67 }
+					{ "time": 2.5333, "x": 14.77, "y": 0.67, "curve": "stepped" },
+					{ "time": 2.7333, "x": 14.77, "y": 0.67 }
 				],
 				"scale": [
 					{ "time": 0.2, "x": 0, "y": 0 },
@@ -316,8 +317,8 @@
 					{ "time": 1.0333, "x": 1.49, "y": 1.49 },
 					{ "time": 1.1333, "x": 1.97, "y": 2.29 },
 					{ "time": 2.3333, "x": 0, "y": 0 },
-					{ "time": 2.4667, "x": 1.6, "y": 1.6, "curve": "stepped" },
-					{ "time": 2.6333, "x": 1.6, "y": 1.6 }
+					{ "time": 2.5333, "x": 1.6, "y": 1.6, "curve": "stepped" },
+					{ "time": 2.7333, "x": 1.6, "y": 1.6 }
 				]
 			},
 			"mom": {
@@ -532,7 +533,8 @@
 		"events": [
 			{ "time": 0, "name": "sound-ally_gift" },
 			{ "time": 1, "name": "sound-ally_gift" },
-			{ "time": 2, "name": "sound_ally_active" }
+			{ "time": 2, "name": "sound_ally_active" },
+			{ "time": 2.3333, "name": "drop_random_item" }
 		]
 	}
 }

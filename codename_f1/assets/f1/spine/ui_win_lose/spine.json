@@ -1,25 +1,43 @@
 {
-"skeleton": { "hash": "SlxjsoIa5ThbjbTB3BJ/L7rZLmM", "spine": "3.6.50", "width": 1946, "height": 2291.16, "images": "./win_lose/" },
+"skeleton": { "hash": "21rwwiRQ5+i+2N6WdDNWXpZLqlg", "spine": "3.6.52", "width": 1946, "height": 2792.11, "images": "./win_lose/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 221.11, "rotation": 90 },
 	{ "name": "bone", "parent": "root", "length": 292.9, "rotation": 89.24, "y": 843.48 },
 	{ "name": "lose", "parent": "bone", "length": 339.76, "x": -826.16 },
-	{ "name": "result_lose_effect", "parent": "lose", "length": 137.79, "rotation": 0.76, "x": 1335.57, "y": 17.81 },
+	{
+		"name": "result_lose_effect",
+		"parent": "lose",
+		"length": 137.79,
+		"rotation": 0.76,
+		"x": 1335.57,
+		"y": 17.81,
+		"scaleX": 2,
+		"scaleY": 2
+	},
 	{ "name": "result_lose_egg_a", "parent": "lose", "length": 83.27, "rotation": 15.76, "x": 654.72, "y": 501.53 },
 	{ "name": "result_lose_egg_b", "parent": "lose", "length": 83.27, "rotation": 15.76, "x": 783.65, "y": 537.93 },
 	{ "name": "result_lose_egg_c", "parent": "lose", "length": 101.46, "rotation": 16.42, "x": 318.53, "y": -82.33 },
 	{ "name": "result_lose_egg_d", "parent": "lose", "length": 101.46, "rotation": 16.42, "x": 488.12, "y": -32.35 },
 	{ "name": "result_lose_egg_e", "parent": "lose", "length": 93.01, "rotation": 16.42, "x": 649.18, "y": -607.2 },
 	{ "name": "result_lose_egg_f", "parent": "lose", "length": 93.01, "rotation": 16.42, "x": 805.56, "y": -561.1 },
-	{ "name": "result_lose_title", "parent": "lose", "length": 103.53, "x": 2128.7, "y": -6.77 },
+	{ "name": "result_lose_title", "parent": "lose", "length": 103.53, "x": 2585.74, "y": -0.67, "scaleX": 1.2, "scaleY": 1.2 },
 	{ "name": "win", "parent": "bone", "length": 613.1, "x": -826.33 },
-	{ "name": "result_win_effect", "parent": "win", "length": 162.52, "rotation": 0.76, "x": 862.26, "y": 6.25 },
+	{
+		"name": "result_win_effect",
+		"parent": "win",
+		"length": 162.52,
+		"rotation": 0.76,
+		"x": 579.17,
+		"y": 2.47,
+		"scaleX": 2,
+		"scaleY": 2
+	},
 	{ "name": "result_win_egg_a", "parent": "win", "length": 102.7, "rotation": 0.76, "x": 735.03, "y": 538.08 },
 	{ "name": "result_win_egg_b", "parent": "win", "length": 105.99, "rotation": 0.76, "x": 417.61, "y": -35.02 },
 	{ "name": "result_win_egg_d", "parent": "win", "length": 106.05, "rotation": 0.76, "x": 732.21, "y": -574.95 },
-	{ "name": "result_win_title", "parent": "win", "length": 85.07, "x": 2121.58, "y": -14.26 },
-	{ "name": "score", "parent": "bone", "length": 158.72, "rotation": -89.24, "x": 1308.04, "y": 17.44 }
+	{ "name": "result_win_title", "parent": "win", "length": 85.07, "x": 2578.61, "y": -8.16, "scaleX": 1.2, "scaleY": 1.2 },
+	{ "name": "score", "parent": "bone", "length": 158.72, "rotation": -89.24, "x": 1765.08, "y": 23.53, "scaleX": 1.2, "scaleY": 1.2 }
 ],
 "slots": [
 	{ "name": "result_egg_back", "bone": "bone", "attachment": "result_egg_back" },
@@ -51,28 +69,28 @@
 			"area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 2368.27, 989.08, 11.16, 992.42, 9.11, -923.01, 2365.86, -925.98 ]
+				"vertices": [ 2368.27, 942.99, 11.16, 946.33, 9.11, -969.1, 2365.86, -972.07 ]
 			}
 		},
 		"dragon_lose_area": {
 			"dragon_lose_area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 1207.99, 343.76, 1208.94, 440.53, 1112.99, 439.25, 1114.51, 346.42 ]
+				"vertices": [ 1382.75, -63.84, 1383.29, 63.48, 1256.79, 61.79, 1258.71, -61.59 ]
 			}
 		},
 		"dragon_win_area": {
 			"dragon_win_area": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 1206.99, 344.64, 1208.08, 439.16, 1112.54, 437.88, 1113.79, 347.3 ]
+				"vertices": [ 1381.76, -64.42, 1382.43, 62.1, 1257.79, 60.44, 1259.47, -62.14 ]
 			}
 		},
 		"result_egg_back": {
 			"result_egg_back": { "x": -466.55, "y": -42.06, "scaleY": 0.987, "rotation": -89.24, "width": 1662, "height": 602 }
 		},
 		"result_lose_effect": {
-			"result_lose_effect": { "x": 100.72, "y": -23.83, "rotation": -90, "width": 1946, "height": 1568 }
+			"result_lose_effect": { "x": 100.72, "y": -23.83, "rotation": -90, "width": 973, "height": 784 }
 		},
 		"result_lose_egg_a": {
 			"result_lose_egg_a": { "x": 91.06, "y": 11.22, "rotation": -105, "width": 424, "height": 470 }
@@ -99,7 +117,7 @@
 			"result_score_title": { "y": 1.81, "width": 1430, "height": 409 }
 		},
 		"result_win_effect": {
-			"result_win_effect": { "x": 412.65, "y": -7.58, "rotation": -90, "width": 1614, "height": 1415 }
+			"result_win_effect": { "x": 412.65, "y": -7.58, "rotation": -90, "width": 807, "height": 708 }
 		},
 		"result_win_egg_a": {
 			"result_win_egg_a": { "x": 4.27, "y": -1.06, "rotation": -90, "width": 424, "height": 470 }
@@ -228,7 +246,7 @@
 		"bones": {
 			"win": {
 				"translate": [
-					{ "time": 4.8333, "x": 0, "y": 10 }
+					{ "time": 0.6667, "x": 0, "y": 10 }
 				]
 			},
 			"bone": {

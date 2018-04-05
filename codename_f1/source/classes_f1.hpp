@@ -231,10 +231,13 @@ public:
 public:
     void ResetCB(FXState* state);
     bool SetHP(sint32 hp, sint32 deleteTime);
+    void HealHP(sint32 hp, sint32 deleteTime);
     void Hit() const;
     void Dead() const;
     void Drop() const;
+    void Heal() const;
     void Spot() const;
+    void Target() const;
 
 public:
     inline void AddExtraInfo(chars text) {mExtraInfo.AtAdding() = text;}
@@ -322,7 +325,7 @@ public:
     MonsterTarget& operator=(MonsterTarget&& rhs);
 
 public:
-    enum Type {Target, Wall, Mission, Null = -1};
+    enum Type {Target, Wall, Mission, Holic, Null = -1};
     Type mType;
     sint32 mIndex;
     Point mPos;
@@ -342,7 +345,7 @@ public:
     MapMonster& operator=(MapMonster&& rhs);
 
 public:
-    void Init(const MonsterType* type, sint32 rid, sint32 timesec, float hprate, float x, float y,
+    void Init(const FXState* state, const MonsterType* type, sint32 rid, sint32 timesec, float hprate, float x, float y,
         const SpineRenderer* renderer, const SpineRenderer* toast_renderer = nullptr);
     void ResetCB(FXState* state);
     bool IsEntranced();
@@ -351,6 +354,8 @@ public:
     void KnockBackBound(sint32 damage);
     bool KnockBackEnd();
     bool KnockBackEndByHole(const Point& hole);
+    void HolicBegin(const Point& pos, TryWorld::Path* path);
+    void HolicEnd();
     void Turn() const;
     sint32 TryAttack(const Point& target);
     void CancelAttack();
@@ -429,7 +434,7 @@ public:
     MapDragon& operator=(MapDragon&& rhs);
 
 public:
-    void Init(const SpineRenderer* renderer, float scaleMax, Updater* updater,
+    void Init(const FXState* state, const SpineRenderer* renderer, float scaleMax, Updater* updater,
         const Point& homepos, const Point& exitposL, const Point& exitposR);
     void ResetCB(FXState* state);
     void GoTarget(const Point& beginpos, const Point& pos, bool isExitRight,
@@ -477,9 +482,11 @@ public:
     MapItem& operator=(MapItem&& rhs);
 
 public:
-    void Init(const ItemType* type, const SpineRenderer* renderer, const MapObject* sender, Updater* updater,
+    void Init(const FXState* state, const ItemType* type, const SpineRenderer* renderer, const MapObject* sender, Updater* updater,
         float ypos, sint32 entryMsec, sint32 flyingMsec);
-    void InitForSlot(const ItemType* type, const SpineRenderer* renderer, Updater* updater, const Point& pos);
+    void InitForPos(const FXState* state, const ItemType* type, const SpineRenderer* renderer, Updater* updater, const Point pos,
+        float ypos, sint32 entryMsec, sint32 flyingMsec);
+    void InitForSlot(const FXState* state, const ItemType* type, const SpineRenderer* renderer, Updater* updater, const Point& pos);
     bool AnimationOnce();
     void MoveToSlot(sint32 i, const Point* pos, sint32 slotMsec);
     void MoveToOut(Point pos, sint32 outMsec);
@@ -619,10 +626,10 @@ public: // 기획요소
     float m1BoundDamageRate;
     float m2BoundDamageRate;
     float m3BoundDamageRate;
-    float mFireStoneDropRate;
-    float mIceStoneDropRate;
-    float mWindStoneDropRate;
-    float mLightningStoneDropRate;
+    sint32 mFireStoneDropRate;
+    sint32 mIceStoneDropRate;
+    sint32 mWindStoneDropRate;
+    sint32 mLightningStoneDropRate;
     float mUnicornEggHealValue;
     float mUnicornGageUpValue;
     sint32 mShoveCoolTime;
@@ -728,6 +735,7 @@ public:
     const sint32 ButtonSize = 80;
     const sint32 ButtonSizeSmall = 50;
     const sint32 IconSize = 50;
+    const sint32 IconSizeSmall = 40;
 
 public:
     F1State mState;

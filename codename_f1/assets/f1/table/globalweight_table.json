@@ -26,7 +26,7 @@
 	},
 	{
 		"ID":"KnockBackMaxDistance",
-		"Value":70,
+		"Value":50,
 		"IsDev":"FALSE",
 		"Description":"최대 넉백 거리"
 	},
@@ -81,7 +81,7 @@
 	},
 	{
 		"ID":"BreathGaugeChargingPerSec",
-		"Value":200,
+		"Value":300,
 		"IsDev":"FALSE",
 		"Description":"초 당 게이지 회복량 (천분율)",
 		"Unit":"1000=1초"
@@ -184,14 +184,14 @@
 	},
 	{
 		"ID":"DragonEntryTime",
-		"Value":1200,
+		"Value":950,
 		"IsDev":"TRUE",
 		"Description":"등장 시간 (출발 지점에서 브레스 발동 지점까지 도착하는 시간) ",
 		"Unit":"1000=1초"
 	},
 	{
 		"ID":"DragonRetryTime",
-		"Value":700,
+		"Value":650,
 		"IsDev":"TRUE",
 		"Description":"재등장 시간 (출발 지점에서 브레스 발동 지점까지 도착하는 시간) ",
 		"Unit":"1000=1초"
@@ -205,7 +205,7 @@
 	},
 	{
 		"ID":"DragonExitTime",
-		"Value":5000,
+		"Value":4500,
 		"IsDev":"TRUE",
 		"Description":"퇴장 시간 (브레스 발동 지점에서 퇴장 지점까지 도착하는 시간) ",
 		"Unit":"1000=1초"

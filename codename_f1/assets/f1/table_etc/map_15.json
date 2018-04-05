@@ -1,6 +1,6 @@
 {
 	"BGName":"map_forest_a",
-	"BuildNumber":"3",
+	"BuildNumber":"7",
 	"Layers":
 	[
 		{
@@ -85,24 +85,6 @@
 					"RectB":"0.133222",
 					"RectL":"0.32",
 					"RectR":"0.54",
-					"RectT":"-0.033306",
-					"Visible":"1"
-				},
-				{
-					"ID":"AllyStart_R",
-					"RID":"81000152",
-					"RectB":"-0.049958",
-					"RectL":"0.42",
-					"RectR":"0.5",
-					"RectT":"-0.11657",
-					"Visible":"1"
-				},
-				{
-					"ID":"AllyStart_L",
-					"RID":"81000153",
-					"RectB":"0.033306",
-					"RectL":"-0.5",
-					"RectR":"-0.42",
 					"RectT":"-0.033306",
 					"Visible":"1"
 				}
@@ -1366,15 +1348,6 @@
 				},
 				{
 					"ID":"Tree",
-					"RID":"81000124",
-					"RectB":"-0.466278",
-					"RectL":"-0.5",
-					"RectR":"-0.46",
-					"RectT":"-0.499584",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
 					"RID":"81000125",
 					"RectB":"-0.466278",
 					"RectL":"0.46",
@@ -1402,83 +1375,11 @@
 				},
 				{
 					"ID":"Tree",
-					"RID":"81000128",
-					"RectB":"-0.166528",
-					"RectL":"-0.38",
-					"RectR":"-0.34",
-					"RectT":"-0.199833",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
-					"RID":"81000129",
-					"RectB":"-0.066611",
-					"RectL":"0.3",
-					"RectR":"0.34",
-					"RectT":"-0.099917",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
-					"RID":"81000130",
-					"RectB":"0.016653",
-					"RectL":"-0.3",
-					"RectR":"-0.26",
-					"RectT":"-0.016653",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
-					"RID":"81000131",
-					"RectB":"0.216486",
-					"RectL":"0.36",
-					"RectR":"0.4",
-					"RectT":"0.183181",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
-					"RID":"81000132",
-					"RectB":"0.41632",
-					"RectL":"-0.44",
-					"RectR":"-0.4",
-					"RectT":"0.383014",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
-					"RID":"81000133",
-					"RectB":"-0.283097",
-					"RectL":"0.4",
-					"RectR":"0.44",
-					"RectT":"-0.316403",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
-					"RID":"81000134",
-					"RectB":"-0.149875",
-					"RectL":"0.46",
-					"RectR":"0.5",
-					"RectT":"-0.183181",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
 					"RID":"81000135",
 					"RectB":"-0.366361",
 					"RectL":"-0.5",
 					"RectR":"-0.46",
 					"RectT":"-0.399667",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
-					"RID":"81000136",
-					"RectB":"-0.616153",
-					"RectL":"0.1",
-					"RectR":"0.14",
-					"RectT":"-0.649459",
 					"Visible":"1"
 				},
 				{
@@ -1506,24 +1407,6 @@
 					"RectL":"0.58",
 					"RectR":"0.62",
 					"RectT":"0.482931",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
-					"RID":"81000140",
-					"RectB":"0.582848",
-					"RectL":"0.2",
-					"RectR":"0.24",
-					"RectT":"0.549542",
-					"Visible":"1"
-				},
-				{
-					"ID":"Tree",
-					"RID":"81000141",
-					"RectB":"-0.649459",
-					"RectL":"-0.16",
-					"RectR":"-0.12",
-					"RectT":"-0.682764",
 					"Visible":"1"
 				},
 				{
@@ -1605,6 +1488,69 @@
 					"RectL":"0",
 					"RectR":"0.04",
 					"RectT":"0.316403",
+					"Visible":"1"
+				},
+				{
+					"ID":"AllyStart_L",
+					"RID":"81000154",
+					"RectB":"0.066667",
+					"RectL":"-0.5",
+					"RectR":"-0.42",
+					"RectT":"0",
+					"Visible":"1"
+				},
+				{
+					"ID":"Tree",
+					"RID":"81000134",
+					"RectB":"-0.116542",
+					"RectL":"0.46",
+					"RectR":"0.5",
+					"RectT":"-0.149848",
+					"Visible":"1"
+				},
+				{
+					"ID":"Tree",
+					"RID":"81000133",
+					"RectB":"-0.299764",
+					"RectL":"0.36",
+					"RectR":"0.4",
+					"RectT":"-0.33307",
+					"Visible":"1"
+				},
+				{
+					"ID":"Tree",
+					"RID":"81000128",
+					"RectB":"-0.166528",
+					"RectL":"-0.46",
+					"RectR":"-0.42",
+					"RectT":"-0.199833",
+					"Visible":"1"
+				},
+				{
+					"ID":"Tree",
+					"RID":"81000129",
+					"RectB":"-0.099944",
+					"RectL":"0.22",
+					"RectR":"0.26",
+					"RectT":"-0.13325",
+					"Visible":"1"
+				},
+				{
+					"ID":"Tree",
+					"RID":"81000124",
+					"RectB":"-0.466278",
+					"RectL":"-0.46",
+					"RectR":"-0.42",
+					"RectT":"-0.499584",
+					"Visible":"1"
+				},
+				{
+					"ID":"AllyEnd_L",
+					"RID":"81000156",
+					"RectB":"-0.199833",
+					"RectL":"0.42",
+					"RectR":"0.5",
+					"RectT":"-0.266445",
 					"Visible":"1"
 				}
 			],
@@ -1741,7 +1687,7 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000153",
+	"ObjectLastRID":"81000156",
 	"PolygonLastRID":"82000009",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"

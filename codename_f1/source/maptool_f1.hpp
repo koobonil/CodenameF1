@@ -62,4 +62,6 @@ public:
     TryWorld::DotList mCurDrawingPoints;
     MapSelectBoxes mSelectBoxes;
     sint32 mCurSelectBox;
+    String mFastSaveFileName;
+    Tween1D mFastSaveEffect;
 };

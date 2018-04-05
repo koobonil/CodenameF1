@@ -234,6 +234,9 @@
     <ClInclude Include="..\source\pathtool_f1.hpp">
       <Filter>source</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\sourcetool.hpp">
+      <Filter>source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\f1.cpp">
@@ -441,6 +444,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\source\pathtool_f1.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\sourcetool.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

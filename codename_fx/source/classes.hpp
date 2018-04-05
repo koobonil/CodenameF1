@@ -81,6 +81,7 @@ private:
 enum class DebugMode {None, Weak, Strong};
 
 ////////////////////////////////////////////////////////////////////////////////
+class FXState;
 class MapSpine
 {
 public:
@@ -95,7 +96,7 @@ public:
     MapSpine& operator=(MapSpine&& rhs);
 
 public:
-    MapSpine& InitSpine(const SpineRenderer* renderer, chars skin = "default",
+    MapSpine& InitSpine(const FXState* state, const SpineRenderer* renderer, chars skin = "default",
         ZAY::SpineBuilder::MotionFinishedCB fcb = nullptr, ZAY::SpineBuilder::UserEventCB ecb = nullptr);
     void SetSkin(chars skin);
     void PlayMotion(chars motion, bool repeat, float beginsec = 0.0f);
@@ -138,6 +139,11 @@ public:
 class FXState;
 class FXPanel
 {
+    BOSS_DECLARE_NONCOPYABLE_CLASS(FXPanel)
+public:
+    FXPanel() {mCB = nullptr;}
+    ~FXPanel() {}
+
 public:
     class Data
     {
@@ -146,12 +152,8 @@ public:
     };
 
 public:
-    typedef void (*InitCB)(const FXState& state, FXPanel::Data& data);
-    typedef void (*RenderCB)(ZayPanel& panel, const FXPanel::Data& data);
-
-public:
-    FXPanel() {mCB = nullptr;}
-    ~FXPanel() {}
+    typedef void (*InitCB)(const FXState& state, FXPanel::Data* data);
+    typedef void (*RenderCB)(ZayPanel& panel, const FXPanel::Data* data);
 
 public:
     RenderCB mCB;
@@ -217,10 +219,16 @@ public:
     class Sound
     {
     public:
-        Sound() {mId = nullptr;}
-        ~Sound() {Platform::Sound::Close(mId);}
+        Sound()
+        {
+            mLoop = false;
+            mPlaying = false;
+        }
+        ~Sound() {}
     public:
-        id_sound mId;
+        String mFilename;
+        bool mLoop;
+        mutable bool mPlaying;
     };
 
 public:
@@ -286,7 +294,7 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 class FXState
 {
-    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(FXState, mDoor(FXDoor::ST()), mData(FXData::ST()))
+    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(FXState, mDoor(&FXDoor::ST()), mData(&FXData::ST()))
 public:
     FXState(chars defaultpath);
     ~FXState();
@@ -297,16 +305,21 @@ public:
     ZayPanel::SubRenderCB GetStageThumbnail(chars id);
     const String& GetString(sint32 id);
     const SpineRenderer* GetSpine(chars name, chars path = nullptr) const;
-    id_sound GetSound(chars name, bool loop = false) const;
+    const FXData::Sound* GetSound(chars name, bool loop = false) const;
+    static void PlaySound(const FXData::Sound* sound, float volume_rate = 1.0f);
+    static void StopSound(const FXData::Sound* sound);
     void SetPanel(chars name, FXPanel::InitCB icb, FXPanel::RenderCB rcb);
     void RenderPanel(chars name, ZayPanel& panel);
 
 public:
-    inline FXDoor& door() {return mDoor;}
+    virtual void OnEvent(chars name, const Point& pos) {}
+
+public:
+    inline FXDoor& door() {return *mDoor;}
 
 private:
-    FXDoor& mDoor;
-    FXData& mData;
+    FXDoor* mDoor;
+    FXData* mData;
     const String mDefaultPath;
 
 public:

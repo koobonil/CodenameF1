@@ -42,7 +42,6 @@ namespace ZAY
         String NewJson;
         Zen NewZen;
 
-        Profile::Start("LoadSpine");
         bool IsCacheLoaded = false;
         String CacheFilename = json_filename;
         if(USE_SPINE_CACHE == _CACHE_IS_ZEN)
@@ -52,7 +51,6 @@ namespace ZAY
 
         if(USE_SPINE_CACHE != _CACHE_IS_NON)
         {
-            Profile::Lap("CheckCache");
             if(Asset::ValidCache(json_filename, CacheFilename))
             if(id_asset_read CacheAsset = Asset::OpenForRead(CacheFilename))
             {
@@ -60,7 +58,6 @@ namespace ZAY
 
                 if(USE_SPINE_CACHE == _CACHE_IS_ZEN)
                 {
-                    Profile::Lap("LoadingCache:Zen");
                     sint32s ZenSource;
                     Asset::Read(CacheAsset, (uint08*) ZenSource.AtDumping(0, CacheSize / sizeof(sint32)), CacheSize);
                     Asset::Close(CacheAsset);
@@ -68,7 +65,6 @@ namespace ZAY
                 }
                 else if(USE_SPINE_CACHE == _CACHE_IS_BIN)
                 {
-                    Profile::Lap("LoadingCache:Bin");
                     uint08* CacheBytes = new uint08[CacheSize];
                     Asset::Read(CacheAsset, CacheBytes, CacheSize);
                     Asset::Close(CacheAsset);
@@ -80,35 +76,27 @@ namespace ZAY
 
         if(!IsCacheLoaded)
         {
-            Profile::Lap("LoadingJson");
             NewJson = String::FromAsset(json_filename, (id_assetpath) ZAY::MeshData::s_assetpath);
             NewContext.Clear();
             NewContext.LoadJson(SO_OnlyReference, NewJson);
 
             if(USE_SPINE_CACHE == _CACHE_IS_ZEN)
             {
-                Profile::Lap("BuildCache:Zen");
                 const sint32s ZenSource = Zen::Build(NewContext);
                 NewZen = Zen::Load(ZenSource);
 
-                Profile::Lap("SavingCache:Zen");
                 id_asset CacheAsset = Asset::OpenForWrite(CacheFilename, true);
                 Asset::Write(CacheAsset, (bytes) &ZenSource[0], sizeof(sint32) * ZenSource.Count());
                 Asset::Close(CacheAsset);
             }
             else if(USE_SPINE_CACHE == _CACHE_IS_BIN)
             {
-                Profile::Lap("SavingCache:Bin");
                 uint08s BinBytes = NewContext.SaveBin();
                 id_asset CacheAsset = Asset::OpenForWrite(CacheFilename, true);
                 Asset::Write(CacheAsset, &BinBytes[0], BinBytes.Count());
                 Asset::Close(CacheAsset);
             }
         }
-
-        Profile::Stop();
-        Profile::DebugPrint();
-        Profile::Clear();
 
         ZAY::ImageData::s_tone_R = tone_r;
         ZAY::ImageData::s_tone_G = tone_g;
@@ -1160,44 +1148,66 @@ namespace ZAY
                                 ZAY::MeshData* meshData = new ZAY::MeshData;
                                 meshData->autorelease();
 
+                                const sint32 attachment_mesh_vertices_count = attachment_mesh_vertices.LengthOfIndexable();
+                                const sint32 attachment_mesh_indices_count = attachment_mesh_indices.LengthOfIndexable();
+                                const sint32 attachment_mesh_uvs_count = attachment_mesh_uvs.LengthOfIndexable();
                                 int32_t verticesCount = 0;
 
                                 if(attachment_mesh_vertices.IsValid())
                                 {
-                                    sint32s datas;
-                                    int32_t skinningVertexCount = 0;
-                                    for(sint32 l = 0, lend = attachment_mesh_vertices.LengthOfIndexable(); l < lend;)
+                                    if(attachment_mesh_vertices_count == attachment_mesh_uvs_count)
                                     {
-                                        const sint32 weightsCount = attachment_mesh_vertices[l++].GetInt();
-                                        datas.AtAdding() = weightsCount;
-
-                                        verticesCount++;
-                                        skinningVertexCount += weightsCount;
-
-                                        for(sint32 m = 0; m < weightsCount; m++)
+                                        verticesCount = attachment_mesh_vertices_count / 2;
+                                        if(verticesCount > 0)
                                         {
-                                            const sint32 boneIndex = attachment_mesh_vertices[l++].GetInt();
-                                            datas.AtAdding() = boneIndex;
-                                            const float offsetX = attachment_mesh_vertices[l++].GetFloat();
-                                            datas.AtAdding() = *((sint32*) &offsetX);
-                                            const float offsetY = attachment_mesh_vertices[l++].GetFloat();
-                                            datas.AtAdding() = *((sint32*) &offsetY);
-                                            const float weight = attachment_mesh_vertices[l++].GetFloat();
-                                            datas.AtAdding() = *((sint32*) &weight);
+                                            meshData->_getVertexPositions().createBuffer(verticesCount);
+                                            ZAY::Vector3* v = meshData->getVertexPositions().getBufferPointer();
+                                            for(sint32 l = 0, lend = attachment_mesh_vertices.LengthOfIndexable(); l < lend;)
+                                            {
+                                                float x = attachment_mesh_vertices[l++].GetFloat();
+                                                float y = attachment_mesh_vertices[l++].GetFloat();
+                                                v->x = x;
+                                                v->y = y;
+                                                v->z = 0.0f;
+                                                v++;
+                                            }
                                         }
                                     }
+                                    else
+                                    {
+                                        sint32s datas;
+                                        int32_t skinningVertexCount = 0;
+                                        for(sint32 l = 0, lend = attachment_mesh_vertices_count; l < lend;)
+                                        {
+                                            const sint32 weightsCount = attachment_mesh_vertices[l++].GetInt();
+                                            datas.AtAdding() = weightsCount;
 
-                                    sint32 NewDataSize = sizeof(sint32) * datas.Count();
-                                    char* NewData = new char[NewDataSize];
-                                    Memory::Copy(NewData, datas.AtDumping(0, 0), NewDataSize);
-                                    meshData->_setSkinningData(skinningVertexCount, verticesCount, NewData, NewDataSize);
+                                            verticesCount++;
+                                            skinningVertexCount += weightsCount;
+
+                                            for(sint32 m = 0; m < weightsCount; m++)
+                                            {
+                                                const sint32 boneIndex = attachment_mesh_vertices[l++].GetInt();
+                                                datas.AtAdding() = boneIndex;
+                                                const float offsetX = attachment_mesh_vertices[l++].GetFloat();
+                                                datas.AtAdding() = *((sint32*) &offsetX);
+                                                const float offsetY = attachment_mesh_vertices[l++].GetFloat();
+                                                datas.AtAdding() = *((sint32*) &offsetY);
+                                                const float weight = attachment_mesh_vertices[l++].GetFloat();
+                                                datas.AtAdding() = *((sint32*) &weight);
+                                            }
+                                        }
+
+                                        sint32 NewDataSize = sizeof(sint32) * datas.Count();
+                                        char* NewData = new char[NewDataSize];
+                                        Memory::Copy(NewData, datas.AtDumping(0, 0), NewDataSize);
+                                        meshData->_setSkinningData(skinningVertexCount, verticesCount, NewData, NewDataSize);
+                                    }
                                 }
 
                                 if(attachment_mesh_indices.IsValid())
                                 {
-                                    sint32 attachment_mesh_indices_count = attachment_mesh_indices.LengthOfIndexable();
                                     sint32 indicesCount = attachment_mesh_indices_count;
-
                                     if(indicesCount > 0)
                                     {
                                         meshData->_getIndices().createBuffer(indicesCount);
@@ -1215,9 +1225,7 @@ namespace ZAY
 
                                 if(attachment_mesh_uvs.IsValid())
                                 {
-                                    sint32 attachment_mesh_uvs_count = attachment_mesh_uvs.LengthOfIndexable();
                                     sint32 count = attachment_mesh_uvs_count / 2;
-
                                     if (count != verticesCount)
                                     {
                                         delete Data;
