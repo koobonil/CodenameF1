@@ -29,8 +29,8 @@ private:
     String mSpine;
 
 public:
-    void SetAsset(const String& asset) {mAsset = (!asset.Compare("None"))? "" : asset;}
-    void SetSpine(const String& spine) {mSpine = (!spine.Compare("None"))? "" : spine;}
+    void SetAsset(const String& asset) {mAsset = asset;}
+    void SetSpine(const String& spine) {mSpine = spine;}
     chars imageName() const {return mAsset;}
     const String spineName() const
     {
@@ -48,10 +48,28 @@ public:
         {
             sint32 Pos = mSpine.Find(0, ':');
             if(0 <= Pos)
-            if(sint32 Length = mSpine.Length() - 1 - Pos)
-                return mSpine.Right(Length);
+            {
+                sint32 Pos2 = mSpine.Find(0, '/');
+                if(Pos < Pos2)
+                    return String(((chars) mSpine) + Pos + 1, Pos2 - Pos - 1);
+                else if(sint32 Length = mSpine.Length() - 1 - Pos)
+                    return mSpine.Right(Length);
+            }
         }
         return "default";
+    }
+    const String spineAnimationName() const
+    {
+        if(0 < mSpine.Length())
+        {
+            sint32 Pos = mSpine.Find(0, '/');
+            if(0 <= Pos)
+            {
+                if(sint32 Length = mSpine.Length() - 1 - Pos)
+                    return mSpine.Right(Length);
+            }
+        }
+        return "idle";
     }
 };
 
@@ -112,6 +130,7 @@ public:
         ZayPanel::SubGestureCB gcb = nullptr, ZayPanel::SubRenderCB rcb = nullptr) const;
     void RenderObjectShadow(ZayPanel& panel, bool flip) const;
     const Rect* GetBoundRect(chars name) const;
+    const Points* GetBoundPolygon(chars name) const;
 
 public:
     void SetSeekSec(float sec);
@@ -131,12 +150,13 @@ public:
     mutable uint64 mSpineMsecOld;
     float mSeekSec;
     mutable float mSeekSecOld;
+    mutable Points mGroundPolygon;
+    mutable Rect mGroundRect;
     bool mStaffIdleMode;
     bool mStaffStartMode;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-class FXState;
 class FXPanel
 {
     BOSS_DECLARE_NONCOPYABLE_CLASS(FXPanel)
@@ -196,15 +216,21 @@ private:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+class FXState;
 class FXData
 {
     BOSS_DECLARE_NONCOPYABLE_CLASS(FXData)
-public:
+private:
     FXData() {}
     ~FXData() {}
 
 public:
     static FXData& ST() {static FXData _; return _;}
+    static void SetResourcePathes(const Strings& pathes)
+    {
+        auto& Data = ST();
+        Data.mAllResourcePathes = pathes;
+    }
     static void ClearAll()
     {
         auto& Data = ST();
@@ -233,6 +259,7 @@ public:
 
 public:
     String mLanguage;
+    Strings mAllResourcePathes;
     Map<ParaView> mAllParaViews;
     Map<String> mAllStrings;
     Map<SpineRenderer> mAllSpines;
@@ -296,23 +323,27 @@ class FXState
 {
     BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(FXState, mDoor(&FXDoor::ST()), mData(&FXData::ST()))
 public:
-    FXState(chars defaultpath);
+    FXState();
     ~FXState();
 
 public:
-    void SetLanguage(chars language);
+	static FXState* ST();
+    void SetLanguage(chars language, bool do_next);
     const Context& GetStage(chars id);
     ZayPanel::SubRenderCB GetStageThumbnail(chars id);
     const String& GetString(sint32 id);
-    const SpineRenderer* GetSpine(chars name, chars path = nullptr) const;
+    const SpineRenderer* GetSpine(chars name) const;
     const FXData::Sound* GetSound(chars name, bool loop = false) const;
     static void PlaySound(const FXData::Sound* sound, float volume_rate = 1.0f);
     static void StopSound(const FXData::Sound* sound);
+    void PlayBGSound(chars name, float volume_rate = 1.0f);
+    void StopBGSound();
+    void StopSoundAll();
     void SetPanel(chars name, FXPanel::InitCB icb, FXPanel::RenderCB rcb);
     void RenderPanel(chars name, ZayPanel& panel);
 
 public:
-    virtual void OnEvent(chars name, const Point& pos) {}
+    virtual void OnEvent(chars name, const Rect& rect = Rect(), const MapSpine* spine = nullptr) {}
 
 public:
     inline FXDoor& door() {return *mDoor;}
@@ -320,7 +351,6 @@ public:
 private:
     FXDoor* mDoor;
     FXData* mData;
-    const String mDefaultPath;
 
 public:
     ZayPanel::SubRenderCB mSubRenderer;

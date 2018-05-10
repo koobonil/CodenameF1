@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "cu71xm1mc7UpFTJ36APqVhz5f0A", "spine": "3.6.52", "width": 374.1, "height": 419.19, "images": "./slime_a/" },
+"skeleton": { "hash": "LKY4klON5tsTdUgI8Aw6k5sBnJI", "spine": "3.6.52", "width": 374.1, "height": 419.19, "images": "./slime_a/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 33.7, "rotation": 90, "x": -0.82, "y": 0.12 },
@@ -31,7 +31,7 @@
 	{ "name": "left_eye", "bone": "left_eye", "attachment": "skin" },
 	{ "name": "mouse", "bone": "mouse", "attachment": "skin" },
 	{ "name": "area", "bone": "area", "attachment": "area" },
-	{ "name": "toast", "bone": "area", "attachment": "toast" },
+	{ "name": "toast", "bone": "mom_1", "attachment": "toast" },
 	{ "name": "attack_efect_a", "bone": "attack2", "attachment": "attack_efect_a" },
 	{ "name": "attack_efect_b", "bone": "attack", "attachment": "attack_efect_b" },
 	{ "name": "skin_a", "bone": "mom_3", "attachment": "skin_a" },
@@ -56,7 +56,7 @@
 			"toast": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ -2.03, 176.52, -1.26, -193.3, 229.15, -195.61, 229.92, 177.29 ]
+				"vertices": [ -14.25, -19.3, 270.2, -23.03, 274.67, 154.17, -12.13, 159.12 ]
 			}
 		}
 	},

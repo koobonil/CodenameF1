@@ -127,7 +127,7 @@ namespace ZAY
         else
         {
             _currentTime = 0.0f;
-            _lastTime = 0;
+            _lastTime = 0.0f;
         }
     }
 
@@ -150,6 +150,7 @@ namespace ZAY
                 if(HasTimeClip)
                 {
                     _needToSetInitState = true;
+                    _lastTime = 0;
                     if(cb) cb(payload, name.c_str(), _animationLoop);
                 }
             }
@@ -169,7 +170,7 @@ namespace ZAY
         else
         {
             _currentTime = 0.0f;
-            _lastTime = -deltaSec;
+            _lastTime = 0.0f;
         }
     }
 }

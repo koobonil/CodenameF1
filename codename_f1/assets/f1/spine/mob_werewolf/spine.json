@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "InKXa8FBHuqH32qEo/nMxEZf2mE", "spine": "3.6.50", "width": 436.39, "height": 580, "images": "./were_wolf/" },
+"skeleton": { "hash": "dceC9aJ6GTg47AY3CGv9ftI9WvQ", "spine": "3.6.52", "width": 436.39, "height": 580, "images": "./were_wolf/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 42.7, "rotation": 90 },
@@ -42,7 +42,7 @@
 	{ "name": "r_nunsup_forest", "bone": "r_nunsup", "attachment": "skin" },
 	{ "name": "ear_forest", "bone": "ear", "attachment": "skin" },
 	{ "name": "area", "bone": "area", "attachment": "area" },
-	{ "name": "toast", "bone": "area", "attachment": "toast" },
+	{ "name": "toast", "bone": "mom", "attachment": "toast" },
 	{ "name": "effect_a", "bone": "effect_a", "attachment": "skin", "blend": "additive" },
 	{ "name": "skin", "bone": "style", "attachment": "skin" }
 ],
@@ -59,7 +59,7 @@
 			"toast": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 61.93, 119.31, 63.92, -109.84, 250.41, -107.86, 248.43, 123.28 ]
+				"vertices": [ 165.12, -119.31, 163.13, 109.84, -23.36, 107.86, -21.38, -123.28 ]
 			}
 		}
 	},

@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "QrqbvF8y3tR3IB97+YGG1/h1k6U", "spine": "3.6.50", "width": 559.84, "height": 710.64, "images": "./gollem/" },
+"skeleton": { "hash": "ZyBCdOz969uEnlbN76ZX7bGfSZo", "spine": "3.6.52", "width": 559.84, "height": 710.64, "images": "./gollem/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 72.96, "rotation": 90 },
@@ -48,7 +48,8 @@
 	{ "name": "effect_a", "bone": "effect_a", "attachment": "effect_a", "blend": "additive" },
 	{ "name": "effect_b", "bone": "effect_b", "attachment": "effect_b", "blend": "additive" },
 	{ "name": "golem_style_a_ice", "bone": "style", "attachment": "golem_style_a_ice" },
-	{ "name": "golem_style_b_ice", "bone": "style", "attachment": "golem_style_b_ice" }
+	{ "name": "golem_style_b_ice", "bone": "style", "attachment": "golem_style_b_ice" },
+	{ "name": "toast", "bone": "mom_ice", "attachment": "toast" }
 ],
 "skins": {
 	"default": {
@@ -121,6 +122,13 @@
 		},
 		"r_par_d_ice": {
 			"r_par_d_ice": { "x": 18.42, "y": -5.5, "rotation": 90, "width": 87, "height": 52 }
+		},
+		"toast": {
+			"toast": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 95.18, -84.7, 93.66, 88.81, -73.76, 88.81, -73.76, -83.18 ]
+			}
 		},
 		"tuc_ice": {
 			"tuc_ice": { "x": 67.28, "y": -10.36, "rotation": 180, "width": 171, "height": 57 }

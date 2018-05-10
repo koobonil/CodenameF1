@@ -3,8 +3,9 @@
 		"ID":"FireStone",
 		"GetType":"Drop",
 		"RemoveTime":1500,
-		"SkillID":"NoSkill",
+		"SkillID":"BreathBurn",
 		"SkillDuration":23000,
+		"SkillParameter":"BurnInterval=500;BurnDamage=10;While=5000;",
 		"AddGauge":500,
 		"AddDamage":1200,
 		"SkinName":"fire"
@@ -15,7 +16,7 @@
 		"RemoveTime":1500,
 		"SkillID":"BreathSlow",
 		"SkillDuration":23000,
-		"SkillParameter":"MoveSpeed=200;SlowTime=8000;",
+		"SkillParameter":"MoveSpeed=200;While=8000;",
 		"AddGauge":450,
 		"AddDamage":1100,
 		"SkinName":"ice"
@@ -26,7 +27,7 @@
 		"RemoveTime":1500,
 		"SkillID":"BreathKnockBackUp",
 		"SkillDuration":23000,
-		"SkillParameter":"KnockbackRange=1250;",
+		"SkillParameter":"KnockBackRange=3250;WindKnockBackSpeed=100;While=10000;AllowRevival=100;",
 		"AddGauge":550,
 		"AddDamage":800,
 		"SkinName":"wind"
@@ -37,7 +38,7 @@
 		"RemoveTime":1500,
 		"SkillID":"BreathStun",
 		"SkillDuration":23000,
-		"SkillParameter":"StunTime=5000;",
+		"SkillParameter":"MoveSpeed=0;While=5000;",
 		"AddGauge":400,
 		"AddDamage":1400,
 		"SkinName":"lightning"

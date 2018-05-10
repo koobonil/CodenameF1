@@ -1,6 +1,6 @@
 {
 	"BGName":"map_forest_a",
-	"BuildNumber":"8",
+	"BuildNumber":"9",
 	"Layers":
 	[
 		{
@@ -32,15 +32,6 @@
 					"RectL":"-0.12",
 					"RectR":"0.12",
 					"RectT":"0.216667",
-					"Visible":"1"
-				},
-				{
-					"ID":"Water_S",
-					"RID":"81000095",
-					"RectB":"0.383333",
-					"RectL":"-0.48",
-					"RectR":"-0.36",
-					"RectT":"0.25",
 					"Visible":"1"
 				},
 				{

@@ -68,11 +68,11 @@ namespace ZAY
         }
     }
 
-    void AnimationContainer::applyAnimation(Animatable* target, float time)
+    void AnimationContainer::applyAnimation(Animatable* target, float lasttime, float curtime)
     {
         for (const auto& it : _animations)
         {
-            it.second->applyToAnimatable(target, time, false);
+            it.second->applyToAnimatable(target, lasttime, curtime, false);
         }
     }
 
@@ -93,7 +93,7 @@ namespace ZAY
                 {
                     auto animation = animation_it->second;
 
-                    animation->applyToAnimatable(target, animationState->getCurrentTime(), false);
+                    animation->applyToAnimatable(target, animationState->getLastTime(), animationState->getCurrentTime(), false);
                 }
             }
         }

@@ -426,7 +426,7 @@ namespace ZAY
                                        {
                                            assert(dynamic_cast<SkeletonInstance*>(animatable));
                                            SkeletonInstance* skeleton = static_cast<SkeletonInstance*>(animatable);
-                                           skeleton->setCurrentEventName(name);
+                                           skeleton->setCurrentEventName(name, animatable->getEventPulse());
                                        };
 
                                        auto getter = [](const AnimationTrack*, Animatable* animatable) -> std::string

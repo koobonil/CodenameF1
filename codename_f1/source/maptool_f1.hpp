@@ -31,7 +31,7 @@ typedef Array<MapSelectBox> MapSelectBoxes;
 ////////////////////////////////////////////////////////////////////////////////
 class maptoolData : public F1Tool
 {
-    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(maptoolData, mObjectScrollMax(0))
+    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(maptoolData, mObjectScrollMax(0), mPolyOrderScrollMax(0))
 public:
     maptoolData();
     ~maptoolData();
@@ -53,10 +53,21 @@ public:
     void OnSelectBoxSized(sint32 index) override;
     void OnSelectBoxClone(sint32 index) override;
 
+	void SelectLayer(sint32 i);
+	void SelectObjectType(sint32 i);
+	void DeselectObjectType();
+	void SelectPolygonType(sint32 i);
+	void DeselectPolygonType();
+	void SelectPolyOrder(sint32 i);
+	void DeselectPolyOrder();
+
 public:
     sint32 mCurObject;
     Tween1D mObjectScroll;
     const sint32 mObjectScrollMax;
+    sint32 mCurPolyOrder;
+    Tween1D mPolyOrderScroll;
+    const sint32 mPolyOrderScrollMax;
     sint32 mCurPolygon;
     sint32 mCurLayer;
     TryWorld::DotList mCurDrawingPoints;

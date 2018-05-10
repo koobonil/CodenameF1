@@ -16,7 +16,7 @@ namespace ZAY
         void setAnimation(const std::string& name, Animation* animation);
         void removeAnimationsAll();
         Animation* getAnimation(const std::string& name) const;
-        void applyAnimation(Animatable* target, float time);
+        void applyAnimation(Animatable* target, float lasttime, float curtime);
         void applyAnimationStateSetDeltaTime(Animatable* target, AnimationStateSet& animationStateSet, float deltaTime);
         const std::map<std::string, Animation*>& getAnimationsAll() const;
     private:

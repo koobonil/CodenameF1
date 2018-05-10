@@ -2,6 +2,40 @@
 #include <service/boss_zay.hpp>
 #include "classes_f1.hpp"
 
+class MapBreathSkill
+{
+public:
+    MapBreathSkill()
+    {
+        mDamage = 0;
+        mKnockBackUp = 0;
+        mSkillSkin = "";
+        mSkillSpeed = 0;
+        mSkillTime = 0;
+        mDragonSkin = "";
+    }
+    ~MapBreathSkill() {}
+    MapBreathSkill(const MapBreathSkill& rhs) {operator=(rhs);}
+    MapBreathSkill& operator=(const MapBreathSkill& rhs)
+    {
+        mDamage = rhs.mDamage;
+        mKnockBackUp = rhs.mKnockBackUp;
+        mSkillSkin = rhs.mSkillSkin;
+        mSkillSpeed = rhs.mSkillSpeed;
+        mSkillTime = rhs.mSkillTime;
+        mDragonSkin = rhs.mDragonSkin;
+        return *this;
+    }
+
+public:
+    sint32 mDamage;
+    float mKnockBackUp;
+    String mSkillSkin;
+    float mSkillSpeed;
+    sint32 mSkillTime;
+    String mDragonSkin;
+};
+
 class MapBreath
 {
 public:
@@ -11,6 +45,7 @@ public:
         mEndTimeMsec = 0;
         mSizeR = 0;
         mGaugeTime = 0;
+        mPower = 0;
         mDamage = 0;
     }
     ~MapBreath() {}
@@ -23,6 +58,8 @@ public:
         mSizeR = rhs.mSizeR;
         mGaugeTime = rhs.mGaugeTime;
         mDamage = rhs.mDamage;
+        mPower = rhs.mPower;
+        mSkill = rhs.mSkill;
         return *this;
     }
 
@@ -32,7 +69,9 @@ public:
     Point mPos;
     sint32 mSizeR;
     sint32 mGaugeTime;
+    float mPower;
     sint32 mDamage;
+    MapBreathSkill mSkill;
 };
 
 class MapBreathAttack
@@ -89,19 +128,20 @@ public:
     Point MonsterKnockBackOnce(MapMonster& monster, const TryWorldZone& zone, const Point& pos, const uint64 msec);
     Point MonsterMoveOnce(MapMonster& monster, const TryWorldZone& zone, const Point& pos, const Point& vec, const uint64 msec);
     void ReserveToSlotOnce();
-    void ClearAllPathes(bool directly, chars polygon_name = nullptr);
+    void ClearAllPathes(chars polygon_name = nullptr);
     void Render(ZayPanel& panel);
     void RenderNumbers(ZayPanel& panel, chars numbers, bool rside);
     void RenderItems(ZayPanel& panel, bool slot, uint64 msec);
     void RenderBreathArea(ZayPanel& panel) override;
-    void ReadyForNextWave();
+    void ReadyForNextWave(bool nocount);
     sint32 GetCalcedBreathDamage();
     void SetDragonSchedule(const MapBreath* breath, bool retry);
     void SetBreathAttack(const MapBreath* breath);
-    void SetBrokenObject(const MapObject& object);
+    void AddEventForMap(const MapObject& broken_object);
+    void CheckAllMaps();
 
 public:
-    void OnEvent(chars name, const Point& pos) override;
+    void OnEvent(chars name, const Rect& rect, const MapSpine* spine) override;
 
 public:
     class GameMode
@@ -137,7 +177,7 @@ public: // 디버깅정보
 public: // 게임상태
     bool mSpineInited;
     bool mOptionItemInited;
-    bool mPaused;
+    sint32 mPauseType; // 0: 중지아님, 1: 다이얄로그, 2: 컷씬
     sint32 mClosing;
     sint32 mClosingOption;
     Context mGameOption;
@@ -157,10 +197,12 @@ public: // 게임상태
     uint64 mCurTickSec;
 	uint64 mCurRenderMsec;
     sint32 mCurParaTalk;
+    MapSpine* mCurCutscene;
+    MapSpine* mCurCutsceneClose;
     bool mHolicMode;
     MapMonsters mMonsters;
 
-    // Item & Slot
+    // Item과 Slot
     class SlotStatus
     {
     public:
@@ -190,25 +232,19 @@ public: // 게임상태
     public:
         void Clear()
         {
-            mSkinName = "normal";
+            mDragonSkinName = "normal";
             mEndTimeMsec = 0;
-            mSkillID = skill_id::NoSkill;
-            mDamageUp = 1000;
+            mBreathSkillID = skill_id::NoSkill;
+            mBreathSkillOption.Clear();
+            mBreathDamageUp = 1000;
         }
         void Reset(const MapItem* item)
         {
-            mSkinName = item->skin();
+            mDragonSkinName = item->skin();
             mEndTimeMsec = Platform::Utility::CurrentTimeMsec() + item->type()->mSkillDuration;
-            mSkillID = item->type()->mSkillID;
-            mSkillParameter = item->type()->mSkillParameter;
-            mDamageUp = item->type()->mAddDamage;
-        }
-        void CopyToDragon()
-        {
-            mDragonSkinName = mSkinName;
-            mBreathSkillID = mSkillID;
-            mBreathSkillOption.LoadPrm(mSkillParameter);
-            mBreathDamageUp = mDamageUp;
+            mBreathSkillID = item->type()->mSkillID;
+            mBreathSkillOption.LoadPrm(item->type()->mSkillParameter);
+            mBreathDamageUp = item->type()->mAddDamage;
         }
     public:
         bool IsFinished(uint64 msec) const
@@ -222,44 +258,36 @@ public: // 게임상태
         float CalcedKnockBackUp() const
         {
             if(mBreathSkillID == skill_id::BreathKnockBackUp)
-                return mBreathSkillOption("KnockbackRange").GetInt(1000) / 1000.0f;
+                return mBreathSkillOption("KnockBackRange").GetInt(1000) / 1000.0f;
             return 1;
         }
         chars CalcedSkillSkin() const
         {
-            if(mBreathSkillID == skill_id::BreathSlow)
+            branch;
+            jump(mBreathSkillID == skill_id::BreathSlow)
                 return "skill_ice";
-            if(mBreathSkillID == skill_id::BreathStun)
+            jump(mBreathSkillID == skill_id::BreathKnockBackUp)
+                return "skill_wind";
+            jump(mBreathSkillID == skill_id::BreathStun)
                 return "skill_lightning";
+            jump(mBreathSkillID == skill_id::BreathBurn)
+                return "skill_fire";
             return "";
         }
         float CalcedSkillSpeed() const
         {
-            if(mBreathSkillID == skill_id::BreathSlow)
-                return mBreathSkillOption("MoveSpeed").GetInt(1000) / 1000.0f;
-            if(mBreathSkillID == skill_id::BreathStun)
-                return 0;
-            return 1;
+            return mBreathSkillOption("MoveSpeed").GetInt(1000) / 1000.0f;
         }
         sint32 CalcedSkillTime() const
         {
-            if(mBreathSkillID == skill_id::BreathSlow)
-                return mBreathSkillOption("SlowTime").GetInt(0);
-            if(mBreathSkillID == skill_id::BreathStun)
-                return mBreathSkillOption("StunTime").GetInt(0);
-            return 0;
+            return mBreathSkillOption("While").GetInt(0);
         }
 
     public:
-        inline chars skin() const {return mSkinName;}
         inline chars dragon_skin() const {return mDragonSkinName;}
         inline sint32 damage_up() const {return mBreathDamageUp;}
     private:
-        String mSkinName;
         uint64 mEndTimeMsec;
-        skill_id mSkillID;
-        String mSkillParameter;
-        sint32 mDamageUp;
         String mDragonSkinName;
         skill_id mBreathSkillID;
         Context mBreathSkillOption;
@@ -271,13 +299,12 @@ public: // 게임상태
     MapSpine mMainTitleSpine;
 
     // Effect
-    static const sint32 mWallBoundMax = 64;
-    sint32 mWallBoundFocus;
-    MapSpine mWallBound[mWallBoundMax];
-    Point mWallBoundPos[mWallBoundMax];
+    EffectManager mEffectManager;
+    ParicleManager mParticleManager;
 
     // Dragon & Breath
     MapDragon mDragon;
+    MapSpine mDragonChangeSpine;
     MapBreath mBreath[2];
     MapBreathAttack mBreathAttack;
     MapSpine mBreathReadySpine[2];
@@ -291,11 +318,13 @@ public: // 게임상태
     sint32 mBreathGaugeTimeUsingCurrently;
     sint32 mBreathSizeRCurrently;
     sint32 mBreathPowerPermil;
+    Tween1D mCutsceneTween;
 
     // UI
     MapSpine mWeather[2];
     MapSpine mCampaign;
     MapSpine mGaugeHUD;
+    MapSpine mGaugeChange;
     MapSpine mSlotHUD;
     MapSpine mWaveHUD;
     MapSpine mStopButton;

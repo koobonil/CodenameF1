@@ -1,6 +1,6 @@
 {
-	"BuildNumber":"2",
-    "MapName":"map_tutorial",
+	"BuildNumber":"8",
+	"MapName":"map_tutorial",
 	"MissionLastRID":"83999999",
 	"MonsterLastRID":"83000072",
 	"ToolType":"stagetool_f1",
@@ -14,13 +14,25 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.020952",
-							"PosY":"0.194286",
+							"PosX":"0.08216",
+							"PosY":"-0.32629",
+							"TargetRID":"0",
+							"Text":"cutscene_story1 lock-story_a-story_b-story_c-story_d-story_e-story_f-story_g-story_h-unlock-idle"
+						}
+					],
+					"TimeSec":"0"
+				},
+				{
+					"Scripts":
+					[
+						{
+							"PosX":"-0.342412",
+							"PosY":"-0.167315",
 							"TargetRID":"81000004",
 							"Text":"animate count-idle"
 						}
 					],
-					"TimeSec":"0"
+					"TimeSec":"1"
 				},
 				{
 					"Monsters":

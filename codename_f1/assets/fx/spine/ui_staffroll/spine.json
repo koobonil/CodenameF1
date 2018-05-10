@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "5lIEQ4xDDtB4DolyJGbJwXza2zw", "spine": "3.6.52", "width": 7784, "height": 9666.21, "fps": 20, "images": "./staffroll/" },
+"skeleton": { "hash": "LYbh+SbffVyRgHdfUHqCd1VcfdY", "spine": "3.6.52", "width": 7784, "height": 9666.21, "fps": 20, "images": "./staffroll/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 237.23, "rotation": 90 },
@@ -58,6 +58,7 @@
 	{ "name": "str_535", "bone": "roll_b3", "attachment": "str_535" },
 	{ "name": "str_536", "bone": "roll_b3", "attachment": "str_536" },
 	{ "name": "str_537", "bone": "roll_b3", "attachment": "str_537" },
+	{ "name": "str_538", "bone": "roll_b3", "attachment": "str_538" },
 	{ "name": "staff roll_b", "bone": "staff roll", "attachment": "staff roll_b" },
 	{ "name": "staff roll_x", "bone": "staff roll_x", "attachment": "staff roll_x" },
 	{ "name": "area", "bone": "area", "attachment": "area" },
@@ -337,6 +338,13 @@
 				"vertexCount": 4,
 				"vertices": [ -336.53, 476.55, -392.63, 476.55, -394.79, -466.74, -337.94, -466.51 ]
 			}
+		},
+		"str_538": {
+			"str_538": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ -528.73, 476.55, -584.82, 476.55, -586.98, -466.74, -530.13, -466.51 ]
+			}
 		}
 	}
 },
@@ -500,6 +508,11 @@
 				]
 			},
 			"str_537": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"str_538": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
@@ -739,6 +752,11 @@
 				]
 			},
 			"str_537": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			},
+			"str_538": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
 				]
@@ -1117,6 +1135,14 @@
 				]
 			},
 			"str_537": {
+				"color": [
+					{ "time": 28.05, "color": "ffffff00" },
+					{ "time": 30.55, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 34.05, "color": "ffffffff" },
+					{ "time": 37.55, "color": "ffffff00" }
+				]
+			},
+			"str_538": {
 				"color": [
 					{ "time": 28.05, "color": "ffffff00" },
 					{ "time": 30.55, "color": "ffffffff", "curve": "stepped" },

@@ -1,7 +1,7 @@
 ﻿class skill_id
 {
 public:
-    enum Type {NoSkill, BreathSlow, BreathKnockBackUp, BreathStun, Max, Null = -1};
+    enum Type {NoSkill, BreathSlow, BreathKnockBackUp, BreathStun, BreathBurn, Max, Null = -1};
 
 public:
     skill_id() {mName = Null;}
@@ -20,6 +20,8 @@ public:
             mName = BreathKnockBackUp;
         else if(!String::Compare(rhs, "BreathStun")) // 브레스에 맞으면 몬스터가 경직되는 효과
             mName = BreathStun;
+        else if(!String::Compare(rhs, "BreathBurn")) // 브레스에 맞으면 일정시간동안 체력감소 효과
+            mName = BreathBurn;
         else
         {
             mName = Null;

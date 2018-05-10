@@ -52,7 +52,7 @@ public:
 
 class outgameData : public ZayObject, public FXState
 {
-    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(outgameData, FXState(""), mLandscape(false))
+    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(outgameData, mLandscape(false))
 
 public:
     outgameData();
@@ -81,6 +81,7 @@ public: // 기획요소
     Solver mUITop;
     Solver mUIRight;
     Solver mUIBottom;
+    String mDefaultLanguages;
     sint32 mDefaultHeartCount;
     sint32 mHeartRegenSec;
     sint32 mHeartCountMax;
@@ -118,7 +119,7 @@ public: // 게임상태
     sint32 mCalcedAdSec;
     bool mResultIsWin;
     outgameCard mCards[48];
-    id_purchase mDonate;
+    //id_purchase mDonate;
 
 public: // 스파인
     MapSpine mUILobby;

@@ -216,7 +216,7 @@ namespace ZAY
 
     //bx
     public:
-        void setCurrentEventName(const std::string& name);
+        void setCurrentEventName(const std::string& name, bool pulse);
         const std::string& getCurrentEventName();
     private:
         std::string _eventName;

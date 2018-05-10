@@ -1,8 +1,8 @@
 {
-	"BuildNumber":"2",
+	"BuildNumber":"9",
 	"MapName":"map_1",
 	"MissionLastRID":"83999999",
-	"MonsterLastRID":"83000072",
+	"MonsterLastRID":"83000073",
 	"ToolType":"stagetool_f1",
 	"ToolVersion":"2",
 	"Waves":
@@ -14,49 +14,61 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.020952",
-							"PosY":"0.194286",
-							"TargetRID":"81000004",
-							"Text":"animate count-idle"
+							"PosX":"0.079108",
+							"PosY":"-0.983774",
+							"TargetRID":"0",
+							"Text":"cutscene_story1 lock-story_a-story_b-story_c-story_d-story_e-story_f-story_g-story_h-unlock-idle"
 						}
 					],
 					"TimeSec":"0"
 				},
 				{
+					"Scripts":
+					[
+						{
+							"PosX":"-0.342412",
+							"PosY":"-0.167315",
+							"TargetRID":"81000004",
+							"Text":"animate count-idle"
+						}
+					],
+					"TimeSec":"1"
+				},
+				{
 					"Monsters":
 					[
 						{
-							"ID":"F_Normal",
+							"ID":"T_Normal_A",
 							"PosX":"0.44",
 							"PosY":"-0.05",
-							"RID":"83000060"
+							"RID":"83000073"
 						}
 					],
 					"TimeSec":"6"
 				},
 				{
-					"Monsters":
+					"Scripts":
 					[
 						{
-							"ID":"F_Normal",
-							"PosX":"0.44",
-							"PosY":"-0.05",
-							"RID":"83000061"
+							"PosX":"0.275862",
+							"PosY":"-0.833672",
+							"TargetRID":"0",
+							"Text":"cutscene_tutorial1 lock-tutorial_a-unlock-idle"
 						}
 					],
-					"TimeSec":"8"
+					"TimeSec":"7"
 				},
 				{
-					"Monsters":
+					"Scripts":
 					[
 						{
-							"ID":"F_Normal",
-							"PosX":"0.44",
-							"PosY":"-0.05",
-							"RID":"83000062"
+							"PosX":"0.448276",
+							"PosY":"-0.596349",
+							"TargetRID":"0",
+							"Text":"campaign guide_msg_1"
 						}
 					],
-					"TimeSec":"10"
+					"TimeSec":"9"
 				}
 			],
 			"Title":"Untitled"
@@ -75,18 +87,6 @@
 						}
 					],
 					"TimeSec":"0"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.44",
-							"PosY":"-0.05",
-							"RID":"83000063"
-						}
-					],
-					"TimeSec":"6"
 				},
 				{
 					"Monsters":

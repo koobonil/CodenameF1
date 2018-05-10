@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "HhRY15dTi/v6M3ts/Tc1wtgw6sU", "spine": "3.6.52", "width": 762.67, "height": 499.15, "images": "" },
+"skeleton": { "hash": "hQBoL/hl/MUDpKuLNnWfT4LUQ/E", "spine": "3.6.52", "width": 762.67, "height": 499.15, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 140.48, "rotation": 90 },
@@ -63,7 +63,7 @@
 			"str_33": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 177.24, 424.37, 125.33, 424.37, 125.33, -195.35, 177.24, -195.35 ]
+				"vertices": [ 174.85, 419.27, 124.5, 419.27, 124.5, -191.34, 174.85, -191.34 ]
 			}
 		}
 	}

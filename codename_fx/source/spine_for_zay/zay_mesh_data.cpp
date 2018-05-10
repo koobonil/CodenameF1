@@ -101,7 +101,7 @@ namespace ZAY
         if(!AssetID)
         {
             BOSS_ASSERT(String::Format("Spine image not found(%s)", path), false);
-            AssetID = Asset::OpenForRead(s_projcode + "image/noimg.png");
+            AssetID = Asset::OpenForRead(s_projcode + "spine/noimg.png");
         }
 
         sint32 AssetLen = Asset::Size(AssetID);

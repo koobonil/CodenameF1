@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "+Kno/D52Jc4Cxxf1sGgDR1+ZlJg", "spine": "3.6.50", "width": 539.91, "height": 594.8, "images": "./snowman/" },
+"skeleton": { "hash": "uGocOZ9bJkuP8/YL+gNg5S22o4s", "spine": "3.6.52", "width": 539.91, "height": 594.8, "images": "./snowman/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 24.71, "rotation": 90 },
@@ -28,7 +28,8 @@
 	{ "name": "r_par_ice", "bone": "r_par_ice", "attachment": "r_par_ice" },
 	{ "name": "area", "bone": "area", "attachment": "area" },
 	{ "name": "efect_a", "bone": "efect_a", "attachment": "efect_a", "blend": "additive" },
-	{ "name": "efect_b", "bone": "efect_b", "attachment": "efect_b", "blend": "additive" }
+	{ "name": "efect_b", "bone": "efect_b", "attachment": "efect_b", "blend": "additive" },
+	{ "name": "toast", "bone": "mom_ice", "attachment": "toast" }
 ],
 "skins": {
 	"default": {
@@ -76,6 +77,13 @@
 		"r_par_ice": {
 			"r_par_attack_ice": { "x": 30.27, "y": -14.31, "rotation": -90, "width": 121, "height": 136 },
 			"r_par_ice": { "x": 6.77, "y": -2.31, "rotation": -90, "width": 97, "height": 97 }
+		},
+		"toast": {
+			"toast": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 0.19, 81.61, 0.19, -82.73, 161.83, -81.83, 161.83, 80.71 ]
+			}
 		}
 	}
 },

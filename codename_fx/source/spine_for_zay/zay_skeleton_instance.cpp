@@ -725,7 +725,7 @@ namespace ZAY
                     {
                         auto animationState = it.second;
                         
-                        animation->applyToAnimatable(this, animationState->getCurrentTime(), colorUpdateOnly);
+                        animation->applyToAnimatable(this, animationState->getLastTime(), animationState->getCurrentTime(), colorUpdateOnly);
                     }
                 }
             }
@@ -1145,14 +1145,11 @@ namespace ZAY
     }
 
     //bx
-    void SkeletonInstance::setCurrentEventName(const std::string& name)
+    void SkeletonInstance::setCurrentEventName(const std::string& name, bool pulse)
     {
-        if(_eventName != name)
-        {
-            _eventName = name;
-            if(0 < name.length())
-                SpineBuilder_CallEvent(name.c_str());
-        }
+        _eventName = name;
+        if(pulse && 0 < name.length())
+            SpineBuilder_CallEvent(name.c_str());
     }
 
     //bx

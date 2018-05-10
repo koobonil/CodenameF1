@@ -44,7 +44,7 @@
 					"Monsters":
 					[
 						{
-							"ID":"Test",
+							"ID":"F_Normal",
 							"PosX":"0.28",
 							"PosY":"-0.033306",
 							"RID":"83000001"

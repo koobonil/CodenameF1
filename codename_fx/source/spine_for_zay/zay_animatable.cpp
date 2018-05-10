@@ -5,6 +5,7 @@ namespace ZAY
 {
     Animatable::Animatable()
     {
+        _eventPulse = false;
     }
     
     Animatable::~Animatable()

@@ -14,7 +14,7 @@ namespace ZAY
         removeAnimationTracksAll();
     }
 
-    void Animation::applyToAnimatable(Animatable* target, float time, bool colorUpdateOnly) //bx
+    void Animation::applyToAnimatable(Animatable* target, float lasttime, float curtime, bool colorUpdateOnly) //bx
     {
         if(colorUpdateOnly)
         {
@@ -22,12 +22,12 @@ namespace ZAY
             {
                 AnimationTrackColour* CurTrack = dynamic_cast<AnimationTrackColour*>(track);
                 if(CurTrack)
-                    CurTrack->applyToAnimatable(target, time);
+                    CurTrack->applyToAnimatable(target, lasttime, curtime);
             }
         }
         else for (auto track : _tracks)
         {
-            track->applyToAnimatable(target, time);
+            track->applyToAnimatable(target, lasttime, curtime);
         }
     }
     

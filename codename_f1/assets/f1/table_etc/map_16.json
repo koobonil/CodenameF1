@@ -1,21 +1,12 @@
 {
 	"BGName":"map_forest_a",
-	"BuildNumber":"28",
+	"BuildNumber":"29",
 	"Layers":
 	[
 		{
 			"LayerID":"1",
 			"Objects":
 			[
-				{
-					"ID":"Mud_M",
-					"RID":"81000279",
-					"RectB":"-0.05",
-					"RectL":"-0.5",
-					"RectR":"-0.22",
-					"RectT":"-0.15",
-					"Visible":"1"
-				},
 				{
 					"ID":"Mud_S",
 					"RID":"81000275",
@@ -113,6 +104,15 @@
 					"RectL":"0.3",
 					"RectR":"0.34",
 					"RectT":"-0.25",
+					"Visible":"1"
+				},
+				{
+					"ID":"Mud_L",
+					"RID":"81000327",
+					"RectB":"0.016667",
+					"RectL":"-0.48",
+					"RectR":"-0.32",
+					"RectT":"-0.116667",
 					"Visible":"1"
 				}
 			]
@@ -1609,7 +1609,7 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000326",
+	"ObjectLastRID":"81000327",
 	"PolygonLastRID":"82000007",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"

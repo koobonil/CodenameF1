@@ -4,6 +4,8 @@
 #include <element/boss_solver.hpp>
 #include <element/boss_tween.hpp>
 
+#define USE_SPINE_SHADOW (0)
+
 #include <../source-gen/item_get_type.hpp>
 #include <../source-gen/monster_move_type.hpp>
 #include <../source-gen/monster_type.hpp>
@@ -37,9 +39,6 @@ public:
     }
 
 public:
-    void SetAssetShadow(const String& asset) {mAssetShadow = (!asset.Compare("None"))? "" : asset;}
-
-public:
     class ObjectTypeClass : public object_type
     {
     public:
@@ -50,7 +49,7 @@ public:
         }
     public:
         inline bool isWall() const
-        {return (mName == Wall || mName == Dynamic || mName == View);}
+        {return (mName == Wall || mName == Dynamic || mName == View || mName == Trigger);}
         inline bool isDynamic() const
         {return (mName == Dynamic);}
         inline bool isTarget() const
@@ -178,9 +177,12 @@ public:
     MonsterType& operator=(MonsterType&& rhs)
     {
         SpineAsset::operator=(ToReference(rhs));
-        mID = rhs.mID;
+        mID = ToReference(rhs.mID);
         mType = rhs.mType;
         mHP = rhs.mHP;
+        mDeathMission = ToReference(rhs.mDeathMission);
+        mDeathSuccessCampaign = ToReference(rhs.mDeathSuccessCampaign);
+        mDeathFailureCampaign = ToReference(rhs.mDeathFailureCampaign);
         mMoveType = rhs.mMoveType;
         mMoveSpeed = rhs.mMoveSpeed;
         mMoveVector = rhs.mMoveVector;
@@ -201,6 +203,9 @@ public:
     String mID;
     monster_type mType;
     sint32 mHP;
+    String mDeathMission;
+    String mDeathSuccessCampaign;
+    String mDeathFailureCampaign;
     monster_move_type mMoveType;
     sint32 mMoveSpeed;
     sint32 mMoveVector;
@@ -350,12 +355,14 @@ public:
     void ResetCB(FXState* state);
     bool IsEntranced();
     bool IsKnockBackMode();
+    chars Attack(sint32 damage, sint32 deleteTime, float breath_rate);
     void KnockBack(bool down, const Point& accel, float knockbackup, chars skillskin, float skillspeed, sint32 skilltime, chars skin);
-    void KnockBackBound(sint32 damage);
+    void KnockBackBound(sint32 damage, sint32 deleteTime);
     bool KnockBackEnd();
     bool KnockBackEndByHole(const Point& hole);
     void HolicBegin(const Point& pos, TryWorld::Path* path);
     void HolicEnd();
+    void PlaySkill(chars skin, chars parameter);
     void Turn() const;
     sint32 TryAttack(const Point& target);
     void CancelAttack();
@@ -366,9 +373,12 @@ public:
     void Ally_Arrived();
     void Ally_Touched();
     float CalcedSpeed(uint64 msec) const;
+    float CalcedSpeed(float speed, uint64 msec) const;
     float CalcedVector() const;
-    void ToastTest(uint64 msec);
+    float CalcedResistance(uint64 msec) const;
+    void ToastTest(uint64 msec, sint32 deleteTime);
     void PlayToast(chars motion, bool repeat);
+    void StopToast();
 
 public:
     const float mKnockBackAccelMin = 0.001f; // 화면크기비율상수
@@ -380,6 +390,7 @@ public:
     sint32 mRID;
     bool mEntranced;
     sint32 mEntranceSec;
+    bool mMission;
     bool mImmortal;
     sint32 mHPValueMax;
     sint32 mHPValue;
@@ -398,7 +409,6 @@ public:
     Point mCurrentVec;
     Point mTargetPos;
     MonsterTargets mTargets;
-    uint64 mTargetTimeLimit;
     uint64 mShoveTimeMsec;
     sint32 mBounceObjectIndex;
     MapSpine mToast;
@@ -411,14 +421,15 @@ private:
     float mKnockResistance;
     sint32 mKnockBackBoundCount;
     String mSkillSkin;
+    Context mSkillOption;
     float mSkillSpeed;
     sint32 mSkillTime;
     uint64 mSkillTimeLimit;
+    uint64 mSkillTimeCheckPoint;
 
 public:
     inline const Point& knockBackAccel() const {return mKnockBackAccel;}
     inline void SetKnockBackAccel(const Point& accel) {mKnockBackAccel = accel;}
-    inline float knockBackResistance() const {return mKnockResistance;}
     inline sint32 knockBackBoundCount() const {return mKnockBackBoundCount;}
 };
 typedef Array<MapMonster> MapMonsters;
@@ -449,6 +460,7 @@ public:
     inline float scale() const {return mDragonScale;}
     inline uint64 endtime() const {return mDragonBreathEndTimeMsec;}
     inline Point pos() const {return mLastPos;}
+    inline Point pos_shadow() const {return mNewPos;}
 
 private:
     void Attack() const;
@@ -534,6 +546,8 @@ public:
     const PolygonType* mType;
     TryWorld::Hurdle* mHurdle;
     TryWorld::Map* mMap;
+    bool mNeedRebuild;
+    Map<sint32> mDynamicCheckList;
 };
 typedef Map<TryWorldZone> TryWorldZoneMap;
 
@@ -556,11 +570,76 @@ public:
 };
 typedef Array<TargetZone> TargetZones;
 
+////////////////////////////////////////////////////////////////////////////////
+class EffectElement
+{
+public:
+    EffectElement()
+    {
+        mExpireMsec = 0;
+    }
+    ~EffectElement()
+    {
+    }
+public:
+    String mName;
+    Rect mRect;
+    MapSpine mSpine;
+    uint64 mExpireMsec;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+class EffectManager
+{
+public:
+    EffectManager();
+    ~EffectManager();
+
+public:
+    void Init(const FXState* state, const SpineRenderer* spine);
+    void Add(Rect rect, chars name, chars motion, bool loop, sint32 msec, float beginsec = 0.0f);
+    void Render(ZayPanel& panel);
+    void UpdateOnly();
+    sint32 GetCount() const;
+    EffectElement* GetElement(sint32 i);
+    const EffectElement* GetElement(sint32 i) const;
+
+protected:
+    enum {MAX = 256};
+    EffectElement mEffect[MAX];
+    sint32 mFocus;
+    sint32 mLength;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+class ParicleManager : public EffectManager
+{
+public:
+    ParicleManager();
+    ~ParicleManager();
+
+public:
+    void SetOption(float min, float max, float gap, sint32 aniskip_msec, sint32 leveldelay_msec);
+    void AddForCircle(const Point& pos, float size_r, chars name, sint32 msec);
+    void AddForPolygonArea(const Rect& rect, const Points& points, sint32 count, chars name, sint32 msec);
+    chars SkillTest(const Point& pos, float size_r);
+
+private:
+    bool PtInPolygon(const Points& points, const Point& pt) const;
+
+private:
+    float mElementMinRate;
+    float mElementMaxRate;
+    float mElementGapRate;
+    float mElementAniSkip;
+    sint32 mElementLevelDelay;
+};
+
 class F1Tool;
 ////////////////////////////////////////////////////////////////////////////////
 class F1State : public FXState
 {
-    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(F1State, FXState(""), mLandscape(false), mStage(""))
+    BOSS_DECLARE_NONCOPYABLE_INITIALIZED_CLASS(F1State, mLandscape(false), mStage(""))
 public:
     F1State(bool needdoor = false);
     ~F1State();
@@ -568,12 +647,15 @@ public:
 public:
     sint32 LoadMap(chars json, bool toolmode);
     String SaveMap(const F1Tool* tool);
-    void BuildTryWorld(bool error_test, chars polygon_name = nullptr);
-    void RebuildTryWorld(sint32 dynamic_chain_id, chars polygon_name = nullptr);
+    void AddObjectToTryWorld(const PolygonType* type, const MapObject& object, TryWorld::Hurdle* hurdle);
+    void BuildMap(chars polygon_name = nullptr);
+    bool TryModifyMapForDynamic(sint32 dynamic_chain_id, chars polygon_name = nullptr);
     void SetSize(sint32 width, sint32 height);
     void RenderImage(DebugMode debug, ZayPanel& panel, const Image& image);
-    void RenderLayer(DebugMode debug, ZayPanel& panel, const MapLayer& layer, const MapMonsters* monsters = nullptr, const sint32 wavesec = 0);
-    Rect RenderMap(DebugMode debug, ZayPanel& panel, const MapMonsters* monsters = nullptr, sint32 wavesec = 0);
+    void RenderLayer(DebugMode debug, ZayPanel& panel, const MapLayer& layer, bool selected,
+        const MapMonsters* monsters = nullptr, const ParicleManager* particle = nullptr, const sint32 wavesec = 0);
+    Rect RenderMap(DebugMode debug, ZayPanel& panel,
+        const MapMonsters* monsters = nullptr, const ParicleManager* particle = nullptr, const sint32 wavesec = 0);
     void RenderCap(ZayPanel& panel, const Rect outline);
     void RenderDebug(ZayPanel& panel, const MapMonsters& monsters, sint32 wavesec);
 
@@ -614,6 +696,7 @@ public: // 기획요소
     sint32 m1StarHpRate;
     sint32 m2StarHpRate;
     sint32 m3StarHpRate;
+    float mEggDamageRevision;
     float mMonsterScale;
     float mWallBoundScale;
     float mKnockBackMinDistance;
@@ -635,6 +718,12 @@ public: // 기획요소
     sint32 mShoveCoolTime;
     float mShoveCheckDistance;
     float mShovePower;
+    sint32 mParticleAniTime;
+    float mParticleMinRate;
+    float mParticleMaxRate;
+    float mParticleGapRate;
+    sint32 mParticleAniSkipTime;
+    sint32 mParticleHideTime;
 
     ObjectTypes mObjectTypes;
     PolygonTypes mPolygonTypes;
@@ -642,6 +731,8 @@ public: // 기획요소
     MonsterTypes mMonsterTypes;
 
 public: // UI요소
+    const sint32 mTimelineLength = 60;
+    const sint32 mLayerLength = 6;
     sint32 mUIL;
     sint32 mUIT;
     sint32 mUIR;
@@ -665,8 +756,6 @@ public: // UI요소
     sint32 mWallBoundSizeR;
     sint32 mKnockBackMinV;
     sint32 mKnockBackMaxV;
-    const sint32 mTimelineLength = 60;
-    const sint32 mLayerLength = 6;
 
 public: // 인스턴스ID
     const sint32 mObjectRIDBegin = 81000000 - 1;
@@ -687,8 +776,11 @@ public: // 맵요소
     TargetZones mTargetsForAlly;
     MapLayers mLayers;
     Map<MapObject*> mObjectRIDs;
+    Map<TryWorld::DotList> mDynamicTesters;
     id_surface mShadowSurface;
     TryWorldZoneMap mAllTryWorldZones;
+	sint32 mDebugCurLayer;
+	sint32 mDebugCurPolyOrder;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -736,6 +828,7 @@ public:
     const sint32 ButtonSizeSmall = 50;
     const sint32 IconSize = 50;
     const sint32 IconSizeSmall = 40;
+    const sint32 PolyOrderSize = 30;
 
 public:
     F1State mState;

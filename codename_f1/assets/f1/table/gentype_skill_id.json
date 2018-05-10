@@ -14,5 +14,9 @@
 	{
 		"Name":"BreathStun",
 		"Description":"브레스에 맞으면 몬스터가 경직되는 효과"
+	},
+	{
+		"Name":"BreathBurn",
+		"Description":"브레스에 맞으면 일정시간동안 체력감소 효과"
 	}
 ]

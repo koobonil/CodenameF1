@@ -537,6 +537,17 @@ namespace ZAY
             return nullptr;
         }
 
+        const BOSS::Points* GetBoundPolygon(chars name)
+        {
+            for(sint32 i = 0, iend = BoxMap.Count(); i < iend; ++i)
+            {
+                const BoundBox& CurBox = *BoxMap.AccessByOrder(i);
+                if(!CurBox.Name.Compare(name))
+                    return &CurBox.Pos;
+            }
+            return nullptr;
+        }
+
     private:
         ZAY::SceneNode* Node;
         ZAY::ForwardMultiplyRender::ForwardMultiplyRenderer* Renderer;
@@ -767,6 +778,12 @@ namespace ZAY
     {
         SpineInstance* CurInstance = (SpineInstance*) spine_instance;
         return CurInstance->GetBoundRect(name);
+    }
+
+    const BOSS::Points* SpineBuilder::GetBoundPolygon(id_spine_instance spine_instance, chars name)
+    {
+        SpineInstance* CurInstance = (SpineInstance*) spine_instance;
+        return CurInstance->GetBoundPolygon(name);
     }
 
     template<typename TYPE>

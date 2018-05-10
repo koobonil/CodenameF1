@@ -40,6 +40,13 @@ void PlatformInit()
             String::Format("%s/ %s/ %s", Platform::Utility::GetOSName(), __DATE__, __TIME__));
     #endif
 
+    // 리소스패스 등록
+    Strings Pathes;
+    Pathes.AtAdding() = "fx/";
+    Pathes.AtAdding() = "f1/";
+    FXData::SetResourcePathes(Pathes);
+
+    // 세이브파일 동기화
     if(auto FirstSaver = FXSaver::Sync("save.json"))
     {
         FirstSaver->At("DevMode").Set("0");
@@ -51,6 +58,13 @@ void PlatformInit()
     }
     Platform::Option::SetFlag("LandscapeMode", false);
     Platform::Option::SetFlag("DirectPlay", false);
+
+    // 세이브파일에서 만약 마지막 스테이지에 해당되는 파일이 없다면 해당 정보 초기화
+    if(String::FromAsset(FXSaver::Read("LastStageJson").GetString()).Length() == 0)
+    {
+        FXSaver::Write("LastStageJson").Set("f1/table/stage_tutorial.json");
+        FXSaver::Write("LastStageID").Set("Stage1");
+    }
 
     #if BOSS_WINDOWS | BOSS_LINUX | BOSS_MAC_OSX
         String InfoString = String::FromAsset("windowinfo.json");

@@ -8,7 +8,7 @@
 	},
 	{
 		"ID":1,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_1.json",
 		"StageJson":"f1/table/stage_1.json",
 		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/1.txt"
@@ -16,7 +16,7 @@
 	{
 		"ID":2,
 		"NeedEgg":1,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_2.json",
 		"StageJson":"f1/table/stage_2.json",
 		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/2.txt"
@@ -24,7 +24,7 @@
 	{
 		"ID":3,
 		"NeedEgg":2,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_3.json",
 		"StageJson":"f1/table/stage_3.json",
 		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/3.txt"
@@ -32,7 +32,7 @@
 	{
 		"ID":4,
 		"NeedEgg":3,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_4.json",
 		"StageJson":"f1/table/stage_4.json",
 		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/4.txt"
@@ -40,7 +40,7 @@
 	{
 		"ID":5,
 		"NeedEgg":4,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_5.json",
 		"StageJson":"f1/table/stage_5.json",
 		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/5.txt"
@@ -48,7 +48,7 @@
 	{
 		"ID":6,
 		"NeedEgg":5,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_6.json",
 		"StageJson":"f1/table/stage_6.json",
 		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/6.txt"
@@ -56,7 +56,7 @@
 	{
 		"ID":7,
 		"NeedEgg":6,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_7.json",
 		"StageJson":"f1/table/stage_7.json",
 		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/7.txt"
@@ -64,7 +64,7 @@
 	{
 		"ID":8,
 		"NeedEgg":7,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=0;",
 		"MapJson":"f1/table/map_8.json",
 		"StageJson":"f1/table/stage_8.json",
 		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/8.txt"
@@ -72,7 +72,7 @@
 	{
 		"ID":9,
 		"NeedEgg":8,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=1;WindStone=0;LightningStone=1;",
 		"MapJson":"f1/table/map_9.json",
 		"StageJson":"f1/table/stage_9.json",
 		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/9.txt"
@@ -80,7 +80,7 @@
 	{
 		"ID":10,
 		"NeedEgg":9,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=1;",
 		"MapJson":"f1/table/map_10.json",
 		"StageJson":"f1/table/stage_10.json",
 		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/10.txt"
@@ -88,603 +88,689 @@
 	{
 		"ID":11,
 		"NeedEgg":10,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_11.json",
-		"StageJson":"f1/table/stage_11.json"
+		"StageJson":"f1/table/stage_11.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/11.txt"
 	},
 	{
 		"ID":12,
 		"NeedEgg":11,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_12.json",
-		"StageJson":"f1/table/stage_12.json"
+		"StageJson":"f1/table/stage_12.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/12.txt"
 	},
 	{
 		"ID":13,
 		"NeedEgg":12,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=0;",
 		"MapJson":"f1/table/map_13.json",
-		"StageJson":"f1/table/stage_13.json"
+		"StageJson":"f1/table/stage_13.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/13.txt"
 	},
 	{
 		"ID":14,
 		"NeedEgg":13,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_14.json",
-		"StageJson":"f1/table/stage_14.json"
+		"StageJson":"f1/table/stage_14.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/14.txt"
 	},
 	{
 		"ID":15,
 		"NeedEgg":14,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=1;",
 		"MapJson":"f1/table/map_15.json",
-		"StageJson":"f1/table/stage_15.json"
+		"StageJson":"f1/table/stage_15.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/15.txt"
 	},
 	{
 		"ID":16,
 		"NeedEgg":15,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_16.json",
-		"StageJson":"f1/table/stage_16.json"
+		"StageJson":"f1/table/stage_16.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/16.txt"
 	},
 	{
 		"ID":17,
 		"NeedEgg":16,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=2;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_17.json",
-		"StageJson":"f1/table/stage_17.json"
+		"StageJson":"f1/table/stage_17.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/17.txt"
 	},
 	{
 		"ID":18,
 		"NeedEgg":17,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_18.json",
-		"StageJson":"f1/table/stage_18.json"
+		"StageJson":"f1/table/stage_18.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/18.txt"
 	},
 	{
 		"ID":19,
 		"NeedEgg":18,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_19.json",
-		"StageJson":"f1/table/stage_19.json"
+		"StageJson":"f1/table/stage_19.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/19.txt"
 	},
 	{
 		"ID":20,
 		"NeedEgg":19,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=2;IceStone=2;WindStone=2;LightningStone=2;",
 		"MapJson":"f1/table/map_20.json",
-		"StageJson":"f1/table/stage_20.json"
+		"StageJson":"f1/table/stage_20.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/20.txt"
 	},
 	{
 		"ID":21,
 		"NeedEgg":20,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_21.json",
-		"StageJson":"f1/table/stage_21.json"
+		"StageJson":"f1/table/stage_21.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/21.txt"
 	},
 	{
 		"ID":22,
 		"NeedEgg":21,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=0;WindStone=1;LightningStone=0;",
 		"MapJson":"f1/table/map_22.json",
-		"StageJson":"f1/table/stage_22.json"
+		"StageJson":"f1/table/stage_22.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/22.txt"
 	},
 	{
 		"ID":23,
 		"NeedEgg":22,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_23.json",
-		"StageJson":"f1/table/stage_23.json"
+		"StageJson":"f1/table/stage_23.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/23.txt"
 	},
 	{
 		"ID":24,
 		"NeedEgg":23,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_24.json",
-		"StageJson":"f1/table/stage_24.json"
+		"StageJson":"f1/table/stage_24.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/24.txt"
 	},
 	{
 		"ID":25,
 		"NeedEgg":24,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=1;",
 		"MapJson":"f1/table/map_25.json",
-		"StageJson":"f1/table/stage_25.json"
+		"StageJson":"f1/table/stage_25.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/25.txt"
 	},
 	{
 		"ID":26,
 		"NeedEgg":25,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_26.json",
-		"StageJson":"f1/table/stage_26.json"
+		"StageJson":"f1/table/stage_26.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/26.txt"
 	},
 	{
 		"ID":27,
 		"NeedEgg":26,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_27.json",
-		"StageJson":"f1/table/stage_27.json"
+		"StageJson":"f1/table/stage_27.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/27.txt"
 	},
 	{
 		"ID":28,
 		"NeedEgg":27,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_28.json",
-		"StageJson":"f1/table/stage_28.json"
+		"StageJson":"f1/table/stage_28.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/28.txt"
 	},
 	{
 		"ID":29,
 		"NeedEgg":28,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_29.json",
-		"StageJson":"f1/table/stage_29.json"
+		"StageJson":"f1/table/stage_29.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/29.txt"
 	},
 	{
 		"ID":30,
 		"NeedEgg":29,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_30.json",
-		"StageJson":"f1/table/stage_30.json"
+		"StageJson":"f1/table/stage_30.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/30.txt"
 	},
 	{
 		"ID":31,
 		"NeedEgg":30,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_31.json",
-		"StageJson":"f1/table/stage_31.json"
+		"StageJson":"f1/table/stage_31.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/31.txt"
 	},
 	{
 		"ID":32,
 		"NeedEgg":31,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_32.json",
-		"StageJson":"f1/table/stage_32.json"
+		"StageJson":"f1/table/stage_32.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/32.txt"
 	},
 	{
 		"ID":33,
 		"NeedEgg":32,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_33.json",
-		"StageJson":"f1/table/stage_33.json"
+		"StageJson":"f1/table/stage_33.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/33.txt"
 	},
 	{
 		"ID":34,
 		"NeedEgg":33,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=1;",
 		"MapJson":"f1/table/map_34.json",
-		"StageJson":"f1/table/stage_34.json"
+		"StageJson":"f1/table/stage_34.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/34.txt"
 	},
 	{
 		"ID":35,
 		"NeedEgg":34,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=1;",
 		"MapJson":"f1/table/map_35.json",
-		"StageJson":"f1/table/stage_35.json"
+		"StageJson":"f1/table/stage_35.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/35.txt"
 	},
 	{
 		"ID":36,
 		"NeedEgg":35,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_36.json",
-		"StageJson":"f1/table/stage_36.json"
+		"StageJson":"f1/table/stage_36.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/36.txt"
 	},
 	{
 		"ID":37,
 		"NeedEgg":36,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_37.json",
-		"StageJson":"f1/table/stage_37.json"
+		"StageJson":"f1/table/stage_37.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/37.txt"
 	},
 	{
 		"ID":38,
 		"NeedEgg":37,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_38.json",
-		"StageJson":"f1/table/stage_38.json"
+		"StageJson":"f1/table/stage_38.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/38.txt"
 	},
 	{
 		"ID":39,
 		"NeedEgg":38,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=1;LightningStone=1;",
 		"MapJson":"f1/table/map_39.json",
-		"StageJson":"f1/table/stage_39.json"
+		"StageJson":"f1/table/stage_39.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/39.txt"
 	},
 	{
 		"ID":40,
 		"NeedEgg":39,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_40.json",
-		"StageJson":"f1/table/stage_40.json"
+		"StageJson":"f1/table/stage_40.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/40.txt"
 	},
 	{
 		"ID":41,
 		"NeedEgg":40,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_41.json",
-		"StageJson":"f1/table/stage_41.json"
+		"StageJson":"f1/table/stage_41.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/41.txt"
 	},
 	{
 		"ID":42,
 		"NeedEgg":41,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_42.json",
-		"StageJson":"f1/table/stage_42.json"
+		"StageJson":"f1/table/stage_42.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/42.txt"
 	},
 	{
 		"ID":43,
 		"NeedEgg":42,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_43.json",
-		"StageJson":"f1/table/stage_43.json"
+		"StageJson":"f1/table/stage_43.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/43.txt"
 	},
 	{
 		"ID":44,
 		"NeedEgg":43,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_44.json",
-		"StageJson":"f1/table/stage_44.json"
+		"StageJson":"f1/table/stage_44.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/44.txt"
 	},
 	{
 		"ID":45,
 		"NeedEgg":44,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=2;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_45.json",
-		"StageJson":"f1/table/stage_45.json"
+		"StageJson":"f1/table/stage_45.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/45.txt"
 	},
 	{
 		"ID":46,
 		"NeedEgg":45,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_46.json",
-		"StageJson":"f1/table/stage_46.json"
+		"StageJson":"f1/table/stage_46.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/46.txt"
 	},
 	{
 		"ID":47,
 		"NeedEgg":46,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=1;",
 		"MapJson":"f1/table/map_47.json",
-		"StageJson":"f1/table/stage_47.json"
+		"StageJson":"f1/table/stage_47.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/47.txt"
 	},
 	{
 		"ID":48,
 		"NeedEgg":47,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=1;",
 		"MapJson":"f1/table/map_48.json",
-		"StageJson":"f1/table/stage_48.json"
+		"StageJson":"f1/table/stage_48.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/48.txt"
 	},
 	{
 		"ID":49,
 		"NeedEgg":48,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_49.json",
-		"StageJson":"f1/table/stage_49.json"
+		"StageJson":"f1/table/stage_49.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/49.txt"
 	},
 	{
 		"ID":50,
 		"NeedEgg":49,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_50.json",
-		"StageJson":"f1/table/stage_50.json"
+		"StageJson":"f1/table/stage_50.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/50.txt"
 	},
 	{
 		"ID":51,
 		"NeedEgg":50,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_51.json",
-		"StageJson":"f1/table/stage_51.json"
+		"StageJson":"f1/table/stage_51.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/51.txt"
 	},
 	{
 		"ID":52,
 		"NeedEgg":51,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_52.json",
-		"StageJson":"f1/table/stage_52.json"
+		"StageJson":"f1/table/stage_52.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/52.txt"
 	},
 	{
 		"ID":53,
 		"NeedEgg":52,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_53.json",
-		"StageJson":"f1/table/stage_53.json"
+		"StageJson":"f1/table/stage_53.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/53.txt"
 	},
 	{
 		"ID":54,
 		"NeedEgg":53,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_54.json",
-		"StageJson":"f1/table/stage_54.json"
+		"StageJson":"f1/table/stage_54.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/54.txt"
 	},
 	{
 		"ID":55,
 		"NeedEgg":54,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=1;",
 		"MapJson":"f1/table/map_55.json",
-		"StageJson":"f1/table/stage_55.json"
+		"StageJson":"f1/table/stage_55.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/55.txt"
 	},
 	{
 		"ID":56,
 		"NeedEgg":55,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_56.json",
-		"StageJson":"f1/table/stage_56.json"
+		"StageJson":"f1/table/stage_56.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/56.txt"
 	},
 	{
 		"ID":57,
 		"NeedEgg":56,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_57.json",
-		"StageJson":"f1/table/stage_57.json"
+		"StageJson":"f1/table/stage_57.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/57.txt"
 	},
 	{
 		"ID":58,
 		"NeedEgg":57,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=2;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_58.json",
-		"StageJson":"f1/table/stage_58.json"
+		"StageJson":"f1/table/stage_58.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/58.txt"
 	},
 	{
 		"ID":59,
 		"NeedEgg":58,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_59.json",
-		"StageJson":"f1/table/stage_59.json"
+		"StageJson":"f1/table/stage_59.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/59.txt"
 	},
 	{
 		"ID":60,
 		"NeedEgg":59,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_60.json",
-		"StageJson":"f1/table/stage_60.json"
+		"StageJson":"f1/table/stage_60.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/60.txt"
 	},
 	{
 		"ID":61,
 		"NeedEgg":60,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_61.json",
-		"StageJson":"f1/table/stage_61.json"
+		"StageJson":"f1/table/stage_61.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/61.txt"
 	},
 	{
 		"ID":62,
 		"NeedEgg":61,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_62.json",
-		"StageJson":"f1/table/stage_62.json"
+		"StageJson":"f1/table/stage_62.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/62.txt"
 	},
 	{
 		"ID":63,
 		"NeedEgg":62,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_63.json",
-		"StageJson":"f1/table/stage_63.json"
+		"StageJson":"f1/table/stage_63.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/63.txt"
 	},
 	{
 		"ID":64,
 		"NeedEgg":63,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_64.json",
-		"StageJson":"f1/table/stage_64.json"
+		"StageJson":"f1/table/stage_64.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/64.txt"
 	},
 	{
 		"ID":65,
 		"NeedEgg":64,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=1;",
 		"MapJson":"f1/table/map_65.json",
-		"StageJson":"f1/table/stage_65.json"
+		"StageJson":"f1/table/stage_65.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/65.txt"
 	},
 	{
 		"ID":66,
 		"NeedEgg":65,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_66.json",
-		"StageJson":"f1/table/stage_66.json"
+		"StageJson":"f1/table/stage_66.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/66.txt"
 	},
 	{
 		"ID":67,
 		"NeedEgg":66,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=2;IceStone=2;WindStone=2;LightningStone=0;",
 		"MapJson":"f1/table/map_67.json",
-		"StageJson":"f1/table/stage_67.json"
+		"StageJson":"f1/table/stage_67.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/67.txt"
 	},
 	{
 		"ID":68,
 		"NeedEgg":67,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=1;",
 		"MapJson":"f1/table/map_68.json",
-		"StageJson":"f1/table/stage_68.json"
+		"StageJson":"f1/table/stage_68.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/68.txt"
 	},
 	{
 		"ID":69,
 		"NeedEgg":68,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=1;",
 		"MapJson":"f1/table/map_69.json",
-		"StageJson":"f1/table/stage_69.json"
+		"StageJson":"f1/table/stage_69.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/69.txt"
 	},
 	{
 		"ID":70,
 		"NeedEgg":69,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=1;",
 		"MapJson":"f1/table/map_70.json",
-		"StageJson":"f1/table/stage_70.json"
+		"StageJson":"f1/table/stage_70.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/70.txt"
 	},
 	{
 		"ID":71,
 		"NeedEgg":70,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_71.json",
-		"StageJson":"f1/table/stage_71.json"
+		"StageJson":"f1/table/stage_71.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/71.txt"
 	},
 	{
 		"ID":72,
 		"NeedEgg":71,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=0;",
 		"MapJson":"f1/table/map_72.json",
-		"StageJson":"f1/table/stage_72.json"
+		"StageJson":"f1/table/stage_72.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/72.txt"
 	},
 	{
 		"ID":73,
 		"NeedEgg":72,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_73.json",
-		"StageJson":"f1/table/stage_73.json"
+		"StageJson":"f1/table/stage_73.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/73.txt"
 	},
 	{
 		"ID":74,
 		"NeedEgg":73,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_74.json",
-		"StageJson":"f1/table/stage_74.json"
+		"StageJson":"f1/table/stage_74.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/74.txt"
 	},
 	{
 		"ID":75,
 		"NeedEgg":74,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_75.json",
-		"StageJson":"f1/table/stage_75.json"
+		"StageJson":"f1/table/stage_75.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/75.txt"
 	},
 	{
 		"ID":76,
 		"NeedEgg":75,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_76.json",
-		"StageJson":"f1/table/stage_76.json"
+		"StageJson":"f1/table/stage_76.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/76.txt"
 	},
 	{
 		"ID":77,
 		"NeedEgg":76,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=2;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_77.json",
-		"StageJson":"f1/table/stage_77.json"
+		"StageJson":"f1/table/stage_77.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/77.txt"
 	},
 	{
 		"ID":78,
 		"NeedEgg":77,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_78.json",
-		"StageJson":"f1/table/stage_78.json"
+		"StageJson":"f1/table/stage_78.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/78.txt"
 	},
 	{
 		"ID":79,
 		"NeedEgg":78,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=1;",
 		"MapJson":"f1/table/map_79.json",
-		"StageJson":"f1/table/stage_79.json"
+		"StageJson":"f1/table/stage_79.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/79.txt"
 	},
 	{
 		"ID":80,
 		"NeedEgg":79,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_80.json",
-		"StageJson":"f1/table/stage_80.json"
+		"StageJson":"f1/table/stage_80.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/80.txt"
 	},
 	{
 		"ID":81,
 		"NeedEgg":80,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_81.json",
-		"StageJson":"f1/table/stage_81.json"
+		"StageJson":"f1/table/stage_81.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/81.txt"
 	},
 	{
 		"ID":82,
 		"NeedEgg":81,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_82.json",
-		"StageJson":"f1/table/stage_82.json"
+		"StageJson":"f1/table/stage_82.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/82.txt"
 	},
 	{
 		"ID":83,
 		"NeedEgg":82,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_83.json",
-		"StageJson":"f1/table/stage_83.json"
+		"StageJson":"f1/table/stage_83.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/83.txt"
 	},
 	{
 		"ID":84,
 		"NeedEgg":83,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_84.json",
-		"StageJson":"f1/table/stage_84.json"
+		"StageJson":"f1/table/stage_84.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/84.txt"
 	},
 	{
 		"ID":85,
 		"NeedEgg":84,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_85.json",
-		"StageJson":"f1/table/stage_85.json"
+		"StageJson":"f1/table/stage_85.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/85.txt"
 	},
 	{
 		"ID":86,
 		"NeedEgg":85,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_86.json",
-		"StageJson":"f1/table/stage_86.json"
+		"StageJson":"f1/table/stage_86.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/86.txt"
 	},
 	{
 		"ID":87,
 		"NeedEgg":86,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_87.json",
-		"StageJson":"f1/table/stage_87.json"
+		"StageJson":"f1/table/stage_87.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/87.txt"
 	},
 	{
 		"ID":88,
 		"NeedEgg":87,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=0;",
 		"MapJson":"f1/table/map_88.json",
-		"StageJson":"f1/table/stage_88.json"
+		"StageJson":"f1/table/stage_88.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/88.txt"
 	},
 	{
 		"ID":89,
 		"NeedEgg":88,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_89.json",
-		"StageJson":"f1/table/stage_89.json"
+		"StageJson":"f1/table/stage_89.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/89.txt"
 	},
 	{
 		"ID":90,
 		"NeedEgg":89,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=1;",
 		"MapJson":"f1/table/map_90.json",
-		"StageJson":"f1/table/stage_90.json"
+		"StageJson":"f1/table/stage_90.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/90.txt"
 	},
 	{
 		"ID":91,
 		"NeedEgg":90,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_91.json",
-		"StageJson":"f1/table/stage_91.json"
+		"StageJson":"f1/table/stage_91.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/91.txt"
 	},
 	{
 		"ID":92,
 		"NeedEgg":91,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_92.json",
-		"StageJson":"f1/table/stage_92.json"
+		"StageJson":"f1/table/stage_92.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/92.txt"
 	},
 	{
 		"ID":93,
 		"NeedEgg":92,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_93.json",
-		"StageJson":"f1/table/stage_93.json"
+		"StageJson":"f1/table/stage_93.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/93.txt"
 	},
 	{
 		"ID":94,
 		"NeedEgg":93,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=10;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_94.json",
-		"StageJson":"f1/table/stage_94.json"
+		"StageJson":"f1/table/stage_94.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/94.txt"
 	},
 	{
 		"ID":95,
 		"NeedEgg":94,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_95.json",
-		"StageJson":"f1/table/stage_95.json"
+		"StageJson":"f1/table/stage_95.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/95.txt"
 	},
 	{
 		"ID":96,
 		"NeedEgg":95,
-		"Option":"FireStone=1;IceStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_96.json",
-		"StageJson":"f1/table/stage_96.json"
+		"StageJson":"f1/table/stage_96.json",
+		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/96.txt"
 	}
 ]

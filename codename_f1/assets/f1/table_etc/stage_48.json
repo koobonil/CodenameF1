@@ -1,8 +1,8 @@
 {
-	"BuildNumber":"19",
+	"BuildNumber":"20",
 	"MapName":"map_48",
 	"MissionLastRID":"83999999",
-	"MonsterLastRID":"83000563",
+	"MonsterLastRID":"83000569",
 	"ToolType":"stagetool_f1",
 	"ToolVersion":"2",
 	"Waves":
@@ -869,10 +869,10 @@
 							"RID":"83000329"
 						},
 						{
-							"ID":"F_MiddleBoss",
+							"ID":"F_Normal_B",
 							"PosX":"0",
 							"PosY":"0.233139",
-							"RID":"83000330"
+							"RID":"83000564"
 						}
 					],
 					"TimeSec":"11"
@@ -880,12 +880,6 @@
 				{
 					"Monsters":
 					[
-						{
-							"ID":"F_Middle",
-							"PosX":"0",
-							"PosY":"0.233139",
-							"RID":"83000274"
-						},
 						{
 							"ID":"F_Fast",
 							"PosX":"-0.2",
@@ -897,6 +891,12 @@
 							"PosX":"0.2",
 							"PosY":"-0.432973",
 							"RID":"83000281"
+						},
+						{
+							"ID":"F_Normal",
+							"PosX":"0",
+							"PosY":"0.233139",
+							"RID":"83000566"
 						}
 					],
 					"TimeSec":"13"
@@ -904,12 +904,6 @@
 				{
 					"Monsters":
 					[
-						{
-							"ID":"F_Middle",
-							"PosX":"0",
-							"PosY":"0.233139",
-							"RID":"83000275"
-						},
 						{
 							"ID":"F_Fast",
 							"PosX":"-0.2",
@@ -921,9 +915,27 @@
 							"PosX":"0.2",
 							"PosY":"-0.432973",
 							"RID":"83000282"
+						},
+						{
+							"ID":"F_Normal",
+							"PosX":"0",
+							"PosY":"0.233139",
+							"RID":"83000567"
 						}
 					],
 					"TimeSec":"15"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"0",
+							"PosY":"0.233139",
+							"RID":"83000568"
+						}
+					],
+					"TimeSec":"17"
 				}
 			],
 			"Title":"Untitled"

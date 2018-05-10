@@ -32,31 +32,31 @@
 	},
 	{
 		"ID":"DragonScale",
-		"Value":23,
+		"Value":21,
 		"IsDev":"TRUE",
 		"Description":"드래곤의 크기"
 	},
 	{
 		"ID":"DragonScaleMax",
-		"Value":23,
+		"Value":21,
 		"IsDev":"TRUE",
 		"Description":"드래곤의 최대 크기"
 	},
 	{
 		"ID":"DragonCurve",
-		"Value":300,
+		"Value":500,
 		"IsDev":"TRUE",
 		"Description":"드래곤의 커브값"
 	},
 	{
 		"ID":"DragonMouthX",
-		"Value":380,
+		"Value":530,
 		"IsDev":"TRUE",
 		"Description":"드래곤의 입 위치 X"
 	},
 	{
 		"ID":"DragonMouthY",
-		"Value":-250,
+		"Value":-350,
 		"IsDev":"TRUE",
 		"Description":"드래곤의 입 위치 Y"
 	},
@@ -75,21 +75,21 @@
 	{
 		"ID":"BreathMaxGauge",
 		"Value":10000,
-		"IsDev":"FALSE",
+		"IsDev":"TRUE",
 		"Description":"최대 게이지량 (브레스 총 사용 시간을 기준으로 입력)",
 		"Unit":"1000=1초"
 	},
 	{
 		"ID":"BreathGaugeChargingPerSec",
-		"Value":300,
-		"IsDev":"FALSE",
+		"Value":150,
+		"IsDev":"TRUE",
 		"Description":"초 당 게이지 회복량 (천분율)",
 		"Unit":"1000=1초"
 	},
 	{
 		"ID":"BreathStartGaugeValue",
 		"Value":5000,
-		"IsDev":"FALSE",
+		"IsDev":"TRUE",
 		"Description":"스테이지 시작 시점의 기본 게이지량"
 	},
 	{
@@ -152,6 +152,13 @@
 		"Description":"별 1개 조건"
 	},
 	{
+		"ID":"EggDamageRevision",
+		"Value":500,
+		"IsDev":"FALSE",
+		"Description":"알이 브레스에게 입는 대미지 비율",
+		"Unit":"1000=100%"
+	},
+	{
 		"ID":"UILeft",
 		"Value":"UITop * 0.5",
 		"IsDev":"TRUE",
@@ -191,14 +198,14 @@
 	},
 	{
 		"ID":"DragonRetryTime",
-		"Value":650,
+		"Value":250,
 		"IsDev":"TRUE",
 		"Description":"재등장 시간 (출발 지점에서 브레스 발동 지점까지 도착하는 시간) ",
 		"Unit":"1000=1초"
 	},
 	{
 		"ID":"DragonBreathTime",
-		"Value":1000,
+		"Value":950,
 		"IsDev":"TRUE",
 		"Description":"드래곤이 브레스를 발사하고 지면에서 폭발시키는데 걸리는 연출 시간",
 		"Unit":"1000=1초"
@@ -233,21 +240,21 @@
 	},
 	{
 		"ID":"InfinityPlusValue",
-		"Value":1,
+		"Value":5,
 		"IsDev":"TRUE",
 		"Description":"무한모드가 1웨이브 지날때마다 몬스터에게 추가될 점수",
 		"Unit":"점"
 	},
 	{
 		"ID":"InfinityMoveSpeedRate",
-		"Value":50,
+		"Value":150,
 		"IsDev":"TRUE",
 		"Description":"무한모드가 1웨이브 지날때마다 몬스터에게 증가될 이동속도 비율",
 		"Unit":"천분율"
 	},
 	{
 		"ID":"InfinityHPRate",
-		"Value":40,
+		"Value":50,
 		"IsDev":"TRUE",
 		"Description":"무한모드가 1웨이브 지날때마다 몬스터에게 증가될 체력 비율",
 		"Unit":"천분율"
@@ -332,5 +339,47 @@
 		"IsDev":"TRUE",
 		"Description":"몬스터들끼리 밀어낼때 얼만큼 거리를 밀어낼지",
 		"Unit":"가로 최대 1000 기준"
+	},
+	{
+		"ID":"ParticleAniTime",
+		"Value":8000,
+		"IsDev":"TRUE",
+		"Description":"파티클 애니메이션의 지속시간",
+		"Unit":"ms"
+	},
+	{
+		"ID":"ParticleMinSize",
+		"Value":12,
+		"IsDev":"TRUE",
+		"Description":"파티클의 최소 크기",
+		"Unit":"가로 최대 1000 기준"
+	},
+	{
+		"ID":"ParticleMaxSize",
+		"Value":21,
+		"IsDev":"TRUE",
+		"Description":"파티클의 최대 크기",
+		"Unit":"가로 최대 1000 기준"
+	},
+	{
+		"ID":"ParticleGapSize",
+		"Value":40,
+		"IsDev":"TRUE",
+		"Description":"파티클 간의 간격",
+		"Unit":"가로 최대 1000 기준"
+	},
+	{
+		"ID":"ParticleAniSkipTime",
+		"Value":5000,
+		"IsDev":"TRUE",
+		"Description":"산발적인 느낌을 주기 위한 애니메이션의 스킵 시간\n0이면 모든 파티클이 동시에 출력됨",
+		"Unit":"ms"
+	},
+	{
+		"ID":"ParticleHideTime",
+		"Value":300,
+		"IsDev":"TRUE",
+		"Description":"안쪽에서 바깥쪽으로 사라지는 시간간격",
+		"Unit":"ms"
 	}
 ]

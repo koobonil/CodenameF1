@@ -52,5 +52,6 @@ namespace ZAY
         static void RenderBound(ZayPanel& panel, id_spine_instance spine_instance, float ox, float oy, float scale, bool flip,
             bool guideline, chars uiname = nullptr, ZayPanel::SubGestureCB cb = nullptr);
         static const BOSS::Rect* GetBoundRect(id_spine_instance spine_instance, chars name);
+        static const BOSS::Points* GetBoundPolygon(id_spine_instance spine_instance, chars name);
     };
 }

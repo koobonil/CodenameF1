@@ -13,7 +13,7 @@ namespace ZAY
         virtual ~Animation();
 
     public:
-        void applyToAnimatable(Animatable* target, float time, bool colorUpdateOnly); //bx
+        void applyToAnimatable(Animatable* target, float lasttime, float curtime, bool colorUpdateOnly); //bx
 
     public:
         void addAnimationTrack(AnimationTrack* animationTrack);

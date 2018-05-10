@@ -19,6 +19,10 @@ namespace ZAY
         virtual void applyAnimationStateSet(AnimationStateSet* animationStateSet, bool inheritChild, bool colorUpdateOnly) = 0; //bx
 
     public:
+        inline void setEventPulse(bool pulse) {_eventPulse = pulse;}
+        inline bool getEventPulse() const {return _eventPulse;}
+
+    public:
         template<typename T>
         void getKeyframeRangeData(const AnimationTrack* animationTrack, int32_t keyframeIndex, const T& valueMin, const T& valueMax, T& returnValue)
         {
@@ -46,8 +50,9 @@ namespace ZAY
         }
 
         void clearKeyframeRangeDatas();
+
     private:
         std::map<const AnimationTrack*, std::map<int32_t, AnyValue>> _keyframeRangeDatas;
-
+        bool _eventPulse;
     };
 }

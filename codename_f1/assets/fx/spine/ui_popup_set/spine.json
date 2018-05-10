@@ -1,25 +1,24 @@
 {
-"skeleton": { "hash": "XG6ZAFfPfD4mnXZKTVaPZQxxYXM", "spine": "3.6.52", "width": 3271.72, "height": 2919.41, "images": "./pop/" },
+"skeleton": { "hash": "0/L2ICiW4wDNxZzfIgYEp1zMz5M", "spine": "3.6.52", "width": 1858, "height": 2919.41, "images": "./pop/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 304.38, "rotation": 90 },
-	{ "name": "pop_set", "parent": "root", "length": 247.65, "rotation": 90, "y": 1682.46 },
+	{ "name": "pop_set", "parent": "root", "length": 247.65, "rotation": 90, "y": 1882.1 },
 	{ "name": "pop_set_ob_a", "parent": "pop_set", "length": 57.78, "x": 409.56, "y": -32.55 },
-	{ "name": "pop_set_bgm", "parent": "pop_set_ob_a", "length": 34.66, "x": 55.55, "y": 4.33 },
-	{ "name": "pop_set_flag", "parent": "pop_set_ob_a", "length": 60.65, "x": 39.67, "y": -219.49 },
+	{ "name": "pop_set_bgm", "parent": "pop_set_ob_a", "length": 34.66, "x": 54.39, "y": -124.04, "scaleX": 1.1, "scaleY": 1.1 },
 	{ "name": "pop_set_ob_b", "parent": "pop_set", "length": 62.09, "x": -73.84, "y": -26.78 },
-	{ "name": "pop_set_ob_facebook", "parent": "pop_set_ob_b", "length": 79.52, "x": 23.43, "y": 7.06 },
-	{ "name": "pop_set_ob_naver", "parent": "pop_set_ob_b", "length": 78.46, "x": -401.15, "y": 7.06 },
-	{ "name": "pop_set_ob_rate", "parent": "pop_set_ob_b", "length": 68.39, "x": -215.07, "y": -0.89 },
-	{ "name": "pop_set_ob_staff", "parent": "pop_set_ob_b", "length": 60.42, "x": 230.13, "y": -4.07 },
-	{ "name": "pop_set_sound", "parent": "pop_set_ob_a", "length": 37.57, "x": 57.01, "y": 228.15 },
+	{ "name": "pop_set_ob_facebook", "parent": "pop_set_ob_b", "length": 79.52, "x": -184.57, "y": 7.06 },
+	{ "name": "pop_set_ob_language", "parent": "pop_set_ob_b", "length": 61.78, "x": 260.15, "y": 0.46 },
+	{ "name": "pop_set_ob_naver", "parent": "pop_set_ob_b", "length": 78.46, "x": -609.15, "y": 7.06 },
+	{ "name": "pop_set_ob_rate", "parent": "pop_set_ob_b", "length": 68.39, "x": -423.07, "y": -0.89 },
+	{ "name": "pop_set_ob_staff", "parent": "pop_set_ob_b", "length": 60.42, "x": 22.13, "y": -4.07 },
+	{ "name": "pop_set_sound", "parent": "pop_set_ob_a", "length": 37.57, "x": 55.84, "y": 138.29, "scaleX": 1.1, "scaleY": 1.1 },
 	{ "name": "pop_set_x", "parent": "pop_set", "length": 55.43, "x": 785.32, "y": -471.67 }
 ],
 "slots": [
 	{ "name": "pop_background", "bone": "root" },
 	{ "name": "pop_set", "bone": "pop_set", "attachment": "pop_set" },
 	{ "name": "pop_set_ob_a", "bone": "pop_set_ob_a", "attachment": "pop_set_ob_a" },
-	{ "name": "pop_set_flag", "bone": "pop_set_flag", "attachment": "pop_set_flag" },
 	{ "name": "pop_set_bgm", "bone": "pop_set_bgm", "attachment": "pop_set_bgm" },
 	{ "name": "pop_set_sound", "bone": "pop_set_sound", "attachment": "pop_set_sound" },
 	{ "name": "pop_set_sound_b", "bone": "pop_set_sound", "attachment": "pop_set_sound_b" },
@@ -28,21 +27,23 @@
 	{ "name": "pop_set_x", "bone": "pop_set_x", "attachment": "pop_set_x" },
 	{ "name": "pop_set_ob_facebook", "bone": "pop_set_ob_facebook", "attachment": "pop_set_ob_facebook" },
 	{ "name": "pop_set_ob_staff", "bone": "pop_set_ob_staff", "attachment": "pop_set_ob_staff" },
+	{ "name": "pop_set_ob_unue", "bone": "pop_set_ob_language", "attachment": "pop_set_ob_unue" },
 	{ "name": "pop_set_ob_naver", "bone": "pop_set_ob_naver", "attachment": "pop_set_ob_naver" },
 	{ "name": "pop_set_ob_rate", "bone": "pop_set_ob_rate", "attachment": "pop_set_ob_rate" },
 	{ "name": "area", "bone": "area", "attachment": "area" },
 	{ "name": "set_x_area", "bone": "pop_set_x", "attachment": "set_x_area" },
 	{ "name": "pop_set_sound_area", "bone": "pop_set_sound", "attachment": "pop_set_sound_area" },
 	{ "name": "pop_set_bgm_area", "bone": "pop_set_bgm", "attachment": "pop_set_bgm_area" },
-	{ "name": "pop_set_flag_area", "bone": "pop_set_flag", "attachment": "pop_set_flag_area" },
 	{ "name": "str_10", "bone": "pop_set_ob_staff", "attachment": "str_10" },
 	{ "name": "str_11", "bone": "pop_set_ob_facebook", "attachment": "str_11" },
 	{ "name": "str_12", "bone": "pop_set_ob_rate", "attachment": "str_12" },
 	{ "name": "str_32", "bone": "pop_set_ob_naver", "attachment": "str_32" },
+	{ "name": "str_45", "bone": "pop_set_ob_language", "attachment": "str_32" },
 	{ "name": "pop_set_ob_staff_area", "bone": "pop_set_ob_staff", "attachment": "pop_set_ob_staff_area" },
 	{ "name": "pop_set_ob_facebook_area", "bone": "pop_set_ob_facebook", "attachment": "pop_set_ob_facebook_area" },
 	{ "name": "pop_set_ob_rate_area", "bone": "pop_set_ob_rate", "attachment": "pop_set_ob_rate_area" },
-	{ "name": "pop_set_ob_naver_area", "bone": "pop_set_ob_naver", "attachment": "pop_set_ob_rate_area" }
+	{ "name": "pop_set_ob_naver_area", "bone": "pop_set_ob_naver", "attachment": "pop_set_ob_rate_area" },
+	{ "name": "pop_set_ob_language_area", "bone": "pop_set_ob_language", "attachment": "pop_set_ob_language_area" }
 ],
 "skins": {
 	"default": {
@@ -54,7 +55,7 @@
 			}
 		},
 		"pop_set": {
-			"pop_set": { "x": 54.09, "y": -19.88, "rotation": -90, "width": 1029, "height": 1593 }
+			"pop_set": { "x": -59.8, "y": -19.88, "rotation": -90, "width": 1029, "height": 1808 }
 		},
 		"pop_set_bgm": {
 			"pop_set_bgm": { "x": 3.42, "y": -0.66, "rotation": -90, "width": 151, "height": 68 }
@@ -69,18 +70,8 @@
 		"pop_set_bgm_x": {
 			"pop_set_bgm_x": { "x": 3.42, "y": -0.16, "rotation": -90, "width": 150, "height": 120 }
 		},
-		"pop_set_flag": {
-			"pop_set_flag": { "x": 17.8, "y": 4.16, "rotation": -90, "width": 129, "height": 129 }
-		},
-		"pop_set_flag_area": {
-			"pop_set_flag_area": {
-				"type": "boundingbox",
-				"vertexCount": 4,
-				"vertices": [ 101.08, 92.42, -82.31, 92.42, -83.75, -83.75, 101.08, -83.75 ]
-			}
-		},
 		"pop_set_ob_a": {
-			"pop_set_ob_a": { "x": 33.47, "y": 6.17, "rotation": -90, "width": 614, "height": 211 }
+			"pop_set_ob_a": { "x": 33.47, "y": 6.17, "rotation": -90, "width": 471, "height": 209 }
 		},
 		"pop_set_ob_facebook": {
 			"pop_set_ob_facebook": { "x": 38.11, "y": -7.07, "rotation": -90, "width": 709, "height": 183 }
@@ -90,6 +81,13 @@
 				"type": "boundingbox",
 				"vertexCount": 4,
 				"vertices": [ 134.68, 350.22, -36.4, 350.22, -38.85, -363.42, 134.68, -362.2 ]
+			}
+		},
+		"pop_set_ob_language_area": {
+			"pop_set_ob_language_area": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 124.52, 356.83, -41.67, 355.61, -42.89, -354.37, 124.52, -354.37 ]
 			}
 		},
 		"pop_set_ob_naver": {
@@ -121,6 +119,9 @@
 				"vertexCount": 4,
 				"vertices": [ 146.05, 363.21, -26.43, 364.54, -27.76, -353.42, 146.05, -353.42 ]
 			}
+		},
+		"pop_set_ob_unue": {
+			"pop_set_ob_unue": { "x": 30.65, "y": -0.71, "rotation": -90, "width": 709, "height": 183 }
 		},
 		"pop_set_sound": {
 			"pop_set_sound": { "x": 1.98, "y": -3.98, "rotation": -90, "width": 116, "height": 118 }
@@ -173,8 +174,15 @@
 				"vertices": [ 74.06, 157.14, 16.62, 157.14, 17.42, -300.12, 74.5, -300.07 ]
 			}
 		},
+		"str_45": {
+			"str_32": {
+				"type": "boundingbox",
+				"vertexCount": 4,
+				"vertices": [ 76.69, 163.49, 19.25, 163.49, 20.04, -293.5, 77.13, -293.45 ]
+			}
+		},
 		"text_e": {
-			"text_e": { "x": 459.54, "y": 25.62, "rotation": -90, "width": 576, "height": 546 }
+			"text_e": { "x": 678.74, "y": 150.84, "rotation": -90, "width": 320, "height": 92 }
 		}
 	}
 },
@@ -220,10 +228,7 @@
 					{ "time": 0.1667, "x": 1, "y": 1 }
 				]
 			}
-		},
-		"events": [
-			{ "time": 0, "name": "sound_ui_bottun2" }
-		]
+		}
 	},
 	"pop_set_bgm_on": {
 		"slots": {
@@ -255,10 +260,7 @@
 					{ "time": 0.1667, "x": 1, "y": 1 }
 				]
 			}
-		},
-		"events": [
-			{ "time": 0, "name": "sound_ui_bottun2" }
-		]
+		}
 	},
 	"pop_set_bgm_on_idle": {
 		"slots": {
@@ -341,30 +343,51 @@
 		"slots": {
 			"pop_background": {
 				"color": [
-					{ "time": 0, "color": "ffffff00" },
-					{ "time": 0.1, "color": "ffffffff" },
-					{ "time": 0.3333, "color": "ffffff00" }
+					{ "time": 0, "color": "ffffff00" }
 				]
 			}
 		},
 		"bones": {
 			"pop_set_x": {
 				"scale": [
-					{ "time": 0, "x": 1, "y": 1 },
-					{ "time": 0.1, "x": 1.5, "y": 1.5 },
-					{ "time": 0.1667, "x": 1, "y": 1 }
-				]
-			},
-			"pop_set": {
-				"scale": [
-					{ "time": 0.1667, "x": 1, "y": 1 },
-					{ "time": 0.3333, "x": 1.2, "y": 1.2 },
-					{ "time": 0.4333, "x": 0, "y": 0 }
+					{ "time": 0, "x": 1, "y": 1 }
 				]
 			}
 		}
 	},
-	"pop_set_loding": {
+	"pop_set_language": {
+		"slots": {
+			"pop_background": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"pop_set_ob_staff": {
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"pop_set_ob_language": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 0.1, "x": 1.2, "y": 1.2 },
+					{ "time": 0.1667, "x": 1, "y": 1 }
+				]
+			}
+		},
+		"events": [
+			{ "time": 0, "name": "sound_ui_bottun1" }
+		]
+	},
+	"pop_set_loading": {
 		"slots": {
 			"pop_background": {
 				"color": [
@@ -415,6 +438,13 @@
 				]
 			},
 			"str_32": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.1667, "color": "ffffff00" },
+					{ "time": 0.4333, "color": "ffffffff" }
+				]
+			},
+			"str_45": {
 				"color": [
 					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
 					{ "time": 0.1667, "color": "ffffff00" },
@@ -529,25 +559,26 @@
 			},
 			"pop_set_sound": {
 				"color": [
-					{ "time": 0, "color": "ffffff00" }
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.1667, "color": "ffffffff" }
 				]
 			},
 			"pop_set_sound_b": {
 				"color": [
-					{ "time": 0, "color": "ffffffff" }
+					{ "time": 0, "color": "ffffffff" },
+					{ "time": 0.1667, "color": "ffffff00" }
 				]
 			}
 		},
 		"bones": {
 			"pop_set_sound": {
 				"scale": [
-					{ "time": 0, "x": 1, "y": 1 }
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 0.1, "x": 1.5, "y": 1.5 },
+					{ "time": 0.1667, "x": 0.909, "y": 0.909 }
 				]
 			}
-		},
-		"events": [
-			{ "time": 0, "name": "sound_ui_bottun2" }
-		]
+		}
 	},
 	"pop_set_sound_on_idle": {
 		"slots": {
@@ -591,10 +622,7 @@
 					{ "time": 0.1667, "x": 1, "y": 1 }
 				]
 			}
-		},
-		"events": [
-			{ "time": 0, "name": "sound_ui_bottun1" }
-		]
+		}
 	}
 }
 }

@@ -146,7 +146,7 @@ namespace ZAY
                     {
                         auto animationState = it.second;
 
-                        animation->applyToAnimatable(this, animationState->getCurrentTime(), colorUpdateOnly);
+                        animation->applyToAnimatable(this, animationState->getLastTime(), animationState->getCurrentTime(), colorUpdateOnly);
                     }
                 }
             }

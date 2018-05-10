@@ -12,6 +12,68 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
         // 윈도우 타이틀
         Platform::SetWindowName("Codename F1 [MapTool]");
     }
+    else if(type == CT_Signal)
+    {
+        if(m->mCurPolyOrder != -1)
+        if(!String::Compare(topic, "KeyPress"))
+        {
+            auto& CurPolygons = m->mState.mLayers.At(m->mCurLayer).mPolygons;
+            const sint32 PolygonCount = CurPolygons.Count();
+
+            pointers Pointer(in);
+            sint32 Code = *((sint32*) Pointer[0]);
+            if(Code == 0x01000013) // ↑
+            {
+                if(0 < m->mCurPolyOrder)
+                {
+                    auto NewPolygon = CurPolygons[m->mCurPolyOrder - 1];
+                    CurPolygons.At(m->mCurPolyOrder - 1) = CurPolygons[m->mCurPolyOrder];
+                    CurPolygons.At(m->mCurPolyOrder) = NewPolygon;
+                    m->SelectPolyOrder(m->mCurPolyOrder - 1);
+					m->invalidate();
+                }
+            }
+            else if(Code == 0x01000015) // ↓
+            {
+                if(m->mCurPolyOrder < PolygonCount - 1)
+                {
+                    auto NewPolygon = CurPolygons[m->mCurPolyOrder + 1];
+                    CurPolygons.At(m->mCurPolyOrder + 1) = CurPolygons[m->mCurPolyOrder];
+                    CurPolygons.At(m->mCurPolyOrder) = NewPolygon;
+                    m->SelectPolyOrder(m->mCurPolyOrder + 1);
+					m->invalidate();
+                }
+            }
+            else if(Code == 0x01000012) // ←
+            {
+                if(0 < m->mCurLayer)
+                {
+                    auto& PrevPolygons = m->mState.mLayers.At(m->mCurLayer - 1).mPolygons;
+                    PrevPolygons.AtAdding() = CurPolygons[m->mCurPolyOrder];
+                    CurPolygons.SubtractionSection(m->mCurPolyOrder);
+                    m->DeselectPolyOrder();
+				    m->invalidate();
+                }
+            }
+            else if(Code == 0x01000014) // →
+            {
+                if(m->mCurLayer < m->mState.mLayerLength - 1)
+                {
+                    auto& NextPolygons = m->mState.mLayers.At(m->mCurLayer + 1).mPolygons;
+                    NextPolygons.AtAdding() = CurPolygons[m->mCurPolyOrder];
+                    CurPolygons.SubtractionSection(m->mCurPolyOrder);
+                    m->DeselectPolyOrder();
+				    m->invalidate();
+                }
+            }
+			else if(Code == 0x01000007) // Delete
+			{
+				CurPolygons.SubtractionSection(m->mCurPolyOrder);
+				m->DeselectPolyOrder();
+				m->invalidate();
+			}
+        }
+    }
     else m->Command(type, in);
 }
 
@@ -99,7 +161,7 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
                 if(NewObject.mType->mType != object_type::Spot && NewObject.mType->mType != object_type::Hole)
                 if(auto CurSpine = m->mState.GetSpine(NewObject.mType->spineName()))
                 {
-                    NewObject.InitSpine(&m->mState, CurSpine, NewObject.mType->spineSkinName()).PlayMotion("idle", true);
+                    NewObject.InitSpine(&m->mState, CurSpine, NewObject.mType->spineSkinName()).PlayMotion(NewObject.mType->spineAnimationName(), true);
                     if(NewObject.mType->mType == object_type::Dynamic)
                     {
                         NewObject.PlayMotionSeek("_state", false);
@@ -169,12 +231,14 @@ void MapSelectBox::CopyFrom(const MapSelectBox& rhs)
 }
 
 maptoolData::maptoolData() : mObjectScroll(updater()), mObjectScrollMax(11),
-    mFastSaveEffect(updater())
+    mPolyOrderScroll(updater()), mPolyOrderScrollMax(15), mFastSaveEffect(updater())
 {
     mCurObject = 0;
     mObjectScroll.Reset(0);
+    mCurPolyOrder = -1;
+    mPolyOrderScroll.Reset(0);
     mCurPolygon = -1;
-    mCurLayer = 2;
+    SelectLayer(2);
     mCurSelectBox = -1;
     mFastSaveFileName = "";
     mFastSaveEffect.Reset(0);
@@ -186,10 +250,9 @@ maptoolData::~maptoolData()
 
 void maptoolData::Load(chars filename)
 {
-    mCurObject = 0;
-    mObjectScroll.Reset(0);
-    mCurPolygon = -1;
-    mCurLayer = 2;
+	SelectObjectType(0);
+	mPolyOrderScroll.Reset(0);
+    SelectLayer(2);
     mCurSelectBox = -1;
 
     id_file_read TextFile = Platform::File::OpenForRead(filename);
@@ -306,6 +369,46 @@ void maptoolData::Render(ZayPanel& panel)
         if(mGridMode)
             RenderGrid(panel);
 
+        // 폴리곤순열
+        auto& CurPolyOrders = mState.mLayers.At(mCurLayer).mPolygons;
+        const sint32 PolyOrderCount = CurPolyOrders.Count();
+        const float PolyOrderScrollPos = mPolyOrderScroll.value();
+        ZAY_XYWH_SCISSOR(panel, panel.w() + InnerGap, 0, PolyOrderSize, PolyOrderSize * mPolyOrderScrollMax)
+        {
+            for(sint32 i = 0; i < PolyOrderCount; ++i)
+            {
+                ZAY_XYWH_UI(panel, 0, PolyOrderSize * (i - PolyOrderScrollPos), panel.w(), PolyOrderSize,
+                    String::Format("polyorder-%d", i),
+                    ZAY_GESTURE_NT(n, t, this, i)
+                    {
+                        if(t == GT_InReleased)
+							SelectPolyOrder(i);
+                    })
+                ZAY_INNER(panel, 2)
+                {
+                    ZAY_RGBA_IF(panel, 255, 128, 64, 192, i == mCurPolyOrder)
+                    ZAY_RGBA_IF(panel, 64, 64, 64, 192, i != mCurPolyOrder)
+                        panel.circle();
+                    ZAY_RGB_IF(panel, 0, 0, 255, CurPolyOrders[i].mIsCCW)
+                    ZAY_RGB_IF(panel, 255, 0, 0, !CurPolyOrders[i].mIsCCW)
+                    {
+                        const char TypeCode = CurPolyOrders[i].mType->mID[0];
+                        panel.text(String::Format("%c%d", TypeCode, i + 1), UIFA_CenterMiddle, UIFE_Right);
+                    }
+                }
+            }
+            ZAY_INNER(panel, 2)
+            ZAY_RGB(panel, 64, 64, 64)
+                panel.rect(2);
+        }
+        // 폴리곤순열 단축키일람
+        if(mCurPolyOrder != -1)
+        {
+            ZAY_XYWH(panel, panel.w() + InnerGap, PolyOrderSize * (mCurPolyOrder - PolyOrderScrollPos), PolyOrderSize, PolyOrderSize)
+            ZAY_RGBA(panel, 0, 0, 0, 128)
+                panel.text(panel.w(), panel.h() / 2, " (↑/↓/←/→/Delete)", UIFA_LeftMiddle);
+        }
+
         // 선택박스
         for(sint32 i = 0, iend = mSelectBoxes.Count(); i < iend; ++i)
         {
@@ -323,7 +426,7 @@ void maptoolData::Render(ZayPanel& panel)
                     const sint32 CurPolygonCount = CurBox.mLayers[j].mPolygons.Count();
                     if(0 < CurObjectCount || 0 < CurPolygonCount)
                     {
-                        mState.RenderLayer(DebugMode::Weak, panel, CurBox.mLayers[j]);
+                        mState.RenderLayer(DebugMode::Weak, panel, CurBox.mLayers[j], false);
                         if(0 < Info.Length()) Info += "/";
                         if(j < 2) Info += String::Format("B%d", 2 - j);
                         else Info += String::Format("%dF", j - 1);
@@ -469,17 +572,10 @@ void maptoolData::Render(ZayPanel& panel)
             for(sint32 i = 0; i < PolygonCount; ++i)
             {
                 ZAY_XYWH_UI(panel, 0, IconSize * i, panel.w(), IconSize, String::Format("polygon-%d", i),
-                    ZAY_GESTURE_NT(n, t, this)
+                    ZAY_GESTURE_NT(n, t, this, i)
                     {
                         if(t == GT_InReleased)
-                        {
-                            mCurPolygon = Parser::GetInt(&n[8]);
-                            if(mCurObject != -1)
-                            {
-                                mCurObject = -1;
-                                mCurDrawingPoints.SubtractionAll();
-                            }
-                        }
+							SelectPolygonType(i);
                     })
                 {
                     ZAY_RGBA_IF(panel, 255, 128, 64, 192, i == mCurPolygon)
@@ -527,19 +623,10 @@ void maptoolData::Render(ZayPanel& panel)
             for(sint32 i = 0, iend = mState.mObjectTypes.Count(); i < iend; ++i)
             {
                 ZAY_XYWH_UI(panel, 0, IconSize * (i - ScrollPos), panel.w(), IconSize, String::Format("object-%d", i),
-                    ZAY_GESTURE_NT(n, t, this)
+                    ZAY_GESTURE_NT(n, t, this, i)
                     {
                         if(t == GT_InReleased)
-                        {
-                            mCurObject = Parser::GetInt(&n[7]);
-                            const sint32 ScrollLimit = Math::Max(0, mState.mObjectTypes.Count() - mObjectScrollMax);
-                            mObjectScroll.MoveTo(Math::Clamp(mCurObject - mObjectScrollMax / 2, 0, ScrollLimit), 0.5);
-                            if(mCurPolygon != -1)
-                            {
-                                mCurPolygon = -1;
-                                mCurDrawingPoints.SubtractionAll();
-                            }
-                        }
+							SelectObjectType(i);
                     })
                 {
                     ZAY_RGBA_IF(panel, 255, 128, 64, 192, i == mCurObject)
@@ -579,7 +666,7 @@ void maptoolData::Render(ZayPanel& panel)
                         {
                             const rect128& CurRect = rect(n);
                             const sint32 CalcedLayer = (x - CurRect.l) * mState.mLayerLength / (CurRect.r - CurRect.l);
-                            mCurLayer = Math::Clamp(CalcedLayer, 0, mState.mLayerLength - 1);
+                            SelectLayer(Math::Clamp(CalcedLayer, 0, mState.mLayerLength - 1));
                             invalidate();
                         }
                     })
@@ -896,4 +983,66 @@ void maptoolData::OnSelectBoxClone(sint32 index)
         for(sint32 j = 0; j < CurLayer.mPolygons.Count(); ++j)
             CurLayer.mPolygons.At(j).mRID = ++mState.mPolygonLastRID;
     }
+}
+
+void maptoolData::SelectLayer(sint32 i)
+{
+	mCurLayer = i;
+	DeselectPolyOrder();
+	mPolyOrderScroll.Reset(0);
+	// 인게임 포커싱변경
+	mState.mDebugCurLayer = i;
+}
+
+void maptoolData::SelectObjectType(sint32 i)
+{
+	mCurObject = i;
+    const sint32 ScrollLimit = Math::Max(0, mState.mObjectTypes.Count() - mObjectScrollMax);
+    mObjectScroll.MoveTo(Math::Clamp(mCurObject - mObjectScrollMax / 2, 0, ScrollLimit), 0.5);
+	DeselectPolygonType();
+	DeselectPolyOrder();
+}
+
+void maptoolData::DeselectObjectType()
+{
+	if(mCurObject != -1)
+    {
+        mCurObject = -1;
+        mCurDrawingPoints.SubtractionAll();
+    }
+}
+
+void maptoolData::SelectPolygonType(sint32 i)
+{
+	mCurPolygon = i;
+	DeselectObjectType();
+	DeselectPolyOrder();
+}
+
+void maptoolData::DeselectPolygonType()
+{
+	if(mCurPolygon != -1)
+    {
+        mCurPolygon = -1;
+        mCurDrawingPoints.SubtractionAll();
+    }
+}
+
+void maptoolData::SelectPolyOrder(sint32 i)
+{
+	mCurPolyOrder = i;
+	const sint32 PolygonCount = mState.mLayers.At(mCurLayer).mPolygons.Count();
+    const sint32 ScrollLimit = Math::Max(0, PolygonCount - mPolyOrderScrollMax);
+    mPolyOrderScroll.MoveTo(Math::Clamp(mCurPolyOrder - mPolyOrderScrollMax / 2, 0, ScrollLimit), 0.5);
+	DeselectObjectType();
+	DeselectPolygonType();
+	// 인게임 포커싱변경
+	mState.mDebugCurPolyOrder = i;
+}
+
+void maptoolData::DeselectPolyOrder()
+{
+	mCurPolyOrder = -1;
+	// 인게임 포커싱변경
+	mState.mDebugCurPolyOrder = -1;
 }

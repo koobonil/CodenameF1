@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "6Sbt4EQqW17/I+uBH01tE7YmzJc", "spine": "3.6.52", "width": 276, "height": 521.81, "images": "./orc_b/" },
+"skeleton": { "hash": "1BGweWihahjeJrGP9Pb3KW1/bjM", "spine": "3.6.52", "width": 276, "height": 521.81, "images": "./orc_b/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 26.42, "rotation": 91.27, "x": -0.01, "y": 1.1 },
@@ -31,7 +31,7 @@
 	{ "name": "l_eye", "bone": "l_eye", "attachment": "skin" },
 	{ "name": "r_eye", "bone": "r_eye", "attachment": "skin" },
 	{ "name": "area", "bone": "area", "attachment": "area" },
-	{ "name": "toast", "bone": "area", "attachment": "toast" },
+	{ "name": "toast", "bone": "mom", "attachment": "toast" },
 	{ "name": "attack_efect_a", "bone": "attack2", "attachment": "attack_efect_a" },
 	{ "name": "attack_efect_b", "bone": "attack", "attachment": "attack_efect_b" },
 	{ "name": "cap_ice", "bone": "cap", "attachment": "skin" },
@@ -57,7 +57,7 @@
 			"toast": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 57.64, 95.78, 54.6, -68.74, 227.25, -72.66, 229.66, 93.94 ]
+				"vertices": [ 141.67, -73.5, 141.18, 58.14, 3.02, 58.2, 4.06, -75.09 ]
 			}
 		}
 	},

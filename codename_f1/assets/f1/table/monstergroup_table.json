@@ -1,73 +1,79 @@
 ﻿[
+
+	
 	{
 		"Name":"5슬라임",
-		"Group":"F_Normal/2/F_Normal/2/F_Normal/2/F_Normal/2/F_Normal"
+		"Group":"I_Slime/2/I_Slime/2/I_Slime/2/I_Slime/2/I_Slime"
 	},
 	
 	{
 		"Name":"2슬라임 2오크",
-		"Group":"F_Normal/2/F_Middle/2/F_Normal/2/F_Middle"
+		"Group":"I_Slime/2/I_Slime/2/I_Orc/2/I_Orc"
 	},
 	
-		{
+	{
+		"Name":"2킹슬라임 2오크",
+		"Group":"I_Slime_B/2/I_Orc/2/I_Slime_B/2/I_Orc"
+	},
+	
+	{
 		"Name":"2헬멧 2오크",
-		"Group":"F_MiddleBoss/2/F_Middle/2/F_MiddleBoss/2/F_Middle"
+		"Group":"I_Helmetorc/2/I_Orc/2/I_Helmetorc/2/I_Orc"
 	},
 	
-	
-	
+		
 	{
 		"Name":"1킹 4슬라임",
-		"Group":"F_Normal_B/2/F_Normal/2/F_Normal/2/F_Normal/2/F_Normal"
+		"Group":"I_Slime_B/2/I_Slime/2/I_Slime/2/I_Slime/2/I_Slime"
 	},
 	
 	{
-		"Name":"3킹 2슬라임",
-		"Group":"F_Normal_B/2/F_Normal/2/F_Normal_B/2/F_Normal/2/F_Normal_B"
+		"Name":"2킹 2슬라임",
+		"Group":"I_Slime_B/2/I_Slime/2/I_Slime_B/2/I_Slime"
 	},
 	
 	{
-		"Name":"5킹슬라임",
-		"Group":"F_Normal_B/2/F_Normal_B/2/F_Normal_B/2/F_Normal_B/2/F_Normal_B"
+		"Name":"4킹슬라임",
+		"Group":"I_Slime_B/2/I_Slime_B/2/I_Slime_B/2/I_Slime_B"
 	},
 	
 	{
 		"Name":"4오크",
-		"Group":"F_Middle/2/F_Middle/2/F_Middle/2/F_Middle"
+		"Group":"I_Orc/2/I_Orc/2/I_Orc/2/I_Orc"
 	},
 	{
 		"Name":"2레드 2오크",
-		"Group":"F_Middle_B/2/F_Middle/2/F_Middle_B/2/F_Middle"
+		"Group":"I_Orc_B/2/I_Orc_B/2/I_Orc/2/I_Orc"
 	},
 		
 	{
 		"Name":"2레드 2킹슬라임",
-		"Group":"F_Middle_B/2/F_Normal_B/2/F_Middle_B/2/F_Normal_B"
+		"Group":"I_Orc_B/2/I_Slime_B/2/I_Orc_B/2/I_Slime_B"
 	},	
 		
 	{
 		"Name":"4레드오크",
-		"Group":"F_Middle_B/2/F_Middle_B/2/F_Middle_B/2/F_Middle_B"
+		"Group":"I_Orc_B/2/I_Orc_B/2/I_Orc_B/2/I_Orc_B"
 	},
 	
 			
 	{
 		"Name":"4헷멧오크",
-		"Group":"F_MiddleBoss/2/F_MiddleBoss/2/F_MiddleBoss/2/F_MiddleBoss"
+		"Group":"I_Helmetorc/2/I_Helmetorc/2/I_Helmetorc/2/I_Helmetorc"
 	},
 	
 		{
 		"Name":"2레드 2헬멧오크",
-		"Group":"F_Middle_B/2/F_MiddleBoss/2/F_Middle_B/2/F_MiddleBoss"
+		"Group":"I_Helmetorc/2/I_Orc_B/2/I_Helmetorc/2/I_Orc_B"
 	},
 	
 	{
 		"Name":"3늑대",
-		"Group":"F_Fast/2/F_Fast/2/F_Fast"
+		"Group":"I_Wolf/2/I_Wolf/2/I_Wolf"
 	},
 	
 	{
-		"Name":"1강화오크 4늑대",
-		"Group":"F_MiddleBoss/2/F_Fast/2/F_Fast/2/F_Fast/2/F_Fast"
+		"Name":"1헬멧 3늑대",
+		"Group":"I_Helmetorc/2/I_Wolf/2/I_Wolf/2/I_Wolf"
 	}
 ]

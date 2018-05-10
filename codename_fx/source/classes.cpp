@@ -143,7 +143,17 @@ MapSpine& MapSpine::operator=(MapSpine&& rhs)
 MapSpine& MapSpine::InitSpine(const FXState* state, const SpineRenderer* renderer, chars skin,
     ZAY::SpineBuilder::MotionFinishedCB fcb, ZAY::SpineBuilder::UserEventCB ecb)
 {
-    if(mSpineRenderer = renderer)
+    // 초기화
+    mSpineRenderer = renderer;
+    ZAY::SpineBuilder::Release(mSpineInstance);
+    mSpineInstance = nullptr;
+    mSpineMsecOld = 0;
+    mSeekSec = 0;
+    mSeekSecOld = -1;
+    mStaffIdleMode = false;
+    mStaffStartMode = false;
+
+    if(mSpineRenderer)
     {
         branch;
         jump(ecb)
@@ -152,12 +162,16 @@ MapSpine& MapSpine::InitSpine(const FXState* state, const SpineRenderer* rendere
             mSpineInstance = ZAY::SpineBuilder::Create(mSpineRenderer->spine(), skin, fcb, nullptr);
         else
             mSpineInstance = ZAY::SpineBuilder::Create(mSpineRenderer->spine(), skin, fcb,
-                [state](chars eventname)
+                [](chars eventname)
                 {
-                    if(!String::Compare("sound_", eventname, 6))
+                    if(auto CurState = FXState::ST())
                     {
-                        if(FXSaver::Read("SoundFlag").GetInt())
-                            FXState::PlaySound(state->GetSound(&eventname[6]));
+                        if(!String::Compare("sound_", eventname, 6))
+                        {
+                            if(FXSaver::Read("SoundFlag").GetInt())
+                                FXState::PlaySound(CurState->GetSound(&eventname[6]));
+                        }
+                        else CurState->OnEvent(eventname);
                     }
                 });
     }
@@ -329,6 +343,12 @@ const Rect* MapSpine::GetBoundRect(chars name) const
     return ZAY::SpineBuilder::GetBoundRect(mSpineInstance, name);
 }
 
+const Points* MapSpine::GetBoundPolygon(chars name) const
+{
+    if(!mSpineInstance) return nullptr;
+    return ZAY::SpineBuilder::GetBoundPolygon(mSpineInstance, name);
+}
+
 void MapSpine::SetSeekSec(float sec)
 {
     mSeekSec = sec;
@@ -491,18 +511,18 @@ void FXDoor::Render(ZayPanel& panel)
         {
             const sint32 FontHeightA = Platform::Graphics::GetStringHeight();
             ZAY_RGBA(panel, 0, 0, 0, 128)
-                panel.text(panel.w() - 5 + 1, 1 - FontHeightA * 0.1f, mService, UIFA_RightTop);
+                panel.text(panel.w() - 5 + 1, 1 + FontHeightA * 0.1f, mService, UIFA_RightTop);
             ZAY_RGB(panel, 255, 255, 255)
-                panel.text(panel.w() - 5, 0 - FontHeightA * 0.1f, mService, UIFA_RightTop);
+                panel.text(panel.w() - 5, 0 + FontHeightA * 0.1f, mService, UIFA_RightTop);
 
             if(0 < mComment.Length())
             ZAY_FONT(panel, 0.8)
             {
                 const sint32 FontHeightB = Platform::Graphics::GetStringHeight();
                 ZAY_RGBA(panel, 0, 0, 0, 128)
-                    panel.text(panel.w() - 5 + 1, FontHeightA * 0.7f + 1 - FontHeightB * 0.1f, mComment, UIFA_RightTop);
+                    panel.text(panel.w() - 5 + 1, FontHeightA * 1.0f + 1 - FontHeightB * 0.1f, mComment, UIFA_RightTop);
                 ZAY_RGB(panel, 255, 255, 0)
-                    panel.text(panel.w() - 5, FontHeightA * 0.7f + 0 - FontHeightB * 0.1f, mComment, UIFA_RightTop);
+                    panel.text(panel.w() - 5, FontHeightA * 1.0f + 0 - FontHeightB * 0.1f, mComment, UIFA_RightTop);
             }
         }
 
@@ -603,8 +623,10 @@ void FXDoor::RenderVersion(ZayPanel& panel)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-FXState::FXState(chars defaultpath) : mDoor(&FXDoor::ST()), mData(&FXData::ST()), mDefaultPath(defaultpath)
+FXState* gState = nullptr;
+FXState::FXState() : mDoor(&FXDoor::ST()), mData(&FXData::ST())
 {
+	gState = this;
     mSubRenderer = ZAY_RENDER_PN(p, n, this)
     {
         if(!String::Compare(n, "str_", 4))
@@ -620,12 +642,35 @@ FXState::FXState(chars defaultpath) : mDoor(&FXDoor::ST()), mData(&FXData::ST())
 
 FXState::~FXState()
 {
+	if(gState == this)
+		gState = nullptr;
 }
 
-void FXState::SetLanguage(chars language)
+FXState* FXState::ST()
 {
-    mData->mLanguage = language;
-    mData->mAllStrings.Reset();
+	return gState;
+}
+
+void FXState::SetLanguage(chars language, bool do_next)
+{
+    String OldLanguage = FXSaver::Read("Language").GetString("null");
+    sint32 FindPos = String(language).Find(0, OldLanguage);
+    if(FindPos == -1) FindPos = 0;
+    else if(do_next)
+    {
+        while(language[FindPos] != '\0' && language[FindPos++] != '|');
+        if(language[FindPos] == '\0') FindPos = 0;
+    }
+    String CurLanguage;
+    while(language[FindPos] != '\0' && language[FindPos] != '|')
+        CurLanguage += language[FindPos++];
+
+    if(!!mData->mLanguage.Compare(CurLanguage))
+    {
+        mData->mLanguage = CurLanguage;
+        mData->mAllStrings.Reset();
+        FXSaver::Write("Language").Set(CurLanguage);
+    }
 }
 
 const Context& FXState::GetStage(chars id)
@@ -665,7 +710,11 @@ const String& FXState::GetString(sint32 id)
                 sint32 CurID = (*CurLanguage)[i]("Index").GetInt(0);
                 auto& CurString = (*CurLanguage)[i](mData->mLanguage);
                 if(CurString.IsValid())
-                    mData->mAllStrings[CurID] = CurString.GetString("-blank-");
+                {
+                    String MultilineText = CurString.GetString("-blank-");
+                    MultilineText.Replace("<br>", "\r\n");
+                    mData->mAllStrings[CurID] = MultilineText;
+                }
                 else mData->mAllStrings[CurID] = "-unknown language-";
             }
             if(auto Result = mData->mAllStrings.Access(id))
@@ -678,31 +727,47 @@ const String& FXState::GetString(sint32 id)
     return Null;
 }
 
-const SpineRenderer* FXState::GetSpine(chars name, chars path) const
+const SpineRenderer* FXState::GetSpine(chars name) const
 {
+    BOSS_ASSERT("ResourcePath를 등록하지 않았습니다", 0 < mData->mAllResourcePathes.Count());
     if(auto Result = mData->mAllSpines.Access(name))
         return Result;
 
-    const String ResRoot = (path)? String(path) : mDefaultPath;
-    const String SpineJsonPath = String::Format("spine/%s/spine.json", name);
-    const String PathJsonPath = String::Format("spine/%s/path.json", name);
-    if(Asset::Exist(ResRoot + SpineJsonPath) != roottype_null)
+    for(sint32 i = 0, iend = mData->mAllResourcePathes.Count(); i < iend; ++i)
     {
-        mData->mAllSpines(name).Create(ResRoot, SpineJsonPath, PathJsonPath);
-        return &mData->mAllSpines(name);
+        const String SpineJsonPath = String::Format("spine/%s/spine.json", name);
+        const String PathJsonPath = String::Format("spine/%s/path.json", name);
+        if(Asset::Exist(mData->mAllResourcePathes[i] + SpineJsonPath) != roottype_null)
+        {
+            mData->mAllSpines(name).Create(mData->mAllResourcePathes[i], SpineJsonPath, PathJsonPath);
+            return &mData->mAllSpines(name);
+        }
     }
     return nullptr;
 }
 
 const FXData::Sound* FXState::GetSound(chars name, bool loop) const
 {
-    if(auto Result = mData->mAllSounds.Access(name))
+    BOSS_ASSERT("ResourcePath를 등록하지 않았습니다", 0 < mData->mAllResourcePathes.Count());
+    const String Name = String::Format("%s%s", name, (loop)? "*" : "");
+    if(auto Result = mData->mAllSounds.Access(Name))
         return Result;
 
-    auto& NewSound = mData->mAllSounds(name);
-    NewSound.mFilename = Platform::File::RootForAssets() + mDefaultPath + String::Format("sound_ogg/%s.ogg", name);
-    NewSound.mLoop = loop;
-    return &NewSound;
+    for(sint32 i = 0, iend = mData->mAllResourcePathes.Count(); i < iend; ++i)
+    {
+        String OggPath = mData->mAllResourcePathes[i] + String::Format("sound_ogg/%s.ogg", name);
+        auto RootType = Asset::Exist(OggPath);
+        if(RootType == roottype_assets)
+            OggPath = Platform::File::RootForAssets() + OggPath;
+        else if(RootType == roottype_assetsrem)
+            OggPath = Platform::File::RootForAssetsRem() + OggPath;
+        else continue;
+        auto& NewSound = mData->mAllSounds(Name);
+        NewSound.mFilename = OggPath;
+        NewSound.mLoop = loop;
+        return &NewSound;
+    }
+    return nullptr;
 }
 
 void FXState::PlaySound(const FXData::Sound* sound, float volume_rate)
@@ -750,7 +815,7 @@ void FXState::PlaySound(const FXData::Sound* sound, float volume_rate)
                         Platform::Sound::Stop(SoundID);
                     else while(Platform::Sound::NowPlaying(SoundID))
                     {
-                        Platform::Utility::Sleep(1, false);
+                        Platform::Utility::Sleep(1, true, false);
                         if(!SoundData->mPlaying)
                             Platform::Sound::Stop(SoundID);
                     }
@@ -770,6 +835,33 @@ void FXState::StopSound(const FXData::Sound* sound)
 {
     if(sound)
         sound->mPlaying = false;
+}
+
+static String gBGSoundName;
+void FXState::PlayBGSound(chars name, float volume_rate)
+{
+    if(!gBGSoundName.CompareNoCase(name))
+        return;
+    StopBGSound();
+    gBGSoundName = name;
+    auto NewBGSound = GetSound(gBGSoundName, true);
+    PlaySound(NewBGSound, volume_rate);
+}
+
+void FXState::StopBGSound()
+{
+    if(0 < gBGSoundName.Length())
+    {
+        auto OldBGSound = GetSound(gBGSoundName, true);
+        StopSound(OldBGSound);
+        gBGSoundName = "";
+    }
+}
+
+void FXState::StopSoundAll()
+{
+    for(sint32 i = 0, iend = mData->mAllSounds.Count(); i < iend; ++i)
+        mData->mAllSounds.AccessByOrder(i)->mPlaying = false;
 }
 
 void FXState::SetPanel(chars name, FXPanel::InitCB icb, FXPanel::RenderCB rcb)

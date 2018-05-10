@@ -18,7 +18,7 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
         const sint32 Width = WH[0];
         const sint32 Height = WH[1];
         m->mState.SetSize(Width, Height);
-        m->mState.BuildTryWorld(true);
+        m->mState.BuildMap();
     }
     m->Command(type, in);
 }
@@ -208,7 +208,7 @@ void pathtoolData::Render(ZayPanel& panel)
                             NewPolygon.mDots = mCurPoints;
                             NewPolygon.UpdateCCW();
                             // 길찾기 빌드
-                            mState.BuildTryWorld(true);
+                            mState.BuildMap();
                             mCurPoints.SubtractionAll();
                             invalidate();
                         }

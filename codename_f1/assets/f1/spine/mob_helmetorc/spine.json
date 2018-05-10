@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "yWi/wEECciQB83B5D836WNfzYu4", "spine": "3.6.50", "width": 245.16, "height": 471.36, "images": "./mop_helmetorc/" },
+"skeleton": { "hash": "xaB6N/wTGrRqDYKZGH21m58lnzo", "spine": "3.6.52", "width": 245.16, "height": 471.36, "images": "./mop_helmetorc/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 34.41, "rotation": 90, "x": 0.27, "y": 1.59 },
@@ -41,7 +41,7 @@
 	{ "name": "helmet", "bone": "helmet", "attachment": "skin" },
 	{ "name": "helmet_a", "bone": "helmet_a", "attachment": "skin" },
 	{ "name": "area", "bone": "area", "attachment": "area" },
-	{ "name": "toast", "bone": "area", "attachment": "toast" },
+	{ "name": "toast", "bone": "mom", "attachment": "toast" },
 	{ "name": "attack_efect_a", "bone": "attack2", "attachment": "attack_efect_a" },
 	{ "name": "attack_efect_b", "bone": "attack", "attachment": "attack_efect_b" },
 	{ "name": "skin_a", "bone": "style", "attachment": "skin_a" },
@@ -66,7 +66,7 @@
 			"toast": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 220.99, 94.85, 64.63, 95.51, 65.94, -71.13, 222.3, -70.47 ]
+				"vertices": [ -35.09, -90.95, 121.27, -91.61, 119.96, 75.03, -36.4, 74.37 ]
 			}
 		}
 	},

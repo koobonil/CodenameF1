@@ -43,7 +43,7 @@ namespace ZAY
         std::string ikName;
 
     public:
-        virtual void applyToAnimatable(Animatable* animatable, float time) = 0;
+        virtual void applyToAnimatable(Animatable* animatable, float lasttime, float curtime) = 0;
         virtual float getLastKeyFrameTime() const = 0;
     };
 
@@ -61,7 +61,7 @@ namespace ZAY
         T _default;
 
     public:
-        virtual void applyToAnimatable(Animatable* animatable, float time) override;
+        virtual void applyToAnimatable(Animatable* animatable, float lasttime, float curtime) override;
         virtual float getLastKeyFrameTime() const override;
 
     public:
@@ -102,7 +102,7 @@ namespace ZAY
         T _default;
 
     public:
-        virtual void applyToAnimatable(Animatable* animatable, float time) override;
+        virtual void applyToAnimatable(Animatable* animatable, float lasttime, float curtime) override;
         virtual float getLastKeyFrameTime() const override;
 
     public:
@@ -133,7 +133,7 @@ namespace ZAY
         T _default;
 
     public:
-        virtual void applyToAnimatable(Animatable* animatable, float time) override;
+        virtual void applyToAnimatable(Animatable* animatable, float lasttime, float curtime) override;
         virtual float getLastKeyFrameTime() const override;
 
     public:
@@ -414,13 +414,16 @@ namespace ZAY
     }
 
     template<typename T>
-    void AnimationTrackTemplate<T>::applyToAnimatable(Animatable* animatable, float time)
+    void AnimationTrackTemplate<T>::applyToAnimatable(Animatable* animatable, float lasttime, float curtime)
     {
         if (_values.size() > 0)
         {
-            auto it = _values.upper_bound(time);
+            auto it = _values.upper_bound(curtime);
             if (it == _values.end())
             {
+                --it;
+                animatable->setEventPulse(lasttime == 0 || lasttime < it->first);
+
                 if(_values.rbegin()->second == nullptr)
                     set(animatable, _default);
                 else set(animatable, _values.rbegin()->second->getValue());
@@ -433,12 +436,13 @@ namespace ZAY
             {
                 auto it_next = it;
                 --it;
+                animatable->setEventPulse(lasttime == 0 || lasttime < it->first);
 
                 if(it->second == nullptr)
                     set(animatable, _default);
                 else
                 {
-                    float ratio = (time - it->first) / (it_next->first - it->first);
+                    float ratio = (curtime - it->first) / (it_next->first - it->first);
                     set(animatable, it->second->getLerpValue(it_next->second, ratio));
                 }
             }
@@ -447,6 +451,7 @@ namespace ZAY
         {
             set(animatable, _default);
         }
+        animatable->setEventPulse(false);
     }
 
     template<typename T>
@@ -554,13 +559,13 @@ namespace ZAY
     }
 
     template<typename T>
-    void AnimationTrackArrayTemplate<T>::applyToAnimatable(Animatable* animatable, float time)
+    void AnimationTrackArrayTemplate<T>::applyToAnimatable(Animatable* animatable, float lasttime, float curtime)
     {
         if (_setter)
         {
             if (_values.size() > 0)
             {
-                auto it = _values.upper_bound(time);
+                auto it = _values.upper_bound(curtime);
 
                 if (it == _values.end())
                 {
@@ -584,7 +589,7 @@ namespace ZAY
                     auto it_next = it;
                     --it;
 
-                    float ratio = (time - it->first) / (it_next->first - it->first);
+                    float ratio = (curtime - it->first) / (it_next->first - it->first);
 
                     auto lerp_setter = [animatable, this](int32_t index, T value)
                     {
@@ -670,11 +675,11 @@ namespace ZAY
     }
 
     template<typename T>
-    void AnimationTrackRangeTemplate<T>::applyToAnimatable(Animatable* animatable, float time)
+    void AnimationTrackRangeTemplate<T>::applyToAnimatable(Animatable* animatable, float lasttime, float curtime)
     {
         if (_values.size() > 0)
         {
-            auto it = _values.upper_bound(time);
+            auto it = _values.upper_bound(curtime);
 
             if (it == _values.end())
             {
@@ -701,7 +706,7 @@ namespace ZAY
                 auto keyframe0 = it->second;
                 auto keyframe1 = it_next->second;
 
-                float ratio = (time - it->first) / (it_next->first - it->first);
+                float ratio = (curtime - it->first) / (it_next->first - it->first);
 
                 T value0, value1;
 
