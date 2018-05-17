@@ -1,17 +1,37 @@
 {
 "skeleton": {
-	"hash": "3XqGI2NiwrktOjDkcoSkxE0JYYM",
+	"hash": "naOihm/CFdCZrsI9BvUm90D2ZXg",
 	"spine": "3.6.52",
-	"width": 836.54,
-	"height": 863.22,
+	"width": 836.68,
+	"height": 845.74,
 	"fps": 75,
 	"images": "../../브레스 속성 모음/breath_ground/"
 },
 "bones": [
 	{ "name": "root", "rotation": -17.69 },
 	{ "name": "area", "parent": "root", "length": 60.25, "rotation": 109.06, "x": -3.67, "y": 3.82 },
-	{ "name": "breath_g", "parent": "root", "length": 56.78, "rotation": -152.44, "x": 8.45, "y": -5.79, "color": "0deb00ff" },
-	{ "name": "breath_stone", "parent": "root", "length": 57.24, "rotation": -150.04, "x": 7.29, "y": 29.86, "color": "0512adff" }
+	{
+		"name": "breath_g",
+		"parent": "root",
+		"length": 56.78,
+		"rotation": -152.44,
+		"x": 8.45,
+		"y": -5.79,
+		"scaleX": 4,
+		"scaleY": 4,
+		"color": "0deb00ff"
+	},
+	{
+		"name": "breath_stone",
+		"parent": "root",
+		"length": 57.24,
+		"rotation": -150.04,
+		"x": -4.16,
+		"y": 26.21,
+		"scaleX": 4,
+		"scaleY": 4,
+		"color": "0512adff"
+	}
 ],
 "slots": [
 	{ "name": "area", "bone": "area", "attachment": "area" },
@@ -36,34 +56,34 @@
 			}
 		},
 		"breath_g": {
-			"breath_g": { "x": -4.18, "y": 0.73, "width": 714, "height": 752 }
+			"breath_g": { "x": -4.18, "y": 0.73, "width": 176, "height": 184 }
 		},
 		"breath_stone": {
-			"breath_stone": { "x": -5.75, "y": 7.5, "rotation": 150.04, "width": 600, "height": 551 }
+			"breath_stone": { "x": -5.75, "y": 7.5, "rotation": 150.04, "width": 150, "height": 139 }
 		},
 		"fire_breath_g": {
-			"fire_breath_g": { "width": 714, "height": 752 }
+			"fire_breath_g": { "width": 176, "height": 184 }
 		},
 		"fire_breath_stone": {
-			"fire_breath_stone": { "x": -5.75, "y": 7.5, "rotation": 150.04, "width": 600, "height": 551 }
+			"fire_breath_stone": { "x": -5.75, "y": 7.5, "rotation": 150.04, "width": 150, "height": 139 }
 		},
 		"ice_breath_g": {
-			"ice_breath_g": { "width": 714, "height": 752 }
+			"ice_breath_g": { "width": 176, "height": 184 }
 		},
 		"ice_breath_stone": {
-			"ice_breath_stone": { "x": -5.75, "y": 7.5, "rotation": 150.04, "width": 600, "height": 551 }
+			"ice_breath_stone": { "x": -5.75, "y": 7.5, "rotation": 150.04, "width": 150, "height": 139 }
 		},
 		"lightning_breath_g": {
-			"lightning_breath_g": { "width": 714, "height": 752 }
+			"lightning_breath_g": { "width": 176, "height": 184 }
 		},
 		"lightning_breath_stone": {
-			"lightning_breath_stone": { "x": -5.75, "y": 7.5, "rotation": 150.04, "width": 600, "height": 551 }
+			"lightning_breath_stone": { "x": -5.75, "y": 7.5, "rotation": 150.04, "width": 150, "height": 139 }
 		},
 		"wind_breath_g": {
-			"wind_breath_g": { "width": 714, "height": 752 }
+			"wind_breath_g": { "width": 176, "height": 184 }
 		},
 		"wind_breath_stone": {
-			"wind_breath_stone": { "x": -5.75, "y": 7.5, "rotation": 150.04, "width": 600, "height": 551 }
+			"wind_breath_stone": { "x": -5.75, "y": 7.5, "rotation": 150.04, "width": 150, "height": 139 }
 		}
 	}
 },

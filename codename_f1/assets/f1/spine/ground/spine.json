@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "OPl4Z4JcsCAePTBJxy3bdfVuRXs", "spine": "3.6.52", "width": 302, "height": 312, "images": "./ground/" },
+"skeleton": { "hash": "Zh6Bri5zF0KxBSE+3ok72CSjtUY", "spine": "3.6.52", "width": 302, "height": 312, "images": "./ground/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 24.84, "rotation": 90 },
@@ -130,7 +130,7 @@
 	},
 	"ground_wind_c": {
 		"ground": {
-			"skin": { "name": "ground_wind_c", "rotation": -90, "width": 406, "height": 205 }
+			"skin": { "name": "ground_wind_c", "rotation": -90, "width": 406, "height": 390 }
 		},
 		"polygon_area": {
 			"polygon_area": {
@@ -303,7 +303,9 @@
 				"color": [
 					{ "time": 0, "color": "fffffffd" },
 					{ "time": 0.5, "color": "ffffffe2" },
-					{ "time": 0.9667, "color": "ffffffff" }
+					{ "time": 1, "color": "ffffffff" },
+					{ "time": 1.5333, "color": "ffffffe2" },
+					{ "time": 2.0333, "color": "ffffffff" }
 				]
 			}
 		},

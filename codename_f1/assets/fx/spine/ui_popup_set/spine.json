@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "0/L2ICiW4wDNxZzfIgYEp1zMz5M", "spine": "3.6.52", "width": 1858, "height": 2919.41, "images": "./pop/" },
+"skeleton": { "hash": "rZTduAvrKufyS40MEX4m1uS2PO4", "spine": "3.6.52", "width": 1029, "height": 1808, "images": "./pop/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 304.38, "rotation": 90 },
@@ -38,7 +38,7 @@
 	{ "name": "str_11", "bone": "pop_set_ob_facebook", "attachment": "str_11" },
 	{ "name": "str_12", "bone": "pop_set_ob_rate", "attachment": "str_12" },
 	{ "name": "str_32", "bone": "pop_set_ob_naver", "attachment": "str_32" },
-	{ "name": "str_45", "bone": "pop_set_ob_language", "attachment": "str_32" },
+	{ "name": "str_45", "bone": "pop_set_ob_language", "attachment": "str_45" },
 	{ "name": "pop_set_ob_staff_area", "bone": "pop_set_ob_staff", "attachment": "pop_set_ob_staff_area" },
 	{ "name": "pop_set_ob_facebook_area", "bone": "pop_set_ob_facebook", "attachment": "pop_set_ob_facebook_area" },
 	{ "name": "pop_set_ob_rate_area", "bone": "pop_set_ob_rate", "attachment": "pop_set_ob_rate_area" },
@@ -175,7 +175,7 @@
 			}
 		},
 		"str_45": {
-			"str_32": {
+			"str_45": {
 				"type": "boundingbox",
 				"vertexCount": 4,
 				"vertices": [ 76.69, 163.49, 19.25, 163.49, 20.04, -293.5, 77.13, -293.45 ]

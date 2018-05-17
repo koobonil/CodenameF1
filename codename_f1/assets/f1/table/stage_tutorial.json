@@ -1,8 +1,8 @@
 {
-	"BuildNumber":"8",
+	"BuildNumber":"10",
 	"MapName":"map_tutorial",
 	"MissionLastRID":"83999999",
-	"MonsterLastRID":"83000072",
+	"MonsterLastRID":"83000074",
 	"ToolType":"stagetool_f1",
 	"ToolVersion":"2",
 	"Waves":
@@ -14,8 +14,8 @@
 					"Scripts":
 					[
 						{
-							"PosX":"0.08216",
-							"PosY":"-0.32629",
+							"PosX":"0.079108",
+							"PosY":"-0.983774",
 							"TargetRID":"0",
 							"Text":"cutscene_story1 lock-story_a-story_b-story_c-story_d-story_e-story_f-story_g-story_h-unlock-idle"
 						}
@@ -38,37 +38,37 @@
 					"Monsters":
 					[
 						{
-							"ID":"F_Normal",
+							"ID":"T_Normal_A",
 							"PosX":"0.44",
 							"PosY":"-0.05",
-							"RID":"83000060"
+							"RID":"83000073"
 						}
 					],
 					"TimeSec":"6"
 				},
 				{
-					"Monsters":
+					"Scripts":
 					[
 						{
-							"ID":"F_Normal",
-							"PosX":"0.44",
-							"PosY":"-0.05",
-							"RID":"83000061"
+							"PosX":"0.2393",
+							"PosY":"-0.466926",
+							"TargetRID":"0",
+							"Text":"cutscene_tutorial1 lock-tutorial_a-unlock-idle"
+						}
+					],
+					"TimeSec":"7"
+				},
+				{
+					"Scripts":
+					[
+						{
+							"PosX":"0.118677",
+							"PosY":"-0.142023",
+							"TargetRID":"0",
+							"Text":"campaign guide_msg_1"
 						}
 					],
 					"TimeSec":"8"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.44",
-							"PosY":"-0.05",
-							"RID":"83000062"
-						}
-					],
-					"TimeSec":"10"
 				}
 			],
 			"Title":"Untitled"
@@ -92,127 +92,25 @@
 					"Monsters":
 					[
 						{
-							"ID":"F_Normal",
+							"ID":"T_Normal_B",
 							"PosX":"0.44",
 							"PosY":"-0.05",
-							"RID":"83000063"
+							"RID":"83000074"
 						}
 					],
 					"TimeSec":"6"
 				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.44",
-							"PosY":"-0.05",
-							"RID":"83000064"
-						}
-					],
-					"TimeSec":"8"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.44",
-							"PosY":"-0.05",
-							"RID":"83000065"
-						}
-					],
-					"TimeSec":"10"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.44",
-							"PosY":"-0.05",
-							"RID":"83000066"
-						}
-					],
-					"TimeSec":"12"
-				}
-			],
-			"Title":"Untitled"
-		},
-		{
-			"Events":
-			[
 				{
 					"Scripts":
 					[
 						{
-							"PosX":"0",
-							"PosY":"0",
-							"TargetRID":"81000004",
-							"Text":"animate count-idle"
+							"PosX":"0.14786",
+							"PosY":"-0.210117",
+							"TargetRID":"0",
+							"Text":"campaign guide_msg_2"
 						}
 					],
-					"TimeSec":"0"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.44",
-							"PosY":"-0.05",
-							"RID":"83000068"
-						}
-					],
-					"TimeSec":"6"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.44",
-							"PosY":"-0.05",
-							"RID":"83000069"
-						}
-					],
-					"TimeSec":"8"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.44",
-							"PosY":"-0.05",
-							"RID":"83000070"
-						}
-					],
-					"TimeSec":"10"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.44",
-							"PosY":"-0.05",
-							"RID":"83000071"
-						}
-					],
-					"TimeSec":"12"
-				},
-				{
-					"Monsters":
-					[
-						{
-							"ID":"F_Normal",
-							"PosX":"0.44",
-							"PosY":"-0.05",
-							"RID":"83000072"
-						}
-					],
-					"TimeSec":"14"
+					"TimeSec":"7"
 				}
 			],
 			"Title":"Untitled"

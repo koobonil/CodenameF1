@@ -1,6 +1,6 @@
 {
 	"BGName":"map_forest_a",
-	"BuildNumber":"10",
+	"BuildNumber":"11",
 	"Layers":
 	[
 		{
@@ -95,15 +95,6 @@
 					"RectL":"0.3",
 					"RectR":"0.36",
 					"RectT":"-0.1",
-					"Visible":"1"
-				},
-				{
-					"ID":"Stone",
-					"RID":"81000232",
-					"RectB":"-0.05",
-					"RectL":"-0.16",
-					"RectR":"-0.06",
-					"RectT":"-0.116666",
 					"Visible":"1"
 				},
 				{
@@ -227,9 +218,18 @@
 					"ID":"Wind_L",
 					"RID":"81000258",
 					"RectB":"0.05",
-					"RectL":"-0.48",
-					"RectR":"-0.36",
+					"RectL":"0.3",
+					"RectR":"0.42",
 					"RectT":"-0.05",
+					"Visible":"1"
+				},
+				{
+					"ID":"Hole",
+					"RID":"81000260",
+					"RectB":"0.05",
+					"RectL":"-0.38",
+					"RectR":"-0.24",
+					"RectT":"-0.066667",
 					"Visible":"1"
 				}
 			]
@@ -1256,357 +1256,6 @@
 					"Visible":"1"
 				},
 				{
-					"ID":"Egg",
-					"RID":"81000197",
-					"RectB":"0.066667",
-					"RectL":"-0.04",
-					"RectR":"0.04",
-					"RectT":"0",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000198",
-					"RectB":"0.1",
-					"RectL":"-0.08",
-					"RectR":"-0.04",
-					"RectT":"0.066667",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000199",
-					"RectB":"0.1",
-					"RectL":"-0.04",
-					"RectR":"0",
-					"RectT":"0.066667",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000200",
-					"RectB":"0.1",
-					"RectL":"0",
-					"RectR":"0.04",
-					"RectT":"0.066667",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000201",
-					"RectB":"0.1",
-					"RectL":"0.04",
-					"RectR":"0.08",
-					"RectT":"0.066667",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000202",
-					"RectB":"0.066667",
-					"RectL":"0.04",
-					"RectR":"0.08",
-					"RectT":"0.033334",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000203",
-					"RectB":"0.033334",
-					"RectL":"0.04",
-					"RectR":"0.08",
-					"RectT":"0",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000204",
-					"RectB":"0",
-					"RectL":"0.04",
-					"RectR":"0.08",
-					"RectT":"-0.033333",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000205",
-					"RectB":"0.066667",
-					"RectL":"-0.08",
-					"RectR":"-0.04",
-					"RectT":"0.033334",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000206",
-					"RectB":"0.033334",
-					"RectL":"-0.08",
-					"RectR":"-0.04",
-					"RectT":"0",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000207",
-					"RectB":"0",
-					"RectL":"-0.08",
-					"RectR":"-0.04",
-					"RectT":"-0.033333",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000208",
-					"RectB":"0",
-					"RectL":"-0.04",
-					"RectR":"0",
-					"RectT":"-0.033333",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000209",
-					"RectB":"0",
-					"RectL":"0",
-					"RectR":"0.04",
-					"RectT":"-0.033333",
-					"Visible":"1"
-				},
-				{
-					"ID":"Egg",
-					"RID":"81000210",
-					"RectB":"0.066667",
-					"RectL":"0.16",
-					"RectR":"0.24",
-					"RectT":"0",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000211",
-					"RectB":"0.1",
-					"RectL":"0.12",
-					"RectR":"0.16",
-					"RectT":"0.066667",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000212",
-					"RectB":"0.1",
-					"RectL":"0.16",
-					"RectR":"0.2",
-					"RectT":"0.066667",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000213",
-					"RectB":"0.1",
-					"RectL":"0.2",
-					"RectR":"0.24",
-					"RectT":"0.066667",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000214",
-					"RectB":"0.1",
-					"RectL":"0.24",
-					"RectR":"0.28",
-					"RectT":"0.066667",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000215",
-					"RectB":"0.066667",
-					"RectL":"0.24",
-					"RectR":"0.28",
-					"RectT":"0.033334",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000216",
-					"RectB":"0.033334",
-					"RectL":"0.24",
-					"RectR":"0.28",
-					"RectT":"0",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000217",
-					"RectB":"0",
-					"RectL":"0.24",
-					"RectR":"0.28",
-					"RectT":"-0.033333",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000218",
-					"RectB":"0.066667",
-					"RectL":"0.12",
-					"RectR":"0.16",
-					"RectT":"0.033334",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000219",
-					"RectB":"0.033334",
-					"RectL":"0.12",
-					"RectR":"0.16",
-					"RectT":"0",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000220",
-					"RectB":"0",
-					"RectL":"0.12",
-					"RectR":"0.16",
-					"RectT":"-0.033333",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000221",
-					"RectB":"0",
-					"RectL":"0.16",
-					"RectR":"0.2",
-					"RectT":"-0.033333",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000222",
-					"RectB":"0",
-					"RectL":"0.2",
-					"RectR":"0.24",
-					"RectT":"-0.033333",
-					"Visible":"1"
-				},
-				{
-					"ID":"Egg",
-					"RID":"81000182",
-					"RectB":"0.066667",
-					"RectL":"-0.24",
-					"RectR":"-0.16",
-					"RectT":"0",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000184",
-					"RectB":"0.1",
-					"RectL":"-0.28",
-					"RectR":"-0.24",
-					"RectT":"0.066667",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000185",
-					"RectB":"0.1",
-					"RectL":"-0.24",
-					"RectR":"-0.2",
-					"RectT":"0.066667",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000186",
-					"RectB":"0.1",
-					"RectL":"-0.2",
-					"RectR":"-0.16",
-					"RectT":"0.066667",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000187",
-					"RectB":"0.1",
-					"RectL":"-0.16",
-					"RectR":"-0.12",
-					"RectT":"0.066667",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000188",
-					"RectB":"0.066667",
-					"RectL":"-0.16",
-					"RectR":"-0.12",
-					"RectT":"0.033334",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000190",
-					"RectB":"0.033334",
-					"RectL":"-0.16",
-					"RectR":"-0.12",
-					"RectT":"0",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000191",
-					"RectB":"0",
-					"RectL":"-0.16",
-					"RectR":"-0.12",
-					"RectT":"-0.033333",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000192",
-					"RectB":"0.066667",
-					"RectL":"-0.28",
-					"RectR":"-0.24",
-					"RectT":"0.033334",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000193",
-					"RectB":"0.033334",
-					"RectL":"-0.28",
-					"RectR":"-0.24",
-					"RectT":"0",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000194",
-					"RectB":"0",
-					"RectL":"-0.28",
-					"RectR":"-0.24",
-					"RectT":"-0.033333",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000195",
-					"RectB":"0",
-					"RectL":"-0.24",
-					"RectR":"-0.2",
-					"RectT":"-0.033333",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000196",
-					"RectB":"0",
-					"RectL":"-0.2",
-					"RectR":"-0.16",
-					"RectT":"-0.033333",
-					"Visible":"1"
-				},
-				{
 					"ID":"Box",
 					"RID":"81000251",
 					"RectB":"0.283333",
@@ -1622,6 +1271,33 @@
 					"RectL":"0.34",
 					"RectR":"0.42",
 					"RectT":"-0.233528",
+					"Visible":"1"
+				},
+				{
+					"ID":"Egg",
+					"RID":"81000261",
+					"RectB":"0",
+					"RectL":"-0.2",
+					"RectR":"-0.12",
+					"RectT":"-0.066667",
+					"Visible":"1"
+				},
+				{
+					"ID":"Egg",
+					"RID":"81000263",
+					"RectB":"0",
+					"RectL":"0.08",
+					"RectR":"0.16",
+					"RectT":"-0.066667",
+					"Visible":"1"
+				},
+				{
+					"ID":"Egg",
+					"RID":"81000262",
+					"RectB":"0.083333",
+					"RectL":"-0.04",
+					"RectR":"0.04",
+					"RectT":"0.016667",
 					"Visible":"1"
 				}
 			],
@@ -1828,130 +1504,34 @@
 					"Visible":"1"
 				},
 				{
-					"ID":"DynamicArea",
+					"ID":"SmallWall",
 					"Points":
 					[
 						{
-							"X":"0.12",
-							"Y":"-0.033278"
-						},
-						{
-							"X":"0.12",
-							"Y":"0.099834"
-						},
-						{
-							"X":"0.28",
-							"Y":"0.099834"
-						},
-						{
-							"X":"0.28",
-							"Y":"-0.033278"
-						}
-					],
-					"RID":"82000012",
-					"Visible":"1"
-				},
-				{
-					"ID":"DynamicArea",
-					"Points":
-					[
-						{
-							"X":"-0.28",
-							"Y":"-0.033278"
-						},
-						{
-							"X":"-0.28",
-							"Y":"0.099834"
-						},
-						{
-							"X":"-0.12",
-							"Y":"0.099834"
-						},
-						{
-							"X":"-0.12",
-							"Y":"-0.033278"
-						}
-					],
-					"RID":"82000014",
-					"Visible":"1"
-				},
-				{
-					"ID":"DynamicArea",
-					"Points":
-					[
-						{
-							"X":"-0.08",
-							"Y":"-0.033278"
-						},
-						{
-							"X":"-0.08",
-							"Y":"0.099834"
-						},
-						{
-							"X":"0.08",
-							"Y":"0.099834"
-						},
-						{
-							"X":"0.08",
-							"Y":"-0.033278"
-						}
-					],
-					"RID":"82000013",
-					"Visible":"1"
-				},
-				{
-					"ID":"DynamicArea",
-					"Points":
-					[
-						{
-							"X":"0.2",
+							"X":"-0.36",
 							"Y":"-0.05"
 						},
 						{
-							"X":"0.2",
-							"Y":"0.016667"
-						}
-					],
-					"RID":"82000015",
-					"Visible":"1"
-				},
-				{
-					"ID":"DynamicArea",
-					"Points":
-					[
-						{
-							"X":"0",
-							"Y":"-0.05"
+							"X":"-0.36",
+							"Y":"0.033333"
 						},
 						{
-							"X":"0",
-							"Y":"0.016667"
-						}
-					],
-					"RID":"82000016",
-					"Visible":"1"
-				},
-				{
-					"ID":"DynamicArea",
-					"Points":
-					[
-						{
-							"X":"-0.2",
-							"Y":"-0.05"
+							"X":"-0.26",
+							"Y":"0.033333"
 						},
 						{
-							"X":"-0.2",
-							"Y":"0.016667"
+							"X":"-0.26",
+							"Y":"-0.05"
 						}
 					],
-					"RID":"82000017",
+					"RID":"82000018",
 					"Visible":"1"
 				}
 			]
 		}
 	],
-	"ObjectLastRID":"81000258",
-	"PolygonLastRID":"82000017",
+	"ObjectLastRID":"81000263",
+	"PolygonLastRID":"82000018",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"
 }

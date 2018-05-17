@@ -828,7 +828,7 @@ void MapMonster::ToastTest(uint64 msec, sint32 deleteTime)
                 mSkillTimeCheckPoint += BurnInterval;
                 if(!mImmortal)
                 {
-                    mHPValue = Math::Max(0, mHPValue - BurnDamage);
+                    mHPValue = Math::Max(0, mHPValue - (mHPValueMax * BurnDamage / 1000));
                     mHPTimeMsec = msec + deleteTime;
                 }
                 if(!mImmortal && mHPValue == 0)
@@ -2436,7 +2436,8 @@ void F1State::RenderLayer(DebugMode debug, ZayPanel& panel, const MapLayer& laye
                 OrderNode* CurOrderNode = (OrderNode*) CurNode;
                 ZAY_RECT(panel, CurOrderNode->mRect * PixelScale)
                 {
-                    if(CurOrderNode->mIsMonster)
+                    branch;
+                    jump(CurOrderNode->mType == OrderNode::Type::Monster)
                     {
                         #if USE_SPINE_SHADOW
                             const MapMonster* CurMonster = (const MapMonster*) CurOrderNode->mData;
@@ -2446,7 +2447,7 @@ void F1State::RenderLayer(DebugMode debug, ZayPanel& panel, const MapLayer& laye
                             RenderImage(debug, panel, R("mob_shadow"));
                         #endif
                     }
-                    else
+                    jump(CurOrderNode->mType == OrderNode::Type::Object)
                     {
                         const MapObject* CurObject = (const MapObject*) CurOrderNode->mData;
                         if(CurObject->mVisible && 0 < CurObject->mType->mAssetShadow.Length())
@@ -2919,6 +2920,7 @@ void F1State::RenderDebug(ZayPanel& panel, const MapMonsters& monsters, sint32 w
     // 길찾기 매핑결과
     const String PolygonName = (SelectedMonster == -1)? mPolygonTypes[0].mID : monsters[SelectedMonster].mType->mPolygon;
     if(auto* CurTryWorldZone = mAllTryWorldZones.Access(PolygonName))
+    if(CurTryWorldZone->mMap)
     for(sint32 i = 0, iend = CurTryWorldZone->mMap->Lines.Count(); i < iend; ++i)
     {
         auto& DotA = CurTryWorldZone->mMap->Dots[CurTryWorldZone->mMap->Lines[i].DotA];

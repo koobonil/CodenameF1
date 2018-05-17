@@ -16,7 +16,7 @@
 		"RemoveTime":1500,
 		"SkillID":"BreathSlow",
 		"SkillDuration":23000,
-		"SkillParameter":"MoveSpeed=200;While=8000;",
+		"SkillParameter":"MoveSpeed=400;While=8000;",
 		"AddGauge":450,
 		"AddDamage":1100,
 		"SkinName":"ice"
@@ -27,7 +27,7 @@
 		"RemoveTime":1500,
 		"SkillID":"BreathKnockBackUp",
 		"SkillDuration":23000,
-		"SkillParameter":"KnockBackRange=3250;WindKnockBackSpeed=100;While=10000;AllowRevival=100;",
+		"SkillParameter":"KnockBackRange=3250;WindKnockBackSpeed=100;While=10000;",
 		"AddGauge":550,
 		"AddDamage":800,
 		"SkinName":"wind"

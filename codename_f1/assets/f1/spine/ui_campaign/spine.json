@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "GO67rEasooDLdJdAVn5TEL5BjTg", "spine": "3.6.52", "width": 4200, "height": 1261.21, "images": "./캠페인/" },
+"skeleton": { "hash": "MJyoAxjoRudDih/pI84PamJ16As", "spine": "3.6.52", "width": 4200, "height": 1261.21, "images": "./캠페인/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 59.35, "rotation": 90 },
@@ -303,7 +303,7 @@
 				],
 				"translate": [
 					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
-					{ "time": 0.3333, "x": 0, "y": 0 }
+					{ "time": 1, "x": 0, "y": 0 }
 				],
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1 }

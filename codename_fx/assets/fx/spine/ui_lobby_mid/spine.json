@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "vxe8TWTaCT7y//64YRKs2EGqsOw", "spine": "3.6.52", "width": 7501, "height": 3813.56, "images": "./mid/" },
+"skeleton": { "hash": "R4VJeu+dux0Gk/beJY4fBJuJHkQ", "spine": "3.6.52", "width": 7501, "height": 3813.56, "images": "./mid/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 236.31, "rotation": 90 },
@@ -5696,6 +5696,9 @@
 			"panel_chapter_forest": {
 				"color": [
 					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null }
 				]
 			},
 			"panel_chapter_ice": {

@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "월간구본일F1"
-!define PRODUCT_VERSION "1.0.0"
+!define PRODUCT_VERSION "1.0.15"
 !define PRODUCT_PUBLISHER "FinalBossBehindTheDoor, Inc."
 !define PRODUCT_WEB_SITE "http://www.finalbossbehindthedoor.com"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\f1.exe"
@@ -67,8 +67,8 @@ Section "MainSection" SEC01
 
   SetOutPath "$INSTDIR\assets\f1\image"
   File /a /r "..\assets\f1\image\*.*"
-  SetOutPath "$INSTDIR\assets\f1\sound"
-  File /a /r "..\assets\f1\sound\*.*"
+  SetOutPath "$INSTDIR\assets\f1\sound_ogg"
+  File /a /r "..\assets\f1\sound_ogg\*.*"
   SetOutPath "$INSTDIR\assets\f1\spine"
   File /a /r "..\assets\f1\spine\*.*"
   SetOutPath "$INSTDIR\assets\f1\table"
@@ -76,8 +76,8 @@ Section "MainSection" SEC01
 
   SetOutPath "$INSTDIR\assets\fx\image"
   File /a /r "..\..\codename_fx\assets\fx\image\*.*"
-  SetOutPath "$INSTDIR\assets\fx\sound"
-  File /a /r "..\..\codename_fx\assets\fx\sound\*.*"
+  SetOutPath "$INSTDIR\assets\fx\sound_ogg"
+  File /a /r "..\..\codename_fx\assets\fx\sound_ogg\*.*"
   SetOutPath "$INSTDIR\assets\fx\spine"
   File /a /r "..\..\codename_fx\assets\fx\spine\*.*"
   SetOutPath "$INSTDIR\assets\fx\table"

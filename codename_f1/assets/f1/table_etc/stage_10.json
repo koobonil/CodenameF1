@@ -1,5 +1,5 @@
 {
-	"BuildNumber":"15",
+	"BuildNumber":"16",
 	"MapName":"map_10",
 	"MissionLastRID":"83999999",
 	"MonsterLastRID":"83000339",
@@ -1050,12 +1050,6 @@
 							"PosY":"-0.078014",
 							"TargetRID":"81000002",
 							"Text":"animate count-idle"
-						},
-						{
-							"PosX":"0",
-							"PosY":"0",
-							"TargetRID":"81000130",
-							"Text":"animate count-idle"
 						}
 					],
 					"TimeSec":"17"
@@ -1081,12 +1075,6 @@
 				{
 					"Monsters":
 					[
-						{
-							"ID":"Fairy",
-							"PosX":"0.46",
-							"PosY":"-0.45",
-							"RID":"83000321"
-						},
 						{
 							"ID":"F_Middle",
 							"PosX":"-0.44",

@@ -501,7 +501,7 @@
 		"WaveStop":"True",
 		"HP":150,
 		"DeathMission":"FullPress",
-		"DeathSuccessCampaign":"success_msg_2-idle",
+		"DeathSuccessCampaign":"success_msg_1-idle",
 		"DeathFailureCampaign":"miss_msg_1",
 		"MoveType":"Straight",
 		"MoveSpeed":50,
@@ -513,8 +513,8 @@
 		"Weight":935,
 		"Resistance":950,
 		"InfinityPoint":1,
-		"Asset":"mob_forest_slime",
-		"Spine":"mob_slime:forest",
+		"Asset":"mob_forest_slime_b",
+		"Spine":"mob_slime_b:forest",
 		"Polygon":"SmallWall",
 		"GaugePosition":50
 	}

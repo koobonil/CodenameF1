@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "SKhI1wPNn2xXw5STPEFcSrtARX0", "spine": "3.6.52", "width": 1005.8, "height": 993.06, "images": "./cutsean/" },
+"skeleton": { "hash": "cxa8ra1uzNdicOR3Q6acv3xkUEE", "spine": "3.6.52", "width": 1005, "height": 993.06, "images": "./cutsean/" },
 "bones": [
 	{ "name": "root", "y": -525.92 },
 	{ "name": "a", "parent": "root", "length": 90.2, "rotation": 90 },
@@ -135,7 +135,7 @@
 			"a_back_c": { "x": 68.55, "y": 49.77, "rotation": -90, "width": 142, "height": 144 }
 		},
 		"a_sean_a": {
-			"a_sean_a": { "x": 1033.5, "y": -7.55, "rotation": -90, "width": 1005, "height": 965 }
+			"a_sean_a": { "x": 1033.5, "y": -7.55, "scaleX": 2, "scaleY": 2, "rotation": -90, "width": 500, "height": 480 }
 		},
 		"a_smail_a": {
 			"a_smail_a": { "x": -2.92, "y": 0.52, "rotation": -90, "width": 89, "height": 87 }
@@ -184,7 +184,7 @@
 			"b_point_e": { "x": 13.48, "y": -0.58, "rotation": -90, "width": 150, "height": 131 }
 		},
 		"b_sean_b": {
-			"b_sean_b": { "x": 1033.5, "y": -7.55, "rotation": -90, "width": 1005, "height": 965 }
+			"b_sean_b": { "x": 1033.5, "y": -7.55, "scaleX": 2, "scaleY": 2, "rotation": -90, "width": 500, "height": 480 }
 		},
 		"background_b": {
 			"background_b": { "x": 6.74, "y": 1035.98, "width": 1005, "height": 965 }
@@ -205,7 +205,7 @@
 			"c_back_j": { "x": 85.54, "y": -62.03, "rotation": -90, "width": 142, "height": 144 }
 		},
 		"c_sean_c": {
-			"c_sean_c": { "x": 1033.5, "y": -7.55, "rotation": -90, "width": 1005, "height": 965 }
+			"c_sean_c": { "x": 1033.5, "y": -7.55, "scaleX": 2, "scaleY": 2, "rotation": -90, "width": 500, "height": 480 }
 		},
 		"d_back_k": {
 			"d_back_k": { "x": 71.57, "y": -51.59, "rotation": -90, "width": 142, "height": 143 }
@@ -220,7 +220,7 @@
 			"d_sad_a": { "x": 7.75, "y": 1.26, "rotation": -90, "width": 104, "height": 50 }
 		},
 		"d_sean_d": {
-			"d_sean_d": { "x": 1033.5, "y": -7.55, "rotation": -90, "width": 1005, "height": 965 }
+			"d_sean_d": { "x": 1033.5, "y": -7.55, "scaleX": 2, "scaleY": 2, "rotation": -90, "width": 500, "height": 480 }
 		},
 		"e_back_m": {
 			"e_back_m": { "x": 72.13, "y": -50.34, "rotation": -90, "width": 142, "height": 143 }
@@ -259,10 +259,10 @@
 			"e_sad_b": { "x": 69.13, "y": -2.48, "rotation": 90, "width": 212, "height": 145 }
 		},
 		"e_sean_e": {
-			"e_sean_e": { "x": 1033.5, "y": -7.55, "rotation": -90, "width": 1005, "height": 965 }
+			"e_sean_e": { "x": 1033.5, "y": -7.55, "scaleX": 2, "scaleY": 2, "rotation": -90, "width": 500, "height": 480 }
 		},
 		"f_sean_f": {
-			"f_sean_f": { "x": 1033.5, "y": -7.55, "rotation": -90, "width": 1005, "height": 965 }
+			"f_sean_f": { "x": 1033.5, "y": -7.55, "scaleX": 2, "scaleY": 2, "rotation": -90, "width": 500, "height": 480 }
 		},
 		"f_slip_a": {
 			"f_slip_a": { "x": 26.76, "y": 18.42, "rotation": -90, "width": 41, "height": 55 }
@@ -274,7 +274,7 @@
 			"f_slip_c": { "x": 129.26, "y": 127.42, "rotation": -90, "width": 83, "height": 100 }
 		},
 		"g_sean_g": {
-			"g_sean_g": { "x": 1033.5, "y": -7.55, "rotation": -90, "width": 1005, "height": 965 }
+			"g_sean_g": { "x": 1033.5, "y": -7.55, "scaleX": 2, "scaleY": 2, "rotation": -90, "width": 500, "height": 480 }
 		},
 		"h_back_q": {
 			"h_back_q": { "x": 77.67, "y": 47.09, "rotation": -90, "width": 142, "height": 144 }
@@ -289,7 +289,7 @@
 			"h_point_s": { "x": 26.8, "y": 41.23, "rotation": -90, "width": 22, "height": 21 }
 		},
 		"h_sean_h": {
-			"h_sean_h": { "x": 1033.5, "y": -7.55, "rotation": -90, "width": 1005, "height": 965 }
+			"h_sean_h": { "x": 1033.5, "y": -7.55, "scaleX": 2, "scaleY": 2, "rotation": -90, "width": 500, "height": 480 }
 		},
 		"str_200": {
 			"str_200": {
@@ -316,7 +316,7 @@
 			"str_203": {
 				"type": "boundingbox",
 				"vertexCount": 4,
-				"vertices": [ 335.26, 705.06, 132.03, 704.61, 133.91, -704.38, 333.44, -704.23 ]
+				"vertices": [ 335.26, 705.06, 24.92, 704.61, 26.8, -704.38, 333.44, -704.23 ]
 			}
 		},
 		"str_204": {

@@ -1,6 +1,6 @@
 {
 	"BGName":"map_forest_a",
-	"BuildNumber":"9",
+	"BuildNumber":"10",
 	"Layers":
 	[
 		{
@@ -23,15 +23,6 @@
 					"RectL":"-0.3",
 					"RectR":"-0.22",
 					"RectT":"0.41632",
-					"Visible":"1"
-				},
-				{
-					"ID":"Water_L",
-					"RID":"81000094",
-					"RectB":"0.383333",
-					"RectL":"-0.12",
-					"RectR":"0.12",
-					"RectT":"0.216667",
 					"Visible":"1"
 				},
 				{
@@ -149,6 +140,15 @@
 					"RectL":"0.02",
 					"RectR":"0.06",
 					"RectT":"0.116667",
+					"Visible":"1"
+				},
+				{
+					"ID":"Water_M",
+					"RID":"81000166",
+					"RectB":"-0.166528",
+					"RectL":"0.34",
+					"RectR":"0.46",
+					"RectT":"-0.233139",
 					"Visible":"1"
 				}
 			]
@@ -789,42 +789,6 @@
 				},
 				{
 					"ID":"NonHitWall",
-					"RID":"81000031",
-					"RectB":"-0.233139",
-					"RectL":"0.36",
-					"RectR":"0.4",
-					"RectT":"-0.266445",
-					"Visible":"1"
-				},
-				{
-					"ID":"NonHitWall",
-					"RID":"81000012",
-					"RectB":"-0.216486",
-					"RectL":"0.36",
-					"RectR":"0.4",
-					"RectT":"-0.249792",
-					"Visible":"1"
-				},
-				{
-					"ID":"NonHitWall",
-					"RID":"81000035",
-					"RectB":"-0.183181",
-					"RectL":"0.36",
-					"RectR":"0.4",
-					"RectT":"-0.216486",
-					"Visible":"1"
-				},
-				{
-					"ID":"NonHitWall",
-					"RID":"81000036",
-					"RectB":"-0.149875",
-					"RectL":"0.36",
-					"RectR":"0.4",
-					"RectT":"-0.183181",
-					"Visible":"1"
-				},
-				{
-					"ID":"NonHitWall",
 					"RID":"81000037",
 					"RectB":"-0.11657",
 					"RectL":"0.36",
@@ -1109,6 +1073,42 @@
 					"RectL":"0.24",
 					"RectR":"0.32",
 					"RectT":"-0.35",
+					"Visible":"1"
+				},
+				{
+					"ID":"NonHitWall",
+					"RID":"81000031",
+					"RectB":"-0.233139",
+					"RectL":"0.36",
+					"RectR":"0.4",
+					"RectT":"-0.266445",
+					"Visible":"1"
+				},
+				{
+					"ID":"NonHitWall",
+					"RID":"81000012",
+					"RectB":"-0.216486",
+					"RectL":"0.36",
+					"RectR":"0.4",
+					"RectT":"-0.249792",
+					"Visible":"1"
+				},
+				{
+					"ID":"NonHitWall",
+					"RID":"81000035",
+					"RectB":"-0.183181",
+					"RectL":"0.36",
+					"RectR":"0.4",
+					"RectT":"-0.216486",
+					"Visible":"1"
+				},
+				{
+					"ID":"NonHitWall",
+					"RID":"81000036",
+					"RectB":"-0.149875",
+					"RectL":"0.36",
+					"RectR":"0.4",
+					"RectT":"-0.183181",
 					"Visible":"1"
 				}
 			],
@@ -1429,7 +1429,7 @@
 			]
 		}
 	],
-	"ObjectLastRID":"81000165",
+	"ObjectLastRID":"81000166",
 	"PolygonLastRID":"82000006",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"

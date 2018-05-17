@@ -1,11 +1,11 @@
 {
-"skeleton": { "hash": "89gi/FrDFurRpTq3SBzB5QFH1MM", "spine": "3.6.52", "width": 285, "height": 265, "images": "./dragon_effect/" },
+"skeleton": { "hash": "X5W744Vtfxl95OjqgBTZ/2ZGrGs", "spine": "3.6.52", "width": 370.5, "height": 344.5, "images": "./dragon_effect/" },
 "bones": [
 	{ "name": "root" },
-	{ "name": "a", "parent": "root", "scaleX": 5, "scaleY": 5 },
+	{ "name": "a", "parent": "root", "scaleX": 6.5, "scaleY": 6.5 },
 	{ "name": "area", "parent": "root" },
-	{ "name": "b", "parent": "root", "scaleX": 5, "scaleY": 5 },
-	{ "name": "b2", "parent": "root", "rotation": -90, "x": 4.09, "y": -3.18, "scaleX": 5, "scaleY": 5 }
+	{ "name": "b", "parent": "root", "scaleX": 6.5, "scaleY": 6.5 },
+	{ "name": "b2", "parent": "root", "rotation": -90, "x": 4.09, "y": -3.18, "scaleX": 6.5, "scaleY": 6.5 }
 ],
 "slots": [
 	{ "name": "a_a", "bone": "a", "attachment": "a_a" },

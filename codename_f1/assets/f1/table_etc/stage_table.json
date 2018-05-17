@@ -80,7 +80,7 @@
 	{
 		"ID":10,
 		"NeedEgg":9,
-		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=0;",
 		"MapJson":"f1/table/map_10.json",
 		"StageJson":"f1/table/stage_10.json",
 		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/10.txt"
@@ -96,7 +96,7 @@
 	{
 		"ID":12,
 		"NeedEgg":11,
-		"Option":"FireStone=1;IceStone=0;WindStone=0;LightningStone=0;",
+		"Option":"FireStone=0;IceStone=0;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_12.json",
 		"StageJson":"f1/table/stage_12.json",
 		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/12.txt"
@@ -160,7 +160,7 @@
 	{
 		"ID":20,
 		"NeedEgg":19,
-		"Option":"FireStone=2;IceStone=2;WindStone=2;LightningStone=2;",
+		"Option":"FireStone=2;IceStone=2;WindStone=1;LightningStone=1;",
 		"MapJson":"f1/table/map_20.json",
 		"StageJson":"f1/table/stage_20.json",
 		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/20.txt"
@@ -200,7 +200,7 @@
 	{
 		"ID":25,
 		"NeedEgg":24,
-		"Option":"FireStone=1;IceStone=1;WindStone=1;LightningStone=1;",
+		"Option":"FireStone=1;IceStone=1;WindStone=0;LightningStone=0;",
 		"MapJson":"f1/table/map_25.json",
 		"StageJson":"f1/table/stage_25.json",
 		"ParaSource":"http://www.finalbossbehindthedoor.com/f1/25.txt"

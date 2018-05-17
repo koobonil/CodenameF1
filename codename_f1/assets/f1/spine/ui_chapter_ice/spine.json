@@ -1,18 +1,18 @@
 {
-"skeleton": { "hash": "HLquv9ZDsFf7RkuAOYuXmovFFdQ", "spine": "3.6.52", "width": 331.8, "height": 230.38, "images": "./image/" },
+"skeleton": { "hash": "HyL5d2LX5PugPKzS8pbnRe5ZNBI", "spine": "3.6.52", "width": 331.8, "height": 230.38, "images": "./image/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "area", "parent": "root", "length": 33.7, "rotation": 90, "x": -0.82, "y": 0.12 },
 	{ "name": "attack", "parent": "root", "length": 68.78, "rotation": 90 },
 	{ "name": "attack2", "parent": "attack", "length": 68.78 },
 	{ "name": "bone2", "parent": "root", "x": 574.36, "y": -548.12 },
-	{ "name": "mom_1", "parent": "bone2", "length": 212.27, "rotation": 0.87, "x": -117.99, "y": 19.53, "color": "ff0000ff" },
-	{ "name": "kori", "parent": "mom_1", "length": 59.72, "rotation": -0.87, "x": 211.45, "y": -0.79, "color": "87005cff" },
-	{ "name": "left_eye", "parent": "mom_1", "length": 29.86, "rotation": -90.87, "x": 24.77, "y": 90.02, "color": "15a600ff" },
-	{ "name": "mom_2", "parent": "mom_1", "length": 223.54, "rotation": -0.87, "x": -2, "y": 27.47, "color": "010a4aff" },
-	{ "name": "mom_3", "parent": "mom_1", "length": 31.28, "rotation": 89.13, "x": 119.79, "y": 117.39, "color": "ff0000ff" },
-	{ "name": "mouse", "parent": "mom_1", "length": 27.45, "rotation": -2.56, "x": 63.52, "y": 36.97 },
-	{ "name": "right_eye", "parent": "mom_1", "length": 30.03, "rotation": -97.04, "x": 128.06, "y": 88.45, "color": "15a600ff" }
+	{ "name": "mom_1", "parent": "bone2", "length": 212.27, "x": -117.99, "y": 19.53, "color": "ff0000ff" },
+	{ "name": "kori", "parent": "mom_1", "length": 59.72, "x": 211.43, "y": 1.61, "color": "87005cff" },
+	{ "name": "left_eye", "parent": "mom_1", "length": 29.86, "rotation": -90, "x": 28.32, "y": 71.99, "color": "15a600ff" },
+	{ "name": "mom_2", "parent": "mom_1", "length": 223.54, "x": -2.42, "y": 27.44, "color": "010a4aff" },
+	{ "name": "mom_3", "parent": "mom_1", "length": 31.28, "rotation": 90, "x": 117.99, "y": 119.2, "color": "ff0000ff" },
+	{ "name": "mouse", "parent": "mom_1", "length": 27.45, "x": 77.84, "y": 36.31 },
+	{ "name": "right_eye", "parent": "mom_1", "length": 30.03, "rotation": -90, "x": 124.27, "y": 71.99, "color": "15a600ff" }
 ],
 "slots": [
 	{ "name": "mid_stage_ice", "bone": "root" },
@@ -40,27 +40,27 @@
 			}
 		},
 		"shadow": {
-			"shadow": { "x": 131.87, "y": -6.23, "scaleX": 4.2, "scaleY": 3, "rotation": -0.87, "width": 79, "height": 44 }
+			"shadow": { "x": 131.95, "y": -4.22, "scaleX": 4.2, "scaleY": 3, "width": 79, "height": 44 }
 		}
 	},
 	"ice": {
 		"base_1": {
-			"skin": { "name": "base_a_ice", "x": 109.87, "y": 67.99, "rotation": -0.87, "width": 248, "height": 181 }
+			"skin": { "name": "base_a_ice", "x": 108.82, "y": 69.65, "width": 248, "height": 181 }
 		},
 		"base_2": {
 			"skin": { "name": "base_b_ice", "x": 102.24, "y": 49.22, "width": 230, "height": 167 }
 		},
 		"kori": {
-			"skin": { "name": "kori_ice", "x": 5.65, "y": 11.72, "width": 106, "height": 72 }
+			"skin": { "name": "kori_ice", "x": 5.65, "y": 12.53, "width": 106, "height": 72 }
 		},
 		"left_eye": {
-			"skin": { "name": "left_eye_ice", "x": 14.23, "y": 4.42, "rotation": 90, "width": 20, "height": 44 }
+			"skin": { "name": "left_eye_ice", "x": -4.17, "y": -0.5, "rotation": 90, "width": 20, "height": 44 }
 		},
 		"mouse": {
-			"skin": { "name": "mouse_ice", "x": 14.39, "y": -0.35, "rotation": 1.68, "width": 33, "height": 14 }
+			"skin": { "name": "mouse_ice", "x": -0.52, "y": 0.84, "width": 33, "height": 14 }
 		},
 		"right_eye": {
-			"skin": { "name": "right_eye_ice", "x": 19.35, "y": -46.57, "rotation": 96.17, "width": 113, "height": 44 }
+			"skin": { "name": "right_eye_ice", "x": -4.17, "y": -45.95, "rotation": 90, "width": 113, "height": 44 }
 		}
 	}
 },

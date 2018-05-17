@@ -86,15 +86,27 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
 
 ZAY_VIEW_API OnRender(ZayPanel& panel)
 {
-    #if BOSS_WINDOWS | BOSS_LINUX | BOSS_MAC_OSX
-        // 출력미비영역 표현용
-        //Color TestColor(Platform::Utility::Random() | 0xFF000000);
-        //ZAY_COLOR(panel, TestColor)
-        //    panel.fill();
-        ZAY_RGB(panel, 192, 192, 192)
-            panel.fill();
-    #endif
+    // 바탕색
+    ZAY_RGB(panel, 0, 0, 0)
+        panel.fill();
+
     m->Render(panel);
+
+    // 비율한계
+    const float ScreenRate = m->mScreenH / (float) m->mScreenW;
+    if(ScreenRate < 0.5f || 2.1f < ScreenRate)
+    {
+        ZAY_XYWH_UI(panel, 0, 0, panel.w(), panel.h(), "OutRating")
+        ZAY_RGBA(panel, 255, 0, 0, 192)
+            panel.fill();
+        ZAY_FONT(panel, Math::Min(m->mScreenW, m->mScreenH) / 150.0f)
+        {
+            ZAY_RGBA(panel, 48, 0, 0, 128)
+                panel.text(panel.w() / 2 + 1, panel.h() / 2 + 1, "Unsupported resolution", UIFA_CenterMiddle);
+            ZAY_RGB(panel, 96, 0, 0)
+                panel.text(panel.w() / 2, panel.h() / 2, "Unsupported resolution", UIFA_CenterMiddle);
+        }
+    }
 }
 
 outgameData::outgameData() :

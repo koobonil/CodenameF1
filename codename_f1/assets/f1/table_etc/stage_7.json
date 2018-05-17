@@ -1,8 +1,8 @@
 {
-	"BuildNumber":"6",
+	"BuildNumber":"8",
 	"MapName":"map_7",
 	"MissionLastRID":"83999999",
-	"MonsterLastRID":"83000219",
+	"MonsterLastRID":"83000232",
 	"ToolType":"stagetool_f1",
 	"ToolVersion":"2",
 	"Waves":
@@ -333,6 +333,66 @@
 						}
 					],
 					"TimeSec":"19"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"0.24",
+							"PosY":"0.383333",
+							"RID":"83000220"
+						}
+					],
+					"TimeSec":"21"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"0.24",
+							"PosY":"0.383333",
+							"RID":"83000221"
+						}
+					],
+					"TimeSec":"22"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"0.24",
+							"PosY":"0.383333",
+							"RID":"83000222"
+						}
+					],
+					"TimeSec":"23"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"0.24",
+							"PosY":"0.383333",
+							"RID":"83000223"
+						}
+					],
+					"TimeSec":"24"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"0.24",
+							"PosY":"0.383333",
+							"RID":"83000224"
+						}
+					],
+					"TimeSec":"25"
 				}
 			],
 			"Title":"Untitled"
@@ -446,6 +506,15 @@
 							"RID":"83000047"
 						}
 					],
+					"Scripts":
+					[
+						{
+							"PosX":"0.093809",
+							"PosY":"-0.090056",
+							"TargetRID":"81000223",
+							"Text":"animate count-idle"
+						}
+					],
 					"TimeSec":"17"
 				},
 				{
@@ -483,6 +552,84 @@
 						}
 					],
 					"TimeSec":"19"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"-0.22",
+							"PosY":"-0.35",
+							"RID":"83000225"
+						},
+						{
+							"ID":"F_MiddleBoss",
+							"PosX":"-0.2",
+							"PosY":"0.25",
+							"RID":"83000230"
+						}
+					],
+					"TimeSec":"22"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"-0.22",
+							"PosY":"-0.35",
+							"RID":"83000226"
+						},
+						{
+							"ID":"F_MiddleBoss",
+							"PosX":"-0.2",
+							"PosY":"0.25",
+							"RID":"83000231"
+						}
+					],
+					"TimeSec":"23"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"-0.22",
+							"PosY":"-0.35",
+							"RID":"83000227"
+						},
+						{
+							"ID":"F_MiddleBoss",
+							"PosX":"-0.2",
+							"PosY":"0.25",
+							"RID":"83000232"
+						}
+					],
+					"TimeSec":"24"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"-0.22",
+							"PosY":"-0.35",
+							"RID":"83000228"
+						}
+					],
+					"TimeSec":"25"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_Normal",
+							"PosX":"-0.22",
+							"PosY":"-0.35",
+							"RID":"83000229"
+						}
+					],
+					"TimeSec":"26"
 				}
 			],
 			"Title":"Untitled"

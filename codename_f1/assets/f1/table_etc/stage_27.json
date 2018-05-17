@@ -1,8 +1,8 @@
 {
-	"BuildNumber":"6",
+	"BuildNumber":"7",
 	"MapName":"map_27",
 	"MissionLastRID":"83999999",
-	"MonsterLastRID":"83000497",
+	"MonsterLastRID":"83000503",
 	"ToolType":"stagetool_f1",
 	"ToolVersion":"2",
 	"Waves":
@@ -297,6 +297,18 @@
 						}
 					],
 					"TimeSec":"16"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_FinalBoss",
+							"PosX":"0.4",
+							"PosY":"-0.432973",
+							"RID":"83000498"
+						}
+					],
+					"TimeSec":"18"
 				}
 			],
 			"Title":"Untitled"
@@ -411,6 +423,18 @@
 						}
 					],
 					"TimeSec":"14"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_FinalBoss",
+							"PosX":"-0.4",
+							"PosY":"-0.432973",
+							"RID":"83000499"
+						}
+					],
+					"TimeSec":"16"
 				}
 			],
 			"Title":"Untitled"
@@ -525,6 +549,18 @@
 						}
 					],
 					"TimeSec":"14"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_FinalBoss",
+							"PosX":"-0.42",
+							"PosY":"0.432973",
+							"RID":"83000500"
+						}
+					],
+					"TimeSec":"16"
 				}
 			],
 			"Title":"Untitled"
@@ -639,6 +675,18 @@
 						}
 					],
 					"TimeSec":"14"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_FinalBoss",
+							"PosX":"-0.4",
+							"PosY":"-0.432973",
+							"RID":"83000501"
+						}
+					],
+					"TimeSec":"16"
 				}
 			],
 			"Title":"Untitled"
@@ -810,6 +858,30 @@
 						}
 					],
 					"TimeSec":"24"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_FinalBoss",
+							"PosX":"-0.42",
+							"PosY":"0.432973",
+							"RID":"83000502"
+						}
+					],
+					"TimeSec":"26"
+				},
+				{
+					"Monsters":
+					[
+						{
+							"ID":"F_FinalBoss",
+							"PosX":"-0.42",
+							"PosY":"0.432973",
+							"RID":"83000503"
+						}
+					],
+					"TimeSec":"28"
 				}
 			],
 			"Title":"Untitled"

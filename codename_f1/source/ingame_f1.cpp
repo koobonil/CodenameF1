@@ -253,10 +253,9 @@ ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
 
 ZAY_VIEW_API OnRender(ZayPanel& panel)
 {
-    #if BOSS_WINDOWS | BOSS_LINUX | BOSS_MAC_OSX
-        ZAY_RGB(panel, 0, 0, 0)
-            panel.fill();
-    #endif
+    // 바탕색
+    ZAY_RGB(panel, 0, 0, 0)
+        panel.fill();
 
     // 인게임
     m->Render(panel);
@@ -264,6 +263,22 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
     // 도어인증
     if(m->mWave == -1)
         m->door().Render(panel);
+
+    // 비율한계
+    const float ScreenRate = m->mScreenH / (float) m->mScreenW;
+    if(ScreenRate < 0.5f || 2.1f < ScreenRate)
+    {
+        ZAY_XYWH_UI(panel, 0, 0, panel.w(), panel.h(), "OutRating")
+        ZAY_RGBA(panel, 255, 0, 0, 192)
+            panel.fill();
+        ZAY_FONT(panel, Math::Min(m->mScreenW, m->mScreenH) / 150.0f)
+        {
+            ZAY_RGBA(panel, 48, 0, 0, 128)
+                panel.text(panel.w() / 2 + 1, panel.h() / 2 + 1, "Unsupported resolution", UIFA_CenterMiddle);
+            ZAY_RGB(panel, 96, 0, 0)
+                panel.text(panel.w() / 2, panel.h() / 2, "Unsupported resolution", UIFA_CenterMiddle);
+        }
+    }
 }
 
 ingameData::ingameData() : F1State(true), mCutsceneTween(updater())
@@ -358,6 +373,9 @@ ingameData::~ingameData()
 #define PATHFIND_STEP (5)
 void ingameData::Targeting(MapMonster& monster, const TryWorldZone& tryworld)
 {
+    BOSS_ASSERT("빌드된 맵이 없습니다", tryworld.mMap);
+    if(!tryworld.mMap) return;
+
     TryWorld::Path* ResultPath = nullptr;
     sint32 ResultPathScore = 0;
     MonsterTarget::Type ResultType = MonsterTarget::Null;
@@ -1114,7 +1132,7 @@ bool ingameData::MonsterActionOnce(MapMonster& monster, const Point& pos)
                             {
                                 if(mShowDebug)
                                     CurObject.mVisible = false;
-                                ClearAllPathes(false);
+                                ClearAllPathes(nullptr);
                             }
                     }
                     else LossAttack = LossTarget = true;
@@ -1481,64 +1499,6 @@ void ingameData::Render(ZayPanel& panel)
         }
     }
 
-    // 게임전 UI
-    if(mWave == -1 && !mShowDebug)
-    {
-        // 메인타이틀
-        mMainTitleSpine.RenderObject(DebugMode::None, true, panel, false, "Title_",
-            ZAY_GESTURE_NT(n, t, this)
-            {
-                if(t == GT_Pressed)
-                {
-                    branch;
-                    jump(!String::Compare(n, "Title_butten_start_area") || !String::Compare(n, "Title_str_30"))
-                    {
-                        if(!door().IsLocked())
-                        {
-                            bool GoStart = false;
-                            if(FXSaver::Read("SumHeart").IsValid())
-                            {
-                                const sint32 SumHeart = FXSaver::Read("SumHeart").GetInt();
-                                if(0 < SumHeart)
-                                {
-                                    FXSaver::Write("SumHeart").Set(String::FromInteger(SumHeart - 1));
-                                    GoStart = true;
-                                }
-                            }
-                            else GoStart = true;
-
-                            if(GoStart)
-                            {
-                                mMainTitleSpine.PlayMotionOnce("start");
-                                mMainTitleSpine.Staff_Start();
-                            }
-                        }
-                    }
-                    jump(!String::Compare(n, "Title_butten_start_area2") || !String::Compare(n, "Title_str_29"))
-                    {
-                        if(!door().IsLocked())
-                        {
-                            mMainTitleSpine.PlayMotionOnce("loby");
-                            mClosing = 50;
-                            Platform::Option::SetText("StartMode", "Lobby");
-                        }
-                    }
-                    jump(!String::Compare(n, "Title_butten_facebook_area") || !String::Compare(n, "Title_str_11"))
-                    {
-                        mMainTitleSpine.PlayMotionOnce("facebook");
-                        Platform::Popup::WebBrowserDialog("https://www.facebook.com/Monthlykoobonil/");
-                    }
-                    jump(!String::Compare(n, "Title_butten_staff_area2") || !String::Compare(n, "Title_str_10"))
-                    {
-                        mMainTitleSpine.PlayMotionOnce("staferoll");
-                        mClosing = 50;
-                        Platform::Option::SetText("StartMode", "StaffRoll");
-                        Platform::Option::SetText("BackMode", "InGame");
-                    }
-                }
-            }, mSubRenderer);
-    }
-
     // 인게임캡
     ZAY_XYWH(panel, mInGameX, mInGameY, mInGameW, mInGameH)
         F1State::RenderCap(panel, OutlineRect);
@@ -1834,6 +1794,71 @@ void ingameData::Render(ZayPanel& panel)
                         }
                     }
                 }, mSubRenderer);
+        }
+    }
+    else // 메인타이틀
+    {
+        if(!mShowDebug)
+        if(const Rect* Area = mMainTitleSpine.GetBoundRect("area"))
+        {
+            const float Rate = Math::MinF(panel.w() / Area->Width(), panel.h() / Area->Height());
+            const sint32 TitleWidth = Area->Width() * Rate;
+            const sint32 TitleHeight = Area->Height() * Rate;
+            ZAY_XYWH(panel, (panel.w() - TitleWidth) / 2, panel.h() - TitleHeight, TitleWidth, TitleHeight)
+            {
+                mMainTitleSpine.RenderObject(DebugMode::None, true, panel, false, "Title_",
+                    ZAY_GESTURE_NT(n, t, this)
+                    {
+                        if(t == GT_Pressed)
+                        {
+                            branch;
+                            jump(!String::Compare(n, "Title_butten_start_area") || !String::Compare(n, "Title_str_30"))
+                            {
+                                if(!door().IsLocked())
+                                {
+                                    bool GoStart = false;
+                                    if(FXSaver::Read("SumHeart").IsValid())
+                                    {
+                                        const sint32 SumHeart = FXSaver::Read("SumHeart").GetInt();
+                                        if(0 < SumHeart)
+                                        {
+                                            FXSaver::Write("SumHeart").Set(String::FromInteger(SumHeart - 1));
+                                            GoStart = true;
+                                        }
+                                    }
+                                    else GoStart = true;
+
+                                    if(GoStart)
+                                    {
+                                        mMainTitleSpine.PlayMotionOnce("start");
+                                        mMainTitleSpine.Staff_Start();
+                                    }
+                                }
+                            }
+                            jump(!String::Compare(n, "Title_butten_start_area2") || !String::Compare(n, "Title_str_29"))
+                            {
+                                if(!door().IsLocked())
+                                {
+                                    mMainTitleSpine.PlayMotionOnce("loby");
+                                    mClosing = 50;
+                                    Platform::Option::SetText("StartMode", "Lobby");
+                                }
+                            }
+                            jump(!String::Compare(n, "Title_butten_facebook_area") || !String::Compare(n, "Title_str_11"))
+                            {
+                                mMainTitleSpine.PlayMotionOnce("facebook");
+                                Platform::Popup::WebBrowserDialog("https://www.facebook.com/Monthlykoobonil/");
+                            }
+                            jump(!String::Compare(n, "Title_butten_staff_area2") || !String::Compare(n, "Title_str_10"))
+                            {
+                                mMainTitleSpine.PlayMotionOnce("staferoll");
+                                mClosing = 50;
+                                Platform::Option::SetText("StartMode", "StaffRoll");
+                                Platform::Option::SetText("BackMode", "InGame");
+                            }
+                        }
+                    }, mSubRenderer);
+            }
         }
     }
 
@@ -2297,7 +2322,7 @@ void ingameData::SetBreathAttack(const MapBreath* breath)
             {
                 if(mShowDebug)
                     CurObject.mVisible = false;
-                ClearAllPathes(false);
+                ClearAllPathes(nullptr);
             }
         }
     }

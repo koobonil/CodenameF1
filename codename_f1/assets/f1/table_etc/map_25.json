@@ -1,6 +1,6 @@
 {
 	"BGName":"map_forest_a",
-	"BuildNumber":"15",
+	"BuildNumber":"16",
 	"Layers":
 	[
 		{
@@ -117,15 +117,6 @@
 				},
 				{
 					"ID":"Flower",
-					"RID":"81000236",
-					"RectB":"0.083333",
-					"RectL":"0.04",
-					"RectR":"0.08",
-					"RectT":"0.05",
-					"Visible":"1"
-				},
-				{
-					"ID":"Flower",
 					"RID":"81000237",
 					"RectB":"0.016667",
 					"RectL":"0.02",
@@ -140,15 +131,6 @@
 					"RectL":"-0.2",
 					"RectR":"-0.16",
 					"RectT":"-0.016667",
-					"Visible":"1"
-				},
-				{
-					"ID":"WindHole",
-					"RID":"81000244",
-					"RectB":"0.2",
-					"RectL":"0.08",
-					"RectR":"0.26",
-					"RectT":"0.05",
 					"Visible":"1"
 				},
 				{
@@ -176,15 +158,6 @@
 					"RectL":"0.42",
 					"RectR":"0.46",
 					"RectT":"0.066667",
-					"Visible":"1"
-				},
-				{
-					"ID":"Flower",
-					"RID":"81000247",
-					"RectB":"0.05",
-					"RectL":"0.26",
-					"RectR":"0.3",
-					"RectT":"0.016667",
 					"Visible":"1"
 				},
 				{
@@ -230,6 +203,33 @@
 					"RectL":"-0.08",
 					"RectR":"-0.04",
 					"RectT":"0.133333",
+					"Visible":"1"
+				},
+				{
+					"ID":"Flower",
+					"RID":"81000247",
+					"RectB":"0.05",
+					"RectL":"0.26",
+					"RectR":"0.3",
+					"RectT":"0.016667",
+					"Visible":"1"
+				},
+				{
+					"ID":"Flower",
+					"RID":"81000236",
+					"RectB":"0.083333",
+					"RectL":"0.02",
+					"RectR":"0.06",
+					"RectT":"0.05",
+					"Visible":"1"
+				},
+				{
+					"ID":"Hole",
+					"RID":"81000253",
+					"RectB":"0.233333",
+					"RectL":"0.08",
+					"RectR":"0.28",
+					"RectT":"0.066667",
 					"Visible":"1"
 				}
 			]
@@ -420,69 +420,6 @@
 				},
 				{
 					"ID":"MobHitWall",
-					"RID":"81000217",
-					"RectB":"0.233334",
-					"RectL":"0.24",
-					"RectR":"0.28",
-					"RectT":"0.2",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000218",
-					"RectB":"0.233334",
-					"RectL":"0.2",
-					"RectR":"0.24",
-					"RectT":"0.2",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000219",
-					"RectB":"0.233334",
-					"RectL":"0.16",
-					"RectR":"0.2",
-					"RectT":"0.2",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000220",
-					"RectB":"0.233334",
-					"RectL":"0.12",
-					"RectR":"0.16",
-					"RectT":"0.2",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000221",
-					"RectB":"0.2",
-					"RectL":"0.24",
-					"RectR":"0.28",
-					"RectT":"0.166667",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000222",
-					"RectB":"0.166667",
-					"RectL":"0.24",
-					"RectR":"0.28",
-					"RectT":"0.133334",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
-					"RID":"81000223",
-					"RectB":"0.133334",
-					"RectL":"0.24",
-					"RectR":"0.28",
-					"RectT":"0.1",
-					"Visible":"1"
-				},
-				{
-					"ID":"MobHitWall",
 					"RID":"81000194",
 					"RectB":"-0.199861",
 					"RectL":"-0.26",
@@ -552,6 +489,69 @@
 					"RectR":"0.46",
 					"RectT":"-0.033333",
 					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000217",
+					"RectB":"0.233334",
+					"RectL":"0.24",
+					"RectR":"0.28",
+					"RectT":"0.2",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000218",
+					"RectB":"0.233334",
+					"RectL":"0.2",
+					"RectR":"0.24",
+					"RectT":"0.2",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000219",
+					"RectB":"0.233334",
+					"RectL":"0.16",
+					"RectR":"0.2",
+					"RectT":"0.2",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000220",
+					"RectB":"0.233334",
+					"RectL":"0.12",
+					"RectR":"0.16",
+					"RectT":"0.2",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000221",
+					"RectB":"0.2",
+					"RectL":"0.24",
+					"RectR":"0.28",
+					"RectT":"0.166667",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000222",
+					"RectB":"0.166667",
+					"RectL":"0.24",
+					"RectR":"0.28",
+					"RectT":"0.133334",
+					"Visible":"1"
+				},
+				{
+					"ID":"MobHitWall",
+					"RID":"81000223",
+					"RectB":"0.133334",
+					"RectL":"0.24",
+					"RectR":"0.28",
+					"RectT":"0.1",
+					"Visible":"1"
 				}
 			],
 			"Polygons":
@@ -609,30 +609,6 @@
 					"Points":
 					[
 						{
-							"X":"0.1",
-							"Y":"0.066667"
-						},
-						{
-							"X":"0.1",
-							"Y":"0.183333"
-						},
-						{
-							"X":"0.24",
-							"Y":"0.183333"
-						},
-						{
-							"X":"0.24",
-							"Y":"0.066667"
-						}
-					],
-					"RID":"82000014",
-					"Visible":"1"
-				},
-				{
-					"ID":"SmallWall",
-					"Points":
-					[
-						{
 							"X":"-0.28",
 							"Y":"-0.2"
 						},
@@ -651,12 +627,36 @@
 					],
 					"RID":"82000013",
 					"Visible":"1"
+				},
+				{
+					"ID":"SmallWall",
+					"Points":
+					[
+						{
+							"X":"0.12",
+							"Y":"0.1"
+						},
+						{
+							"X":"0.12",
+							"Y":"0.2"
+						},
+						{
+							"X":"0.24",
+							"Y":"0.2"
+						},
+						{
+							"X":"0.24",
+							"Y":"0.1"
+						}
+					],
+					"RID":"82000016",
+					"Visible":"1"
 				}
 			]
 		}
 	],
-	"ObjectLastRID":"81000251",
-	"PolygonLastRID":"82000014",
+	"ObjectLastRID":"81000253",
+	"PolygonLastRID":"82000016",
 	"ToolType":"maptool_f1",
 	"ToolVersion":"2"
 }
