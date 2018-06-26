@@ -381,15 +381,37 @@ void MapSpine::Staff_Start()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-FXDoor::FXDoor()
+FXDoor::FXDoor() : mAuthCode(GetAuthCode())
 {
     mLoaded = false;
     mIsParaAuth = false;
     mParaAuthSuccess = false;
+
 }
 
 FXDoor::~FXDoor()
 {
+}
+
+String FXDoor::GetAuthCode()
+{
+    String AuthCode;
+    const String AuthString = String::FromAsset("paraauth.json");
+    if(0 < AuthString.Length())
+    {
+        Context AuthFile(ST_Json, SO_OnlyReference, AuthString, AuthString.Length());
+        AuthCode = AuthFile("AuthCode").GetString();
+    }
+    else
+    {
+        AuthCode += 'A' + (Platform::Utility::Random() % ('Z' - 'A' + 1));
+        AuthCode += 'A' + (Platform::Utility::Random() % ('Z' - 'A' + 1));
+        AuthCode += String::Format("%04d", Platform::Utility::Random() % 10000);
+        Context AuthFile;
+        AuthFile.At("AuthCode").Set(AuthCode);
+        AuthFile.SaveJson().ToAsset("paraauth.json");
+    }
+    return AuthCode;
 }
 
 bool FXDoor::IsLocked() const
@@ -406,7 +428,6 @@ bool FXDoor::Load()
     mComment = "";
     mIsParaAuth = true;
     mParaAuthSuccess = false;
-    mParaAuthCode = "";
     mParaAuthName = "";
     ParaSource DoorSource(ParaSource::IIS);
     DoorSource.SetContact("www.finalbossbehindthedoor.com", 80);
@@ -433,22 +454,6 @@ bool FXDoor::Load()
                     mGlobalWeight.LoadPrm(Door[i]("GlobalWeight").GetString());
                     if(0 < mAccountCenter.Length())
                     {
-                        // 인증코드제작
-                        const String AuthString = String::FromAsset("paraauth.json");
-                        if(0 < AuthString.Length())
-                        {
-                            Context AuthFile(ST_Json, SO_OnlyReference, AuthString, AuthString.Length());
-                            mParaAuthCode = AuthFile("AuthCode").GetString();
-                        }
-                        else
-                        {
-                            mParaAuthCode += 'A' + (Platform::Utility::Random() % ('Z' - 'A' + 1));
-                            mParaAuthCode += 'A' + (Platform::Utility::Random() % ('Z' - 'A' + 1));
-                            mParaAuthCode += String::Format("%04d", Platform::Utility::Random() % 10000);
-                            Context AuthFile;
-                            AuthFile.At("AuthCode").Set(mParaAuthCode);
-                            AuthFile.SaveJson().ToAsset("paraauth.json");
-                        }
                         // 인증코드매칭
                         if(!String::CompareNoCase(mAccountCenter, "http://cafe.naver.com/", 22))
                         {
@@ -471,9 +476,9 @@ bool FXDoor::Load()
                                     while((ParaAuthPos = ContentText.Find(ParaAuthPos, ParaAuthText)) != -1)
                                     {
                                         ParaAuthPos += ParaAuthText.Length();
-                                        if(!String::Compare(mParaAuthCode, &((chars) ContentText)[ParaAuthPos], mParaAuthCode.Length()))
+                                        if(!String::Compare(mAuthCode, &((chars) ContentText)[ParaAuthPos], mAuthCode.Length()))
                                         {
-                                            ParaAuthPos += mParaAuthCode.Length() + 1; // '/'
+                                            ParaAuthPos += mAuthCode.Length() + 1; // '/'
                                             const sint32 ParaAuthPosEnd = ContentText.Find(ParaAuthPos, ParaAuthEndText);
                                             if(ParaAuthPosEnd != -1)
                                             {
@@ -558,7 +563,7 @@ void FXDoor::Render(ZayPanel& panel)
                             ZAY_RGB(panel, 0, 0, 0)
                                 panel.rect(Math::Ceil(FontSize));
                             ZAY_RGB(panel, 255, 0, 0)
-                                panel.text(panel.w() / 2, panel.h() / 2, String(mParaAuthCode[i]), UIFA_CenterMiddle);
+                                panel.text(panel.w() / 2, panel.h() / 2, String(mAuthCode[i]), UIFA_CenterMiddle);
                         }
                     }
                 }
@@ -770,6 +775,12 @@ const FXData::Sound* FXState::GetSound(chars name, bool loop) const
     return nullptr;
 }
 
+static SafeCounter gSoundCounter;
+sint32 FXState::GetSoundThreadCount()
+{
+    return gSoundCounter.Get();
+}
+
 void FXState::PlaySound(const FXData::Sound* sound, float volume_rate)
 {
     if(sound)
@@ -780,6 +791,7 @@ void FXState::PlaySound(const FXData::Sound* sound, float volume_rate)
         Payloads[1] = *((payload*) &volume_rate);
         Platform::Utility::Threading([](void* data)->void
         {
+            gSoundCounter.Set(true);
             auto Payloads = (payload*) data;
             auto SoundData = (FXData::Sound*) Payloads[0];
             auto VolumeRate = *((const float*) &Payloads[1]);
@@ -813,13 +825,6 @@ void FXState::PlaySound(const FXData::Sound* sound, float volume_rate)
                     // StopSound호출에 따른 사운드종료
                     if(!SoundData->mPlaying)
                         Platform::Sound::Stop(SoundID);
-                    else while(Platform::Sound::NowPlaying(SoundID))
-                    {
-                        Platform::Utility::Sleep(1, true, false);
-                        if(!SoundData->mPlaying)
-                            Platform::Sound::Stop(SoundID);
-                    }
-
                     // 사운드제거
                     Platform::Sound::Close(SoundID);
                 }
@@ -827,6 +832,7 @@ void FXState::PlaySound(const FXData::Sound* sound, float volume_rate)
                 Platform::File::Close(OggFile);
             }
             else BOSS_ASSERT(String::Format("해당 파일이 없습니다(%s)", (chars) SoundData->mFilename), false);
+            gSoundCounter.Set(false);
         }, Payloads);
     }
 }

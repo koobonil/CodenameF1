@@ -239,6 +239,11 @@ namespace ZAY
             Instance->setSlotSkin(skin);
         }
 
+		void SetSkin(chars slot, chars name)
+		{
+			Instance->setSlotSkin(slot, name);
+		}
+
         chars GetSkin() const
         {return LastSkin;}
 
@@ -658,6 +663,12 @@ namespace ZAY
         SpineInstance* CurInstance = (SpineInstance*) spine_instance;
         CurInstance->SetSkin(skin);
     }
+
+	void SpineBuilder::SetSlotSkin(id_spine_instance spine_instance, chars skin, chars name)
+	{
+		SpineInstance* CurInstance = (SpineInstance*)spine_instance;
+		CurInstance->SetSkin(skin, name);
+	}
 
     bool SpineBuilder::SetAttachment(id_spine_instance spine_instance, chars slot, chars attachment)
     {

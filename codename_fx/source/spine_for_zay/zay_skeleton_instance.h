@@ -160,6 +160,7 @@ namespace ZAY
         void removeSlot(SceneSlotInstance* skeletonSlot);
         void removeSlotsAll();
         void setSlotSkin(const std::string& skinName);
+		void setSlotSkin(const std::string& slot, const std::string& name);
     public:
         const SlotMap& getSlots() const;
     private:

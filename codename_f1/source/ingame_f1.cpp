@@ -89,7 +89,7 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
             m->mSpineInited = true;
             m->InitForSpine();
             // 배경사운드시작
-            if(FXSaver::Read("SoundFlag").GetInt() && FXSaver::Read("BGMFlag").GetInt())
+            if(FXSaver::Read("BGMFlag").GetInt())
             {
                 if(Platform::Option::GetFlag("DirectPlay"))
                     m->PlayBGSound(m->mBGMusic, 0.25f);
@@ -266,7 +266,7 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
 
     // 비율한계
     const float ScreenRate = m->mScreenH / (float) m->mScreenW;
-    if(ScreenRate < 0.5f || 2.1f < ScreenRate)
+    if(ScreenRate < 0.46f || 2.17f < ScreenRate)
     {
         ZAY_XYWH_UI(panel, 0, 0, panel.w(), panel.h(), "OutRating")
         ZAY_RGBA(panel, 255, 0, 0, 192)
@@ -592,7 +592,7 @@ void ingameData::InitForSpine()
                 if(!String::Compare("start", motionname))
                 {
                     ReadyForNextWave(false);
-                    if(FXSaver::Read("SoundFlag").GetInt() && FXSaver::Read("BGMFlag").GetInt())
+                    if(FXSaver::Read("BGMFlag").GetInt())
                         PlayBGSound(mBGMusic, 0.25f);
                 }
             }).PlayMotionAttached("loding", "idle", true);
@@ -1769,7 +1769,7 @@ void ingameData::Render(ZayPanel& panel)
                                 FXSaver::Write("SoundFlag").Set("1");
                                 mPausePopup.StopMotion("hide_sound");
                                 mPausePopup.PlayMotionAttached("show_sound", "idle_sound", true);
-                                if(FXSaver::Read("SoundFlag").GetInt() && FXSaver::Read("BGMFlag").GetInt())
+                                if(FXSaver::Read("BGMFlag").GetInt())
                                     PlayBGSound(mBGMusic, 0.25f);
                             }
                         }
@@ -1788,7 +1788,7 @@ void ingameData::Render(ZayPanel& panel)
                                 FXSaver::Write("BGMFlag").Set("1");
                                 mPausePopup.StopMotion("hide_bgm");
                                 mPausePopup.PlayMotionAttached("show_bgm", "idle_bgm", true);
-                                if(FXSaver::Read("SoundFlag").GetInt() && FXSaver::Read("BGMFlag").GetInt())
+                                if(FXSaver::Read("BGMFlag").GetInt())
                                     PlayBGSound(mBGMusic, 0.25f);
                             }
                         }
@@ -1929,16 +1929,31 @@ void ingameData::Render(ZayPanel& panel)
     }
 
 	// 프레임카운트
-    if(mShowDebug)
+    if(FXSaver::Read("DevMode").GetInt())
     {
+        sint32 FrameCountTextWidth = 0;
+        sint32 FrameCountTextHeight = 0;
 	    ZAY_FONT(panel, 2.5, "Arial Black")
 	    {
+            const String FrameCountText = String::Format(" %.02fF,", CurFrameCount);
 		    ZAY_RGB(panel, 0, 0, 0)
 		    ZAY_XYWH(panel, 2, 2, panel.w(), panel.h())
-			    panel.text(String::Format(" %.02fF", CurFrameCount), UIFA_LeftTop);
+			    panel.text(FrameCountText, UIFA_LeftTop);
 		    ZAY_RGB(panel, 255, 128, 0)
-			    panel.text(String::Format(" %.02fF", CurFrameCount), UIFA_LeftTop);
+			    panel.text(FrameCountText, UIFA_LeftTop);
+            FrameCountTextWidth = Platform::Graphics::GetStringWidth(FrameCountText);
+            FrameCountTextHeight = Platform::Graphics::GetStringHeight();
 	    }
+        ZAY_FONT(panel, 1.6, "Arial Black")
+        ZAY_XYWH(panel, FrameCountTextWidth, 0, panel.w(), FrameCountTextHeight)
+        {
+            const String ThreadCountText = String::Format(" T-%d", GetSoundThreadCount());
+            ZAY_RGB(panel, 0, 0, 0)
+            ZAY_XYWH(panel, 2, 2, panel.w(), panel.h())
+			    panel.text(ThreadCountText, UIFA_LeftBottom);
+            ZAY_RGB(panel, 255, 0, 128)
+			    panel.text(ThreadCountText, UIFA_LeftBottom);
+        }
     }
 }
 

@@ -58,7 +58,7 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
             m->mSpineInited = true;
             m->InitForSpine();
             // 배경사운드시작
-            if(FXSaver::Read("SoundFlag").GetInt() && FXSaver::Read("BGMFlag").GetInt())
+            if(FXSaver::Read("BGMFlag").GetInt())
                 m->PlayBGSound("bg_lobby", 0.25f);
         }
         // 윈도우 타이틀
@@ -94,7 +94,7 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
 
     // 비율한계
     const float ScreenRate = m->mScreenH / (float) m->mScreenW;
-    if(ScreenRate < 0.5f || 2.1f < ScreenRate)
+    if(ScreenRate < 0.46f || 2.17f < ScreenRate)
     {
         ZAY_XYWH_UI(panel, 0, 0, panel.w(), panel.h(), "OutRating")
         ZAY_RGBA(panel, 255, 0, 0, 192)
@@ -111,7 +111,7 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
 
 outgameData::outgameData() :
     mLandscape(Platform::Option::GetFlag("LandscapeMode")),
-    mStartMode(Platform::Option::GetText("StartMode"))
+    mStartMode(Platform::Option::GetText("StartMode")), mScreenLockTween(updater())
 {
     // 도어인증
     door().Load();
@@ -181,6 +181,7 @@ outgameData::outgameData() :
     mCalcedHeartSec = 0;
     mCalcedAdSec = 0;
     mResultIsWin = false;
+    mScreenLockTween.Reset(0);
     //mDonate = Platform::Purchase::Open("donate", PT_Consumable);
 
     // 하트정리
@@ -399,16 +400,13 @@ void outgameData::UpdateHeartAdSec(bool animate)
 
 void outgameData::AdToHeart()
 {
-    if(mAdEnabled)
-    {
-        mHeart++;
-        mAdEnabled = false;
-        mAdUpdatedSec = (sint32) (Platform::Utility::CurrentTimeMsec() / 1000);
-        mCalcedAdSec = mVideoCoolSec - 1;
-        UpdateHeartAd(true);
-        FXSaver::Write("SumHeart").Set(String::FromInteger(mHeart));
-        FXSaver::Write("AdUpdatedSecond").Set(String::FromInteger(mAdUpdatedSec));
-    }
+    mHeart++;
+    mAdEnabled = false;
+    mAdUpdatedSec = (sint32) (Platform::Utility::CurrentTimeMsec() / 1000);
+    mCalcedAdSec = mVideoCoolSec - 1;
+    UpdateHeartAd(true);
+    FXSaver::Write("SumHeart").Set(String::FromInteger(mHeart));
+    FXSaver::Write("AdUpdatedSecond").Set(String::FromInteger(mAdUpdatedSec));
 }
 
 void outgameData::ReloadAllCards(bool create)
@@ -879,7 +877,21 @@ void outgameData::Render(ZayPanel& panel)
                                         if(mHeart < 5)
                                         {
                                             mUILobbyBL.PlayMotionOnce("touch");
-                                            Popup("heart get");
+                                            mScreenLockTween.MoveTo(224, 0.5f);
+                                            ad().SetRequest(door().authcode());
+                                            ad().PlayAdMob(
+                                                #if BOSS_ANDROID
+                                                    "ca-app-pub-6720286068646508~4274647587", "ca-app-pub-6720286068646508/2355061251",
+                                                #else
+                                                    "ca-app-pub-6720286068646508~9463518793", "ca-app-pub-6720286068646508/2203427131",
+                                                #endif
+                                                [this](bool success, chars error_message)->void
+                                                {
+                                                    mScreenLockTween.MoveTo(0, 0.5f);
+                                                    if(success)
+                                                        Popup("heart get");
+                                                    else BOSS_ASSERT(error_message, false);
+                                                });
                                         }
                                         else
                                         {
@@ -998,7 +1010,7 @@ void outgameData::Render(ZayPanel& panel)
                             {
                                 FXSaver::Write("SoundFlag").Set("1");
                                 mUIPopups[mShowingPopupId].PlayMotionAttached("pop_set_sound_on", "pop_set_sound_on_idle", true);
-                                if(FXSaver::Read("SoundFlag").GetInt() && FXSaver::Read("BGMFlag").GetInt())
+                                if(FXSaver::Read("BGMFlag").GetInt())
                                     PlayBGSound("bg_lobby", 0.25f);
                             }
                         }
@@ -1015,7 +1027,7 @@ void outgameData::Render(ZayPanel& panel)
                             {
                                 FXSaver::Write("BGMFlag").Set("1");
                                 mUIPopups[mShowingPopupId].PlayMotionAttached("pop_set_bgm_on", "pop_set_bgm_on_idle", true);
-                                if(FXSaver::Read("SoundFlag").GetInt() && FXSaver::Read("BGMFlag").GetInt())
+                                if(FXSaver::Read("BGMFlag").GetInt())
                                     PlayBGSound("bg_lobby", 0.25f);
                             }
                         }
@@ -1053,6 +1065,15 @@ void outgameData::Render(ZayPanel& panel)
     if(0 <= mClosing && mClosing < 50)
         ZAY_RGBA(panel, 0, 0, 0, 255 * (50 - mClosing) / 50)
             panel.fill();
+
+    // 스크린잠금
+    const sint32 ScreenLockOpacity = mScreenLockTween.value();
+    if(0 < ScreenLockOpacity)
+    {
+        ZAY_INNER_UI(panel, 0, "ScreenLockBG")
+        ZAY_RGBA(panel, 0, 0, 0, ScreenLockOpacity)
+            panel.fill();
+    }
 }
 
 void outgameData::Popup(chars name)

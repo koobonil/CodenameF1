@@ -34,6 +34,7 @@ namespace ZAY
         static void Seek(id_spine_instance spine_instance, float sec);
         static void Update(id_spine_instance spine_instance, float delta_sec);
         static void SetSkin(id_spine_instance spine_instance, chars skin);
+		static void SetSlotSkin(id_spine_instance spine_instance, chars skin, chars name);
         static bool SetAttachment(id_spine_instance spine_instance, chars slot, chars attachment);
         static void SetMotionOn(id_spine_instance spine_instance, chars motion, bool repeat, float beginsec = 0.0f);
         static void SetMotionOnOnce(id_spine_instance spine_instance, chars motion);

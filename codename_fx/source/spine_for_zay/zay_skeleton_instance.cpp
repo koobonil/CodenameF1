@@ -826,6 +826,15 @@ namespace ZAY
         }
     }
 
+	void SkeletonInstance::setSlotSkin(const std::string & slot, const std::string & name)
+	{
+		for (auto it : _slots)
+		{
+			if(it.left == slot)
+				it.right->setCurrentSkinName(name);
+		}
+	}
+
     const SkeletonInstance::SlotMap& SkeletonInstance::getSlots() const
     {
         return _slots;

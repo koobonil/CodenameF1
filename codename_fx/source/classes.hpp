@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <service/boss_zay.hpp>
 #include <service/boss_parasource.hpp>
+#include <service/boss_firebaseservice.hpp>
 #include "spine_for_zay/zay_spine_builder.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -188,6 +189,9 @@ public:
     FXDoor();
     ~FXDoor();
 
+private:
+    String GetAuthCode();
+
 public:
     bool IsLocked() const;
     bool Load();
@@ -199,8 +203,10 @@ public:
     static FXDoor& ST() {return *BOSS_STORAGE(FXDoor);}
     inline const Context* stage() {return mStagePack.GetContext();}
     inline const Context* language() {return mLanguagePack.GetContext();}
+    inline chars authcode() {return mAuthCode;}
 
 private:
+    const String mAuthCode;
     bool mLoaded;
     String mService;
     String mComment;
@@ -211,7 +217,6 @@ private:
     Context mGlobalWeight;
     bool mIsParaAuth;
     bool mParaAuthSuccess;
-    String mParaAuthCode;
     String mParaAuthName;
 };
 
@@ -265,6 +270,7 @@ public:
     Map<SpineRenderer> mAllSpines;
     Map<Sound> mAllSounds;
     Map<FXPanel> mAllPanels;
+    FirebaseService mAdService;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -334,6 +340,7 @@ public:
     const String& GetString(sint32 id);
     const SpineRenderer* GetSpine(chars name) const;
     const FXData::Sound* GetSound(chars name, bool loop = false) const;
+    static sint32 GetSoundThreadCount();
     static void PlaySound(const FXData::Sound* sound, float volume_rate = 1.0f);
     static void StopSound(const FXData::Sound* sound);
     void PlayBGSound(chars name, float volume_rate = 1.0f);
@@ -347,6 +354,7 @@ public:
 
 public:
     inline FXDoor& door() {return *mDoor;}
+    inline FirebaseService& ad() {return mData->mAdService;}
 
 private:
     FXDoor* mDoor;

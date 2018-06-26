@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <service/boss_zay.hpp>
 #include <element/boss_solver.hpp>
+#include <element/boss_tween.hpp>
 #include "classes.hpp"
 
 class outgameMode
@@ -119,6 +120,7 @@ public: // 게임상태
     sint32 mCalcedAdSec;
     bool mResultIsWin;
     outgameCard mCards[48];
+    Tween1D mScreenLockTween;
     //id_purchase mDonate;
 
 public: // 스파인
