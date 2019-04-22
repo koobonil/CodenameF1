@@ -1,0 +1,15 @@
+#json begin(door.txt)
+[
+	{
+		"Service":"GOLD",
+		"StagePack":"[name]stage_table_v7.txt[url]http://localhost/f1/stage_table.txt",
+		"LanguagePack":"[name]string_table_v1.txt[url]http://localhost/f1/string_table.txt",
+		"GlobalWeight":"DefaultLanguage=kor|eng;DefaultHeartCount=500;",
+		"AccountCenter":"",
+		"AccountManager":"",
+		"BuildMatchingCount":"1",
+		"BuildMatching1_Version":"WINDOWS",
+		"BuildMatching1_Comment":"WINDOWS",
+	}
+]
+#json end

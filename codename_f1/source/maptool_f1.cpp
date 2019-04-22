@@ -12,16 +12,19 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
         // 윈도우 타이틀
         Platform::SetWindowName("Codename F1 [MapTool]");
     }
-    else if(type == CT_Signal)
+    else m->Command(type, in);
+}
+
+ZAY_VIEW_API OnNotify(NotifyType type, chars topic, id_share in, id_cloned_share* out)
+{
+    if(type == NT_KeyPress)
     {
         if(m->mCurPolyOrder != -1)
-        if(!String::Compare(topic, "KeyPress"))
         {
             auto& CurPolygons = m->mState.mLayers.At(m->mCurLayer).mPolygons;
             const sint32 PolygonCount = CurPolygons.Count();
 
-            pointers Pointer(in);
-            sint32 Code = *((sint32*) Pointer[0]);
+            sint32 Code = sint32o(in).ConstValue();
             if(Code == 0x01000013) // ↑
             {
                 if(0 < m->mCurPolyOrder)
@@ -74,11 +77,6 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
 			}
         }
     }
-    else m->Command(type, in);
-}
-
-ZAY_VIEW_API OnNotify(chars sender, chars topic, id_share in, id_cloned_share* out)
-{
 }
 
 ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
@@ -496,7 +494,7 @@ void maptoolData::Render(ZayPanel& panel)
                 if(t == GT_InReleased)
                 {
                     String FileName;
-                    if(Platform::Popup::FileDialog(FileName, nullptr, "Load Map(json)"))
+                    if(Platform::Popup::FileDialog(DST_FileOpen, FileName, nullptr, "Load Map(json)"))
                     {
                         Load(FileName);
                         // 빨리저장 경로
@@ -524,7 +522,7 @@ void maptoolData::Render(ZayPanel& panel)
                 if(t == GT_InReleased)
                 {
                     String FileName;
-                    if(Platform::Popup::FileDialog(FileName, nullptr, "Save Map(json)"))
+                    if(Platform::Popup::FileDialog(DST_FileSave, FileName, nullptr, "Save Map(json)"))
                     {
                         Save(FileName);
                         // 빨리저장 경로

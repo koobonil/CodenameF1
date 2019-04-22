@@ -1487,10 +1487,10 @@ F1State::F1State(bool needdoor) :
     }
     else BOSS_ASSERT("globalweight_table.json의 로딩에 실패하였습니다", false);
 
-    mUILeft.Link("F1", "UILeft", false);
-    mUITop.Link("F1", "UITop", false);
-    mUIRight.Link("F1", "UIRight", false);
-    mUIBottom.Link("F1", "UIBottom", false);
+    mUILeft.Link("F1", "UILeft");
+    mUITop.Link("F1", "UITop");
+    mUIRight.Link("F1", "UIRight");
+    mUIBottom.Link("F1", "UIBottom");
     mUILeft.Parse(GlobalWeightMap("UILeft"));
     mUITop.Parse(GlobalWeightMap("UITop"));
     mUIRight.Parse(GlobalWeightMap("UIRight"));
@@ -2240,18 +2240,18 @@ void F1State::SetSize(sint32 width, sint32 height)
 {
     Solver ScreenWidth;
     Solver ScreenHeight;
-    ScreenWidth.Link("F1", "ScreenWidth", false);
-    ScreenHeight.Link("F1", "ScreenHeight", false);
+    ScreenWidth.Link("F1", "ScreenWidth");
+    ScreenHeight.Link("F1", "ScreenHeight");
     ScreenWidth.Parse(String::FromInteger(width));
     ScreenHeight.Parse(String::FromInteger(height));
-    ScreenWidth.Execute();
-    ScreenHeight.Execute();
+    ScreenWidth.Execute(true);
+    ScreenHeight.Execute(true);
 
     // 리사이징
-    mUIL = (sint32) mUILeft.result();
-    mUIT = (sint32) mUITop.result();
-    mUIR = (sint32) mUIRight.result();
-    mUIB = (sint32) mUIBottom.result();
+    mUIL = mUILeft.result().ToInteger();
+    mUIT = mUITop.result().ToInteger();
+    mUIR = mUIRight.result().ToInteger();
+    mUIB = mUIBottom.result().ToInteger();
     const sint32 ViewWidth = Math::Max(0, width - (mUIL + mUIR));
     const sint32 ViewHeight = Math::Max(0, height - (mUIT + mUIB));
     const float CurRate = ViewWidth / (float) ViewHeight;
@@ -2428,95 +2428,66 @@ void F1State::RenderLayer(DebugMode debug, ZayPanel& panel, const MapLayer& laye
     // 몬스터가 존재하는 레이어일 경우 그림자랜더링
     if(monsters)
     {
-        static const sint32 PixelScale = Platform::Utility::GetPixelScale();
-        #if BOSS_ANDROID
-            OrderUpdater* CurNode = &Head;
-            while((CurNode = CurNode->Next()) != &Head)
-            {
-                OrderNode* CurOrderNode = (OrderNode*) CurNode;
-                ZAY_RECT(panel, CurOrderNode->mRect * PixelScale)
-                {
-                    branch;
-                    jump(CurOrderNode->mType == OrderNode::Type::Monster)
-                    {
-                        #if USE_SPINE_SHADOW
-                            const MapMonster* CurMonster = (const MapMonster*) CurOrderNode->mData;
-                            if(CurMonster->renderer())
-                                CurMonster->RenderObjectShadow(panel, CurMonster->mFlipMode);
-                        #else
-                            RenderImage(debug, panel, R("mob_shadow"));
-                        #endif
-                    }
-                    jump(CurOrderNode->mType == OrderNode::Type::Object)
-                    {
-                        const MapObject* CurObject = (const MapObject*) CurOrderNode->mData;
-                        if(CurObject->mVisible && 0 < CurObject->mType->mAssetShadow.Length())
-                        ZAY_RGBA(panel, 128, 128, 128, 32)
-                            RenderImage(debug, panel, R(CurObject->mType->mAssetShadow));
-                    }
-                }
-            }
-        #else
-            if(!mShadowSurface
-                || Platform::Graphics::GetSurfaceWidth(mShadowSurface) != mScreenW * PixelScale
-                || Platform::Graphics::GetSurfaceHeight(mShadowSurface) != mScreenH * PixelScale)
-            {
-                Platform::Graphics::RemoveSurface(mShadowSurface);
-                mShadowSurface = Platform::Graphics::CreateSurface(mScreenW * PixelScale, mScreenH * PixelScale);
-                ZAY_MAKE_SUB(panel, mShadowSurface)
-                {
-                    panel.fill(); // Surface생성후 처음 한번 전체를 칠해줘야 함(차후 개선요망)
-                    panel.erase();
-                }
-            }
-
-            const Point XY = panel.toview(0, 0);
-            const float SX = XY.x * panel.zoom() * PixelScale;
-            const float SY = XY.y * panel.zoom() * PixelScale;
-            const float SW = panel.w() * panel.zoom() * PixelScale;
-            const float SH = panel.h() * panel.zoom() * PixelScale;
+        static const sint32 PixelRatio = Platform::Utility::GetPixelRatio();
+        if(!mShadowSurface
+            || Platform::Graphics::GetSurfaceWidth(mShadowSurface) != mScreenW * PixelRatio
+            || Platform::Graphics::GetSurfaceHeight(mShadowSurface) != mScreenH * PixelRatio)
+        {
+            Platform::Graphics::RemoveSurface(mShadowSurface);
+            mShadowSurface = Platform::Graphics::CreateSurface(mScreenW * PixelRatio, mScreenH * PixelRatio);
             ZAY_MAKE_SUB(panel, mShadowSurface)
             {
+                panel.fill(); // Surface생성후 처음 한번 전체를 칠해줘야 함(차후 개선요망)
                 panel.erase();
-                ZAY_XYWH(panel, SX, SY, SW, SH)
+            }
+        }
+
+        const Point XY = panel.toview(0, 0);
+        const float SX = XY.x * panel.zoom() * PixelRatio;
+        const float SY = XY.y * panel.zoom() * PixelRatio;
+        const float SW = panel.w() * panel.zoom() * PixelRatio;
+        const float SH = panel.h() * panel.zoom() * PixelRatio;
+        ZAY_MAKE_SUB(panel, mShadowSurface)
+        {
+            panel.erase();
+            ZAY_XYWH(panel, SX, SY, SW, SH)
+            {
+                OrderUpdater* CurNode = &Head;
+                while((CurNode = CurNode->Next()) != &Head)
                 {
-                    OrderUpdater* CurNode = &Head;
-                    while((CurNode = CurNode->Next()) != &Head)
+                    OrderNode* CurOrderNode = (OrderNode*) CurNode;
+                    ZAY_RECT(panel, CurOrderNode->mRect * PixelRatio)
                     {
-                        OrderNode* CurOrderNode = (OrderNode*) CurNode;
-                        ZAY_RECT(panel, CurOrderNode->mRect * PixelScale)
+                        branch;
+                        jump(CurOrderNode->mType == OrderNode::Type::Monster)
                         {
-                            branch;
-                            jump(CurOrderNode->mType == OrderNode::Type::Monster)
-                            {
-                                #if USE_SPINE_SHADOW
-                                    const MapMonster* CurMonster = (const MapMonster*) CurOrderNode->mData;
-                                    if(CurMonster->renderer())
-                                    {
-                                        const sint32 OldScale = ZAY::SpineBuilder::GLScale();
-                                        ZAY::SpineBuilder::GLScale() = 1;
-                                        CurMonster->RenderObjectShadow(panel, CurMonster->mFlipMode);
-                                        ZAY::SpineBuilder::GLScale() = OldScale;
-                                    }
-                                #else
-                                    RenderImage(debug, panel, R("mob_shadow"));
-                                #endif
-                            }
-                            jump(CurOrderNode->mType == OrderNode::Type::Object)
-                            {
-                                const MapObject* CurObject = (const MapObject*) CurOrderNode->mData;
-                                if(CurObject->mVisible && 0 < CurObject->mType->mAssetShadow.Length())
-                                    RenderImage(debug, panel, R(CurObject->mType->mAssetShadow));
-                            }
+                            #if USE_SPINE_SHADOW
+                                const MapMonster* CurMonster = (const MapMonster*) CurOrderNode->mData;
+                                if(CurMonster->renderer())
+                                {
+                                    const sint32 OldScale = ZAY::SpineBuilder::GLScale();
+                                    ZAY::SpineBuilder::GLScale() = 1;
+                                    CurMonster->RenderObjectShadow(panel, CurMonster->mFlipMode);
+                                    ZAY::SpineBuilder::GLScale() = OldScale;
+                                }
+                            #else
+                                RenderImage(debug, panel, R("mob_shadow"));
+                            #endif
+                        }
+                        jump(CurOrderNode->mType == OrderNode::Type::Object)
+                        {
+                            const MapObject* CurObject = (const MapObject*) CurOrderNode->mData;
+                            if(CurObject->mVisible && 0 < CurObject->mType->mAssetShadow.Length())
+                                RenderImage(debug, panel, R(CurObject->mType->mAssetShadow));
                         }
                     }
                 }
             }
+        }
 
-            ZAY_XYWH(panel, -XY.x, -XY.y, mScreenW, mScreenH)
-            ZAY_RGBA(panel, 0, 0, 0, 48)
-                panel.sub("shadow", mShadowSurface);
-        #endif
+        ZAY_XYWH(panel, -XY.x, -XY.y, mScreenW, mScreenH)
+        ZAY_RGBA(panel, 0, 0, 0, 48)
+            panel.sub("shadow", mShadowSurface);
     }
 
     // 스파인출력
@@ -2993,8 +2964,7 @@ void F1Tool::Command(CommandType type, id_share in)
         {
             point64 CursorPos;
             Platform::Utility::GetCursorPos(CursorPos);
-            rect128 WindowRect;
-            Platform::GetWindowRect(WindowRect);
+            const rect128 WindowRect = Platform::GetWindowRect();
             const bool XInRect = (WindowRect.l <= CursorPos.x && CursorPos.x < WindowRect.r);
             const bool YInRect = (WindowRect.t <= CursorPos.y && CursorPos.y < WindowRect.b);
             PosInRect = (XInRect & YInRect);

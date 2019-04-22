@@ -28,7 +28,7 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
     }
 }
 
-ZAY_VIEW_API OnNotify(chars sender, chars topic, id_share in, id_cloned_share* out)
+ZAY_VIEW_API OnNotify(NotifyType type, chars topic, id_share in, id_cloned_share* out)
 {
 }
 
@@ -47,7 +47,7 @@ ZAY_VIEW_API OnRender(ZayPanel& panel)
         const Image& LogoImage = R("logo");
         const sint32 Width = LogoImage.GetWidth();
         const sint32 Height = LogoImage.GetHeight();
-        const float RateR = Math::MinF(panel.w() / Width, panel.h() / Height) / 2;
+        const float RateR = Math::MinF(Math::MinF(panel.w() / Width, panel.h() / Height), 2) / 2;
         ZAY_XYRR(panel, panel.w() / 2, panel.h() / 2, Width * RateR, Height * RateR)
             panel.stretch(LogoImage, true);
 

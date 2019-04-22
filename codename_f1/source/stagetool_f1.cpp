@@ -12,29 +12,25 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
         // 윈도우 타이틀
         Platform::SetWindowName("Codename F1 [StageTool]");
     }
-    else if(type == CT_Signal)
-    {
-        if(!String::Compare(topic, "KeyPress"))
-        {
-            pointers Pointer(in);
-            sint32 Code = *((sint32*) Pointer[0]);
-            if(Code == 0x01000012) // ←
-            {
-                m->mCurEvent = Math::Max(0, m->mCurEvent - 1);
-                m->invalidate();
-            }
-            else if(Code == 0x01000014) // →
-            {
-                m->mCurEvent = Math::Min(m->mCurEvent + 1, m->mState.mTimelineLength - 1);
-                m->invalidate();
-            }
-        }
-    }
     else m->Command(type, in);
 }
 
-ZAY_VIEW_API OnNotify(chars sender, chars topic, id_share in, id_cloned_share* out)
+ZAY_VIEW_API OnNotify(NotifyType type, chars topic, id_share in, id_cloned_share* out)
 {
+    if(type == NT_KeyPress)
+    {
+        sint32 Code = sint32o(in).ConstValue();
+        if(Code == 0x01000012) // ←
+        {
+            m->mCurEvent = Math::Max(0, m->mCurEvent - 1);
+            m->invalidate();
+        }
+        else if(Code == 0x01000014) // →
+        {
+            m->mCurEvent = Math::Min(m->mCurEvent + 1, m->mState.mTimelineLength - 1);
+            m->invalidate();
+        }
+    }
 }
 
 ZAY_VIEW_API OnGesture(GestureType type, sint32 x, sint32 y)
@@ -588,7 +584,7 @@ void stagetoolData::Render(ZayPanel& panel)
                 if(t == GT_InReleased)
                 {
                     String FileName;
-                    if(Platform::Popup::FileDialog(FileName, nullptr, "Load Stage(json)"))
+                    if(Platform::Popup::FileDialog(DST_FileOpen, FileName, nullptr, "Load Stage(json)"))
                     {
                         Load(FileName);
                         // 빨리저장 경로
@@ -616,7 +612,7 @@ void stagetoolData::Render(ZayPanel& panel)
                 if(t == GT_InReleased)
                 {
                     String FileName;
-                    if(Platform::Popup::FileDialog(FileName, nullptr, "Save Stage(json)"))
+                    if(Platform::Popup::FileDialog(DST_FileSave, FileName, nullptr, "Save Stage(json)"))
                     {
                         Save(FileName);
                         // 빨리저장 경로

@@ -1,0 +1,414 @@
+﻿#json begin(string_table.txt)
+[
+	{
+		"Index":1,
+		"kor":"Wave",
+		"eng":"Wave"
+	},
+	{
+		"Index":2,
+		"kor":"Pause",
+		"eng":"Pause"
+	},
+	{
+		"Index":3,
+		"kor":"Win",
+		"eng":"Win"
+	},
+	{
+		"Index":4,
+		"kor":"Lose",
+		"eng":"Lose"
+	},
+	{
+		"Index":5,
+		"kor":"Tap",
+		"eng":"Tap"
+	},
+	{
+		"Index":6,
+		"kor":"Max",
+		"eng":"Max"
+	},
+	{
+		"Index":7,
+		"kor":"시청하기",
+		"eng":"Watch"
+	},
+	{
+		"Index":8,
+		"kor":"기본 옵션",
+		"eng":"Settings"
+	},
+	{
+		"Index":9,
+		"kor":"다른 게임",
+		"eng":"More games"
+	},
+	{
+		"Index":10,
+		"kor":"만든 사람들",
+		"eng":"Developers"
+	},
+	{
+		"Index":11,
+		"kor":"방문해 주세요!",
+		"eng":"Visit us here!"
+	},
+	{
+		"Index":12,
+		"kor":"평가해 주세요!",
+		"eng":"Rate this game!"
+	},
+	{
+		"Index":13,
+		"kor":"지금 플레이",
+		"eng":"Play now"
+	},
+	{
+		"Index":14,
+		"kor":"하트 추가",
+		"eng":"More hearts!"
+	},
+	{
+		"Index":15,
+		"kor":"남은 하트 충전 시간:",
+		"eng":"Time left till next heart"
+	},
+	{
+		"Index":16,
+		"kor":"다음 영상까지 남은 시간:",
+		"eng":"Time left till next video"
+	},
+	{
+		"Index":17,
+		"kor":"하트가 충분해요.",
+		"eng":"You have enough hearts"
+	},
+	{
+		"Index":18,
+		"kor":"플레이 하세요!",
+		"eng":"It's time to play!"
+	},
+	{
+		"Index":19,
+		"kor":"영상을 보고 무료 하트를 얻으세요.",
+		"eng":"Watch this video to get a free heart"
+	},
+	{
+		"Index":20,
+		"kor":"잠시 기다려 주세요.",
+		"eng":"Please wait for the next heart!"
+	},
+	{
+		"Index":21,
+		"kor":"기다리는 동안 다른 게임을 해보실래요?",
+		"eng":"How about playing another game while waiting?"
+	},
+	{
+		"Index":22,
+		"kor":"준비중",
+		"eng":"Coming soon!"
+	},
+	{
+		"Index":23,
+		"kor":"[x]서비스 준비중입니다.",
+		"eng":"We are preparing the service."
+	},
+	{
+		"Index":24,
+		"kor":"축하해요!",
+		"eng":"Congratulations!"
+	},
+	{
+		"Index":25,
+		"kor":"시청해주셔서 감사합니다.",
+		"eng":"Thanks for watching!"
+	},
+	{
+		"Index":26,
+		"kor":"보상을 드려요:",
+		"eng":"Your reward:"
+	},
+	{
+		"Index":27,
+		"kor":"보상 획득",
+		"eng":"Get your Reward"
+	},
+	{
+		"Index":28,
+		"kor":"기다려 주세요.",
+		"eng":"Please wait"
+	},
+	{
+		"Index":29,
+		"kor":"로비",
+		"eng":"Lobby"
+	},
+	{
+		"Index":30,
+		"kor":"게임시작",
+		"eng":"Start"
+	},
+	{
+		"Index":31,
+		"kor":"하트가 부족합니다.",
+		"eng":"You are heartless;("
+	},
+	{
+		"Index":32,
+		"kor":"공식카페",
+		"eng":"Offical community"
+	},
+	{
+		"Index":33,
+		"kor":"최고점수를 달성해보세요!",
+		"eng":"Try the infinite mode to set your new record!"
+	},
+	{
+		"Index":40,
+		"kor":"한국어",
+		"eng":"Korean"
+	},
+	{
+		"Index":41,
+		"kor":"English",
+		"eng":"English"
+	},
+	{
+		"Index":45,
+		"kor":"한국어",
+		"eng":"English"
+	},
+	{
+		"Index":100,
+		"kor":"손가락을 꾹 눌러서<br>브레스 영역을 키워보세요.",
+		"eng":"Press and hold to increase<br>the area breathe reaches!"
+	},
+	{
+		"Index":101,
+		"kor":"다시 한번 꾸욱~<br>눌러 볼까요?",
+		"eng":"Press and hold again till<br>it reaches maximun power."
+	},
+	{
+		"Index":102,
+		"kor":"이번에는 최대 크기로<br>브레스를 키워볼까요?",
+		"eng":"It's on! Let's try to make<br>the breathe even bigger!"
+	},
+	{
+		"Index":103,
+		"kor":"성공했어요!",
+		"eng":"Good Job"
+	},
+	{
+		"Index":104,
+		"kor":"[안씀]브레스가 안먹히는 몬스터입니다.<br>넉백으로 구멍에 넣어보세요!",
+		"eng":"Breathe attacks don't work on these monsters.<br>Instead, knock them back into the hole!"
+	},
+	{
+		"Index":200,
+		"kor":"오크마운틴에는 다양한 몬스터들이<br>제법 사이 좋게 살고 있었습니다.",
+		"eng":"Monsters had been living harmoniously<br>with each other in Orc Mountain"
+	},
+	{
+		"Index":201,
+		"kor":"하늘을 나는 드래곤이<br>이사오기 전까지는 말이죠.",
+		"eng":"Right up unitil<br>a flying dragon showed up"
+	},
+	{
+		"Index":202,
+		"kor":"드래곤은 친해지고 싶었으나<br>몬스터들은 훼방꾼으로 여겼습니다.",
+		"eng":"The monsters considered<br> dragon as a threat"
+	},
+	{
+		"Index":203,
+		"kor":""그래! 드래곤의 둥지를 공격해서<br>오크마운틴에서 내쫓아 버리자!"",
+		"eng":"Let's attack the dragon's nest<br>and kick him out of the Orc Mountain"
+	},
+	{
+		"Index":204,
+		"kor":"드래곤의 둥지를 공격할 몬스터는<br>슬라임으로 결정되었습니다.",
+		"eng":"Slime was chosen to be<br>the attacker of the dragon's nest"
+	},
+	{
+		"Index":205,
+		"kor":"조용하게 움직이는 슬라임은 용케<br>둥지에 잠입하는데 성공했습니다.",
+		"eng":"Sneaky Slime tip-toed<br>into the dragon's nest"
+	},
+	{
+		"Index":206,
+		"kor":"그리고는 드래곤의 둥지에 있던<br>드래곤에그를 깨트려 버렸습니다.",
+		"eng":"And broke the dragon's<br>egg in the nest"
+	},
+	{
+		"Index":207,
+		"kor":"집에 돌아온 드래곤은<br>에그를 잃고 망연자실했습니다.",
+		"eng":"The dragon upon seeing its<br>broken egg was devastated"
+	},
+	{
+		"Index":500,
+		"kor":"게임 디자이너 - 구본일",
+		"eng":"Game Designer - Bonil Koo"
+	},
+	{
+		"Index":501,
+		"kor":"엔지니어 - 구본혁",
+		"eng":"Engineer - Bonhyuk Koo"
+	},
+	{
+		"Index":502,
+		"kor":"아티스트 - 정재성",
+		"eng":"Artist - Jaesung Jung"
+	},
+	{
+		"Index":510,
+		"kor":"시스템 도움 - 박유진",
+		"eng":"System Support - Yoojin Park"
+	},
+	{
+		"Index":511,
+		"kor":"레벨 디자인 도움 - 이수화",
+		"eng":"Level Design Support - Soohwa Lee"
+	},
+	{
+		"Index":512,
+		"kor":"레벨디자인 도움 - 신태환",
+		"eng":"Level Design Support - Taehwan Shin"
+	},
+	{
+		"Index":513,
+		"kor":"번역 도움 - 임대웅",
+		"eng":"Translation Support - Daewoong Lim"
+	},
+	{
+		"Index":514,
+		"kor":"캐릭터 도움 - 한국선",
+		"eng":"Character Support- Kooksun Han"
+	},
+	{
+		"Index":515,
+		"kor":"즐거움 - 배틀 그라운드",
+		"eng":"Enjoyment -PUBG"
+	},
+	{
+		"Index":516,
+		"kor":"여러가지 도움 - 한국 콘텐츠 진흥원",
+		"eng":"Various supports from Korea Creative Content Agency"
+	},
+	{
+		"Index":517,
+		"kor":"리스펙 - 슈퍼셀",
+		"eng":"Respect - Super Cell "
+	},
+	{
+		"Index":518,
+		"kor":"좋은 말씀들 - 김도형",
+		"eng":"Wise guidance from Dohyung Kim"
+	},
+	{
+		"Index":519,
+		"kor":"잔소리 - 윤별, 최두현",
+		"eng":"Naggeroos - Byul Yoon, Doohyeon Choi"
+	},
+	{
+		"Index":520,
+		"kor":"간식 제공 - 주식회사 썸",
+		"eng":"Tasty snack provided by Corporation Sum"
+	},
+	{
+		"Index":521,
+		"kor":"좋은 교류 - 스피릿게임즈",
+		"eng":"Various professional exchange - Spirit Games "
+	},
+	{
+		"Index":522,
+		"kor":"창업도움 - 윤상태",
+		"eng":"Foundation Support - Sangtae Yun"
+	},
+	{
+		"Index":523,
+		"kor":"감수 - 김대연",
+		"eng":"Supervision - Daeyeon Kim"
+	},
+	{
+		"Index":524,
+		"kor":"법인 도움 -  Art In G",
+		"eng":"Corperation Support - Art In G"
+	},
+	{
+		"Index":525,
+		"kor":"바이럴 도움 - 주커버그",
+		"eng":"Viral Advertisement Support - Mark Zukerberg"
+	},
+	{
+		"Index":526,
+		"kor":"기획도움 - 이현승",
+		"eng":"Project Support - Hyunseung Lee"
+	},
+	{
+		"Index":527,
+		"kor":"술 도움 - 김유준",
+		"eng":"Alcohol to relax us provided by Yoojun Kim "
+	},
+	{
+		"Index":528,
+		"kor":"밸런스 도움 - 이윤석",
+		"eng":"Balance Support - Yunseok Lee "
+	},
+	{
+		"Index":529,
+		"kor":"정보 도움 - 오솔길",
+		"eng":"Information Support - Solgil Oh"
+	},
+	{
+		"Index":530,
+		"kor":"많은 피드백 - 안진용",
+		"eng":"Feedback - Jinyong Ahn"
+	},
+	{
+		"Index":531,
+		"kor":"많은 피드백 - 마이즈",
+		"eng":"Feedback - Mize"
+	},
+	{
+		"Index":532,
+		"kor":"많은 피드백 - 유형권",
+		"eng":"Feedback - Hyungkwon Yoo"
+	},
+	{
+		"Index":533,
+		"kor":"스탭 합류 - 이정우",
+		"eng":"Join staff - Jungwo Lee "
+	},
+	{
+		"Index":534,
+		"kor":"많은 피드백 - 조상원",
+		"eng":"Feedback - Sangwon Cho"
+	},
+	{
+		"Index":535,
+		"kor":"많은 피드백 - 고등어기획자",
+		"eng":"Feedback - Mackerel Planner"
+	},
+	{
+		"Index":536,
+		"kor":"많은 피드백 - 절망고양이",
+		"eng":"Feedback - Sorrow Cat"
+	},
+	{
+		"Index":537,
+		"kor":"많은 피드백 - 강정오",
+		"eng":"Feedback - Jungoh Kang"
+	},
+	{
+		"Index":538,
+		"kor":"많은 피드백 - 조준행",
+		"eng":"Feedback - Junhang Cho"
+	},
+	{
+		"Index":539,
+		"kor":"퍼블리싱 - 게임 인퀴지터스",
+		"eng":"Publishing - Game Inquisitors"
+	}
+]
+#json end

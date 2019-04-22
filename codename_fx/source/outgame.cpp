@@ -45,7 +45,7 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
             }
         }
         // 자동화면갱신
-        m->invalidate();
+        m->invalidate(2);
     }
     else if(type == CT_Size)
     {
@@ -67,7 +67,7 @@ ZAY_VIEW_API OnCommand(CommandType type, chars topic, id_share in, id_cloned_sha
     }
 }
 
-ZAY_VIEW_API OnNotify(chars sender, chars topic, id_share in, id_cloned_share* out)
+ZAY_VIEW_API OnNotify(NotifyType type, chars topic, id_share in, id_cloned_share* out)
 {
 }
 
@@ -228,18 +228,18 @@ void outgameData::SetSize(sint32 width, sint32 height)
 {
     Solver ScreenWidth;
     Solver ScreenHeight;
-    ScreenWidth.Link(mChain, "ScreenWidth", false);
-    ScreenHeight.Link(mChain, "ScreenHeight", false);
+    ScreenWidth.Link(mChain, "ScreenWidth");
+    ScreenHeight.Link(mChain, "ScreenHeight");
     ScreenWidth.Parse(String::FromInteger(width));
     ScreenHeight.Parse(String::FromInteger(height));
-    ScreenWidth.Execute();
-    ScreenHeight.Execute();
+    ScreenWidth.Execute(true);
+    ScreenHeight.Execute(true);
 
     // 리사이징
-    mUIL = (sint32) mUILeft.result();
-    mUIT = (sint32) mUITop.result();
-    mUIR = (sint32) mUIRight.result();
-    mUIB = (sint32) mUIBottom.result();
+    mUIL = mUILeft.result().ToInteger();
+    mUIT = mUITop.result().ToInteger();
+    mUIR = mUIRight.result().ToInteger();
+    mUIB = mUIBottom.result().ToInteger();
     const sint32 ViewWidth = Math::Max(0, width - (mUIL + mUIR));
     const sint32 ViewHeight = Math::Max(0, height - (mUIT + mUIB));
     const float CurRate = ViewWidth / (float) ViewHeight;

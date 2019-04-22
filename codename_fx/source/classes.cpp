@@ -430,7 +430,7 @@ bool FXDoor::Load()
     mParaAuthSuccess = false;
     mParaAuthName = "";
     ParaSource DoorSource(ParaSource::IIS);
-    DoorSource.SetContact("www.finalbossbehindthedoor.com", 80);
+    DoorSource.SetContact("localhost", 80);
 
     // 도어인증
     Context Door;

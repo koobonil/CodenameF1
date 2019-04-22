@@ -25,8 +25,8 @@ namespace ZAY
 
     int& SpineBuilder::GLScale()
     {
-        static int PixelScale = Platform::Utility::GetPixelScale();
-        return PixelScale;
+        static int PixelRatio = Platform::Utility::GetPixelRatio();
+        return PixelRatio;
     }
 
     void SpineBuilder::ClearCaches()
@@ -45,9 +45,9 @@ namespace ZAY
         bool IsCacheLoaded = false;
         String CacheFilename = json_filename;
         if(USE_SPINE_CACHE == _CACHE_IS_ZEN)
-            CacheFilename.Sub(5) += ".zen";
+            CacheFilename.SubTail(5) += ".zen";
         else if(USE_SPINE_CACHE == _CACHE_IS_BIN)
-            CacheFilename.Sub(5) += ".bin";
+            CacheFilename.SubTail(5) += ".bin";
 
         if(USE_SPINE_CACHE != _CACHE_IS_NON)
         {
@@ -757,7 +757,7 @@ namespace ZAY
 
         const int GLSCALE = GLScale();
         SpineInstance* CurInstance = (SpineInstance*) spine_instance;
-        CurInstance->Render(panel.fboid(), sx * GLSCALE, sy * GLSCALE, sw * GLSCALE, sh * GLSCALE, cx, cy, flip, scale * GLSCALE, rendermode);
+        CurInstance->Render(panel.fbo(), sx * GLSCALE, sy * GLSCALE, sw * GLSCALE, sh * GLSCALE, cx, cy, flip, scale * GLSCALE, rendermode);
 
         //bx:glPopMatrix();
         BOSS_GL(BindBuffer, GL_ARRAY_BUFFER, OldArrayBuffer);

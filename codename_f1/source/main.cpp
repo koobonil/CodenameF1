@@ -9,7 +9,7 @@
 // 빌드시간 참고용 헤더
 #include <../source-gen/buildtime.h>
 
-void PlatformInit()
+bool PlatformInit()
 {
     #if BOSS_WINDOWS | BOSS_LINUX | BOSS_MAC_OSX
         // buildtime.h의 빌드시간을 현재 빌드버전으로 로드
@@ -75,6 +75,7 @@ void PlatformInit()
             Platform::SetWindowSize(Info("w").GetInt(640), Info("h").GetInt(480));
         }
         else Platform::SetWindowSize(475, 844);
+        //Platform::Utility::SetFullScreen();
     #endif
 
     #if BOSS_WINDOWS | BOSS_LINUX | BOSS_MAC_OSX
@@ -108,13 +109,13 @@ void PlatformInit()
     Platform::InitForGL();
     Platform::SetViewCreator(ZayView::Creator);
     Platform::SetWindowView("f1View");
+    return true;
 }
 
 void PlatformQuit()
 {
     #if BOSS_WINDOWS | BOSS_LINUX | BOSS_MAC_OSX
-        rect128 WindowRect;
-        Platform::GetWindowRect(WindowRect);
+        const rect128 WindowRect = Platform::GetWindowRect(true);
 
         Context Info;
         Info.At("x").Set(String::FromInteger(WindowRect.l));
